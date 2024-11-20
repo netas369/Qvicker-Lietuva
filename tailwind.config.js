@@ -13,7 +13,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Figtree', 'Rubik', ...defaultTheme.fontFamily.sans],
                 franklin: ['"Franklin Gothic Heavy"', 'sans-serif'], // Add your font here
                 arial: ['Arial', 'Helvetica', 'sans-serif'], // Add Arial with fallbacks
             },
@@ -23,6 +23,8 @@ export default {
                     light: '#266867',  // lighter version of primary color
                     DEFAULT: '#1A4645', // main primary color
                     dark: '#133232',    // darker version of primary color (optional)
+                    backgroundlight:'9BCCCB',
+                    backgrounddark: '79A5A4'
                 },
             }
         },
