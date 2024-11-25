@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        <section class="flex snap-x snap-mandatory flex-nowrap overflow-x-auto overflow-y-hidden justify-center items-center">
+        <section class="flex snap-x snap-mandatory flex-nowrap overflow-x-auto overflow-y-hidden lg:items-center lg:justify-center mt-5">
             <ul class="flex flex-nowrap -mb-px text-sm font-medium text-center " id="default-styled-tab" data-tabs-toggle="#default-styled-tab-content" data-tabs-active-classes="text-primary-light hover:text-primary-light border-primary-light" data-tabs-inactive-classes="text-gray-500 hover:text-gray-600 border-gray-100 hover:border-gray-300" role="tablist">
                 <li>
                     <div class="w-[100px] flex-none snap-always snap-center">
@@ -135,46 +135,6 @@
             </ul>
         </section>
 
-        <!-- Karusele kategoriju -->
-        <section class="mb-4 border-b border-gray-200 justify-items-center mt-4 overflow-x-auto">
-            <ul class="flex flex-nowrap -mb-px text-sm font-medium text-center " id="default-styled-tab" data-tabs-toggle="#default-styled-tab-content" data-tabs-active-classes="text-primary-light hover:text-primary-light border-primary-light" data-tabs-inactive-classes="text-gray-500 hover:text-gray-600 border-gray-100 hover:border-gray-300" role="tablist">
-                    <!-- Valymas -->
-                    <li class="me-2 flex-none" role="presentation">
-
-                    </li>
-
-                    <!-- Kuryba -->
-                    <li class="me-2 flex-none" role="presentation">
-
-                    </li>
-
-                    <!-- Meistrai -->
-                    <li class="me-2 flex-none" role="presentation">
-
-                    </li>
-
-                    <!-- Kraustymas -->
-                    <li class="me-2 flex-none" role="presentation">
-
-                    </li>
-
-                    <!-- Sodininkyste -->
-                    <li class="me-2 flex-none" role="presentation">
-
-                    </li>
-
-                    <!-- Fitnesas -->
-                    <li class="me-2 flex-none" role="presentation">
-
-                    </li>
-
-                    <!-- Suportas -->
-                    <li class="me-2 flex-none" role="presentation">
-
-                    </li>
-                </ul>
-            </ul>
-        </section>
 
         <div id="default-styled-tab-content">
             <div class="hidden p-4 rounded-lg bg-gray-50" id="styled-valymas" role="tabpanel" aria-labelledby="valymas-tab">
