@@ -45,7 +45,7 @@
         <!-- Populiarios kategorijos -->
         <div class="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60">
             <div class="text-center mt-10">
-                <h1 class="text-3xl lg:text-4xl font-bold text-primary-light font-sans leading-7">Populiarios Kategorijos</h1>
+                <h1 class="text-3xl lg:text-4xl font-bold text-primary-light font-sans leading-7">Visos Kategorijos</h1>
             </div>
         </div>
 
@@ -137,12 +137,72 @@
 
 
         <div id="default-styled-tab-content">
-            <div class="hidden p-4 rounded-lg bg-gray-50" id="styled-valymas" role="tabpanel" aria-labelledby="valymas-tab">
-                <p class="text-sm text-gray-500">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Profile tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
-            </div>
-            <div class="hidden p-4 rounded-lg bg-gray-50" id="styled-kuryba" role="tabpanel" aria-labelledby="dashboard-tab">
-                <p class="text-sm text-gray-500">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Dashboard tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
-            </div>
+            <section class="bg-gray-50 py-4 antialiased dark:bg-gray-200 md:py-12 p-12">
+
+                <!-- Valymas -->
+                <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-valymas" role="tabpanel" aria-labelledby="valymas-tab">
+                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                        <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>
+                        </svg>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">Category</span>
+                    </a>
+
+                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                        <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>
+                        </svg>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">Category</span>
+                    </a>
+
+                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                        <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>
+                        </svg>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">Category</span>
+                    </a>
+
+                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                        <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>
+                        </svg>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">Category</span>
+                    </a>
+
+                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                        <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>
+                        </svg>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">Category</span>
+                    </a>
+
+                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                        <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>
+                        </svg>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">Category</span>
+                    </a>
+
+                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                        <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>
+                        </svg>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">Category</span>
+                    </a>
+
+                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                        <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>
+                        </svg>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">Category</span>
+                    </a>
+                 </div>
+
+                <!-- Kuryba -->
+                <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-kuryba" role="tabpanel" aria-labelledby="kuryba-tab">
+                <h1> gaidysss</h1>
+                </div>
+
             <div class="hidden p-4 rounded-lg bg-gray-50" id="styled-meistrai" role="tabpanel" aria-labelledby="settings-tab">
                 <p class="text-sm text-gray-500">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Settings tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
             </div>
@@ -158,6 +218,8 @@
             <div class="hidden p-4 rounded-lg bg-gray-50" id="styled-organizavimas" role="tabpanel" aria-labelledby="contacts-tab">
                 <p class="text-sm text-gray-500 ">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
             </div>
+                </div>
+            </section>
         </div>
 
 
@@ -179,15 +241,7 @@
                 <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     <a href="#" class="flex items-center justify-between rounded-lg border border-gray-200 bg-primary-backgroundlight px-4 py-2 hover:bg-primary-backgrounddark mb-2">
                         <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke-width="1.5"
-                                 stroke="currentColor"
-                                 class="h-6 w-6 text-gray-900 mr-2">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                            <svg>
                             </svg>
                             <span class="text-sm font-medium text-gray-900">Namų priežiūra ir valymas</span>
                         </div>
