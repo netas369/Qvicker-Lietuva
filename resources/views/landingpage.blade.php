@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        <section class="flex snap-x snap-mandatory flex-nowrap overflow-x-auto overflow-y-hidden lg:items-center lg:justify-center mt-5">
+        <section class="flex snap-x snap-mandatory flex-nowrap overflow-x-auto overflow-y-hidden lg:items-center lg:justify-center mt-8">
             <ul class="flex flex-nowrap -mb-px text-sm font-medium text-center " id="default-styled-tab" data-tabs-toggle="#default-styled-tab-content" data-tabs-active-classes="text-primary-light hover:text-primary-light border-primary-light" data-tabs-inactive-classes="text-gray-500 hover:text-gray-600 border-gray-100 hover:border-gray-300" role="tablist">
                 <li>
                     <div class="w-[100px] flex-none snap-always snap-center">
@@ -136,317 +136,102 @@
         </section>
 
 
-        <div id="default-styled-tab-content">
-            <section class="bg-gray-50 py-4 antialiased dark:bg-gray-200 md:py-12 p-12">
-
+            <section class="antialiased md:py-12 p-12">
                 <!-- Valymas -->
-                <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-valymas" role="tabpanel" aria-labelledby="valymas-tab">
-                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                        <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>
-                        </svg>
-                        <span class="text-sm font-medium text-gray-900 dark:text-white">Category</span>
-                    </a>
-
-                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                        <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>
-                        </svg>
-                        <span class="text-sm font-medium text-gray-900 dark:text-white">Category</span>
-                    </a>
-
-                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                        <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>
-                        </svg>
-                        <span class="text-sm font-medium text-gray-900 dark:text-white">Category</span>
-                    </a>
-
-                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                        <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>
-                        </svg>
-                        <span class="text-sm font-medium text-gray-900 dark:text-white">Category</span>
-                    </a>
-
-                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                        <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>
-                        </svg>
-                        <span class="text-sm font-medium text-gray-900 dark:text-white">Category</span>
-                    </a>
-
-                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                        <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>
-                        </svg>
-                        <span class="text-sm font-medium text-gray-900 dark:text-white">Category</span>
-                    </a>
-
-                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                        <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>
-                        </svg>
-                        <span class="text-sm font-medium text-gray-900 dark:text-white">Category</span>
-                    </a>
-
-                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                        <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>
-                        </svg>
-                        <span class="text-sm font-medium text-gray-900 dark:text-white">Category</span>
-                    </a>
+                <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 " id="styled-valymas" role="tabpanel" aria-labelledby="valymas-tab">
+                    @foreach($categories as $category)
+                        @if($category['name'] === 'Home Maintenance & Cleaning') <!-- Check for 'Cleaning' category -->
+                        @foreach($category['subcategories'] as $subcategory) <!-- Loop through subcategories -->
+                        <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+{{--                            <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">--}}
+{{--                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>--}}
+{{--                            </svg>--}}
+                            <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $subcategory['name'] }}</span>
+                        </a>
+                        @endforeach
+                        @endif
+                    @endforeach
                  </div>
 
                 <!-- Kuryba -->
                 <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-kuryba" role="tabpanel" aria-labelledby="kuryba-tab">
-                <h1> gaidysss</h1>
+                    @foreach($categories as $category)
+                        @if($category['name'] === 'Creative & Media Services')
+                        @foreach($category['subcategories'] as $subcategory)
+                        <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                            <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $subcategory['name'] }}</span>
+                        </a>
+                        @endforeach
+                        @endif
+                    @endforeach
                 </div>
 
-            <div class="hidden p-4 rounded-lg bg-gray-50" id="styled-meistrai" role="tabpanel" aria-labelledby="settings-tab">
-                <p class="text-sm text-gray-500">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Settings tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+                <!-- Meistrai -->
+                <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-meistrai" role="tabpanel" aria-labelledby="meistrai-tab">
+                @foreach($categories as $category)
+                    @if($category['name'] === 'Handyman & Repairs')
+                    @foreach($category['subcategories'] as $subcategory)
+                    <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $subcategory['name'] }}</span>
+                    </a>
+                    @endforeach
+                    @endif
+                @endforeach
             </div>
-            <div class="hidden p-4 rounded-lg bg-gray-50" id="styled-kraustymas" role="tabpanel" aria-labelledby="contacts-tab">
-                <p class="text-sm text-gray-500 ">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
-            </div>
-            <div class="hidden p-4 rounded-lg bg-gray-50" id="styled-sodininkyste" role="tabpanel" aria-labelledby="contacts-tab">
-                <p class="text-sm text-gray-500 ">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
-            </div>
-            <div class="hidden p-4 rounded-lg bg-gray-50" id="styled-fitnesas" role="tabpanel" aria-labelledby="contacts-tab">
-                <p class="text-sm text-gray-500 ">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
-            </div>
-            <div class="hidden p-4 rounded-lg bg-gray-50" id="styled-organizavimas" role="tabpanel" aria-labelledby="contacts-tab">
-                <p class="text-sm text-gray-500 ">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
-            </div>
+
+                <!-- Kraustymas -->
+                <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-kraustymas" role="tabpanel" aria-labelledby="kraustymas-tab">
+                    @foreach($categories as $category)
+                        @if($category['name'] === 'Delivery & Transportation')
+                            @foreach($category['subcategories'] as $subcategory)
+                                <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                    <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $subcategory['name'] }}</span>
+                                </a>
+                            @endforeach
+                        @endif
+                    @endforeach
+                </div>
+
+                <!-- Sodininkyste -->
+                <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-sodininkyste" role="tabpanel" aria-labelledby="sodininkyste-tab">
+                    @foreach($categories as $category)
+                        @if($category['name'] === 'Gardening & Outdoor Services')
+                            @foreach($category['subcategories'] as $subcategory)
+                                <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                    <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $subcategory['name'] }}</span>
+                                </a>
+                            @endforeach
+                        @endif
+                    @endforeach
+                </div>
+
+
+                <!-- Sodininkyste -->
+                <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-fitnesas" role="tabpanel" aria-labelledby="fitnesas-tab">
+                    @foreach($categories as $category)
+                        @if($category['name'] === 'Fitness & Wellness')
+                            @foreach($category['subcategories'] as $subcategory)
+                                <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                    <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $subcategory['name'] }}</span>
+                                </a>
+                            @endforeach
+                        @endif
+                    @endforeach
+                </div>
+
+
+                <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-organizavimas" role="tabpanel" aria-labelledby="organizavimas-tab">
+                @foreach($categories as $category)
+                    @if($category['name'] === 'Event Support')
+                        @foreach($category['subcategories'] as $subcategory)
+                            <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $subcategory['name'] }}</span>
+                            </a>
+                        @endforeach
+                    @endif
+                @endforeach
                 </div>
             </section>
-        </div>
-
-
-
-        <!-- Kategoriju Sarasas -->
-        <section class="py-8 antialiased md:py-12">
-            <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-                <div class="mb-4 flex items-center justify-between gap-4 md:mb-8">
-                    <h2 class="text-xl font-semibold text-primary-dark sm:text-2xl"></h2>
-
-                    <a href="#" title="" class="flex items-center text-base font-medium text-primary-700 hover:underline dark:text-primary-500">
-                        Visos Kategorijos
-                        <svg class="ms-1 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" />
-                        </svg>
-                    </a>
-                </div>
-
-                <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    <a href="#" class="flex items-center justify-between rounded-lg border border-gray-200 bg-primary-backgroundlight px-4 py-2 hover:bg-primary-backgrounddark mb-2">
-                        <div class="flex items-center">
-                            <svg>
-                            </svg>
-                            <span class="text-sm font-medium text-gray-900">Namų priežiūra ir valymas</span>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             fill="none"
-                             viewBox="0 0 24 24"
-                             stroke-width="1.5"
-                             stroke="currentColor"
-                             class="h-4 w-4 text-gray-500">
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
-
-                    <a href="#" class="flex items-center justify-between rounded-lg border border-gray-200 bg-primary-backgroundlight px-4 py-2 hover:bg-primary-backgrounddark mb-2">
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke-width="1.5"
-                                 stroke="currentColor"
-                                 class="h-6 w-6 text-gray-900 mr-2">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
-                            </svg>
-                            <span class="text-sm font-medium text-gray-900">Kūrybos ir medijos paslaugos</span>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             fill="none"
-                             viewBox="0 0 24 24"
-                             stroke-width="1.5"
-                             stroke="currentColor"
-                             class="h-4 w-4 text-gray-500">
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
-
-                    <a href="#" class="flex items-center justify-between rounded-lg border border-gray-200 bg-primary-backgroundlight px-4 py-2 hover:bg-primary-backgrounddark mb-2">
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke-width="1.5"
-                                 stroke="currentColor"
-                                 class="h-6 w-6 text-gray-900 mr-2">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z" />
-                            </svg>
-                            <span class="text-sm font-medium text-gray-900">Meistrų ir remonto paslaugos</span>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             fill="none"
-                             viewBox="0 0 24 24"
-                             stroke-width="1.5"
-                             stroke="currentColor"
-                             class="h-4 w-4 text-gray-500">
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
-
-                    <a href="#" class="flex items-center justify-between rounded-lg border border-gray-200 bg-primary-backgroundlight px-4 py-2 hover:bg-primary-backgrounddark mb-2">
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke-width="1.5"
-                                 stroke="currentColor"
-                                 class="h-6 w-6 text-gray-900 mr-2">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-                            </svg>
-                            <span class="text-sm font-medium text-gray-900">Perkraustymas ir transportas</span>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             fill="none"
-                             viewBox="0 0 24 24"
-                             stroke-width="1.5"
-                             stroke="currentColor"
-                             class="h-4 w-4 text-gray-500">
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
-
-                    <a href="#" class="flex items-center justify-between rounded-lg border border-gray-200 bg-primary-backgroundlight px-4 py-2 hover:bg-primary-backgrounddark md:mt-8 mb-2">
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke-width="1.5"
-                                 stroke="currentColor"
-                                 class="h-6 w-6 text-gray-900 mr-2">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                            </svg>
-                            <span class="text-sm font-medium text-gray-900">Namų priežiūra ir valymas</span>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             fill="none"
-                             viewBox="0 0 24 24"
-                             stroke-width="1.5"
-                             stroke="currentColor"
-                             class="h-4 w-4 text-gray-500">
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
-
-                    <a href="#" class="flex items-center justify-between rounded-lg border border-gray-200 bg-primary-backgroundlight px-4 py-2 hover:bg-primary-backgrounddark md:mt-8 mb-2">
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke-width="1.5"
-                                 stroke="currentColor"
-                                 class="h-6 w-6 text-gray-900 mr-2">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
-                            </svg>
-                            <span class="text-sm font-medium text-gray-900">Kūrybos ir medijos paslaugos</span>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             fill="none"
-                             viewBox="0 0 24 24"
-                             stroke-width="1.5"
-                             stroke="currentColor"
-                             class="h-4 w-4 text-gray-500">
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
-
-                    <a href="#" class="flex items-center justify-between rounded-lg border border-gray-200 bg-primary-backgroundlight px-4 py-2 hover:bg-primary-backgrounddark md:mt-8 mb-2">
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke-width="1.5"
-                                 stroke="currentColor"
-                                 class="h-6 w-6 text-gray-900 mr-2">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z" />
-                            </svg>
-                            <span class="text-sm font-medium text-gray-900">Meistrų ir remonto paslaugos</span>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             fill="none"
-                             viewBox="0 0 24 24"
-                             stroke-width="1.5"
-                             stroke="currentColor"
-                             class="h-4 w-4 text-gray-500">
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
-
-                    <a href="#" class="flex items-center justify-between rounded-lg border border-gray-200 bg-primary-backgroundlight px-4 py-2 hover:bg-primary-backgrounddark md:mt-8 mb-2">
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke-width="1.5"
-                                 stroke="currentColor"
-                                 class="h-6 w-6 text-gray-900 mr-2">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-                            </svg>
-                            <span class="text-sm font-medium text-gray-900">Perkraustymas ir transportas</span>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             fill="none"
-                             viewBox="0 0 24 24"
-                             stroke-width="1.5"
-                             stroke="currentColor"
-                             class="h-4 w-4 text-gray-500">
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </section>
 
         <!-- Skiriamoji juosta -->
         <div class="flex justify-center items-center space-x-2 mx-auto max-w-md ">

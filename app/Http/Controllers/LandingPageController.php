@@ -8,6 +8,8 @@ class LandingPageController extends Controller
 {
     public function index()
     {
-        return view('landingpage');
+        $categories = include app_path('data/categories.php');
+
+        return view('landingpage', compact('categories'));
     }
 }
