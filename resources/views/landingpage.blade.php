@@ -292,7 +292,15 @@
 
         <h2 class="w-full text-center text-primary-light text-4xl font-bold font-manrope leading-normal mb-12">Patikimiausi Partneriai</h2>
 
-        <div class="flex flex-wrap justify-center gap-4">
+        <!-- Karusele su profiliais -->
+        <div class="flex flex-wrap justify-center gap-4 relative">
+            <!-- Navigation Buttons -->
+            <div class="swiper-button-prev absolute left-4 top-1/2 transform -translate-y-1/2 z-10 text-gray-800 hover:bg-gray-300 p-3 rounded-full shadow-md cursor-pointer">
+                &lt; <!-- Replace with an icon if needed -->
+            </div>
+            <div class="swiper-button-next absolute right-4 top-1/2 transform -translate-y-1/2 z-10 text-gray-800 hover:bg-gray-300 p-3 rounded-full shadow-md cursor-pointer">
+                &gt; <!-- Replace with an icon if needed -->
+            </div>
             <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <!-- First Card -->
@@ -468,7 +476,6 @@
                             </div>
                         </section>
                     </div>
-
                     <!-- Add more cards here -->
                 </div>
             </div>
@@ -536,10 +543,14 @@
                             disableOnInteraction: false,
                         },
                         autoHeight: true, // Adjust height based on content
+                        navigation: {
+                            nextEl: '.swiper-button-next', // Class for the "next" button
+                            prevEl: '.swiper-button-prev', // Class for the "previous" button
+                        },
                         breakpoints: {
-                            1024: { // For screens 1024px and above
-                                slidesPerView: 2, // Show 2 slides per view
-                                centeredSlides: false, // Don't center slides on larger screens
+                            1024: {
+                                slidesPerView: 2, // Show 2 slides per view on larger screens
+                                centeredSlides: false,
                             },
                         },
                     });
