@@ -8,3 +8,30 @@
     font-weight: normal;
     font-style: normal;
 }
+
+.swiper-container {
+    width: 80%; /* Adjust width for better layout */
+    overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+    .swiper-container {
+        width: 90%; /* Wider container for larger screens */
+    }
+}
+
+/*.swiper-container {*/
+/*    width: 50%; !* Full screen width *!*/
+/*    overflow: hidden; !* Hide slides outside the visible area *!*/
+/*}*/
+
+/*.swiper-wrapper {*/
+/*    display: flex; !* Ensure slides are laid out in a row *!*/
+/*    transition: transform 0.3s ease; !* Smooth transition between slides *!*/
+/*}*/
+
+/*.swiper-slide {*/
+/*    flex: 0 0 100%; !* Each slide takes 100% of the container width *!*/
+/*    max-width: 100%; !* Prevent the slides from exceeding container width *!*/
+/*}*/
+

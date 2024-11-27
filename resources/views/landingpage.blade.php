@@ -281,9 +281,208 @@
             </div>
         </section>
 
+        <!-- Skiriamoji juosta -->
+        <div class="flex justify-center items-center space-x-2 mx-auto max-w-md my-8 mt-4">
+            <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
+            <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
+            <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
+        </div>
 
 
-@endsection
+
+        <h2 class="w-full text-center text-primary-light text-4xl font-bold font-manrope leading-normal mb-12">Patikimiausi Partneriai</h2>
+
+        <div class="flex flex-wrap justify-center gap-4">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <!-- First Card -->
+                    <div class="swiper-slide">
+                        <section class="border bg-neutral-100 p-4 rounded-lg max-w-full h-64">
+                            <div class="mx-auto">
+                                <div class="card md:flex max-w-lg">
+                                    <div class="w-20 h-20 mx-auto mb-6 md:mr-6 flex-shrink-0">
+                                        <img class="object-cover rounded-full" src="https://tailwindflex.com/public/images/user.png">
+                                    </div>
+                                    <div class="flex-grow text-center md:text-left">
+                                        <p class="font-bold">Medkirtys</p>
+                                        <div class="flex items-center justify-center md:justify-start space-x-2">
+                                            <h3 class="text-xl font-bold heading">Jonas Ponas</h3>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 fill-yellow">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="..." />
+                                            </svg>
+                                            <span class="text-md text-gray-600">(4.9)</span>
+                                        </div>
+                                        <p class="mt-2 mb-3">Jonas yra profesionalus medzio apdailininkas galintis padeti jums ivairiausiais klausimais.</p>
+                                        <div class="flex flex-wrap gap-2 mt-3">
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Perkraustymas</span>
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Santechnika</span>
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Medkirtys</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Second Card -->
+                    <div class="swiper-slide">
+                        <section class="border bg-neutral-100 p-4 rounded-lg max-w-full h-64">
+                            <div class="mx-auto">
+                                <div class="card md:flex max-w-lg">
+                                    <div class="w-20 h-20 mx-auto mb-6 md:mr-6 flex-shrink-0">
+                                        <img class="object-cover rounded-full" src="https://tailwindflex.com/public/images/user.png">
+                                    </div>
+                                    <div class="flex-grow text-center md:text-left">
+                                        <p class="font-bold">Medkirtys</p>
+                                        <div class="flex items-center justify-center md:justify-start space-x-2">
+                                            <h3 class="text-xl font-bold heading">Jonas Ponas</h3>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 fill-yellow">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="..." />
+                                            </svg>
+                                            <span class="text-md text-gray-600">(4.9)</span>
+                                        </div>
+                                        <p class="mt-2 mb-3">Jonas yra profesionalus medzio apdailininkas...</p>
+                                        <div class="flex flex-wrap gap-2 mt-3">
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Perkraustymas</span>
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Santechnika</span>
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Medkirtys</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Second Card -->
+                    <div class="swiper-slide">
+                        <section class="border bg-neutral-100 p-4 rounded-lg max-w-full h-64">
+                            <div class="mx-auto">
+                                <div class="card md:flex max-w-lg">
+                                    <div class="w-20 h-20 mx-auto mb-6 md:mr-6 flex-shrink-0">
+                                        <img class="object-cover rounded-full" src="https://tailwindflex.com/public/images/user.png">
+                                    </div>
+                                    <div class="flex-grow text-center md:text-left">
+                                        <p class="font-bold">Medkirtys</p>
+                                        <div class="flex items-center justify-center md:justify-start space-x-2">
+                                            <h3 class="text-xl font-bold heading">Jonas Ponas</h3>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 fill-yellow">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="..." />
+                                            </svg>
+                                            <span class="text-md text-gray-600">(4.9)</span>
+                                        </div>
+                                        <p class="mt-2 mb-3">Jonas yra profesionalus medzio apdailininkas...</p>
+                                        <div class="flex flex-wrap gap-2 mt-3">
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Perkraustymas</span>
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Santechnika</span>
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Medkirtys</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Second Card -->
+                    <div class="swiper-slide">
+                        <section class="border bg-neutral-100 p-4 rounded-lg max-w-full h-64">
+                            <div class="mx-auto">
+                                <div class="card md:flex max-w-lg">
+                                    <div class="w-20 h-20 mx-auto mb-6 md:mr-6 flex-shrink-0">
+                                        <img class="object-cover rounded-full" src="https://tailwindflex.com/public/images/user.png">
+                                    </div>
+                                    <div class="flex-grow text-center md:text-left">
+                                        <p class="font-bold">Medkirtys</p>
+                                        <div class="flex items-center justify-center md:justify-start space-x-2">
+                                            <h3 class="text-xl font-bold heading">Jonas Ponas</h3>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 fill-yellow">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="..." />
+                                            </svg>
+                                            <span class="text-md text-gray-600">(4.9)</span>
+                                        </div>
+                                        <p class="mt-2 mb-3">Jonas yra profesionalus medzio apdailininkas...</p>
+                                        <div class="flex flex-wrap gap-2 mt-3">
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Perkraustymas</span>
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Santechnika</span>
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Medkirtys</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Second Card -->
+                    <div class="swiper-slide">
+                        <section class="border bg-neutral-100 p-4 rounded-lg max-w-full h-64">
+                            <div class="mx-auto">
+                                <div class="card md:flex max-w-lg">
+                                    <div class="w-20 h-20 mx-auto mb-6 md:mr-6 flex-shrink-0">
+                                        <img class="object-cover rounded-full" src="https://tailwindflex.com/public/images/user.png">
+                                    </div>
+                                    <div class="flex-grow text-center md:text-left">
+                                        <p class="font-bold">Medkirtys</p>
+                                        <div class="flex items-center justify-center md:justify-start space-x-2">
+                                            <h3 class="text-xl font-bold heading">Jonas Ponas</h3>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 fill-yellow">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="..." />
+                                            </svg>
+                                            <span class="text-md text-gray-600">(4.9)</span>
+                                        </div>
+                                        <p class="mt-2 mb-3">Jonas yra profesionalus medzio apdailininkas...</p>
+                                        <div class="flex flex-wrap gap-2 mt-3">
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Perkraustymas</span>
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Santechnika</span>
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Medkirtys</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Second Card -->
+                    <div class="swiper-slide">
+                        <section class="border bg-neutral-100 p-4 rounded-lg max-w-full h-64">
+                            <div class="mx-auto">
+                                <div class="card md:flex max-w-lg">
+                                    <div class="w-20 h-20 mx-auto mb-6 md:mr-6 flex-shrink-0">
+                                        <img class="object-cover rounded-full" src="https://tailwindflex.com/public/images/user.png">
+                                    </div>
+                                    <div class="flex-grow text-center md:text-left">
+                                        <p class="font-bold">Medkirtys</p>
+                                        <div class="flex items-center justify-center md:justify-start space-x-2">
+                                            <h3 class="text-xl font-bold heading">Jonas Ponas</h3>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 fill-yellow">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="..." />
+                                            </svg>
+                                            <span class="text-md text-gray-600">(4.9)</span>
+                                        </div>
+                                        <p class="mt-2 mb-3">Jonas yra profesionalus medzio apdailininkas...</p>
+                                        <div class="flex flex-wrap gap-2 mt-3">
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Perkraustymas</span>
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Santechnika</span>
+                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Medkirtys</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Add more cards here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Skiriamoji juosta -->
+        <div class="flex justify-center items-center space-x-2 mx-auto max-w-md my-8 mt-4">
+            <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
+            <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
+            <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
+        </div>
+
+
+        @endsection
 
 @section('script')
     <script>
@@ -326,9 +525,30 @@
                         const firstTabId = tabButtons[0].getAttribute("data-tabs-target").substring(1);
                         switchTab(firstTabId);
                     }
+
+                    const swiper = new Swiper('.swiper-container', {
+                        slidesPerView: 1, // Default to 1 slide per view
+                        spaceBetween: 20, // Space between slides
+                        centeredSlides: true, // Center the active slide
+                        loop: true, // Enable infinite looping
+                        autoplay: {
+                            delay: 3000, // Move to the next slide every 3 seconds
+                            disableOnInteraction: false,
+                        },
+                        autoHeight: true, // Adjust height based on content
+                        breakpoints: {
+                            1024: { // For screens 1024px and above
+                                slidesPerView: 2, // Show 2 slides per view
+                                centeredSlides: false, // Don't center slides on larger screens
+                            },
+                        },
+                    });
                 });
 
+
+
     </script>
+
 
 @endsection
 
