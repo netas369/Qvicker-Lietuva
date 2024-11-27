@@ -21,7 +21,7 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/>
                     </svg>
                 </div>
-                <input type="text" id="voice-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-primary-verylight focus:border-primary-light block w-full ps-10 p-2.5  ml-2" placeholder="Ieskoti paslaugos..." required />
+                <input type="text" id="voice-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-primary-verylight focus:border-primary-light block w-full ps-10 p-2.5  ml-2" placeholder="Ieškoti paslaugos..." required />
                 <button type="button" class="absolute inset-y-0 end-0 flex items-center pe-3">
                     <svg class="w-5 h-6 text-primary dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
@@ -142,7 +142,7 @@
                     @foreach($categories as $category)
                         @if($category['name'] === 'Home Maintenance & Cleaning') <!-- Check for 'Cleaning' category -->
                         @foreach($category['subcategories'] as $subcategory) <!-- Loop through subcategories -->
-                        <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                        <a href="#" class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50">
 {{--                            <svg class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">--}}
 {{--                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"></path>--}}
 {{--                            </svg>--}}
