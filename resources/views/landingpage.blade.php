@@ -6,7 +6,7 @@
     <!-- MAIN CONTENT DIV -->
     <div class="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60 lg:mt-24 md:mt-14">
         <div class="text-center mt-10">
-            <h1 class="text-3xl lg:text-5xl font-bold text-primary-light font-sans leading-7">Rasti profesionalią pagalbą - dabar lengva. Domce pirdyla</h1>
+            <h1 class="text-3xl lg:text-5xl font-bold text-primary-light font-sans leading-7">Rasti profesionalią pagalbą - dabar lengva. Domce pirdylaaaa</h1>
             <p class="mt-10 text-lg text-primary-light font-sans">Susisiekite tiesiogiai su patikimais paslaugų teikėjais visiems namų poreikiams, nuo žolės
         pjovimo iki dažymo ir dar daugiau.</p>
         </div>
