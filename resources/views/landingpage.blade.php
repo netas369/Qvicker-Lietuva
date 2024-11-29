@@ -481,13 +481,25 @@
             </div>
         </div>
 
+        <!-- Tapk Partneriu -->
+
+        <section class="overflow-visible my-0 py-12 mt-12 max-w-2xl mx-auto">
+            <div class="text-primary-dark items-center text-center flex flex-col">
+                <h2 class="font-bold text-2xl lg:text-4xl">Norite tapti mūsų partneriu ir gauti papildomų pajamų?</h2>
+                <p class="mx-auto mt-6 max-w-xl text-lg md:text-xl leading-8 text-slate-400">
+                    Tapkite partneriu dabar ir paverskite savo galimybęs į uždarbį!
+                </p>
+                <a class="mt-8 rounded-md bg-primary-verylight px-5 py-2.5 text-base font-semibold leading-7 text-black hover:bg-gray-200 transition focus:outline-none focus:ring focus:border-blue-300"
+                   href="#">Tapti Partneriu</a>
+            </div>
+        </section>
+
         <!-- Skiriamoji juosta -->
         <div class="flex justify-center items-center space-x-2 mx-auto max-w-md my-8 mt-4">
             <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
             <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
             <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
         </div>
-
 
         @endsection
 
