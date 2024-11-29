@@ -484,7 +484,7 @@
         <!-- Tapk Partneriu -->
 
         <section class="overflow-visible my-0 py-12 mt-12 max-w-2xl mx-auto">
-            <div class="text-primary-dark items-center text-center flex flex-col">
+            <div class="text-red-500 items-center text-center flex flex-col">
                 <h2 class="font-bold text-2xl lg:text-4xl">Norite tapti mūsų partneriu ir gauti papildomų pajamų?</h2>
                 <p class="mx-auto mt-6 max-w-xl text-lg md:text-xl leading-8 text-slate-400">
                     Tapkite partneriu dabar ir paverskite savo galimybęs į uždarbį!
