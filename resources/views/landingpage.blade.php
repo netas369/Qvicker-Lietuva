@@ -484,8 +484,8 @@
         <!-- Tapk Partneriu -->
 
         <div class="overflow-hidden my-4 py-16 max-w-3xl mx-auto rounded-lg bg-neutral-100">
-            <div class="text-primary-dark items-center text-center flex flex-col bg-gray-50 shadow-lg p-6">
-                <h2 class="font-extrabold text-3xl md:text-3xl">Norite tapti mūsų partneriu ir gauti papildomų pajamų?</h2>
+            <div class="text-primary-light items-center text-center flex flex-col bg-gray-50 shadow-lg p-6">
+                <h2 class="font-extrabold text-3xl md:text-3xl sm:text-1xl">Norite tapti mūsų partneriu ir gauti papildomų pajamų?</h2>
                 <p class="mx-auto mt-4 max-w-lg text-md md:text-lg leading-7 text-gray-600">
                     Prisijunkite dabar ir išnaudokite visas galimybes!
                 </p>
