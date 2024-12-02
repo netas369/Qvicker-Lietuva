@@ -13,8 +13,9 @@ return [
     |
     */
 
-    'build_path' => env('VITE_BUILD_PATH', public_path('build')),
-
+    'build_path' => env('VITE_BUILD_PATH')
+        ? rtrim(env('VITE_BUILD_PATH'), '/')
+        : public_path('build'),
     /*
     |--------------------------------------------------------------------------
     | Development Server URL
