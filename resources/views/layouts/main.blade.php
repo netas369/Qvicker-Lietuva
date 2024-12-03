@@ -23,6 +23,7 @@
 </div>
 </body>
 
+ @extends('layouts.footer')
 
-    @yield('script')
+@yield('script')
 </html>

@@ -693,14 +693,6 @@
         <section class="py-16 relative">
             <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
                 <div class="w-full justify-start items-center gap-12 grid lg:grid-cols-2 grid-cols-1">
-                    <div
-                        class="w-full justify-center items-start gap-6 grid sm:grid-cols-2 grid-cols-1 lg:order-first order-last">
-                        <div class="pt-24 lg:justify-center sm:justify-end justify-start items-start gap-2.5 flex">
-                            <img class=" rounded-1xl object-cover" src="{{ asset('images/delivery-man.jpg') }}" alt="about Us image" />
-                        </div>
-                        <img class="sm:ml-0 ml-auto rounded-xl object-cover" src="{{ asset('images/wedding-planner1.jpg') }}"
-                             alt="about Us image" />
-                    </div>
                     <div class="w-full flex-col justify-center lg:items-start items-center gap-10 inline-flex">
                         <div class="w-full flex-col justify-center items-start gap-8 flex">
                             <div class="w-full flex-col justify-start lg:items-start items-center gap-3 flex">
@@ -732,9 +724,19 @@
                             <span class="px-1.5 text-white text-sm font-medium leading-6">Rasti Specialistą Dabar</span>
                         </button>
                     </div>
+                    <div
+                        class="w-full justify-center items-start gap-6 grid sm:grid-cols-2 grid-cols-1 lg:order-last order-first">
+                        <div class="pt-24 lg:justify-center sm:justify-end justify-start items-start gap-2.5 flex">
+                            <img class=" rounded-1xl object-cover" src="{{ asset('images/delivery-man.jpg') }}" alt="about Us image" />
+                        </div>
+                        <img class="sm:ml-0 ml-auto rounded-xl object-cover" src="{{ asset('images/wedding-planner1.jpg') }}"
+                             alt="about Us image" />
+                    </div>
                 </div>
             </div>
         </section>
+
+
 
 
         @endsection
