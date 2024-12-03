@@ -493,13 +493,6 @@
             </div>
         </div>
 
-{{--        <!-- Skiriamoji juosta -->--}}
-{{--        <div class="flex justify-center items-center space-x-2 mx-auto max-w-md my-8 mt-4">--}}
-{{--            <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">--}}
-{{--            <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">--}}
-{{--            <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">--}}
-{{--        </div>--}}
-
         <section class="py-24 ">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div
@@ -685,6 +678,59 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skiriamoji juosta -->
+        <div class="flex justify-center items-center space-x-2 mx-auto max-w-md mt-4">
+            <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
+            <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
+            <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
+        </div>
+
+        <section class="py-16 relative">
+            <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
+                <div class="w-full justify-start items-center gap-12 grid lg:grid-cols-2 grid-cols-1">
+                    <div
+                        class="w-full justify-center items-start gap-6 grid sm:grid-cols-2 grid-cols-1 lg:order-first order-last">
+                        <div class="pt-24 lg:justify-center sm:justify-end justify-start items-start gap-2.5 flex">
+                            <img class=" rounded-1xl object-cover" src="{{ asset('images/delivery-man.jpg') }}" alt="about Us image" />
+                        </div>
+                        <img class="sm:ml-0 ml-auto rounded-xl object-cover" src="{{ asset('images/wedding-planner1.jpg') }}"
+                             alt="about Us image" />
+                    </div>
+                    <div class="w-full flex-col justify-center lg:items-start items-center gap-10 inline-flex">
+                        <div class="w-full flex-col justify-center items-start gap-8 flex">
+                            <div class="w-full flex-col justify-start lg:items-start items-center gap-3 flex">
+                                <h2
+                                    class="text-primary text-4xl font-bold font-manrope leading-normal lg:text-start text-center">
+                                    Skatiname Bendruomenes Dirbti Kartu</h2>
+                                <p class="text-gray-500 text-base font-normal leading-relaxed lg:text-start text-center">
+                                    MyAPP Lietuva sujungia žmones, kuriems reikia paslaugų, su patikimais specialistais jų mieste. Mūsų platforma
+                                    pagrįsta pasitikėjimu ir bendradarbiavimu - nuo kasdienių darbų iki profesionalių paslaugų, padedame
+                                    paprastai ir greitai rasti reikiamą pagalbą.</p>
+                            </div>
+                            <div class="w-full lg:justify-start justify-center items-center sm:gap-10 gap-5 inline-flex">
+                                <div class="flex-col justify-start items-start inline-flex">
+                                    <h3 class="text-primary-light text-4xl font-bold font-manrope leading-normal">50+</h3>
+                                    <h6 class="text-gray-500 text-base font-normal leading-relaxed">Paslaugų Rūšių</h6>
+                                </div>
+                                <div class="flex-col justify-start items-start inline-flex">
+                                    <h4 class="text-primary-light text-4xl font-bold font-manrope leading-normal">5000+</h4>
+                                    <h6 class="text-gray-500 text-base font-normal leading-relaxed">Atliktų Užsakymų</h6>
+                                </div>
+                                <div class="flex-col justify-start items-start inline-flex">
+                                    <h4 class="text-primary-light text-4xl font-bold font-manrope leading-normal">500+</h4>
+                                    <h6 class="text-gray-500 text-base font-normal leading-relaxed">Įvairių Sričių Partnerių</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            class="sm:w-fit w-full px-3.5 py-2 bg-primary-light hover:bg-primary-verylight transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] justify-center items-center flex">
+                            <span class="px-1.5 text-white text-sm font-medium leading-6">Rasti Specialistą Dabar</span>
+                        </button>
                     </div>
                 </div>
             </div>
