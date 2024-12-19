@@ -9,5 +9,5 @@ class SearchHandymanController extends Controller
     public function index()
     {
         return view('search');
-    }
+    } // da
 }
