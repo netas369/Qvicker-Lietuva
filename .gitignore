@@ -19,3 +19,5 @@ yarn-error.log
 /.idea
 /.vscode
 /.zed
+app/Providers/AppServiceProvider.php
+config/vite.php
