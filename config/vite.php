@@ -1,30 +1,48 @@
+<?php
+
 return [
 
     /*
     |--------------------------------------------------------------------------
-    | Vite Build Path
+    | Entry Points
     |--------------------------------------------------------------------------
     |
-    | This option defines the path to the Vite build directory. This should
-    | be the relative or absolute path where your Vite build output
-    | (including the manifest.json file) is stored.
+    | The "entrypoints" array defines the files that should be considered
+    | entry points for the Vite build. These files will be included
+    | in the application's frontend to bootstrap your JavaScript.
     |
     */
 
-    'build_path' => env('VITE_BUILD_PATH')
-        ? rtrim(env('VITE_BUILD_PATH'), '/')
-        : public_path('build'),
+    'entrypoints' => [
+        'resources/js/app.js',
+        'resources/css/app.css',
+    ],
+
     /*
     |--------------------------------------------------------------------------
-    | Development Server URL
+    | Development Server
     |--------------------------------------------------------------------------
     |
-    | During local development, Vite serves assets from its dev server. You
-    | can specify the URL for the development server here. This is used
-    | when `APP_ENV` is set to `local`.
+    | When running the Vite development server, the URL to the server should
+    | be set here. If this is set to null, the asset helper will default
+    | to building the assets via the "npm run build" command.
     |
     */
 
-    'dev_server_url' => env('VITE_DEV_SERVER_URL', 'http://localhost:5173'),
+    'dev_server' => env('VITE_DEV_SERVER', 'http://localhost:5173'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Aliases
+    |--------------------------------------------------------------------------
+    |
+    | You may define aliases to be used in your Vite configuration.
+    | These aliases allow you to shorten imports in your JavaScript.
+    |
+    */
+
+    'aliases' => [
+        '@' => resource_path('js'),
+    ],
 
 ];
