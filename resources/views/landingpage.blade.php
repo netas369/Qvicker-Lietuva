@@ -1,6 +1,5 @@
 @extends('layouts.main')
 
-@section('title', 'MyAppLietuva')
 
 @section('content')
     <!-- MAIN CONTENT DIV -->
@@ -828,4 +827,3 @@
 
 @endsection
 
-    @extends('layouts.navbar')
