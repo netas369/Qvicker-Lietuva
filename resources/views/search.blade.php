@@ -1,9 +1,5 @@
 @extends('layouts.main')
 
-@extends('layouts.navbar')
-
-@section('title', 'MyAppLietuva')
-
 @section('content')
 
 
