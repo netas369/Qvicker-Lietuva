@@ -23,15 +23,15 @@
         style="display: {{ $search ? 'block' : 'none' }};">
         @if(!empty($results))
             @foreach($results as $result)
-                <div
+                <a
+                    href="/search?subcategory={{ urlencode($result['subcategory']) }}"
                     class="px-3 py-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center"
-                    wire:click="$emit('selectCategory', '{{ $result['name'] }}')"
                 >
                     <div>
-                        <span class="text-md font-medium text-gray-900">{{ $result['name'] }}</span>
+                        <span class="text-md font-medium text-gray-900">{{ $result['category'] }}</span>
                         <small class="block text-sm text-gray-500">{{ $result['subcategory'] ?? 'No subcategory' }}</small>
                     </div>
-                </div>
+                </a>
             @endforeach
         @else
             <div class="px-3 py-2 text-center text-gray-500">

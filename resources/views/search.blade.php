@@ -1,16 +1,17 @@
 @extends('layouts.main')
 
-@extends('layouts.navbar')
-
-@section('title', 'MyAppLietuva')
-
 @section('content')
 
 
     <form class="max-w-sm mx-auto">
         <div class="mb-5 mt-24">
             <label for="address" class="block mb-2 text-lg font-medium text-primary-light font-sans">Kategorija</label>
-            <input type="text" id="address" class="bg-gray-200 border border-primary text-primary-dark placeholder-primary-light text-sm rounded-lg block w-full p-2.5" disabled>
+            <input
+                type="text"
+                id="address"
+                class="bg-gray-200 border border-primary text-gray-600 font-medium placeholder-primary-light text-sm rounded-lg block w-full p-2.5"
+                disabled
+                value="{{ $subcategory ?? '' }}"> <!-- Set the subcategory value -->
         </div>
 
         <div class="mb-5 mt-10">
