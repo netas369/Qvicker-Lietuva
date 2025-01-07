@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchHandymanController;
@@ -20,5 +21,12 @@ Route::middleware('auth')->group(function () {
 });
 
 
+// Service Seeker Registration
+Route::get('/register/seeker', [RegisteredUserController::class, 'createSeeker'])->name('register.seeker');
+Route::post('/register/seeker', [RegisteredUserController::class, 'storeSeeker']);
+
+// Service Provider Registration
+Route::get('/register/provider', [RegisteredUserController::class, 'createProvider'])->name('register.provider');
+Route::post('/register/provider', [RegisteredUserController::class, 'storeProvider']);
 
 require __DIR__.'/auth.php';
