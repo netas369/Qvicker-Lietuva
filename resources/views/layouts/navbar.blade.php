@@ -1,6 +1,6 @@
 <nav class="relative px-4 py-4 flex justify-between items-center bg-white border-b border-gray-200 shadow-md shadow-primary-light/50">
     <a class="text-3xl font-bold leading-none" href="#">
-        <img src="{{ asset('images/worklink.png') }}" alt="logo" class="h-10">
+        <img src="{{ asset('images/worklinklogo.png') }}" alt="logo" class="h-10">
     </a>
     <div class="lg:hidden">
         <button class="navbar-burger flex items-center text-blue-600 p-3">

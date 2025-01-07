@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ProfileController;
@@ -29,4 +30,7 @@ Route::post('/register/seeker', [RegisteredUserController::class, 'storeSeeker']
 Route::get('/register/provider', [RegisteredUserController::class, 'createProvider'])->name('register.provider');
 Route::post('/register/provider', [RegisteredUserController::class, 'storeProvider']);
 
-require __DIR__.'/auth.php';
+// Login routes
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
