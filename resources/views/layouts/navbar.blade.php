@@ -1,5 +1,5 @@
 <nav class="relative px-4 py-4 flex justify-between items-center bg-white border-b border-gray-200 shadow-md shadow-primary-light/50">
-    <a class="text-3xl font-bold leading-none" href="#">
+    <a class="text-3xl font-bold leading-none" href="/">
         <img src="{{ asset('images/worklinklogo.png') }}" alt="logo" class="h-10">
     </a>
     <div class="lg:hidden">
@@ -38,7 +38,7 @@
         <li><a class="text-sm text-gray-400 font" href="#">Apie Mus</a></li>
     </ul>
     <a class="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-primary font-bold  rounded-xl transition duration-200" href="/login">Prisijungti</a>
-    <a class="hidden lg:inline-block py-2 px-6 bg-primary-light hover:bg-primary-verylight text-sm text-white font-bold rounded-xl transition duration-200" href="/register">Registruotis</a>
+    <a class="hidden lg:inline-block py-2 px-6 bg-primary-light hover:bg-primary-verylight text-sm text-white font-bold rounded-xl transition duration-200" href="/register/seeker">Registruotis</a>
 </nav>
 <div class="navbar-menu relative z-50 hidden">
     <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-100"></div>
@@ -75,7 +75,7 @@
         <div class="mt-auto">
             <div class="pt-6">
                 <a class="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold leading-none bg-gray-200 hover:bg-gray-100 rounded-xl" href="/login">Prisijungti</a>
-                <a class="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-primary-light hover:bg-primary-verylight rounded-xl" href="/register">Registruotis</a>
+                <a class="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-primary-light hover:bg-primary-verylight rounded-xl" href="/register/seeker">Registruotis</a>
             </div>
             <p class="my-4 text-xs text-center text-gray-400">
                 <span>Copyright © 2024</span>
