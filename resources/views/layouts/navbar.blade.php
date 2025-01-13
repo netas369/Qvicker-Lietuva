@@ -1,6 +1,7 @@
 <nav class="relative px-4 py-4 flex justify-between items-center bg-white border-b border-gray-200 shadow-md shadow-primary-light/50">
     <a class="text-3xl font-bold leading-none" href="/">
-        <img src="{{ asset('images/worklinklogo.png') }}" alt="logo" class="h-10">
+        <p class="text-primary-light font-bold sm:text-3xl text-2xl">WORK<span class="text-primary">LINK</span></p>
+{{--        <img src="{{ asset('images/worklinklogo.png') }}" alt="logo" class="h-10">--}}
     </a>
     <div class="lg:hidden">
         <button class="navbar-burger flex items-center text-blue-600 p-3">
@@ -45,7 +46,7 @@
     <nav class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
         <div class="flex items-center mb-8">
             <a class="mr-auto text-3xl font-bold leading-none" href="#">
-                <img src="{{ asset('images/worklink.png') }}" alt="logo" class="h-10 w-auto sm:h-12">
+                <p class="text-primary-light font-bold sm:text-3xl text-2xl">WORK<span class="text-primary">LINK</span></p>
             </a>
             <button class="navbar-close">
                 <svg class="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
