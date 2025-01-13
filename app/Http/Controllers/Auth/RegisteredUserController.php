@@ -57,21 +57,21 @@ class RegisteredUserController extends Controller
     public function storeSeeker(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'full_name' => 'required|string|max:255',
         ]);
 
         $user = User::create([
-            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'seeker',
+            'name' => $request->full_name,
+            'role' => 'seeker', // Set the role to 'seeker'
         ]);
 
         auth()->login($user);
 
-        return redirect()->route('/dashboard');
+        return redirect()->route('dashboard');
     }
 
     // Show Service Provider Registration Form
