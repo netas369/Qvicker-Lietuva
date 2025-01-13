@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
 
 // Service Seeker Registration
 Route::get('/register/seeker', [RegisteredUserController::class, 'createSeeker'])->name('register.seeker');
-Route::post('/register/seeker', [RegisteredUserController::class, 'storeSeeker']);
+Route::post('/register/seeker', [RegisteredUserController::class, 'storeSeeker'])->name('register.seeker.store');
 
 // Service Provider Registration
 Route::get('/register/provider', [RegisteredUserController::class, 'createProvider'])->name('register.provider');

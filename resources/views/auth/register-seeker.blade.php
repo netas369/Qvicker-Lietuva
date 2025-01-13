@@ -2,6 +2,16 @@
 
 @section('title', 'Register as a Seeker')
 
+<style>
+    .hidden {
+        display: none;
+    }
+
+    .block {
+        display: block;
+    }
+</style>
+
 @section('content')
     <section>
         <div class="max-h-screen bg-gray-100 text-gray-900 flex justify-center">
@@ -47,14 +57,67 @@
                                 </div>
                             </div>
 
-                            <div class="mx-auto max-w-xs">
+                            <form method="POST" action="{{ route('register.seeker.store') }}" class="mx-auto max-w-xs" id="registerForm">
+                                @csrf
+                                <!-- Email Field -->
                                 <input
                                     class="w-full px-5 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                                    type="email" placeholder="Email" />
+                                    type="email"
+                                    placeholder="Email"
+                                    name="email"
+                                    value="{{ old('email') }}"
+                                    required
+                                    autocomplete="username"
+                                />
+                                @error('email')
+                                <span class="text-red-500 text-sm mt-2">{{ $message }}</span>
+                                @enderror
+
+                                <!-- Password Field -->
                                 <input
                                     class="w-full px-5 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                                    type="password" placeholder="Slaptažodis" />
+                                    type="password"
+                                    placeholder="Slaptažodis"
+                                    name="password"
+                                    required
+                                    autocomplete="new-password"
+                                />
+                                @error('password')
+                                <span class="text-red-500 text-sm mt-2">{{ $message }}</span>
+                                @enderror
+
+                                <!-- Confirm Password and Full Name Fields (Hidden Initially) -->
+                                <div id="extraFields" class="hidden">
+                                    <!-- Confirm Password Field -->
+                                    <input
+                                        class="w-full px-5 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
+                                        type="password"
+                                        placeholder="Patvirtinti slaptažodį"
+                                        name="password_confirmation"
+                                        required
+                                    />
+                                    @error('password_confirmation')
+                                    <span class="text-red-500 text-sm mt-2">{{ $message }}</span>
+                                    @enderror
+
+                                    <!-- Full Name Field -->
+                                    <input
+                                        class="w-full px-5 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
+                                        type="text"
+                                        placeholder="Pilnas vardas"
+                                        name="full_name"
+                                        value="{{ old('full_name') }}"
+                                        required
+                                    />
+                                    @error('full_name')
+                                    <span class="text-red-500 text-sm mt-2">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <!-- Register/Submit Button -->
                                 <button
+                                    type="button"
+                                    id="registerButton"
                                     class="mt-5 tracking-wide font-semibold bg-primary-light text-gray-100 w-full py-4 rounded-lg hover:bg-primary transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                                     <svg class="w-6 h-6 -ml-2" fill="none" stroke="currentColor" stroke-width="2"
                                          stroke-linecap="round" stroke-linejoin="round">
@@ -62,21 +125,9 @@
                                         <circle cx="8.5" cy="7" r="4" />
                                         <path d="M20 8v6M23 11h-6" />
                                     </svg>
-                                    <span class="ml-3">
-                                Registruotis
-                            </span>
+                                    <span class="ml-3" id="buttonText">Registruotis</span>
                                 </button>
-                                <p class="mt-6 text-xs text-gray-600 text-center">
-                                    Sutinku su nustatytomis <span class="text-primary font-semibold">WorkLink</span>
-                                    <a href="#" class="border-b border-gray-500 border-dotted">
-                                        Taisyklėmis
-                                    </a>
-                                    ir
-                                    <a href="#" class="border-b border-gray-500 border-dotted">
-                                        Privatumo politika
-                                    </a>
-                                </p>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -89,3 +140,30 @@
         </div>
     </section>
 @endsection
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const registerButton = document.getElementById('registerButton');
+        const extraFields = document.getElementById('extraFields');
+        const buttonText = document.getElementById('buttonText');
+
+        if (registerButton) {
+            registerButton.addEventListener('click', function () {
+                if (extraFields.classList.contains('hidden')) {
+                    // Show the extra fields
+                    extraFields.classList.remove('hidden');
+                    extraFields.classList.add('block', 'transition-all', 'duration-500', 'ease-in-out');
+
+                    // Move the button to the bottom
+                    registerButton.classList.add('mt-5');
+
+                    // Change the button text
+                    buttonText.textContent = 'Pateikti';
+
+                    // Change the button type to submit
+                    registerButton.setAttribute('type', 'submit');
+                }
+            });
+        }
+    });
+</script>
