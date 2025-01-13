@@ -18,7 +18,7 @@
             <div class="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
                 <div class="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
                     <div class="flex justify-center items-center">
-                        <img src="{{ asset('images/worklink.png') }}" class="w-10/12" />
+                        <img src="{{ asset('images/worklinknew1.png') }}" class="w-10/12" />
                     </div>
                     <div class="mt-12 flex flex-col items-center">
                         <h1 class="text-2xl xl:text-3xl font-extrabold text-primary-light">
