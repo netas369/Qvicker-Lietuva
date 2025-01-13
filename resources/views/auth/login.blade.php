@@ -12,7 +12,7 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="mb-12">
-                        <h3 class="text-primary-dark text-3xl font-extrabold">Sveiki Sugrįžę</h3>
+                        <p class="text-primary text-3xl font-extrabold">Sveiki Sugrįžę<p/>
                         <p class="text-sm mt-4 text-primary-dark">Dar neturite paskyros? <a href="/register/seeker" class="text-primary-light font-semibold hover:underline ml-1 whitespace-nowrap">Registruokites čia</a></p>
                     </div>
                     <x-input-error :messages="$errors->get('password')" class="mb-3" />
