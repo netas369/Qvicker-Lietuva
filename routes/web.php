@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 Route::get('/search', [SearchHandymanController::class, 'index'])->name('search');
+Route::get('/partners', [LandingPageController::class, 'partners'])->name('partners');
 
 
 Route::get('/dashboard', function () {
