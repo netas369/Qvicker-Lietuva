@@ -13,7 +13,7 @@
                     @csrf
                     <div class="mb-12">
                         <h3 class="text-primary-dark text-3xl font-extrabold">Sveiki Sugrįžę</h3>
-                        <p class="text-sm mt-4 text-primary-dark">Dar neturite paskyros? <a href="javascript:void(0);" class="text-primary-light font-semibold hover:underline ml-1 whitespace-nowrap">Registruokites čia</a></p>
+                        <p class="text-sm mt-4 text-primary-dark">Dar neturite paskyros? <a href="/register/seeker" class="text-primary-light font-semibold hover:underline ml-1 whitespace-nowrap">Registruokites čia</a></p>
                     </div>
                     <x-input-error :messages="$errors->get('password')" class="mb-3" />
                     <x-input-error :messages="$errors->get('email')" class="mb-3" />
@@ -29,7 +29,7 @@
                                    placeholder="Įveskite Email"
                                    value="{{ old('email') }}"
                                    autofocus
-                                   autocomplete="username"
+                                   autocomplete="email"
                             />
                             {{--                            <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2" viewBox="0 0 682.667 682.667">--}}
 {{--                                <defs>--}}
