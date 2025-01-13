@@ -12,4 +12,9 @@ class LandingPageController extends Controller
 
         return view('landingpage', compact('categories'));
     }
+
+    public function partners()
+    {
+        return view('forpartners');
+    }
 }
