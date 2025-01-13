@@ -3,7 +3,7 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mx-auto">
             <a href="" class="flex justify-center ">
-                <img src="{{ asset('images/worklink.png') }}" alt="logo" class="h-10">
+                <img src="{{ asset('images/worklinknew1.png') }}" alt="logo" class="h-10">
             </a>
             <ul class="text-lg flex items-center justify-center flex-col gap-7 md:flex-row md:gap-12 transition-all duration-500 py-16 mb-10 border-b border-gray-200">
                 <li><a href="#" class="text-gray-800 hover:text-gray-900">Pagrindinis</a></li>

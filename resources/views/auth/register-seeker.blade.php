@@ -18,11 +18,11 @@
             <div class="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
                 <div class="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
                     <div class="flex justify-center items-center">
-                        <img src="{{ asset('images/worklink.png') }}" class="w-10/12" />
+                        <img src="{{ asset('images/worklinknew1.png') }}" class="w-10/12" />
                     </div>
                     <div class="mt-12 flex flex-col items-center">
-                        <h1 class="text-2xl xl:text-3xl font-extrabold text-primary-light">
-                            Registruotis
+                        <h1 class="text-2xl xl:text-3xl font-extrabold text-primary-light text-center xs:w-2/3">
+                            Tapkite WorkLink Bendruomenės Nariu
                         </h1>
                         <div class="w-full flex-1 mt-8">
                             <div class="flex flex-col items-center">
@@ -45,7 +45,7 @@
                                         </svg>
                                     </div>
                                     <span class="ml-3">
-                                Prisijunkite su Google
+                                Registruotis su Google
                             </span>
                                 </button>
                             </div>
@@ -53,7 +53,7 @@
                             <div class="my-12 border-b text-center">
                                 <div
                                     class="leading-none px-2 inline-block text-sm text-primary-light tracking-wide font-medium bg-white transform translate-y-1/2">
-                                    Arba prisijunkite su e-mail
+                                    Arba registruotis su e-mail
                                 </div>
                             </div>
 
