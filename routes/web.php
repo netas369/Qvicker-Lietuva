@@ -27,11 +27,25 @@ Route::middleware('auth')->group(function () {
 Route::get('/register/seeker', [RegisteredUserController::class, 'createSeeker'])->name('register.seeker');
 Route::post('/register/seeker', [RegisteredUserController::class, 'storeSeeker'])->name('register.seeker.store');
 
+
+
 // Service Provider Registration
-Route::get('/register/provider', [RegisteredUserController::class, 'createProvider'])->name('register.provider');
-Route::post('/register/provider', [RegisteredUserController::class, 'storeProvider']);
+Route::get('/register/provider', [RegisteredUserController::class, 'createProviderStep1'])->name('register.provider'); // step 1 personal details form
+Route::post('/register/provider/step1', [RegisteredUserController::class, 'processStep1'])->name('register.provider.processStep1'); // Process Step 1
+
+
+Route::get('/register/provider/step2', [RegisteredUserController::class, 'createProviderStep2'])->name('register.provider.step2'); // Step 2 (Skills Form)
+Route::post('/register/provider/step2', [RegisteredUserController::class, 'processStep2'])->name('register.provider.processStep2'); // Process Step 2
+
+Route::post('/register/provider/step3', [RegisteredUserController::class, 'createProviderStep3'])->name('register.provider.step3');
+Route::get('/register/provider/step3', [RegisteredUserController::class, 'processStep3'])->name('register.provider.processStep3');
+
+
+
+
 
 // Login routes
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
