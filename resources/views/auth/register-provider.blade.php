@@ -33,51 +33,87 @@
         <div class="mt-5 flex items-center justify-center">
                 <div class="md:max-w-3xl w-full px-4 py-4 bg-white rounded-xl shadow-2xl">
 
-                    @if ($errors->any())
-                        <div class="mb-4 text-red-600">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
                     <form method="POST" action="{{ route('register.provider.processStep1') }}">
                         @csrf
                         <h3 class="mb-8 text-2xl leading-none font-bold text-primary">Asmeninės Detalės</h3>
                         <div class="grid gap-4 mb-4 sm:grid-cols-2">
                             <div>
                                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Vardas</label>
-                                <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" placeholder="Vardas" required="">
+                                <input type="text" name="name" id="name"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                       placeholder="Vardas"
+                                       value="{{ old('name') }}">
+                                @error('name')
+                                <small class="text-red-600">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div>
                                 <label for="lastname" class="block mb-2 text-sm font-medium text-gray-900">Pavardė</label>
-                                <input type="text" name="lastname" id="lastname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" placeholder="Pavardė" required="">
+                                <input type="text" name="lastname" id="lastname"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                       placeholder="Pavardė"
+                                       value="{{ old('lastname') }}">
+                                @error('lastname')
+                                <small class="text-red-600">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div>
                                 <label for="birthday" class="block mb-2 text-sm font-medium text-gray-900">Gimimo Data</label>
-                                <input type="date" name="birthday" id="birthday" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" placeholder="Birthday" required>
+                                <input type="date" name="birthday" id="birthday"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                       placeholder="Birthday"
+                                       value="{{ old('birthday') }}">
+                                @error('birthday')
+                                <small class="text-red-600">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div>
                                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                                <input type="text" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" placeholder="Email" required="">
+                                <input type="text" name="email" id="email"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                       placeholder="Email"
+                                       value="{{ old('email') }}">
+                                @error('email')
+                                <small class="text-red-600">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div>
                                 <label for="miestas" class="block mb-2 text-sm font-medium text-gray-900">Miestas</label>
-                                <input type="miestas" name="miestas" id="miestas" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" placeholder="Miestas" required="">
+                                <input type="text" name="miestas" id="miestas"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                       placeholder="Miestas"
+                                       value="{{ old('miestas') }}">
+                                @error('miestas')
+                                <small class="text-red-600">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div>
                                 <label for="adresas" class="block mb-2 text-sm font-medium text-gray-900">Adresas</label>
-                                <input type="adresas" name="adresas" id="adresas" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" placeholder="Adresas" required="">
+                                <input type="text" name="adresas" id="adresas"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                       placeholder="Adresas"
+                                       value="{{ old('adresas') }}">
+                                @error('adresas')
+                                <small class="text-red-600">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div>
                                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Slaptažodis</label>
-                                <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" placeholder="•••••••••" required="">
+                                <input type="password" name="password" id="password"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                       placeholder="•••••••••">
+                                @error('password')
+                                <small class="text-red-600">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div>
                                 <label for="password_confirmation" class="block mb-2 text-sm font-medium text-gray-900">Patvirtinti Slaptažodį</label>
-                                <input type="password" name="password_confirmation" id="password_confirmation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" placeholder="•••••••••" required="">
+                                <input type="password" name="password_confirmation" id="password_confirmation"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                                       placeholder="•••••••••">
+                                @error('password_confirmation')
+                                <small class="text-red-600">{{ $message }}</small>
+                                @enderror
                             </div>
                         </div>
                         <button type="submit" class="text-white bg-primary-light hover:bg-primary transition focus:ring-4 focus:outline-none focus:ring-primary-dark font-medium rounded-lg text-sm px-5 py-2.5 text-center">
