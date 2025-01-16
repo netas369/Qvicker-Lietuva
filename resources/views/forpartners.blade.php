@@ -13,12 +13,10 @@
     <div class="flex justify-center">
         <a href="/register/provider">
             <button
-                class="mt-12 tracking-wide font-semibold bg-primary-light text-gray-100 w-1/2 py-3 px-5 rounded-lg hover:bg-primary transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                class="mt-12 tracking-wide font-semibold bg-primary-light text-gray-100 w-full py-3 px-5 rounded-lg hover:bg-primary transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                 Tapti Partneriu</button>
         </a>
     </div>
     <div>
-
-
 
 @endsection
