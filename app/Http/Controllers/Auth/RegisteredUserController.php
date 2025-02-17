@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -127,7 +128,9 @@ class RegisteredUserController extends Controller
 
     public function createProviderStep2()
     {
-        return view('auth.register-provider-step2'); // Create a separate view for step 2
+        $categories = Category::all();
+
+        return view('auth.register-provider-step2', compact('categories')); // Create a separate view for step 2
     }
 
     public function processStep2(Request $request)
