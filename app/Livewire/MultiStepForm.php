@@ -156,7 +156,7 @@ class MultiStepForm extends Component
 
         if (Auth::attempt($credentials)) {
             // User logged in successfully
-            return redirect()->route('dashboard');
+            return redirect()->route('landingpage');
         } else {
             // Failed to log in the user
             // You can handle this case accordingly
