@@ -1,10 +1,10 @@
-<nav class="relative px-4 py-4 flex justify-between items-center bg-white border-b border-gray-200 shadow-md shadow-primary-light/50">
-    <a class="text-3xl font-bold leading-none" href="/">
+<nav style="position: sticky; top: 0; z-index: 50; padding: 1rem; display: flex; justify-content: space-between; align-items: center; background-color: white; border-bottom: 1px solid #e5e7eb; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); transition: opacity 0.3s ease;">
+<a class="text-3xl font-bold leading-none" href="/">
         <p class="text-primary-light font-bold sm:text-3xl text-2xl">WORK<span class="text-primary">LINK</span></p>
 {{--        <img src="{{ asset('images/worklinklogo.png') }}" alt="logo" class="h-10">--}}
     </a>
     <div class="lg:hidden">
-        <button class="navbar-burger flex items-center text-blue-600 p-3">
+        <button class="navbar-burger flex items-center text-blue-600 p-3 hover:bg-gray-50 transition duration-200">
             <svg class="block h-6 w-6 fill-primary" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <title>Mobile menu</title>
                 <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
@@ -12,31 +12,11 @@
         </button>
     </div>
     <ul class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
-        <li><a class="text-sm text-primary-light {{ request()->is('/') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="/">Pagrindinis</a></li>
-        <li class="text-primary-light">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-            </svg>
-        </li>
-        <li><a class="text-sm text-primary-light {{ request()->is('partners') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="/partners">Paslaugų teikėjams</a></li>
-        <li class="text-primary-light">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-            </svg>
-        </li>
-        <li><a class="text-sm text-primary-light {{ request()->is('kontaktai') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="#">Kontaktai</a></li>
-        <li class="text-primary-light">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-            </svg>
-        </li>
-        <li><a class="text-sm text-primary-light {{ request()->is('duk') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="#">DUK</a></li>
-        <li class="text-primary-light">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-            </svg>
-        </li>
-        <li><a class="text-sm text-primary-light {{ request()->is('apiemus') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="#">Apie Mus</a></li>
+        <li><a class="text-md text-primary-light {{ request()->is('/') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="/">Pagrindinis</a></li>
+        <li><a class="text-md text-primary-light {{ request()->is('partners') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="/partners">Paslaugų teikėjams</a></li>
+        <li><a class="text-md text-primary-light {{ request()->is('kontaktai') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="#">Kontaktai</a></li>
+        <li><a class="text-md text-primary-light {{ request()->is('duk') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="#">DUK</a></li>
+        <li><a class="text-md text-primary-light {{ request()->is('apiemus') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="#">Apie Mus</a></li>
     </ul>
 
     @guest
@@ -93,27 +73,46 @@
         <div>
             <ul>
                 <li class="mb-1">
-                    <a class="block p-4 rounded font-bold {{ request()->is('/') ? 'text-primary-light text-xl' : 'text-gray-500 text-lg' }}" href="/">Pagrindinis</a>
+                    <a class="block p-4 rounded font-bold {{ request()->is('/') ? 'text-primary text-xl' : 'text-gray-700 text-lg hover:bg-gray-50' }}" href="/">Pagrindinis</a>
                 </li>
                 <li class="mb-1">
-                    <a class="block p-4 rounded font-bold {{ request()->is('partners') ? 'text-primary-light text-xl' : 'text-gray-500 text-lg' }}" href="/partners">Paslaugų Teikėjams</a>
+                    <a class="block p-4 rounded font-bold {{ request()->is('partners') ? 'text-primary text-xl' : 'text-gray-700 text-lg hover:bg-gray-50' }}" href="/partners">Paslaugų Teikėjams</a>
                 </li>
                 <li class="mb-1">
-                    <a class="block p-4 rounded font-bold {{ request()->is('kontaktai') ? 'text-primary-light text-xl' : 'text-gray-500 text-lg' }}" href="/kontaktai">Kontaktai</a>
+                    <a class="block p-4 rounded font-bold {{ request()->is('kontaktai') ? 'text-primary text-xl' : 'text-gray-700 text-lg hover:bg-gray-50' }}" href="/kontaktai">Kontaktai</a>
                 </li>
                 <li class="mb-1">
-                    <a class="block p-4 rounded font-bold {{ request()->is('duk') ? 'text-primary-light text-xl' : 'text-gray-500 text-lg' }}" href="/duk">DUK</a>
+                    <a class="block p-4 rounded font-bold {{ request()->is('duk') ? 'text-primary text-xl' : 'text-gray-700 text-lg hover:bg-gray-50' }}" href="/duk">DUK</a>
                 </li>
                 <li class="mb-1">
-                    <a class="block p-4 rounded font-bold {{ request()->is('apiemus') ? 'text-primary-light text-xl' : 'text-gray-500 text-lg' }}" href="/apiemus">Apie Mus</a>
+                    <a class="block p-4 rounded font-bold {{ request()->is('apiemus') ? 'text-primary text-xl' : 'text-gray-700 text-lg hover:bg-gray-50' }}" href="/apiemus">Apie Mus</a>
                 </li>
             </ul>
         </div>
         <div class="mt-auto">
+
+            @guest
             <div class="pt-6">
                 <a class="block px-4 py-2 mb-3 leading-loose text-lg text-center font-semibold bg-gray-200 hover:bg-gray-100 rounded-xl text-primary-dark" href="/login">Prisijungti</a>
                 <a class="block px-4 py-2 mb-2 leading-loose text-lg text-center text-white font-semibold bg-primary-light hover:bg-primary-verylight rounded-xl" href="/register/seeker">Registruotis</a>
             </div>
+            @endguest
+
+            @auth
+                    <button type="submit" class="w-full text-gray-900 text-lg px-4 py-3 hover:bg-gray-50 font-bold">
+                        Profilis
+                    </button>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="w-full text-red-950 text-lg px-4 py-3 hover:bg-gray-50 font-bold">
+                            Atsijungti
+                        </button>
+                    </form>
+                    <div class="px-4 py-2 border-b border-gray-100">
+                        <div class="text-sm font-medium text-primary-dark">Logged in as</div>
+                        <div class="text-md font-semibold text-gray-700 truncate">{{ auth()->user()->role }}</div>
+                    </div>
+                @endauth
             <p class="my-4 text-xs text-center text-gray-400">
                 <span>WorkLink 2025</span>
             </p>
