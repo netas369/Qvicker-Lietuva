@@ -3,7 +3,9 @@
 namespace App\Livewire;
 
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class MultiStepForm extends Component
@@ -133,10 +135,33 @@ class MultiStepForm extends Component
 
     public function register()
     {
-        $this->validate();
+        // Create new provider
+        $user = User::create([
+           'name' => $this->vardas,
+           'lastname' => $this->pavarde,
+           'birthday' => $this->gimimo_data,
+           'email' => $this->email,
+           'city' => $this->miestas,
+           'address' => $this->adresas,
+           'password' => bcrypt($this->slaptazodis),
+            'subcategories' => json_encode($this->selectedSubcategories), // Save as JSON,
+            'role' => 'provider'
+        ]);
 
-        return redirect()->route('dashboard');
+// After creating the new user
+        $credentials = [
+            'email' => $user->email,
+            'password' => $this->slaptazodis, // Assuming you have a $password variable with the plain-text password
+        ];
 
+        if (Auth::attempt($credentials)) {
+            // User logged in successfully
+            return redirect()->route('dashboard');
+        } else {
+            // Failed to log in the user
+            // You can handle this case accordingly
+            return redirect()->back()->withErrors(['message' => 'Failed to log in the user.']);
+        }
     }
 
 }
