@@ -4,7 +4,9 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\SearchHandymanController;
+use App\Http\Controllers\SeekerController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
@@ -41,11 +43,19 @@ Route::post('/register/provider/step3', [RegisteredUserController::class, 'creat
 Route::get('/register/provider/step3', [RegisteredUserController::class, 'processStep3'])->name('register.provider.processStep3');
 
 
-
-
-
 // Login routes
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
+// Routes for providers
+Route::middleware(['auth', 'provider'])->group(function () {
+    Route::get('/provider/dashboard', [ProviderController::class, 'dashboard'])->name('provider.dashboard');
+    // ... other provider routes
+});
+
+// Routes for seekers
+Route::middleware(['auth', 'seeker'])->group(function () {
+    Route::get('/seeker/dashboard', [SeekerController::class, 'dashboard'])->name('seeker.dashboard');
+    // ... other seeker routes
+});
