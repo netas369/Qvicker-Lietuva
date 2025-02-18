@@ -47,7 +47,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('landingpage', absolute: false));
     }
 
     public function createSeeker()
@@ -73,7 +73,7 @@ class RegisteredUserController extends Controller
 
         auth()->login($user);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('landingpage');
     }
 
     // Show Service Provider Registration Form
@@ -98,7 +98,7 @@ class RegisteredUserController extends Controller
 
         auth()->login($user);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('landingpage');
     }
 
     public function createProviderStep1()

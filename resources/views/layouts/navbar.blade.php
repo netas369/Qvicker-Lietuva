@@ -38,8 +38,44 @@
         </li>
         <li><a class="text-sm text-primary-light {{ request()->is('apiemus') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="#">Apie Mus</a></li>
     </ul>
+
+    @guest
     <a class="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-primary font-bold  rounded-xl transition duration-200" href="/login">Prisijungti</a>
     <a class="hidden lg:inline-block py-2 px-6 bg-primary-light hover:bg-primary-verylight text-sm text-white font-bold rounded-xl transition duration-200" href="/register/seeker">Registruotis</a>
+    @endguest
+
+    @auth
+        <div class="hidden lg:inline-block relative group lg:ml-auto lg:mr-3">
+            <!-- User avatar button -->
+            <button class="flex items-center focus:outline-none">
+                <div class="w-10 h-10 rounded-full bg-primary-light flex items-center justify-center hover:bg-primary-verylight transition duration-200">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </div>
+            </button>
+
+            <!-- Dropdown menu -->
+            <div class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-2 invisible opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100 transition-all duration-200">
+                <!-- Role display -->
+                <div class="px-4 py-2 border-b border-gray-100">
+                    <div class="text-xs font-medium text-primary-dark">Logged in as</div>
+                    <div class="text-sm font-semibold text-gray-700 truncate">{{ auth()->user()->role }}</div>
+                </div>
+
+                <a href="/profile" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
+                    Profilis
+                </a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
+                        Atsijungti
+                    </button>
+                </form>
+            </div>
+        </div>
+    @endauth
+
 </nav>
 <div class="navbar-menu fixed inset-0 z-50 hidden transform -translate-x-full transition-transform duration-300 ease-in-out bg-white">
     <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-50"></div>
