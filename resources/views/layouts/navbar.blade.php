@@ -20,8 +20,21 @@
     </ul>
 
     @guest
-    <a class="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-primary font-bold  rounded-xl transition duration-200" href="/login">Prisijungti</a>
-    <a class="hidden lg:inline-block py-2 px-6 bg-primary-light hover:bg-primary-verylight text-sm text-white font-bold rounded-xl transition duration-200" href="/register/seeker">Registruotis</a>
+        <div class="hidden lg:flex lg:items-center lg:gap-4">
+            <a href="/login" class="flex items-center px-6 py-2 space-x-2 font-semibold transition-all duration-150 ease-out border-2 rounded-lg text-primary border-primary/20 hover:border-primary/40 hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-primary/10">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                </svg>
+                <span>Prisijungti</span>
+            </a>
+
+            <a href="/register/seeker" class="flex items-center px-6 py-2 space-x-2 font-semibold text-white transition-all duration-150 ease-out rounded-lg bg-gradient-to-br from-primary to-primary-dark hover:to-primary/90 hover:shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-primary/30">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                </svg>
+                <span>Registruotis</span>
+            </a>
+        </div>
     @endguest
 
     @auth
