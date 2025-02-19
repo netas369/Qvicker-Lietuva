@@ -24,6 +24,11 @@ class RegisteredUserController extends Controller
         return view('auth.register');
     }
 
+    public function providerOrSeeker()
+    {
+        return view('auth.providerorseeker');
+    }
+
     /**
      * Handle an incoming registration request.
      *
