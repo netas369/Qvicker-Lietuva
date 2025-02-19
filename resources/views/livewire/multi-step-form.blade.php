@@ -1,4 +1,5 @@
 <div class="max-w-4xl mx-auto px-4 py-8">
+    @if($userType === 'provider')
     <!-- Progress Bar -->
     <div class="flex justify-between mb-8 relative">
         <!-- Progress Line -->
@@ -29,9 +30,86 @@
             </div>
         @endforeach
     </div>
+    @endif
 
     <!-- Form Steps -->
     <form wire:submit.prevent="register">
+
+        @if($userType === 'seeker')
+            <div class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="vardas" class="block text-sm font-medium text-gray-700">Vardas</label>
+                        <input type="text" wire:model="vardas" id="vardas"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light">
+                        @error('vardas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+                    <div>
+                        <label for="pavarde" class="block text-sm font-medium text-gray-700">Pavardė</label>
+                        <input type="text" wire:model="pavarde" id="pavarde"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light">
+                        @error('pavarde') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div>
+                        <label for="gimimo_data" class="block text-sm font-medium text-gray-700">Gimimo data</label>
+                        <input type="date" wire:model="gimimo_data" id="gimimo_data"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light">
+                        @error('gimimo_data') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">El. paštas</label>
+                        <input type="email" wire:model="email" id="email"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light">
+                        @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div>
+                        <label for="miestas" class="block text-sm font-medium text-gray-700">Miestas</label>
+                        <input type="text" wire:model="miestas" id="miestas"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light">
+                        @error('miestas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div>
+                        <label for="adresas" class="block text-sm font-medium text-gray-700">Adresas</label>
+                        <input type="text" wire:model="adresas" id="adresas"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light">
+                        @error('adresas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="slaptazodis" class="block text-sm font-medium text-gray-700">Slaptažodis</label>
+                        <input type="password" wire:model="slaptazodis" id="slaptazodis"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light">
+                        @error('slaptazodis') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+                    <div>
+                        <label for="slaptazodis_confirmation" class="block text-sm font-medium text-gray-700">Patvirtinti slaptažodį</label>
+                        <input type="password" wire:model="slaptazodis_confirmation" id="slaptazodis_confirmation"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light">
+                    </div>
+                </div>
+                <button type="submit"
+                        class="px-4 py-2 bg-primary-light text-white rounded-md hover:bg-primary"
+                        wire:loading.attr="disabled"
+                >
+                    <span >Registruotis</span>
+                    <span wire:loading>
+                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                         </svg>
+                        </span>
+                </button>
+            </div>
+        @endif
+
+        @if($userType === 'provider')
         <!-- Step 1 -->
         @if($currentStep === 1)
             <div class="space-y-6">
@@ -317,8 +395,9 @@
             @else
                     <button type="submit"
                             class="px-4 py-2 bg-primary-light text-white rounded-md hover:bg-primary"
-                            wire:loading.attr="disabled">
-                        <span wire:loading.remove>Registruotis</span>
+                            wire:loading.attr="disabled"
+                        >
+                        <span >Registruotis</span>
                         <span wire:loading>
                         <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -328,5 +407,6 @@
                     </button>
             @endif
         </div>
+        @endif
     </form>
 </div>

@@ -13,7 +13,7 @@
 </head>
 @include('layouts.navbar')
 
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-50 text-gray-800">
 
 <div class="container mx-auto px-4">
     @yield('content')
