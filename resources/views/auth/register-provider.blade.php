@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <livewire:multi-step-form />
+    <livewire:multi-step-form user-type="provider" />
 
 
 {{--    <div class="flex items-center justify-center">--}}

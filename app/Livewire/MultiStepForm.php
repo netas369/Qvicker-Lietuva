@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Http\Controllers\ProviderController;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Carbon;
@@ -12,6 +13,8 @@ class MultiStepForm extends Component
 {
     public $currentStep = 1;
     public $totalSteps = 3;
+
+    public $userType;
 
     //step 1 fields
     public $vardas;
@@ -30,8 +33,10 @@ class MultiStepForm extends Component
         'terms' => 'required|accepted',
     ];
 
-    public function mount()
+    public function mount($userType)
     {
+        $this->userType = $userType;
+        $this->totalSteps = $userType === 'provider' ? 3 : 1; // Set total steps based on user type
         $this->loadCategories();
     }
 
@@ -58,6 +63,11 @@ class MultiStepForm extends Component
         $this->currentStep++;
     }
 
+//    public function oneStepValidation()
+//    {
+//        $this->validate($this->getValidationRules());
+//    }
+
     public function previousStep()
     {
         $this->currentStep--;
@@ -65,6 +75,21 @@ class MultiStepForm extends Component
 
     private function getValidationRules()
     {
+        if($this->userType === 'seeker') {
+            $minBirthDate = Carbon::now()->subYears(14)->format('Y-m-d');
+
+            return [
+                'vardas' => 'required|string|max:255',
+                'pavarde' => 'required|string|max:255',
+                'gimimo_data' => ['required', 'date', 'before_or_equal:' . $minBirthDate],
+                'email' => 'required|email|unique:users,email',
+                'miestas' => 'required|string|max:255',
+                'adresas' => 'required|string|max:255',
+                'slaptazodis' => 'required|string|min:8|confirmed',
+                'slaptazodis_confirmation' => 'required|string|min:8',
+            ];
+        }
+
         if ($this->currentStep === 1) {
             $minBirthDate = Carbon::now()->subYears(14)->format('Y-m-d');
 
@@ -135,6 +160,17 @@ class MultiStepForm extends Component
 
     public function register()
     {
+        if($this->userType === 'provider') {
+            $userRole = 'provider';
+            } else if($this->userType === 'seeker') {
+            $userRole = 'seeker';
+            }
+
+        if($this->userType === 'seeker') {
+            $this->validate($this->getValidationRules());
+
+        }
+
         // Create new provider
         $user = User::create([
            'name' => $this->vardas,
@@ -145,7 +181,7 @@ class MultiStepForm extends Component
            'address' => $this->adresas,
            'password' => bcrypt($this->slaptazodis),
             'subcategories' => json_encode($this->selectedSubcategories), // Save as JSON,
-            'role' => 'provider'
+            'role' => $userRole
         ]);
 
 // After creating the new user
