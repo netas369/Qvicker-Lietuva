@@ -13,4 +13,9 @@ class Category extends Model
 
     protected $fillable = ['category', 'subcategory'];
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_subcategory', 'subcategory_id', 'user_id');
+    }
+
 }

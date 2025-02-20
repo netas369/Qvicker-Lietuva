@@ -47,7 +47,10 @@ class MultiStepForm extends Component
             ->map(function ($group) {
                 return [
                     'name' => $group->first()->category,
-                    'subcategories' => $group->map(fn($item) => ['name' => $item->subcategory])->toArray()
+                    'subcategories' => $group->map(fn($item) => [
+                        'id' => $item->id, // Include the ID of the subcategory
+                        'name' => $item->subcategory
+                    ])->toArray()
                 ];
             })->values();
     }
@@ -160,34 +163,38 @@ class MultiStepForm extends Component
 
     public function register()
     {
-        if($this->userType === 'provider') {
+        // Determine user role based on user type
+        if ($this->userType === 'provider') {
             $userRole = 'provider';
-            } else if($this->userType === 'seeker') {
+        } else if ($this->userType === 'seeker') {
             $userRole = 'seeker';
-            }
-
-        if($this->userType === 'seeker') {
-            $this->validate($this->getValidationRules());
-
         }
 
-        // Create new provider
+        // Validate seeker-specific fields
+        if ($this->userType === 'seeker') {
+            $this->validate($this->getValidationRules());
+        }
+
+        // Create new user
         $user = User::create([
-           'name' => $this->vardas,
-           'lastname' => $this->pavarde,
-           'birthday' => $this->gimimo_data,
-           'email' => $this->email,
-           'city' => $this->miestas,
-           'address' => $this->adresas,
-           'password' => bcrypt($this->slaptazodis),
-            'subcategories' => json_encode($this->selectedSubcategories), // Save as JSON,
-            'role' => $userRole
+            'name' => $this->vardas,
+            'lastname' => $this->pavarde,
+            'birthday' => $this->gimimo_data,
+            'email' => $this->email,
+            'city' => $this->miestas,
+            'address' => $this->adresas,
+            'password' => bcrypt($this->slaptazodis),
+            'role' => $userRole,
+//            'subcategories' => json_encode($this->selectedSubcategories)
         ]);
 
-// After creating the new user
+        $user->subcategories()->attach($this->selectedSubcategories);
+
+
+        // After creating the new user, attempt to log in
         $credentials = [
             'email' => $user->email,
-            'password' => $this->slaptazodis, // Assuming you have a $password variable with the plain-text password
+            'password' => $this->slaptazodis, // Assuming you have a $slaptazodis variable with the plain-text password
         ];
 
         if (Auth::attempt($credentials)) {
@@ -195,7 +202,6 @@ class MultiStepForm extends Component
             return redirect()->route('landingpage');
         } else {
             // Failed to log in the user
-            // You can handle this case accordingly
             return redirect()->back()->withErrors(['message' => 'Failed to log in the user.']);
         }
     }

@@ -67,8 +67,13 @@
 
                     <div>
                         <label for="miestas" class="block text-sm font-medium text-gray-700">Miestas</label>
-                        <input type="text" wire:model="miestas" id="miestas"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light">
+                        <select wire:model="miestas" id="miestas"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light">
+                            <option value="">Pasirinkite miestą</option>
+                            <option value="Vilnius">Vilnius</option>
+                            <option value="Kaunas">Kaunas</option>
+                            <option value="Klaipeda">Klaipėda</option>
+                        </select>
                         @error('miestas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
 
@@ -143,8 +148,13 @@
 
                     <div>
                         <label for="miestas" class="block text-sm font-medium text-gray-700">Miestas</label>
-                        <input type="text" wire:model="miestas" id="miestas"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light">
+                        <select wire:model="miestas" id="miestas"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light">
+                            <option value="">Pasirinkite miestą</option>
+                            <option value="Vilnius">Vilnius</option>
+                            <option value="Kaunas">Kaunas</option>
+                            <option value="Klaipeda">Klaipėda</option>
+                        </select>
                         @error('miestas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
 
@@ -301,7 +311,7 @@
                                 <label class="flex items-center p-3 space-x-3 border border-gray-200 rounded-lg hover:border-primary-light hover:bg-gray-50 cursor-pointer">
                                     <input type="checkbox"
                                            wire:model="selectedSubcategories"
-                                           value="{{ $subcategory['name'] }}"
+                                           value="{{ $subcategory['id'] }}"
                                            class="flex-shrink-0 rounded border-gray-300 text-primary-light focus:ring-primary-light">
                                     <span class="text-sm text-gray-700 break-words">{{ $subcategory['name'] }}</span>
                                 </label>

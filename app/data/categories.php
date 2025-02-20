@@ -1,8 +1,7 @@
 <?php
-
 return [
     [
-        'name' => 'Home Maintenance & Cleaning',
+        'name' => 'Namų priežiūra ir valymas',
         'subcategories' => [
             ['name' => 'Namų valymas'],
             ['name' => 'Generalinis valymas'],
@@ -14,7 +13,7 @@ return [
         ],
     ],
     [
-        'name' => 'Gardening & Outdoor Services',
+        'name' => 'Sodininkystė ir lauko paslaugos',
         'subcategories' => [
             ['name' => 'Vejos pjovimas'],
             ['name' => 'Sodininkystė ir apželdinimas'],
@@ -23,7 +22,7 @@ return [
         ],
     ],
     [
-        'name' => 'Handyman & Repairs',
+        'name' => 'Meistriški darbai ir remontas',
         'subcategories' => [
             ['name' => 'Dažymo ir dekoravimo paslaugos'],
             ['name' => 'Santechnikos paslaugos'],
@@ -34,28 +33,28 @@ return [
         ],
     ],
     [
-        'name' => 'Moving & Packing Services',
+        'name' => 'Perkraustymas ir pakavimo paslaugos',
         'subcategories' => [
             ['name' => 'Perkraustymas ir pakavimas'],
             ['name' => 'Organizavimas perkraustymui'],
         ],
     ],
     [
-        'name' => 'Pet Care',
+        'name' => 'Gyvūnų priežiūra',
         'subcategories' => [
             ['name' => 'Šunų vedžiojimas'],
             ['name' => 'Gyvūnų priežiūra'],
         ],
     ],
     [
-        'name' => 'Delivery & Transportation',
+        'name' => 'Pristatymas ir transportavimas',
         'subcategories' => [
             ['name' => 'Pristatymo paslaugos'],
             ['name' => 'Vairavimo paslaugos'],
         ],
     ],
     [
-        'name' => 'Fitness & Wellness',
+        'name' => 'Fitness ir gerovė',
         'subcategories' => [
             ['name' => 'Asmeninis treneris'],
             ['name' => 'Joga'],
@@ -64,7 +63,7 @@ return [
         ],
     ],
     [
-        'name' => 'Event Support',
+        'name' => 'Renginių palaikymas',
         'subcategories' => [
             ['name' => 'Pagalba renginiuose'],
             ['name' => 'Aptarnavimas renginiuose'],
@@ -77,7 +76,7 @@ return [
         ],
     ],
     [
-        'name' => 'Food & Beverage',
+        'name' => 'Maistas ir gėrimai',
         'subcategories' => [
             ['name' => 'Asmeninis šefas'],
             ['name' => 'Barmenai'],
@@ -85,7 +84,7 @@ return [
         ],
     ],
     [
-        'name' => 'Creative & Media Services',
+        'name' => 'Kūrybinės ir medijų paslaugos',
         'subcategories' => [
             ['name' => 'Fotografija'],
             ['name' => 'Vaizdo įrašymas'],
@@ -94,14 +93,14 @@ return [
         ],
     ],
     [
-        'name' => 'Tourism & Guidance',
+        'name' => 'Turizmas ir gidavimo paslaugos',
         'subcategories' => [
             ['name' => 'Gido paslaugos'],
             ['name' => 'Vertėjas'],
         ],
     ],
     [
-        'name' => 'IT & Technical Support',
+        'name' => 'IT ir techninė pagalba',
         'subcategories' => [
             ['name' => 'IT pagalba (vietoje)'],
         ],

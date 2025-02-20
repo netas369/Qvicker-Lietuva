@@ -12,10 +12,10 @@
         </button>
     </div>
     <ul class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
-        <li><a class="text-md text-primary-light {{ request()->is('/') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="/">Pagrindinis</a></li>
-        <li><a class="text-md text-primary-light {{ request()->is('partners') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="/partners">Paslaugų teikėjams</a></li>
-        <li><a class="text-md text-primary-light {{ request()->is('kontaktai') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="#">Kontaktai</a></li>
-        <li><a class="text-md text-primary-light {{ request()->is('duk') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="#">DUK</a></li>
+        <li><a class="text-md text-primary {{ request()->is('/') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/">Pagrindinis</a></li>
+        <li><a class="text-md text-primary {{ request()->is('partners') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/partners">Paslaugų teikėjams</a></li>
+        <li><a class="text-md text-primary {{ request()->is('kontaktai') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="#">Kontaktai</a></li>
+        <li><a class="text-md text-primary {{ request()->is('duk') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="#">DUK</a></li>
 {{--        <li><a class="text-md text-primary-light {{ request()->is('apiemus') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="#">Apie Mus</a></li>--}}
     </ul>
 
@@ -123,9 +123,9 @@
             @endguest
 
             @auth
-                    <button type="submit" class="w-full text-gray-900 text-lg px-4 py-3 hover:bg-gray-50 font-bold">
+                    <a href="{{ route('myprofile') }}" class="flex justify-center items-center text-gray-900 text-lg px-4 py-3 hover:bg-gray-50 font-bold w-full">
                         Profilis
-                    </button>
+                    </a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="w-full text-red-950 text-lg px-4 py-3 hover:bg-gray-50 font-bold">

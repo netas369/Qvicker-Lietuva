@@ -18,10 +18,9 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// Shared route for both roles
+Route::middleware(['auth', 'role:provider,seeker'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'myprofile'])->name('myprofile');
 });
 
 Route::get('register', [RegisteredUserController::class, 'providerOrSeeker']);
@@ -52,11 +51,11 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name
 // Routes for providers
 Route::middleware(['auth', 'provider'])->group(function () {
     Route::get('/provider/dashboard', [ProviderController::class, 'dashboard'])->name('provider.dashboard');
-    // ... other provider routes
 });
 
 // Routes for seekers
 Route::middleware(['auth', 'seeker'])->group(function () {
     Route::get('/seeker/dashboard', [SeekerController::class, 'dashboard'])->name('seeker.dashboard');
+
     // ... other seeker routes
 });

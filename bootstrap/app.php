@@ -17,6 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'provider' => \App\Http\Middleware\ProviderMiddleware::class,
             'seeker' => \App\Http\Middleware\SeekerMiddleware::class,
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
