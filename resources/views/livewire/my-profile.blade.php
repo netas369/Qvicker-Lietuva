@@ -16,7 +16,7 @@
                         if (msg) {
                             msg.remove(); // Hides after 3 seconds
                         }
-                    }, 3000);
+                    }, 5000);
                 </script>
             @endif
 
@@ -81,7 +81,7 @@
                     <!-- Address -->
                     <div class="md:col-span-2">
                         <label for="address" class="block text-sm font-medium text-gray-700">Adresas</label>
-                        <input type="text" id="address" name="address" wire:model="address""
+                        <input type="text" id="address" name="address" wire:model="address"
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('address') border-red-500 @enderror">
                         @error('address')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -91,8 +91,13 @@
                     <!-- City -->
                     <div class="md:col-span-2">
                         <label for="city" class="block text-sm font-medium text-gray-700">Miestas</label>
-                        <input type="text" id="city" name="city" wire:model="city"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('city') border-red-500 @enderror">
+                        <select id="city" name="city" wire:model="city"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('city') border-red-500 @enderror">
+                            <option value="" disabled>Pasirinkite miestą</option>
+                            <option value="Kaunas">Kaunas</option>
+                            <option value="Vilnius">Vilnius</option>
+                            <option value="Klaipeda">Klaipėda</option>
+                        </select>
                         @error('city')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -118,8 +123,8 @@
                 <!-- Submit Button -->
                 <div class="flex justify-end mt-8">
                     <button type="submit"
-                            class="inline-flex items-center px-4 py-2 bg-primary border border-transparent rounded-md font-semibold text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
-                        Update Profile
+                            class="inline-flex items-center px-4 py-2 bg-primary-light border border-transparent rounded-md font-medium text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                        Atnaujinti Profili
                     </button>
                 </div>
             </form>
