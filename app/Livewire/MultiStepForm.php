@@ -188,7 +188,7 @@ class MultiStepForm extends Component
 //            'subcategories' => json_encode($this->selectedSubcategories)
         ]);
 
-        $user->subcategories()->attach($this->selectedSubcategories);
+        $user->categories()->attach($this->selectedSubcategories);
 
 
         // After creating the new user, attempt to log in
