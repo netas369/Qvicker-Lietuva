@@ -44,4 +44,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function subcategories()
+    {
+        return $this->belongsToMany(Category::class, 'user_subcategory', 'user_id', 'subcategory_id');
+    }
 }

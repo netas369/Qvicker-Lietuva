@@ -311,7 +311,7 @@
                                 <label class="flex items-center p-3 space-x-3 border border-gray-200 rounded-lg hover:border-primary-light hover:bg-gray-50 cursor-pointer">
                                     <input type="checkbox"
                                            wire:model="selectedSubcategories"
-                                           value="{{ $subcategory['name'] }}"
+                                           value="{{ $subcategory['id'] }}"
                                            class="flex-shrink-0 rounded border-gray-300 text-primary-light focus:ring-primary-light">
                                     <span class="text-sm text-gray-700 break-words">{{ $subcategory['name'] }}</span>
                                 </label>
