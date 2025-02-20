@@ -123,9 +123,9 @@
             @endguest
 
             @auth
-                    <button type="submit" class="w-full text-gray-900 text-lg px-4 py-3 hover:bg-gray-50 font-bold">
+                    <a href="{{ route('myprofile') }}" class="flex justify-center items-center text-gray-900 text-lg px-4 py-3 hover:bg-gray-50 font-bold w-full">
                         Profilis
-                    </button>
+                    </a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="w-full text-red-950 text-lg px-4 py-3 hover:bg-gray-50 font-bold">

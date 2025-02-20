@@ -1,12 +1,11 @@
 <div>
-
     <div class="container mx-auto px-4 py-8">
         <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
 
             @if (session()->has('message'))
                 <div
                     id="session-message"
-                    class="bg-gray-400 text-primary-light p-3 rounded shadow mb-4 font-medium"
+                    class=" text-primary-light p-3 rounded shadow mb-4 font-medium"
                 >
                     {{ session('message') }}
                 </div>
@@ -19,7 +18,6 @@
                     }, 5000);
                 </script>
             @endif
-
 
             <h1 class="text-2xl font-bold mb-6 text-primary">Mano Profilis</h1>
 
@@ -41,26 +39,42 @@
                     <!-- Last Name -->
                     <div>
                         <label for="lastname" class="block text-sm font-medium text-gray-700">Pavardė</label>
-                        <input readonly type="text" id="lastname" name="lastname" wire:model="lastname"
-                               class="bg-gray-100 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('lastname') border-red-500 @enderror">
+                        <input type="text" id="lastname" name="lastname" wire:model="lastname"
+                               class="bg-gray-100 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('lastname') border-red-500 @enderror"
+                               readonly>
                         @error('lastname')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Email (disabled) -->
-                    <div class="md:col-span-2">
+                    <div class="">
                         <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" id="email" name="email" wire:model="email" readonly
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-100 cursor-not-allowed">
+                        <input type="email" id="email" name="email" wire:model="email"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-100 cursor-not-allowed"
+                               readonly>
                     </div>
 
                     <!-- Birthday -->
                     <div>
                         <label for="birthday" class="block text-sm font-medium text-gray-700">Gimimo Diena</label>
-                        <input readonly type="date" id="birthday" name="birthday" wire:model="birthday"
-                               class="mt-1 block w-full rounded-md bg-gray-100 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('birthday') border-red-500 @enderror">
+                        <input type="date" id="birthday" name="birthday" wire:model="birthday"
+                               class="mt-1 block w-full rounded-md bg-gray-100 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('birthday') border-red-500 @enderror"
+                               readonly>
                         @error('birthday')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Lytis -->
+                    <div>
+                        <label for="role" class="block text-sm font-medium text-gray-700">Lytis</label>
+                        <select id="role" name="lytis" disabled
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('role') border-red-500 @enderror">
+                            <option value="vyras" >Vyras</option>
+                            <option value="moteris" >Moteris</option>
+                        </select>
+                        @error('role')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
@@ -79,7 +93,7 @@
                     </div>
 
                     <!-- Address -->
-                    <div class="md:col-span-2">
+                    <div class="">
                         <label for="address" class="block text-sm font-medium text-gray-700">Adresas</label>
                         <input type="text" id="address" name="address" wire:model="address"
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('address') border-red-500 @enderror">
@@ -89,7 +103,7 @@
                     </div>
 
                     <!-- City -->
-                    <div class="md:col-span-2">
+                    <div class="">
                         <label for="city" class="block text-sm font-medium text-gray-700">Miestas</label>
                         <select id="city" name="city" wire:model="city"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('city') border-red-500 @enderror">
