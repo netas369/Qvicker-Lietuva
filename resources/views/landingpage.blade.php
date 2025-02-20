@@ -26,35 +26,15 @@
                 <h1 class="text-3xl lg:text-4xl font-bold text-primary-light font-sans leading-7">Visos Kategorijos</h1>
             </div>
         </div>
-        <style>
-            .scroll-container {
-                overflow-x: auto;
-                scroll-behavior: smooth;
-            }
 
-            .scroll-container::-webkit-scrollbar {
-                display: none;
-            }
-
-            @keyframes marquee-bounce {
-                0% { transform: translateX(0); }
-                100% { transform: translateX(calc(100% + -85vw)); }
-            }
-
-            .animate-marquee-bounce {
-                animation: marquee-bounce 10s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
-            }
-
-            /* Add smooth transition for manual scroll */
-            .smooth-reset {
-                transition: transform 0.5s ease-in-out;
-            }
-        </style>
-        <section class="relative mt-8 border-b-2 border-primary-light border-opacity-50">
-            <div class="scroll-container" id="scrollContainer">
-                <div class="inline-block whitespace-nowrap w-max">
-                    <ul class="inline-flex animate-marquee-bounce" id="scrollContent">
-
+        <section class="flex snap-x snap-mandatory flex-nowrap overflow-x-auto overflow-y-hidden lg:items-center lg:justify-center mt-8 border-b-2 border-primary-light border-opacity-50">
+            <ul
+                class="flex flex-nowrap -mb-px text-sm font-medium text-center"
+                id="default-styled-tab"
+                data-tabs-toggle="#default-styled-tab-content"
+                data-tabs-active-classes="text-primary-light hover:text-primary-light border-b-2 border-primary"
+                data-tabs-inactive-classes="text-gray-500 hover:text-gray-600 hover:border-gray-300"
+                role="tablist">
                 <li>
                     <div class="w-[100px] flex-none snap-always snap-center">
                         <button class="inline-block p-4 rounded-t-lg border-t-2 border-b-2" id="profile-styled-tab" data-tabs-target="#styled-valymas" type="button" role="tab" aria-controls="valymas" aria-selected="false">
@@ -137,52 +117,9 @@
                     </div>
                 </li>
             </ul>
-            </div>
-            </div>
         </section>
 
-        <script>
-            let isScrolling = false;
-            let scrollTimeout;
-            const container = document.getElementById('scrollContainer');
-            const content = document.getElementById('scrollContent');
 
-            // Enable manual scrolling
-            container.addEventListener('scroll', handleScroll);
-            container.addEventListener('touchstart', () => isScrolling = true);
-            container.addEventListener('touchend', () => isScrolling = false);
-
-            // Automatic scroll animation
-            function autoScroll() {
-                if (!isScrolling) {
-                    const currentScroll = container.scrollLeft;
-                    const maxScroll = content.scrollWidth / 2;
-
-                    container.scrollTo({
-                        left: currentScroll + 1,
-                        behavior: 'auto'
-                    });
-
-                    // Reset position when reaching end
-                    if (currentScroll >= maxScroll) {
-                        content.classList.add('smooth-reset');
-                        container.scrollLeft = 0;
-                        setTimeout(() => content.classList.remove('smooth-reset'), 500);
-                    }
-                }
-                requestAnimationFrame(autoScroll);
-            }
-
-            // Handle manual scroll interactions
-            function handleScroll() {
-                isScrolling = true;
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => isScrolling = false, 2000);
-            }
-
-            // Start animation
-            autoScroll();
-        </script>
             <section class="antialiased md:py-12 p-12">
                 <!-- Valymas -->
                 <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 " id="styled-valymas" role="tabpanel" aria-labelledby="valymas-tab">
