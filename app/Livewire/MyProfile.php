@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\User;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
 
@@ -14,7 +15,7 @@ class MyProfile extends Component
     public $birthday;
     public $city;
     public $address;
-    public $subcategories = [];
+    public $userCategories = [];
     public $slaptazodis;
     public $slaptazodis_confirmation;
 
@@ -32,7 +33,12 @@ class MyProfile extends Component
         $this->birthday = $this->user->birthday;
         $this->city = $this->user->city;
         $this->address = $this->user->address;
-        $this->subcategories = json_decode($this->user->subcategories, true) ?? [];
+
+        // Retrieve the associated categories for the user
+        $this->userCategories = $this->user->categories;
+
+        // You can optionally dump the data for debugging
+        // dd($this->user, $this->userCategories);
     }
 
     public function getValidationRules()

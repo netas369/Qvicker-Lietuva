@@ -118,21 +118,21 @@
                     </div>
 
                     @if($this->user->role === 'provider')
-                    <!-- Subcategories -->
-                    <div class="md:col-span-2">
-                        <label for="subcategories" class="block text-sm font-medium text-gray-700">Darbo Kategorijos</label>
-                        <select id="subcategories" name="subcategories[]" multiple
-                                class="mt-1 block w-full rounded-md  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('subcategories') border-red-500 @enderror">
-                            @foreach (json_decode($user->subcategories) as $subcategory) <!-- Decode user's subcategories -->
-                            <option value="{{ $subcategory }}" selected>
-                                {{ $subcategory }}
-                            </option>
-                            @endforeach
-                        </select>
-                        @error('subcategories')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                        <!-- Subcategories -->
+                        <div class="md:col-span-2">
+                            <label for="subcategories" class="block text-sm font-medium text-gray-700">Darbo Kategorijos</label>
+                            <select id="subcategories" name="subcategories[]" multiple
+                                    class="mt-1 block w-full rounded-md  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('subcategories') border-red-500 @enderror">
+                                @foreach($this->user->categories as $category)
+                                    <optgroup class="font-medium"label="{{ $category->category }}">
+                                        <option value="{{ $category->id }}" selected>{{ $category->subcategory }}</option>
+                                    </optgroup>
+                                @endforeach
+                            </select>
+                            @error('subcategories')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
                     @endif
                 </div>
 

@@ -45,7 +45,7 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function subcategories()
+    public function categories()
     {
         return $this->belongsToMany(Category::class, 'user_subcategory', 'user_id', 'subcategory_id');
     }
