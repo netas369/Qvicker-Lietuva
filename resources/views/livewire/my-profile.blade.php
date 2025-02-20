@@ -117,6 +117,7 @@
                         @enderror
                     </div>
 
+                    @if($this->user->role === 'provider')
                     <!-- Subcategories -->
                     <div class="md:col-span-2">
                         <label for="subcategories" class="block text-sm font-medium text-gray-700">Darbo Kategorijos</label>
@@ -132,6 +133,7 @@
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+                    @endif
                 </div>
 
                 <!-- Submit Button -->
