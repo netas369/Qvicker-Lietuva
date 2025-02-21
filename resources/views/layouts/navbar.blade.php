@@ -1,6 +1,6 @@
 <nav style="position: sticky; top: 0; z-index: 50; padding: 1rem; display: flex; justify-content: space-between; align-items: center; background-color: white; border-bottom: 1px solid #e5e7eb; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); transition: opacity 0.3s ease;">
 <a class="text-3xl font-bold leading-none" href="/">
-        <p class="text-primary-light font-bold sm:text-3xl text-2xl">WORK<span class="text-primary">LINK</span></p>
+        <p class="text-primary-light font-bold sm:text-3xl text-2xl">WORK<span class="text-primary">LINK</span><span><small class="text-gray-600 text-xs ml-1">beta</small></span></p>
 {{--        <img src="{{ asset('images/worklinklogo.png') }}" alt="logo" class="h-10">--}}
     </a>
     <div class="lg:hidden">
@@ -41,10 +41,15 @@
         <div class="hidden lg:inline-block relative group lg:ml-auto lg:mr-3">
             <!-- User avatar button -->
             <button class="flex items-center focus:outline-none">
-                <div class="w-10 h-10 rounded-full bg-primary-light flex items-center justify-center hover:bg-primary-verylight transition duration-200">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                    </svg>
+                <div class="w-10 h-10 rounded-full border-2 border-primary bg-primary-light flex items-center justify-center hover:bg-primary-verylight transition duration-200">
+                    @if(auth()->user()->profile_photo_url)
+                        <img src="{{ auth()->user()->profile_photo_url }}" alt="User  Profile Photo" class="w-full h-full rounded-full object-cover">
+                    @else
+                        <!-- Fallback icon if no profile photo is set -->
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                    @endif
                 </div>
             </button>
 
@@ -75,7 +80,7 @@
     <nav class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
         <div class="flex items-center mb-8">
             <a class="mr-auto text-3xl font-bold leading-none" href="#">
-                <p class="text-primary-light font-bold sm:text-3xl text-2xl">WORK<span class="text-primary">LINK</span></p>
+                <p class="text-primary-light font-bold sm:text-3xl text-2xl">WORK<span class="text-primary">LINK</span><span><small class="text-gray-600 text-xs ml-1">beta</small></span></p>
             </a>
             <button class="navbar-close">
                 <svg class="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

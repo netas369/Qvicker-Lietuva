@@ -19,7 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'lastname', 'birthday', 'email', 'city', 'address', 'password', 'subcategories', 'role'
+        'name', 'lastname', 'birthday', 'email', 'city', 'address', 'password', 'subcategories', 'role', 'aboutme', 'image'
     ];
 
     /**
@@ -31,6 +31,17 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'remember_token',
     ];
+
+    protected $appends = ['profile_photo_url'];
+
+    public function getProfilePhotoUrlAttribute()
+    {
+        if ($this->image) {
+            return asset('storage/' . $this->image);
+        }
+        return asset('images/default-avatar.png');
+    }
+
 
     /**
      * Get the attributes that should be cast.
