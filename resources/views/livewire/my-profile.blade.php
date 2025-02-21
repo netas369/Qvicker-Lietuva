@@ -23,6 +23,49 @@
 
             <form wire:submit.prevent="update" class="space-y-6">
 
+                <!-- Profile Picture Upload -->
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold mb-2">Profile Picture</h2>
+
+                    <!-- Current Profile Picture -->
+                    @if(auth()->user()->profile_photo_url)
+                        <img src="{{ auth()->user()->profile_photo_url }}"
+                             class="w-32 h-32 rounded-full mb-4 object-cover"
+                             alt="Current profile photo">
+                    @endif
+
+                    <!-- Upload Input -->
+                    <input type="file" wire:model="image" id="image" class="hidden">
+                    <label for="image" class="cursor-pointer inline-flex items-center px-4 py-2 bg-primary-light border border-transparent rounded-md font-medium text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                        {{ auth()->user()->image ? 'Change Photo' : 'Upload Photo' }}
+                    </label>
+
+                    <!-- Upload Progress -->
+                    @if($image)
+                        <div class="mt-2 text-sm">
+                            <span class="text-gray-600">Uploading:</span>
+                            {{ $image->getClientOriginalName() }}
+                            <div wire:loading wire:target="image" class="text-primary-light">
+                                Uploading...
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Error Message -->
+                    @error('image')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- About Me Section -->
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold mb-2">Apie Mane</h2>
+                    <textarea wire:model="aboutMe" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('aboutMe') border-red-500 @enderror" placeholder="Apibūdinkite savo darbo įgūdžius..."></textarea>
+                    @error('aboutMe')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <!-- Grid Container -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- First Name -->
