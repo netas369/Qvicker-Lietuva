@@ -37,7 +37,7 @@
 
                 </a>
             </div>
-            <span class="text-lg text-gray-500 text-center block">©<a href="">MyApp Lietuva</a> 2024, All rights reserved.</span>
+            <span class="text-lg text-gray-500 text-center block">©<a href="">Worklink Lietuva</a> 2025, In Development Phase</span>
         </div>
     </div>
 </footer>
