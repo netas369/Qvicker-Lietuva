@@ -25,6 +25,7 @@ class MyProfile extends Component
     public $aboutMe;
     public $image;
 
+
     public function render()
     {
         return view('livewire.my-profile');
@@ -44,8 +45,7 @@ class MyProfile extends Component
         // Retrieve the associated categories for the user
         $this->userCategories = $this->user->categories;
 
-        // You can optionally dump the data for debugging
-        // dd($this->user, $this->userCategories);
+
     }
 
     public function getValidationRules()

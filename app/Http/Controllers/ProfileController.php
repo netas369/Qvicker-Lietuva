@@ -15,6 +15,11 @@ class ProfileController extends Controller
     {
         return view('profile.myprofile', ['user' => auth()->user()]);
     }
+
+    public function calendar()
+    {
+        return view('profile.calendar', ['user' => auth()->user()]);
+    }
     /**
      * Display the user's profile form.
      */
