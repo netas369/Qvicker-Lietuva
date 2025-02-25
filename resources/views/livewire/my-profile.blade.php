@@ -32,7 +32,7 @@
                         <img src="{{ auth()->user()->profile_photo_url }}"
                              class="w-32 h-32 rounded-full mb-4 object-cover"
                              alt="Current profile photo">
-                        
+
                     @endif
 
                     <!-- Upload Input -->
