@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-
     <!-- Responsive Tabs Navigation -->
     <div class="bg-gray-50 border-b shadow-sm">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -38,16 +37,26 @@
     <!-- Calendar Section -->
     <div class="container mx-auto px-4 py-6">
         <div class="max-w-3xl mx-auto bg-white rounded-lg shadow p-4 md:p-6">
-            <form id="calendar-form" method="POST" action="">
+            <form id="calendar-form" method="POST" action="{{ route('provider.calendar.store') }}">
                 @csrf
+
+                <!-- Success/Error messages -->
+                @if(session('success'))
+                    <div class="mb-4 p-3 bg-green-100 text-green-800 rounded">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="mb-4 p-3 bg-red-100 text-red-800 rounded">
+                        {{ session('error') }}
+                    </div>
+                @endif
 
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">Pasirinkite datas</h3>
 
-                <!-- Single Calendar Container with Control Buttons -->
-                <div class="mb-6">
-                    <!-- Calendar Container -->
-                    <div id="calendar-container" class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-x-auto"></div>
-                </div>
+                <!-- Calendar Container - ONLY ONE -->
+                <div id="calendar-container" class="mb-6 bg-white border border-gray-200 rounded-lg shadow-sm overflow-x-auto"></div>
 
                 <!-- Action buttons -->
                 <div class="grid grid-cols-2 gap-2 mb-4">
@@ -92,46 +101,86 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- Hidden input for existing unavailable dates -->
+                <input type="hidden" id="existing_unavailable_dates" value="{{ $unavailableDates ?? '[]' }}">
             </form>
+
+            <!-- Calendar Legend -->
+            <div class="flex items-center justify-start space-x-4 mt-4 text-sm">
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-blue-600 rounded-full mr-2"></div>
+                    <span>Pasirinkta</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 rounded-full mr-2" style="background-color: #ffebee;"></div>
+                    <span>Nepasiekiama</span>
+                </div>
+            </div>
         </div>
     </div>
-
 @endsection
+
 @push('styles')
     <style>
-        /* Force single month on mobile */
+        /* Make Flatpickr responsive */
+        .flatpickr-calendar {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        .flatpickr-days {
+            width: 100% !important;
+        }
+
+        .dayContainer {
+            width: 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        .flatpickr-day {
+            max-width: 14.28% !important;
+            flex-basis: 14.28% !important;
+        }
+
+        /* Custom styling for unavailable dates */
+        .flatpickr-day.flatpickr-disabled,
+        .flatpickr-day.flatpickr-disabled:hover,
+        .flatpickr-day.prevMonthDay.flatpickr-disabled,
+        .flatpickr-day.nextMonthDay.flatpickr-disabled,
+        .flatpickr-day.notAllowed,
+        .flatpickr-day.notAllowed.prevMonthDay,
+        .flatpickr-day.notAllowed.nextMonthDay {
+            background-color: #FFA500 !important; /* Orange background */
+            color: white !important; /* White text for contrast */
+            text-decoration: line-through !important;
+            border-color: transparent !important;
+            cursor: not-allowed !important;
+            font-weight: bold !important;
+            opacity: 0.8 !important;
+        }
+
+        /* When hovering over a disabled date */
+        .flatpickr-day.flatpickr-disabled:hover {
+            background-color: #FF8C00 !important; /* Darker orange on hover */
+            color: white !important;
+        }
+
         @media screen and (max-width: 767px) {
-            /* Hide second month completely */
-            .flatpickr-calendar.multiMonth .flatpickr-days .dayContainer + .dayContainer {
-                display: none !important;
-            }
-
-            /* Make first month take full width */
-            .flatpickr-calendar.multiMonth .flatpickr-days .dayContainer:first-child {
-                width: 100% !important;
-                max-width: 100% !important;
-            }
-
-            /* Fix month header display */
-            .flatpickr-calendar.multiMonth .flatpickr-month:nth-child(2) {
-                display: none !important;
-            }
-
-            /* Fix container width */
             .flatpickr-calendar {
-                width: 100% !important;
-                max-width: 307px !important;
-                margin: 0 auto;
+                font-size: 14px !important;
             }
 
-            /* Fix days container width */
-            .flatpickr-days {
-                width: 307px !important;
+            /* Force single month mode on mobile regardless of the showMonths setting */
+            .flatpickr-months .flatpickr-month:not(:first-child) {
+                display: none !important;
             }
 
-            /* Reduce font size slightly */
-            .flatpickr-day {
-                font-size: 13px;
+            .flatpickr-current-month {
+                left: 12.5% !important;
+                right: 12.5% !important;
+                width: 75% !important;
             }
         }
     </style>

@@ -7,77 +7,155 @@ console.log('Calendar module loaded');
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM loaded, initializing calendar");
 
-    // Check if calendar container exists
-    const calendarContainer = document.getElementById('calendar-container');
+    // Robust function to find the calendar container
+    function findCalendarContainer() {
+        const containers = [
+            document.getElementById('calendar-container'),
+            document.querySelector('.calendar-container'),
+            document.querySelector('[data-calendar]')
+        ];
 
-    if (!calendarContainer) {
-        console.log("Calendar container not found, exiting initialization");
-        return;
+        for (let container of containers) {
+            if (container) {
+                console.log("Found calendar container:", container);
+                return container;
+            }
+        }
+
+        console.error("No calendar container found. Checked IDs and classes:");
+        console.error("- #calendar-container");
+        console.error("- .calendar-container");
+        console.error("- [data-calendar]");
+        return null;
     }
 
     // Store state
     let currentMode = 'select'; // 'select' or 'unavailable'
     let selectedDates = [];
     let unavailableDates = [];
+    let calendar = null;
+    let lastIsMobile = window.innerWidth < 768;
 
-    // Setup buttons
-    const selectDatesBtn = document.getElementById('select-dates-btn');
-    const markUnavailableBtn = document.getElementById('mark-unavailable-btn');
+    // Find calendar container
+    const calendarContainer = findCalendarContainer();
+    if (!calendarContainer) {
+        console.error("Cannot initialize calendar - no container found");
+        return;
+    }
 
-    // Detect screen size
-    const isMobile = window.innerWidth < 768;
+    // Load existing unavailable dates
+    const existingUnavailableDatesInput = document.getElementById('existing_unavailable_dates');
+    let existingUnavailableDates = [];
 
-    // Initialize calendar with responsive settings
-    const calendar = flatpickr(calendarContainer, {
-        inline: true,
-        mode: "range",
-        dateFormat: "Y-m-d",
-        minDate: "today",
-        locale: Lithuanian,
-        showMonths: isMobile ? 1 : 2, // Show fewer months on mobile
-        static: true,
-        onChange: function(dates, dateStr) {
-            if (currentMode === 'select') {
-                handleSelectDates(dates);
-            } else {
-                handleMarkUnavailable(dates);
-            }
-        },
-        onReady: function() {
-            // Add custom styling to the calendar for better visibility
-            const calendarElem = calendar.calendarContainer;
-            calendarElem.classList.add('border', 'rounded-lg', 'shadow-md');
+    if (existingUnavailableDatesInput && existingUnavailableDatesInput.value) {
+        try {
+            existingUnavailableDates = JSON.parse(existingUnavailableDatesInput.value);
+            console.log("Loaded existing unavailable dates:", existingUnavailableDates);
+        } catch (e) {
+            console.error("Error parsing unavailable dates:", e);
         }
+    }
+
+    // Initialize calendar function
+    function initCalendar() {
+        const isMobile = window.innerWidth < 768;
+        console.log(`Initializing calendar for ${isMobile ? 'mobile' : 'desktop'} view`);
+
+        // Safely destroy existing calendar if it exists
+        if (calendar && typeof calendar.destroy === 'function') {
+            try {
+                calendar.destroy();
+            } catch (error) {
+                console.error("Error destroying previous calendar:", error);
+            }
+        }
+
+        // Reset calendar variable
+        calendar = null;
+
+        try {
+            // Create new calendar with appropriate number of months
+            calendar = flatpickr(calendarContainer, {
+                inline: true,
+                mode: currentMode === 'select' ? "range" : "multiple",
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                locale: Lithuanian,
+                showMonths: isMobile ? 1 : 2,
+                static: true,
+                disable: existingUnavailableDates, // Disable already marked unavailable dates
+                onChange: function(dates, dateStr) {
+                    if (currentMode === 'select') {
+                        handleSelectDates(dates);
+                    } else {
+                        handleMarkUnavailable(dates);
+                    }
+                },
+                onReady: function(selectedDates, dateStr, instance) {
+                    console.log("Calendar initialized successfully");
+                    // Add custom styling to the calendar for better visibility
+                    const calendarElem = instance.calendarContainer;
+                    if (calendarElem) {
+                        calendarElem.classList.add('border', 'rounded-lg', 'shadow-md');
+                    } else {
+                        console.warn("Could not find calendar element to style");
+                    }
+                }
+            });
+
+            lastIsMobile = isMobile;
+        } catch (error) {
+            console.error("Error initializing calendar:", error);
+        }
+    }
+
+    // Initialize calendar on load
+    initCalendar();
+
+    // Add resize handler with debounce
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            const isMobile = window.innerWidth < 768;
+            if (isMobile !== lastIsMobile) {
+                initCalendar();
+            }
+        }, 250);
     });
 
     // Initialize button states
-    selectDatesBtn.classList.add('bg-blue-600', 'text-white');
-    markUnavailableBtn.classList.add('bg-white', 'text-gray-700');
+    if (selectDatesBtn && markUnavailableBtn) {
+        selectDatesBtn.classList.add('bg-blue-600', 'text-white');
+        markUnavailableBtn.classList.add('bg-white', 'text-gray-700');
 
-    // Mode switching
-    selectDatesBtn.addEventListener('click', function() {
-        currentMode = 'select';
-        updateButtonStates();
+        // Mode switching
+        selectDatesBtn.addEventListener('click', function() {
+            currentMode = 'select';
+            updateButtonStates();
 
-        // Clear existing selection
-        calendar.clear();
+            // Clear existing selection
+            if (calendar) calendar.clear();
 
-        // Update calendar configuration
-        calendar.set('mode', 'range');
-    });
+            // Re-initialize calendar with range mode
+            initCalendar();
+        });
 
-    markUnavailableBtn.addEventListener('click', function() {
-        currentMode = 'unavailable';
-        updateButtonStates();
+        markUnavailableBtn.addEventListener('click', function() {
+            currentMode = 'unavailable';
+            updateButtonStates();
 
-        // Clear existing selection
-        calendar.clear();
+            // Clear existing selection
+            if (calendar) calendar.clear();
 
-        // Update calendar configuration
-        calendar.set('mode', 'multiple');
-    });
+            // Re-initialize calendar with multiple mode
+            initCalendar();
+        });
+    }
 
     function updateButtonStates() {
+        if (!selectDatesBtn || !markUnavailableBtn) return;
+
         if (currentMode === 'select') {
             selectDatesBtn.classList.remove('bg-white', 'text-gray-700');
             selectDatesBtn.classList.add('bg-blue-600', 'text-white');
@@ -98,16 +176,21 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedDates = [...dates];
 
             // Update hidden inputs
-            document.getElementById('start_date').value = flatpickr.formatDate(dates[0], "Y-m-d");
-            document.getElementById('end_date').value = flatpickr.formatDate(dates[1], "Y-m-d");
+            const startDateInput = document.getElementById('start_date');
+            const endDateInput = document.getElementById('end_date');
 
-            // Update the summary
-            updateDateSummary(dates[0], dates[1]);
+            if (startDateInput && endDateInput) {
+                startDateInput.value = flatpickr.formatDate(dates[0], "Y-m-d");
+                endDateInput.value = flatpickr.formatDate(dates[1], "Y-m-d");
 
-            // Show submit button
-            const submitContainer = document.getElementById('submit-container');
-            if (submitContainer) {
-                submitContainer.classList.remove('hidden');
+                // Update the summary
+                updateDateSummary(dates[0], dates[1]);
+
+                // Show submit button
+                const submitContainer = document.getElementById('submit-container');
+                if (submitContainer) {
+                    submitContainer.classList.remove('hidden');
+                }
             }
         }
     }
@@ -117,18 +200,21 @@ document.addEventListener('DOMContentLoaded', function() {
         unavailableDates = [...dates];
 
         // Store as JSON in hidden input for form submission
-        document.getElementById('unavailable_dates').value = JSON.stringify(
-            unavailableDates.map(date => flatpickr.formatDate(date, "Y-m-d"))
-        );
+        const unavailableDatesInput = document.getElementById('unavailable_dates');
+        if (unavailableDatesInput) {
+            unavailableDatesInput.value = JSON.stringify(
+                unavailableDates.map(date => flatpickr.formatDate(date, "Y-m-d"))
+            );
 
-        // Show submit button for saving unavailable dates
-        const submitContainer = document.getElementById('submit-container');
-        if (submitContainer) {
-            submitContainer.classList.remove('hidden');
+            // Show submit button for saving unavailable dates
+            const submitContainer = document.getElementById('submit-container');
+            if (submitContainer && dates.length > 0) {
+                submitContainer.classList.remove('hidden');
+            }
+
+            // Optionally show a message about the marked dates
+            console.log(`Marked ${unavailableDates.length} dates as unavailable`);
         }
-
-        // Optionally show a message about the marked dates
-        console.log(`Marked ${unavailableDates.length} dates as unavailable`);
     }
 
     function updateDateSummary(startDate, endDate) {
@@ -158,9 +244,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const dayWord = getDayWordForm(daysDiff);
 
             // Update summary elements
-            document.getElementById('summary-start-date').textContent = startFormatted;
-            document.getElementById('summary-end-date').textContent = endFormatted;
-            document.getElementById('total-days').textContent = `${daysDiff} ${dayWord}`;
+            const startDateElement = document.getElementById('summary-start-date');
+            const endDateElement = document.getElementById('summary-end-date');
+            const totalDaysElement = document.getElementById('total-days');
+
+            if (startDateElement) startDateElement.textContent = startFormatted;
+            if (endDateElement) endDateElement.textContent = endFormatted;
+            if (totalDaysElement) totalDaysElement.textContent = `${daysDiff} ${dayWord}`;
 
             console.log("Summary updated successfully");
         } else {
@@ -191,9 +281,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const bookingForm = document.querySelector('form');
     if (bookingForm) {
         bookingForm.addEventListener('submit', function(event) {
-            const startDateValue = document.getElementById('start_date').value;
-            const endDateValue = document.getElementById('end_date').value;
-            const unavailableDatesValue = document.getElementById('unavailable_dates').value;
+            const startDateInput = document.getElementById('start_date');
+            const endDateInput = document.getElementById('end_date');
+            const unavailableDatesInput = document.getElementById('unavailable_dates');
+
+            const startDateValue = startDateInput ? startDateInput.value : '';
+            const endDateValue = endDateInput ? endDateInput.value : '';
+            const unavailableDatesValue = unavailableDatesInput ? unavailableDatesInput.value : '';
 
             // Validate dates before submission based on current mode
             if (currentMode === 'select' && (!startDateValue || !endDateValue)) {
@@ -236,37 +330,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const clearButton = document.getElementById('clear-dates');
     if (clearButton) {
         clearButton.addEventListener('click', function() {
-            calendar.clear();
-            document.getElementById('start_date').value = '';
-            document.getElementById('end_date').value = '';
-            document.getElementById('unavailable_dates').value = '';
+            if (calendar) calendar.clear();
+
+            const startDateInput = document.getElementById('start_date');
+            const endDateInput = document.getElementById('end_date');
+            const unavailableDatesInput = document.getElementById('unavailable_dates');
+
+            if (startDateInput) startDateInput.value = '';
+            if (endDateInput) endDateInput.value = '';
+            if (unavailableDatesInput) unavailableDatesInput.value = '';
+
             const summary = document.getElementById('date-summary');
             if (summary) {
                 summary.classList.add('hidden');
             }
+
             const submitContainer = document.getElementById('submit-container');
             if (submitContainer) {
                 submitContainer.classList.add('hidden');
             }
         });
     }
-
-    // Handle window resize to adjust calendar if needed
-    window.addEventListener('resize', function() {
-        const newIsMobile = window.innerWidth < 768;
-
-        // Only update if the screen size category changed
-        if (newIsMobile !== isMobile) {
-            // Preserve current selection
-            const currentSelection = calendar.selectedDates;
-
-            // Update the number of months shown
-            calendar.set('showMonths', newIsMobile ? 1 : 2);
-
-            // Restore selection if there was any
-            if (currentSelection && currentSelection.length > 0) {
-                calendar.setDate(currentSelection);
-            }
-        }
-    });
 });

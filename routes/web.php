@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProviderCalendarController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\SearchHandymanController;
 use App\Http\Controllers\SeekerController;
@@ -51,7 +52,9 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name
 // Routes for providers
 Route::middleware(['auth', 'provider'])->group(function () {
     Route::get('/provider/dashboard', [ProviderController::class, 'dashboard'])->name('provider.dashboard');
-    Route::get('/provider/calendar', [ProfileController::class, 'calendar'])->name('provider.calendar');
+    Route::get('/provider/calendar', [ProviderCalendarController::class, 'index'])->name('provider.calendar');
+    Route::post('/calendar', [ProviderCalendarController::class, 'store'])->name('provider.calendar.store');
+    Route::get('/calendar/unavailable-dates', [ProviderCalendarController::class, 'getUnavailableDates'])->name('provider.calendar.unavailable');
 });
 
 // Routes for seekers
