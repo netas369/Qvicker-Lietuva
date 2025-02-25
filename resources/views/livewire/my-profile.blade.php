@@ -64,7 +64,7 @@
                     <!-- Upload Input -->
                     <input type="file" wire:model="image" id="image" class="hidden">
                     <label for="image" class="cursor-pointer inline-flex items-center px-4 py-2 bg-primary-light border border-transparent rounded-md font-medium text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
-                        {{ auth()->user()->image ? 'Change Photo' : 'Upload Photo' }}
+                        {{ auth()->user()->image ? 'Pakeisti Nuotrauką' : 'Įkelti Nuotrauką' }}
                     </label>
 
                     <!-- Upload Progress -->
@@ -73,7 +73,7 @@
                             <span class="text-gray-600">Uploading:</span>
                             {{ $image->getClientOriginalName() }}
                             <div wire:loading wire:target="image" class="text-primary-light">
-                                Uploading...
+                                Įkeliama...
                             </div>
                         </div>
                     @endif
@@ -218,6 +218,7 @@
 
             <!-- calendar tab -->
             @if($activeTab === 'calendar')
+
 
             @endif
         </div>
