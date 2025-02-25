@@ -60,27 +60,3 @@ Route::middleware(['auth', 'seeker'])->group(function () {
     // ... other seeker routes
 });
 
-Route::get('/debug-profile-image', function() {
-    $user = auth()->user();
-
-    if (!$user) {
-        return ['error' => 'Not authenticated'];
-    }
-
-    $imagePath = $user->image;
-    $fullPath = $imagePath ? storage_path('app/public/' . $imagePath) : null;
-
-    return [
-        'user_id' => $user->id,
-        'image_db_path' => $imagePath,
-        'full_storage_path' => $fullPath,
-        'asset_url' => $imagePath ? asset('storage/' . $imagePath) : null,
-        'file_exists' => $imagePath ? file_exists($fullPath) : false,
-        'storage_link_exists' => file_exists(public_path('storage')),
-        'permissions' => $imagePath && file_exists($fullPath) ?
-            substr(sprintf('%o', fileperms($fullPath)), -4) : null,
-        'storage_root' => storage_path(),
-        'public_path' => public_path(),
-        'app_url' => config('app.url'),
-    ];
-});

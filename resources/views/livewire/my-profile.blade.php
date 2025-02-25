@@ -32,12 +32,7 @@
                         <img src="{{ auth()->user()->profile_photo_url }}"
                              class="w-32 h-32 rounded-full mb-4 object-cover"
                              alt="Current profile photo">
-
-                        <!-- Debug info -->
-                        <div style="font-size: 10px; color: gray; margin-bottom: 10px;">
-                            URL: {{ auth()->user()->profile_photo_url }}<br>
-                            Image Path: {{ auth()->user()->image ?? 'No image' }}
-                        </div>
+                        
                     @endif
 
                     <!-- Upload Input -->
