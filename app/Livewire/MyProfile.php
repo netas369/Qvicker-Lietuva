@@ -24,7 +24,6 @@ class MyProfile extends Component
     public $slaptazodis_confirmation;
     public $aboutMe;
     public $image;
-    public $activeTab = 'profile';
 
 
     public function render()
@@ -46,13 +45,7 @@ class MyProfile extends Component
         // Retrieve the associated categories for the user
         $this->userCategories = $this->user->categories;
 
-        // You can optionally dump the data for debugging
-        // dd($this->user, $this->userCategories);
-    }
 
-    public function setTab($tab)
-    {
-        $this->activeTab = $tab;
     }
 
     public function getValidationRules()

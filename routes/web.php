@@ -51,6 +51,7 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name
 // Routes for providers
 Route::middleware(['auth', 'provider'])->group(function () {
     Route::get('/provider/dashboard', [ProviderController::class, 'dashboard'])->name('provider.dashboard');
+    Route::get('/provider/calendar', [ProfileController::class, 'calendar'])->name('provider.calendar');
 });
 
 // Routes for seekers
