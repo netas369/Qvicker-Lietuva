@@ -52,9 +52,7 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name
 // Routes for providers
 Route::middleware(['auth', 'provider'])->group(function () {
     Route::get('/provider/dashboard', [ProviderController::class, 'dashboard'])->name('provider.dashboard');
-    Route::get('/provider/calendar', [ProviderCalendarController::class, 'index'])->name('provider.calendar');
-    Route::post('/calendar', [ProviderCalendarController::class, 'store'])->name('provider.calendar.store');
-    Route::get('/calendar/unavailable-dates', [ProviderCalendarController::class, 'getUnavailableDates'])->name('provider.calendar.unavailable');
+    Route::get('/provider/calendar', [ProviderController::class, 'calendar'])->name('provider.calendar');
 });
 
 // Routes for seekers

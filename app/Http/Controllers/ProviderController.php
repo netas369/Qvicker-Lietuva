@@ -10,4 +10,9 @@ class ProviderController extends Controller
     {
         return view('dashboard');
     }
+
+    public function calendar()
+    {
+        return view('profile.calendar');
+    }
 }
