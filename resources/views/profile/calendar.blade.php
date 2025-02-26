@@ -34,154 +34,156 @@
         </div>
     </div>
 
-    <!-- Calendar Section -->
-    <div class="container mx-auto px-4 py-6">
-        <div class="max-w-3xl mx-auto bg-white rounded-lg shadow p-4 md:p-6">
-            <form id="calendar-form" method="POST" action="{{ route('provider.calendar.store') }}">
-                @csrf
+{{--    <!-- Calendar Section -->--}}
+{{--    <div class="container mx-auto px-4 py-6">--}}
+{{--        <div class="max-w-3xl mx-auto bg-white rounded-lg shadow p-4 md:p-6">--}}
+{{--            <form id="calendar-form" method="POST" action="{{ route('provider.calendar.store') }}">--}}
+{{--                @csrf--}}
 
-                <!-- Success/Error messages -->
-                @if(session('success'))
-                    <div class="mb-4 p-3 bg-green-100 text-green-800 rounded">
-                        {{ session('success') }}
-                    </div>
-                @endif
+{{--                <!-- Success/Error messages -->--}}
+{{--                @if(session('success'))--}}
+{{--                    <div class="mb-4 p-3 bg-green-100 text-green-800 rounded">--}}
+{{--                        {{ session('success') }}--}}
+{{--                    </div>--}}
+{{--                @endif--}}
 
-                @if(session('error'))
-                    <div class="mb-4 p-3 bg-red-100 text-red-800 rounded">
-                        {{ session('error') }}
-                    </div>
-                @endif
+{{--                @if(session('error'))--}}
+{{--                    <div class="mb-4 p-3 bg-red-100 text-red-800 rounded">--}}
+{{--                        {{ session('error') }}--}}
+{{--                    </div>--}}
+{{--                @endif--}}
 
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Pasirinkite datas</h3>
+{{--                <h3 class="text-xl font-semibold text-gray-800 mb-4">Pasirinkite datas</h3>--}}
 
-                <!-- Calendar Container - ONLY ONE -->
-                <div id="calendar-container" class="mb-6 bg-white border border-gray-200 rounded-lg shadow-sm overflow-x-auto"></div>
+{{--                <!-- Calendar Container - ONLY ONE -->--}}
+{{--                <div id="calendar-container" class="mb-6 bg-white border border-gray-200 rounded-lg shadow-sm overflow-x-auto"></div>--}}
 
-                <!-- Action buttons -->
-                <div class="grid grid-cols-2 gap-2 mb-4">
-                    <button type="button" id="select-dates-btn" class="inline-flex justify-center py-2 px-3 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Pasirinkti datas
-                    </button>
+{{--                <!-- Action buttons -->--}}
+{{--                <div class="grid grid-cols-2 gap-2 mb-4">--}}
+{{--                    <button type="button" id="select-dates-btn" class="inline-flex justify-center py-2 px-3 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">--}}
+{{--                        Pasirinkti datas--}}
+{{--                    </button>--}}
 
-                    <button type="button" id="mark-unavailable-btn" class="inline-flex justify-center py-2 px-3 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Pažymėti kaip užimtą
-                    </button>
-                </div>
+{{--                    <button type="button" id="mark-unavailable-btn" class="inline-flex justify-center py-2 px-3 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">--}}
+{{--                        Pažymėti kaip užimtą--}}
+{{--                    </button>--}}
+{{--                </div>--}}
 
-                <!-- Hidden inputs -->
-                <input type="hidden" id="start_date" name="start_date">
-                <input type="hidden" id="end_date" name="end_date">
-                <input type="hidden" id="unavailable_dates" name="unavailable_dates">
+{{--                <!-- Hidden inputs -->--}}
+{{--                <input type="hidden" id="start_date" name="start_date">--}}
+{{--                <input type="hidden" id="end_date" name="end_date">--}}
+{{--                <input type="hidden" id="unavailable_dates" name="unavailable_dates">--}}
 
-                <!-- Selected Dates Summary -->
-                <div id="date-summary" class="hidden mb-4 p-3 bg-gray-50 rounded-md border border-gray-200">
-                    <h3 class="font-medium text-gray-700 mb-2">Pasirinktos datos:</h3>
-                    <div class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center">
-                        <div>
-                            <span class="text-sm text-gray-500">Nuo:</span>
-                            <span id="summary-start-date" class="ml-2 font-medium"></span>
-                        </div>
-                        <div class="mt-2 sm:mt-0">
-                            <span class="text-sm text-gray-500">Iki:</span>
-                            <span id="summary-end-date" class="ml-2 font-medium"></span>
-                        </div>
-                        <div class="mt-2 sm:mt-0">
-                            <span class="text-sm text-gray-500">Iš viso dienų:</span>
-                            <span id="total-days" class="ml-2 font-medium"></span>
-                        </div>
-                    </div>
-                </div>
+{{--                <!-- Selected Dates Summary -->--}}
+{{--                <div id="date-summary" class="hidden mb-4 p-3 bg-gray-50 rounded-md border border-gray-200">--}}
+{{--                    <h3 class="font-medium text-gray-700 mb-2">Pasirinktos datos:</h3>--}}
+{{--                    <div class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center">--}}
+{{--                        <div>--}}
+{{--                            <span class="text-sm text-gray-500">Nuo:</span>--}}
+{{--                            <span id="summary-start-date" class="ml-2 font-medium"></span>--}}
+{{--                        </div>--}}
+{{--                        <div class="mt-2 sm:mt-0">--}}
+{{--                            <span class="text-sm text-gray-500">Iki:</span>--}}
+{{--                            <span id="summary-end-date" class="ml-2 font-medium"></span>--}}
+{{--                        </div>--}}
+{{--                        <div class="mt-2 sm:mt-0">--}}
+{{--                            <span class="text-sm text-gray-500">Iš viso dienų:</span>--}}
+{{--                            <span id="total-days" class="ml-2 font-medium"></span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                <!-- Submit Button -->
-                <div id="submit-container" class="hidden">
-                    <div class="flex justify-center">
-                        <button type="submit" class="w-1/2 inline-flex justify-center py-2 px-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-light hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-light">
-                            Išsaugoti pakeitimus
-                        </button>
-                    </div>
-                </div>
+{{--                <!-- Submit Button -->--}}
+{{--                <div id="submit-container" class="hidden">--}}
+{{--                    <div class="flex justify-center">--}}
+{{--                        <button type="submit" class="w-1/2 inline-flex justify-center py-2 px-3 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-light hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-light">--}}
+{{--                            Išsaugoti pakeitimus--}}
+{{--                        </button>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                <!-- Hidden input for existing unavailable dates -->
-                <input type="hidden" id="existing_unavailable_dates" value="{{ $unavailableDates ?? '[]' }}">
-            </form>
+{{--                <!-- Hidden input for existing unavailable dates -->--}}
+{{--                <input type="hidden" id="existing_unavailable_dates" value="{{ $unavailableDates ?? '[]' }}">--}}
+{{--            </form>--}}
 
-            <!-- Calendar Legend -->
-            <div class="flex items-center justify-start space-x-4 mt-4 text-sm">
-                <div class="flex items-center">
-                    <div class="w-4 h-4 bg-blue-600 rounded-full mr-2"></div>
-                    <span>Pasirinkta</span>
-                </div>
-                <div class="flex items-center">
-                    <div class="w-4 h-4 rounded-full mr-2" style="background-color: #ffebee;"></div>
-                    <span>Nepasiekiama</span>
-                </div>
-            </div>
-        </div>
-    </div>
+{{--            <!-- Calendar Legend -->--}}
+{{--            <div class="flex items-center justify-start space-x-4 mt-4 text-sm">--}}
+{{--                <div class="flex items-center">--}}
+{{--                    <div class="w-4 h-4 bg-blue-600 rounded-full mr-2"></div>--}}
+{{--                    <span>Pasirinkta</span>--}}
+{{--                </div>--}}
+{{--                <div class="flex items-center">--}}
+{{--                    <div class="w-4 h-4 rounded-full mr-2" style="background-color: #ffebee;"></div>--}}
+{{--                    <span>Nepasiekiama</span>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+
+    <livewire:provider-calendar />
 @endsection
 
-@push('styles')
-    <style>
-        /* Make Flatpickr responsive */
-        .flatpickr-calendar {
-            width: 100% !important;
-            max-width: 100% !important;
-        }
+{{--@push('styles')--}}
+{{--    <style>--}}
+{{--        /* Make Flatpickr responsive */--}}
+{{--        .flatpickr-calendar {--}}
+{{--            width: 100% !important;--}}
+{{--            max-width: 100% !important;--}}
+{{--        }--}}
 
-        .flatpickr-days {
-            width: 100% !important;
-        }
+{{--        .flatpickr-days {--}}
+{{--            width: 100% !important;--}}
+{{--        }--}}
 
-        .dayContainer {
-            width: 100% !important;
-            min-width: 100% !important;
-            max-width: 100% !important;
-        }
+{{--        .dayContainer {--}}
+{{--            width: 100% !important;--}}
+{{--            min-width: 100% !important;--}}
+{{--            max-width: 100% !important;--}}
+{{--        }--}}
 
-        .flatpickr-day {
-            max-width: 14.28% !important;
-            flex-basis: 14.28% !important;
-        }
+{{--        .flatpickr-day {--}}
+{{--            max-width: 14.28% !important;--}}
+{{--            flex-basis: 14.28% !important;--}}
+{{--        }--}}
 
-        /* Custom styling for unavailable dates */
-        .flatpickr-day.flatpickr-disabled,
-        .flatpickr-day.flatpickr-disabled:hover,
-        .flatpickr-day.prevMonthDay.flatpickr-disabled,
-        .flatpickr-day.nextMonthDay.flatpickr-disabled,
-        .flatpickr-day.notAllowed,
-        .flatpickr-day.notAllowed.prevMonthDay,
-        .flatpickr-day.notAllowed.nextMonthDay {
-            background-color: #FFA500 !important; /* Orange background */
-            color: white !important; /* White text for contrast */
-            text-decoration: line-through !important;
-            border-color: transparent !important;
-            cursor: not-allowed !important;
-            font-weight: bold !important;
-            opacity: 0.8 !important;
-        }
+{{--        /* Custom styling for unavailable dates */--}}
+{{--        .flatpickr-day.flatpickr-disabled,--}}
+{{--        .flatpickr-day.flatpickr-disabled:hover,--}}
+{{--        .flatpickr-day.prevMonthDay.flatpickr-disabled,--}}
+{{--        .flatpickr-day.nextMonthDay.flatpickr-disabled,--}}
+{{--        .flatpickr-day.notAllowed,--}}
+{{--        .flatpickr-day.notAllowed.prevMonthDay,--}}
+{{--        .flatpickr-day.notAllowed.nextMonthDay {--}}
+{{--            background-color: #FFA500 !important; /* Orange background */--}}
+{{--            color: white !important; /* White text for contrast */--}}
+{{--            text-decoration: line-through !important;--}}
+{{--            border-color: transparent !important;--}}
+{{--            cursor: not-allowed !important;--}}
+{{--            font-weight: bold !important;--}}
+{{--            opacity: 0.8 !important;--}}
+{{--        }--}}
 
-        /* When hovering over a disabled date */
-        .flatpickr-day.flatpickr-disabled:hover {
-            background-color: #FF8C00 !important; /* Darker orange on hover */
-            color: white !important;
-        }
+{{--        /* When hovering over a disabled date */--}}
+{{--        .flatpickr-day.flatpickr-disabled:hover {--}}
+{{--            background-color: #FF8C00 !important; /* Darker orange on hover */--}}
+{{--            color: white !important;--}}
+{{--        }--}}
 
-        @media screen and (max-width: 767px) {
-            .flatpickr-calendar {
-                font-size: 14px !important;
-            }
+{{--        @media screen and (max-width: 767px) {--}}
+{{--            .flatpickr-calendar {--}}
+{{--                font-size: 14px !important;--}}
+{{--            }--}}
 
-            /* Force single month mode on mobile regardless of the showMonths setting */
-            .flatpickr-months .flatpickr-month:not(:first-child) {
-                display: none !important;
-            }
+{{--            /* Force single month mode on mobile regardless of the showMonths setting */--}}
+{{--            .flatpickr-months .flatpickr-month:not(:first-child) {--}}
+{{--                display: none !important;--}}
+{{--            }--}}
 
-            .flatpickr-current-month {
-                left: 12.5% !important;
-                right: 12.5% !important;
-                width: 75% !important;
-            }
-        }
-    </style>
-@endpush
+{{--            .flatpickr-current-month {--}}
+{{--                left: 12.5% !important;--}}
+{{--                right: 12.5% !important;--}}
+{{--                width: 75% !important;--}}
+{{--            }--}}
+{{--        }--}}
+{{--    </style>--}}
+{{--@endpush--}}
