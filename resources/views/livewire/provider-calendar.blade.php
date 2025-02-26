@@ -22,7 +22,7 @@
         <div class="bg-gray-50 p-2 flex justify-end">
             <button
                 wire:click="openRecurringModal"
-                class="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition"
+                class="px-3 py-1 bg-primary-light text-white rounded text-sm hover:bg-primary transition"
             >
                 Savaitės dienų nustatymai
             </button>
@@ -48,7 +48,7 @@
                         <div
                             @if($day && !$day['isPastDate'])
                                 wire:click="toggleDate('{{ $day['date'] }}')"
-                            class="h-16 md:h-24 p-1 {{ $day['isToday'] ? 'bg-blue-50' : '' }} {{ $day['isUnavailable'] ? 'bg-red-50' : '' }} {{ $day['isRecurringUnavailable'] && !$day['isPastDate'] ? 'bg-red-100' : '' }} hover:bg-gray-100 cursor-pointer transition"
+                            class="h-16 md:h-24 p-1 {{ $day['isToday'] ? 'bg-blue-50' : '' }} {{ $day['isUnavailable'] ? 'bg-red-50' : '' }} {{ $day['isRecurringUnavailable'] && !$day['isPastDate'] ? 'bg-red-100' : '' }} {{ $day['isException'] ? 'bg-green-50' : '' }} hover:bg-gray-100 cursor-pointer transition"
                             @else
                                 class="h-16 md:h-24 p-1 {{ $day && $day['isPastDate'] ? 'bg-gray-200' : 'bg-gray-50' }} {{ $day && $day['isToday'] ? 'bg-blue-50' : '' }}"
                             @endif
@@ -81,6 +81,17 @@
                                             </span>
                                         </div>
                                     @endif
+
+                                    <!-- Exception Indicator -->
+                                    @if($day['isException'])
+                                        <div class="mt-1 flex-grow flex items-center justify-center">
+                                            <span class="hidden md:inline-block bg-green-100 text-green-800 text-xs font-medium px-1 py-0.5 rounded-full">
+                                                Išimtis
+                                            </span>
+                                            <!-- Circle indicator for mobile screens -->
+                                            <span class="md:hidden w-4 h-4 bg-green-500 rounded-full"></span>
+                                        </div>
+                                    @endif
                                 </div>
                             @endif
                         </div>
@@ -102,6 +113,10 @@
             <div class="flex items-center">
                 <span class="inline-block w-3 h-3 bg-orange-100 rounded-full mr-1"></span>
                 <span>Kartojasi</span>
+            </div>
+            <div class="flex items-center">
+                <span class="inline-block w-3 h-3 bg-green-500 rounded-full mr-1"></span>
+                <span>Išimtis</span>
             </div>
             <div class="flex items-center">
                 <span class="inline-block w-3 h-3 bg-gray-200 rounded-full mr-1"></span>
@@ -144,7 +159,7 @@
                                 id="day-{{ $dayValue }}"
                                 wire:click="toggleRecurringDay({{ $dayValue }})"
                                 @if(in_array($dayValue, $recurringUnavailableDays)) checked @endif
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                class="w-4 h-4 text-yellow-600 bg-gray-100 border-gray-300 rounded focus:ring-yellow-600"
                             >
                             <label for="day-{{ $dayValue }}" class="ml-2 text-gray-700">{{ $dayName }}</label>
                         </div>
@@ -154,7 +169,7 @@
                 <div class="mt-6 flex justify-end">
                     <button
                         wire:click="closeRecurringModal"
-                        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                        class="px-4 py-2 bg-primary-light text-white rounded hover:bg-primary transition"
                     >
                         Uždaryti
                     </button>

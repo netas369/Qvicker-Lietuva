@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\RecurringUnavailability;
 use Livewire\Component;
 use App\Models\Unavailability;
+use App\Models\AvailabilityException;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
@@ -14,6 +15,7 @@ class ProviderCalendar extends Component
     public $year;
     public $providerId;
     public $unavailableDates = [];
+    public $exceptionDates = []; // Dates that override recurring rules
     public $calendar = [];
     public $recurringUnavailableDays = [];
     public $showRecurringModal = false;
@@ -33,6 +35,9 @@ class ProviderCalendar extends Component
 
         // Load recurring unavailable days
         $this->loadRecurringUnavailabilities();
+
+        // Load exceptions to recurring rules
+        $this->loadExceptions();
 
         // Generate the calendar
         $this->generateCalendar();
@@ -61,6 +66,22 @@ class ProviderCalendar extends Component
             ->toArray();
 
         $this->recurringUnavailableDays = $recurringDays;
+    }
+
+    public function loadExceptions()
+    {
+        // Get all exceptions for recurring rules
+        // For simplicity, we're using the same Unavailability model but adding a 'is_exception' field
+        $exceptions = AvailabilityException::where('provider_id', $this->providerId)
+            ->whereMonth('date', $this->month)
+            ->whereYear('date', $this->year)
+            ->pluck('date')
+            ->map(function ($date) {
+                return Carbon::parse($date)->format('Y-m-d');
+            })
+            ->toArray();
+
+        $this->exceptionDates = $exceptions;
     }
 
     public function generateCalendar()
@@ -99,8 +120,11 @@ class ProviderCalendar extends Component
                     // Check if this date is specifically marked unavailable
                     $isUnavailable = in_array($dateString, $this->unavailableDates);
 
-                    // Check if this falls on a recurring unavailable day
-                    $isRecurringUnavailable = in_array($currentDate->dayOfWeek, $this->recurringUnavailableDays);
+                    // Check if this date is an exception to a recurring rule
+                    $isException = in_array($dateString, $this->exceptionDates);
+
+                    // Check if this falls on a recurring unavailable day (but is not an exception)
+                    $isRecurringUnavailable = in_array($currentDate->dayOfWeek, $this->recurringUnavailableDays) && !$isException;
 
                     // Check if this date is in the past
                     $isPastDate = $currentDate->lt($today);
@@ -113,6 +137,7 @@ class ProviderCalendar extends Component
                         'isUnavailable' => $isUnavailable || $isRecurringUnavailable || $isPastDate,
                         'isRecurringUnavailable' => $isRecurringUnavailable,
                         'isPastDate' => $isPastDate,
+                        'isException' => $isException,
                     ];
 
                     $day++;
@@ -140,12 +165,37 @@ class ProviderCalendar extends Component
 
         // Parse the date to check if it falls on a recurring unavailable day
         $dateObj = Carbon::parse($date);
-        if (in_array($dateObj->dayOfWeek, $this->recurringUnavailableDays)) {
-            // If this is a recurring unavailable day, don't allow individual toggling
+        $isRecurringDay = in_array($dateObj->dayOfWeek, $this->recurringUnavailableDays);
+        $isExceptionDay = in_array($date, $this->exceptionDates);
+
+        if ($isRecurringDay && !$isExceptionDay) {
+            // This is a recurring unavailable day - create an exception
+            AvailabilityException::create([
+                'provider_id' => $this->providerId,
+                'date' => $date,
+            ]);
+
+            $this->exceptionDates[] = $date;
+
+            // Regenerate calendar to reflect changes
+            $this->generateCalendar();
+            return;
+        } elseif ($isRecurringDay && $isExceptionDay) {
+            // Remove the exception and return to the recurring rule
+            AvailabilityException::where('provider_id', $this->providerId)
+                ->where('date', $date)
+                ->delete();
+
+            // Remove from exceptions array
+            $key = array_search($date, $this->exceptionDates);
+            unset($this->exceptionDates[$key]);
+
+            // Regenerate calendar to reflect changes
+            $this->generateCalendar();
             return;
         }
 
-        // Toggle the date's availability status
+        // For non-recurring days, toggle normal unavailability
         if (in_array($date, $this->unavailableDates)) {
             // If date is currently unavailable, make it available
             $key = array_search($date, $this->unavailableDates);
@@ -214,6 +264,7 @@ class ProviderCalendar extends Component
 
         // Reload data for new month
         $this->loadUnavailableDates();
+        $this->loadExceptions();
         $this->generateCalendar();
     }
 
@@ -226,6 +277,7 @@ class ProviderCalendar extends Component
 
         // Reload data for new month
         $this->loadUnavailableDates();
+        $this->loadExceptions();
         $this->generateCalendar();
     }
 
