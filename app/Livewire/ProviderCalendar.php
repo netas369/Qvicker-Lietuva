@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\RecurringUnavailability;
 use Livewire\Component;
 use App\Models\Unavailability;
 use Carbon\Carbon;
@@ -14,6 +15,8 @@ class ProviderCalendar extends Component
     public $providerId;
     public $unavailableDates = [];
     public $calendar = [];
+    public $recurringUnavailableDays = [];
+    public $showRecurringModal = false;
 
     public function mount($providerId = null)
     {
@@ -27,6 +30,9 @@ class ProviderCalendar extends Component
 
         // Load unavailable dates from the database
         $this->loadUnavailableDates();
+
+        // Load recurring unavailable days
+        $this->loadRecurringUnavailabilities();
 
         // Generate the calendar
         $this->generateCalendar();
@@ -45,6 +51,16 @@ class ProviderCalendar extends Component
             ->toArray();
 
         $this->unavailableDates = $dates;
+    }
+
+    public function loadRecurringUnavailabilities()
+    {
+        // Get all recurring unavailable days for this provider
+        $recurringDays = RecurringUnavailability::where('provider_id', $this->providerId)
+            ->pluck('day_of_week')
+            ->toArray();
+
+        $this->recurringUnavailableDays = $recurringDays;
     }
 
     public function generateCalendar()
@@ -80,8 +96,11 @@ class ProviderCalendar extends Component
                     // Create date string in Y-m-d format
                     $dateString = $currentDate->format('Y-m-d');
 
-                    // Check if this date is unavailable
+                    // Check if this date is specifically marked unavailable
                     $isUnavailable = in_array($dateString, $this->unavailableDates);
+
+                    // Check if this falls on a recurring unavailable day
+                    $isRecurringUnavailable = in_array($currentDate->dayOfWeek, $this->recurringUnavailableDays);
 
                     // Check if this date is in the past
                     $isPastDate = $currentDate->lt($today);
@@ -89,8 +108,10 @@ class ProviderCalendar extends Component
                     $weekData[] = [
                         'day' => $day,
                         'date' => $dateString,
+                        'dayOfWeek' => $currentDate->dayOfWeek,
                         'isToday' => $dateString === $today->format('Y-m-d'),
-                        'isUnavailable' => $isUnavailable || $isPastDate,
+                        'isUnavailable' => $isUnavailable || $isRecurringUnavailable || $isPastDate,
+                        'isRecurringUnavailable' => $isRecurringUnavailable,
                         'isPastDate' => $isPastDate,
                     ];
 
@@ -117,6 +138,13 @@ class ProviderCalendar extends Component
             return;
         }
 
+        // Parse the date to check if it falls on a recurring unavailable day
+        $dateObj = Carbon::parse($date);
+        if (in_array($dateObj->dayOfWeek, $this->recurringUnavailableDays)) {
+            // If this is a recurring unavailable day, don't allow individual toggling
+            return;
+        }
+
         // Toggle the date's availability status
         if (in_array($date, $this->unavailableDates)) {
             // If date is currently unavailable, make it available
@@ -140,6 +168,41 @@ class ProviderCalendar extends Component
 
         // Regenerate calendar to reflect changes
         $this->generateCalendar();
+    }
+
+    public function toggleRecurringDay($dayOfWeek)
+    {
+        if (in_array($dayOfWeek, $this->recurringUnavailableDays)) {
+            // If day is currently recurring unavailable, make it available
+            RecurringUnavailability::where('provider_id', $this->providerId)
+                ->where('day_of_week', $dayOfWeek)
+                ->delete();
+
+            // Remove from array
+            $key = array_search($dayOfWeek, $this->recurringUnavailableDays);
+            unset($this->recurringUnavailableDays[$key]);
+        } else {
+            // If day is not set as recurring unavailable, make it unavailable
+            RecurringUnavailability::create([
+                'provider_id' => $this->providerId,
+                'day_of_week' => $dayOfWeek,
+            ]);
+
+            $this->recurringUnavailableDays[] = $dayOfWeek;
+        }
+
+        // Regenerate calendar to reflect changes
+        $this->generateCalendar();
+    }
+
+    public function openRecurringModal()
+    {
+        $this->showRecurringModal = true;
+    }
+
+    public function closeRecurringModal()
+    {
+        $this->showRecurringModal = false;
     }
 
     public function prevMonth()
