@@ -58,6 +58,9 @@ class ProviderCalendar extends Component
         // Get the day of week for the first day (0 = Sunday, 6 = Saturday)
         $firstDayOfWeek = $firstDay->dayOfWeek;
 
+        // Get today's date for comparison
+        $today = Carbon::today();
+
         // Prepare calendar array
         $calendar = [];
         $day = 1;
@@ -71,17 +74,24 @@ class ProviderCalendar extends Component
                 if (($week === 0 && $dayOfWeek < $firstDayOfWeek) || $day > $lastDay->day) {
                     $weekData[] = null; // Empty cell
                 } else {
+                    // Create date for current calendar day
+                    $currentDate = Carbon::createFromDate($this->year, $this->month, $day);
+
                     // Create date string in Y-m-d format
-                    $date = Carbon::createFromDate($this->year, $this->month, $day)->format('Y-m-d');
+                    $dateString = $currentDate->format('Y-m-d');
 
                     // Check if this date is unavailable
-                    $isUnavailable = in_array($date, $this->unavailableDates);
+                    $isUnavailable = in_array($dateString, $this->unavailableDates);
+
+                    // Check if this date is in the past
+                    $isPastDate = $currentDate->lt($today);
 
                     $weekData[] = [
                         'day' => $day,
-                        'date' => $date,
-                        'isToday' => $date === Carbon::today()->format('Y-m-d'),
-                        'isUnavailable' => $isUnavailable,
+                        'date' => $dateString,
+                        'isToday' => $dateString === $today->format('Y-m-d'),
+                        'isUnavailable' => $isUnavailable || $isPastDate,
+                        'isPastDate' => $isPastDate,
                     ];
 
                     $day++;
@@ -101,6 +111,12 @@ class ProviderCalendar extends Component
 
     public function toggleDate($date)
     {
+        // Check if the date is in the past
+        if (Carbon::parse($date)->lt(Carbon::today())) {
+            // Don't allow changes to past dates
+            return;
+        }
+
         // Toggle the date's availability status
         if (in_array($date, $this->unavailableDates)) {
             // If date is currently unavailable, make it available

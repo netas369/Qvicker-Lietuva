@@ -36,11 +36,11 @@
                 <div class="grid grid-cols-7 divide-x">
                     @foreach($week as $day)
                         <div
-                            @if($day)
+                            @if($day && !$day['isPastDate'])
                                 wire:click="toggleDate('{{ $day['date'] }}')"
                             class="h-16 md:h-24 p-1 {{ $day['isToday'] ? 'bg-blue-50' : '' }} {{ $day['isUnavailable'] ? 'bg-red-50' : '' }} hover:bg-gray-100 cursor-pointer transition"
                             @else
-                                class="h-16 md:h-24 p-1 bg-gray-50"
+                                class="h-16 md:h-24 p-1 {{ $day && $day['isPastDate'] ? 'bg-gray-200' : 'bg-gray-50' }} {{ $day && $day['isToday'] ? 'bg-blue-50' : '' }}"
                             @endif
                         >
                             @if($day)
@@ -50,8 +50,8 @@
                                         {{ $day['day'] }}
                                     </div>
 
-                                    <!-- Unavailable Indicator -->
-                                    @if($day['isUnavailable'])
+                                    <!-- Unavailable Indicator - text for future unavailable dates only -->
+                                    @if($day['isUnavailable'] && !$day['isPastDate'])
                                         <div class="mt-1 flex-grow flex items-center justify-center">
                                             <!-- Text for larger screens -->
                                             <span class="hidden md:inline-block bg-red-100 text-red-800 text-xs font-medium px-2 py-0.5 rounded">
@@ -77,8 +77,12 @@
                 <span>Šiandien</span>
             </div>
             <div class="flex items-center">
-                <span class="inline-block w-3 h-3 bg-red-500 md:bg-red-100 rounded-full mr-1"></span>
+                <span class="inline-block w-3 h-3 bg-red-500 rounded-full mr-1"></span>
                 <span>Nepasiekiamas</span>
+            </div>
+            <div class="flex items-center">
+                <span class="inline-block w-3 h-3 bg-gray-200 rounded-full mr-1"></span>
+                <span>Praeities dienos</span>
             </div>
             <div class="hidden md:block">
                 <p>Spustelėkite dieną, kad pažymėtumėte ją kaip nepasiekiamą/pasiekiamą</p>
