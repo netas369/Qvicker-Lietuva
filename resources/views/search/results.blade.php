@@ -39,7 +39,7 @@
                             @endif
 
                             <div class="mt-4">
-                                <a href="{{ route('provider.profile', $provider->id) }}"
+                                <a href=""
                                    class="inline-block rounded-md bg-gradient-to-tr from-primary to-primary-light py-2 px-4 border border-transparent
                                text-center text-sm text-white font-sans hover:from-primary-dark hover:to-primary-light">
                                     Peržiūrėti profilį

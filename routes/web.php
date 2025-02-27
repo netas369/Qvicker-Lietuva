@@ -15,10 +15,10 @@ Route::get('/search', [SearchHandymanController::class, 'index'])->name('search'
 Route::post('/search/results', [SearchHandymanController::class, 'searchResults'])->name('search.results');
 
 // Add this to your routes/web.php file
-Route::get('/provider/{id}', function($id) {
-    $provider = \App\Models\User::findOrFail($id);
-    return view('provider.profile', compact('provider'));
-})->name('provider.profile');
+//Route::get('/provider/{id}', function($id) {
+//    $provider = \App\Models\User::findOrFail($id);
+//    return view('provider.profile', compact('provider'));
+//})->name('provider.profile');
 
 Route::get('/partners', [LandingPageController::class, 'partners'])->name('partners');
 
