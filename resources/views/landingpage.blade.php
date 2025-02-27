@@ -171,11 +171,34 @@
         </div>
 
         <section class="flex snap-x snap-mandatory flex-nowrap overflow-x-auto overflow-y-hidden lg:items-center lg:justify-center mt-8 border-b-2 border-gray-500 border-opacity-50">
-            <!-- Scroll indicator for mobile -->
-            <div class="absolute right-0 top-1/2 -translate-y-1/2 bg-gradient-to-l from-white via-white to-transparent flex items-center justify-end pr-2 pointer-events-none z-10 lg:hidden">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-light animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
+            <!-- Scroll indicator overlay - better positioned at the top of tabs -->
+            <div class="absolute inset-x-0 top-0 z-20 pointer-events-none lg:hidden">
+                <div class="bg-primary bg-opacity-80 text-white text-center py-1 px-4 mx-auto w-max rounded-b-lg shadow-md">
+                    <div class="flex items-center text-xs font-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1.5 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m-8 6H4m0 0l4 4m-4-4l4-4" />
+                        </svg>
+                        Swipe to see more
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right edge gradient for scrolling indication -->
+            <div class="absolute right-0 top-0 h-full bg-gradient-to-l from-white to-transparent w-12 pointer-events-none z-10 lg:hidden">
+                <div class="h-full flex items-center justify-end">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-light animate-pulse mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Left edge gradient (shows when scrolled) -->
+            <div class="absolute left-0 top-0 h-full bg-gradient-to-r from-white to-transparent w-12 pointer-events-none z-10 opacity-0 transition-opacity duration-300 lg:hidden" id="left-scroll-indicator">
+                <div class="h-full flex items-center justify-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-light animate-pulse ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </div>
             </div>
 
             <ul
@@ -186,7 +209,7 @@
                 data-tabs-inactive-classes="text-gray-500 hover:text-gray-600 hover:border-gray-300"
                 role="tablist">
                 <li>
-                    <div class="w-[100px] flex-none snap-always snap-center">
+                    <div class="w-[110px] flex-none snap-always snap-center">
                         <button class="inline-block p-4 rounded-t-lg transition-all duration-200 hover:bg-gray-50 group"
                                 id="profile-styled-tab" data-tabs-target="#styled-valymas" type="button" role="tab" aria-controls="valymas" aria-selected="false">
                             <div class="w-14 h-14 mx-auto relative flex items-center justify-center transition-transform duration-200 transform group-hover:-translate-y-1">
@@ -199,7 +222,7 @@
                     </div>
                 </li>
                 <li>
-                    <div class="w-[100px] flex-none snap-always snap-center">
+                    <div class="w-[110px] flex-none snap-always snap-center">
                         <button class="inline-block p-4 rounded-t-lg transition-all duration-200 hover:bg-gray-50 group"
                                 id="dashboard-styled-tab" data-tabs-target="#styled-kuryba" type="button" role="tab" aria-controls="dashboard" aria-selected="false">
                             <div class="w-14 h-14 mx-auto relative flex items-center justify-center transition-transform duration-200 transform group-hover:-translate-y-1">
@@ -220,7 +243,7 @@
                     </div>
                 </li>
                 <li>
-                    <div class="w-[100px] flex-none snap-always snap-center">
+                    <div class="w-[110px] flex-none snap-always snap-center">
                         <button class="inline-block p-4 rounded-t-lg transition-all duration-200 hover:bg-gray-50 group"
                                 id="dashboard-styled-tab" data-tabs-target="#styled-meistrai" type="button" role="tab" aria-controls="dashboard" aria-selected="false">
                             <div class="w-14 h-14 mx-auto relative flex items-center justify-center transition-transform duration-200 transform group-hover:-translate-y-1">
@@ -236,7 +259,7 @@
                     </div>
                 </li>
                 <li>
-                    <div class="w-[100px] flex-none snap-always snap-center">
+                    <div class="w-[110px] flex-none snap-always snap-center">
                         <button class="inline-block p-4 rounded-t-lg transition-all duration-200 hover:bg-gray-50 group"
                                 id="dashboard-styled-tab" data-tabs-target="#styled-kraustymas" type="button" role="tab" aria-controls="dashboard" aria-selected="false">
                             <div class="w-14 h-14 mx-auto relative flex items-center justify-center transition-transform duration-200 transform group-hover:-translate-y-1">
@@ -249,7 +272,7 @@
                     </div>
                 </li>
                 <li>
-                    <div class="w-[100px] flex-none snap-always snap-center">
+                    <div class="w-[110px] flex-none snap-always snap-center">
                         <button class="inline-block p-4 rounded-t-lg transition-all duration-200 hover:bg-gray-50 group"
                                 id="dashboard-styled-tab" data-tabs-target="#styled-sodininkyste" type="button" role="tab" aria-controls="dashboard" aria-selected="false">
                             <div class="w-14 h-14 mx-auto relative flex items-center justify-center transition-transform duration-200 transform group-hover:-translate-y-1">
@@ -262,7 +285,7 @@
                     </div>
                 </li>
                 <li>
-                    <div class="w-[100px] flex-none snap-always snap-center">
+                    <div class="w-[110px] flex-none snap-always snap-center">
                         <button class="inline-block p-4 rounded-t-lg transition-all duration-200 hover:bg-gray-50 group"
                                 id="dashboard-styled-tab" data-tabs-target="#styled-fitnesas" type="button" role="tab" aria-controls="dashboard" aria-selected="false">
                             <div class="w-14 h-14 mx-auto relative flex items-center justify-center transition-transform duration-200 transform group-hover:-translate-y-1">
@@ -274,129 +297,194 @@
                         </button>
                     </div>
                 </li>
-{{--                <li>--}}
-{{--                    <div class="w-[100px] flex-none snap-always snap-center">--}}
-{{--                        <button class="inline-block p-4 rounded-t-lg transition-all duration-200 hover:bg-gray-50 group"--}}
-{{--                                id="dashboard-styled-tab" data-tabs-target="#styled-organizavimas" type="button" role="tab" aria-controls="dashboard" aria-selected="false">--}}
-{{--                            <div class="w-18 h-16 mx-auto relative flex items-center justify-center transition-transform duration-200 transform group-hover:-translate-y-1">--}}
-{{--                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-5.0 -10.0 110.0 135.0" class="w-full h-full text-gray-600 group-hover:text-primary-light" aria-hidden="true" fill="currentColor">--}}
-{{--                                    <path d="m89.301 19.027c-0.57812-0.76953-1.4922-1.2188-2.4531-1.2109h-3.3594v-3.7617c0-1.3008-0.72656-2.4883-1.8828-3.082-1.1562-0.58984-2.5469-0.48047-3.5977 0.28125-0.65625-0.79688-1.6328-1.2578-2.6641-1.2578s-2.0078 0.46094-2.6641 1.2578c-0.75781-0.55469-1.7109-0.76953-2.6367-0.60547-0.92578 0.16797-1.7422 0.70312-2.2617 1.4883-0.9375-0.58203-2.0977-0.67969-3.1172-0.26562-1.0195 0.41797-1.7812 1.293-2.0508 2.3633-5.2812-2.8008-11.176-4.2578-17.156-4.2344-8.707-0.078125-17.137 3.0508-23.684 8.7852-6.2227 5.3281-9.8398 13.086-9.9141 21.277v12.945h-0.70312c-0.29297 0-0.57422 0.11719-0.78516 0.32422-0.20703 0.21094-0.32422 0.49219-0.32422 0.78516v15.039c0 0.29297 0.11719 0.57812 0.32422 0.78516 0.21094 0.20703 0.49219 0.32422 0.78516 0.32422h3.3906v7.875l0.003906 0.003906c0.003907 4.7422 3.8477 8.5859 8.5898 8.5898h16.297c0.50781 1.9219 2.2461 3.2617 4.2344 3.2656h3.5703c2.4141 0 4.375-1.9609 4.375-4.375 0-2.418-1.9609-4.3789-4.375-4.3789h-3.5703c-1.9883 0.003906-3.7266 1.3438-4.2344 3.2656h-16.289c-3.5195-0.003907-6.3672-2.8516-6.3711-6.3672v-7.8789h2.5938c0.67578 3.7539 4.1016 6.3711 7.8984 6.0312 3.7969-0.33594 6.7109-3.5156 6.7109-7.3281v-14.656c-0.003907-4.0664-3.2969-7.3594-7.3633-7.3633-2.8516 0-5.4453 1.6484-6.6602 4.2266v-11.113c0-12.465 11.438-22.602 25.5-22.602v0.003906c6.1836-0.042969 12.199 2.0195 17.055 5.8477v8.8398c-0.003907 0.78125 0.15625 1.5508 0.47266 2.2617l1.6992 3.9062c0.19531 0.42969 0.29297 0.89844 0.28516 1.375v0.64453-0.003906c-0.95312 0.4375-1.5664 1.3867-1.5703 2.4375v4.2266c-3.6875 0.45703-6.4609 3.5898-6.4648 7.3086v14.656c0 3.8125 2.9102 6.9922 6.707 7.332 3.7969 0.33594 7.2266-2.2812 7.8984-6.0312h8.2109c0.29297 0 0.57812-0.11719 0.78516-0.32812 0.20703-0.20703 0.32422-0.48828 0.32422-0.78516v-15.035c0-0.29297-0.11719-0.57422-0.32422-0.78516-0.20703-0.20703-0.49219-0.32422-0.78516-0.32422h-0.69531v-2.2305h2.6836c1.4805-0.003906 2.6797-1.1992 2.6836-2.6758v-5.332c-0.003906-1.0508-0.61719-2.0039-1.5703-2.4375v-3.8438c-0.007812-0.55469 0.125-1.1016 0.39063-1.5898l2.7266-5.2227c0.46484-0.90234 0.99219-1.7695 1.5703-2.6016 1.1367-1.6094 1.918-3.4375 2.3008-5.3672 0.25781-0.92578 0.054687-1.9219-0.53906-2.6797zm-45.629 64.441h3.5703c1.1875 0 2.1523 0.96484 2.1523 2.1562 0 1.1875-0.96484 2.1523-2.1523 2.1523h-3.5703c-1.1914 0-2.1562-0.96484-2.1562-2.1523 0-1.1914 0.96484-2.1562 2.1562-2.1562zm-12.418-31.375c0.33203 0.69141 0.5 1.4492 0.5 2.2188v14.652c0 0.76562-0.16797 1.5273-0.5 2.2188-2.6875-2.4297-4.1641-5.9258-4.0352-9.5469-0.12891-3.6211 1.3477-7.1133 4.0352-9.543zm-9.7773 2.2188c0-1.9922 1.1445-3.8008 2.9453-4.6523 1.7969-0.84766 3.9258-0.58203 5.4609 0.68359-3.2227 2.8516-5.0117 6.9922-4.8828 11.293-0.12891 4.3047 1.6641 8.4414 4.8867 11.293-1.5352 1.2656-3.6641 1.5312-5.4609 0.68359-1.8008-0.84766-2.9453-2.6602-2.9453-4.6484zm-9.1992 0.91797h6.9805v12.816h-6.9805zm33.18-39.992c-7.1797-0.0625-14.133 2.5156-19.531 7.25-5.1406 4.4023-8.125 10.809-8.1914 17.574v12.945h-3.6562v-12.945c0-15.352 14.074-27.844 31.375-27.844l0.003906 0.003906c5.9805-0.023437 11.867 1.5312 17.055 4.5078v3.8008-0.003906c-5.0039-3.4727-10.961-5.3203-17.055-5.2891zm14.199 55.945c-0.33203-0.69141-0.50391-1.4531-0.5-2.2188v-14.652c-0.003906-0.76953 0.16797-1.5273 0.5-2.2188 2.6875 2.4297 4.1641 5.9219 4.0352 9.543 0.12891 3.6211-1.3438 7.1172-4.0312 9.5469zm9.7773-2.2188c0 1.9883-1.1484 3.8008-2.9453 4.6484-1.8008 0.84766-3.9258 0.58203-5.4609-0.68359 3.2227-2.8516 5.0156-6.9883 4.8867-11.293 0.12891-4.3008-1.6641-8.4414-4.8867-11.293 0.74609-0.61719 1.6562-1.0078 2.6172-1.1289 0.4375 0.94922 1.3867 1.5586 2.4336 1.5625h1.9336c0.91016 0.95312 1.418 2.2188 1.4219 3.5352zm1.3086-18.188h0.21094v0.41406c-0.0625-0.14062-0.13281-0.27734-0.21094-0.41406zm7.8945 17.27h-6.9805v-12.816h6.9805zm-1.8047-15.039h-3.6523v-2.2305h3.6523zm5.3672-4.9062c-0.003907 0.25-0.20703 0.45313-0.45703 0.45703h-15.66c-0.25391-0.003906-0.45703-0.20703-0.46094-0.45703v-5.332c0.003906-0.25391 0.20703-0.45703 0.46094-0.46094h15.656c0.25391 0.003906 0.45703 0.20703 0.46094 0.46094zm5.4922-26.961c-0.32031 1.6875-0.99609 3.2852-1.9844 4.6875-0.62891 0.89844-1.1992 1.8398-1.707 2.8164l-2.7266 5.2227c-0.42969 0.80859-0.65234 1.707-0.64453 2.6211v3.6016h-13.438v-0.39844c0.007813-0.78125-0.15234-1.5508-0.46875-2.2617l-1.6992-3.9062c-0.19531-0.43359-0.29297-0.89844-0.28906-1.375v-17.07c0-0.68359 0.55469-1.2344 1.2344-1.2344s1.2344 0.55078 1.2344 1.2344c0 0.61328 0.49609 1.1094 1.1094 1.1094s1.1133-0.49609 1.1133-1.1094c0-0.22266-0.023437-0.44141-0.066406-0.65625 0.042969-0.12109 0.0625-0.24219 0.066406-0.36719 0-0.68359 0.55078-1.2344 1.2305-1.2344 0.68359 0 1.2344 0.55078 1.2344 1.2344 0 0.61328 0.49609 1.1094 1.1094 1.1094s1.1133-0.49609 1.1133-1.1094c0-0.12891-0.007812-0.25781-0.023437-0.38281 0.015625-0.070313 0.023437-0.14453 0.023437-0.21875 0.019531-0.66406 0.5625-1.1953 1.2305-1.1953s1.2148 0.53125 1.2344 1.1953v0.60156c0 0.61328 0.5 1.1094 1.1133 1.1094 0.61328 0 1.1094-0.49609 1.1094-1.1094 0-0.67969 0.55078-1.2344 1.2344-1.2344 0.67969 0 1.2305 0.55469 1.2305 1.2344v7.9844c0 0.61328 0.5 1.1133 1.1133 1.1133 0.61328 0 1.1094-0.5 1.1094-1.1133v-2h3.3633c0.27344 0 0.52734 0.12891 0.69141 0.34375 0.16797 0.21484 0.22266 0.49609 0.14844 0.75781zm-28.047 19.938v-12.355c-0.003906-2.5703-2.0859-4.6562-4.6602-4.6602h-22.078c-2.5703 0.003906-4.6562 2.0898-4.6602 4.6602v12.355c0.003906 2.5703 2.0898 4.6523 4.6602 4.6562h8.4336l12.059 6.9648c0.34375 0.19922 0.76953 0.19922 1.1133 0s0.55469-0.5625 0.55469-0.96094v-6c2.543-0.046875 4.5742-2.1211 4.5781-4.6602zm-5.6836 2.4375v-0.003906c-0.61328 0.003906-1.1133 0.5-1.1133 1.1133v5.1914l-10.656-6.1562c-0.16797-0.09375-0.35938-0.14844-0.55469-0.14844h-8.7305c-1.3438 0-2.4336-1.0898-2.4375-2.4336v-12.355c0.003906-1.3438 1.0938-2.4336 2.4375-2.4375h22.078c1.3477 0.003906 2.4375 1.0938 2.4375 2.4375v12.355c0 1.3438-1.0898 2.4336-2.4375 2.4336zm-0.39453-12.199v-0.003906c0 0.61328-0.49609 1.1133-1.1133 1.1133h-17.016c-0.60156-0.019531-1.0781-0.51172-1.0781-1.1133s0.47656-1.0938 1.0781-1.1133h17.016c0.29688 0 0.57812 0.11719 0.78906 0.32812 0.20703 0.20703 0.32422 0.49219 0.32422 0.78516zm0 7.4141v-0.003907c0 0.61328-0.49609 1.1133-1.1133 1.1133h-17.016c-0.61328 0-1.1133-0.5-1.1133-1.1133 0-0.61328 0.5-1.1094 1.1133-1.1094h17.016c0.29688 0 0.57812 0.11719 0.78906 0.32422 0.20703 0.21094 0.32422 0.49219 0.32422 0.78906z" fill="currentColor"/>--}}
-{{--                                </svg>--}}
-{{--                            </div>--}}
-{{--                            <span class="block mt-2 font-medium text-primary transition-colors duration-200 group-hover:text-primary-light h-10 text-xs sm:text-sm leading-tight">Organizavimas</span>--}}
-{{--                        </button>--}}
-{{--                    </div>--}}
-{{--                </li>--}}
+                <li>
+                    <div class="w-[110px] flex-none snap-always snap-center">
+                        <button class="inline-block p-4 rounded-t-lg transition-all duration-200 hover:bg-gray-50 group"
+                                id="dashboard-styled-tab" data-tabs-target="#styled-organizavimas" type="button" role="tab" aria-controls="dashboard" aria-selected="false">
+                            <div class="w-14 h-14 mx-auto relative flex items-center justify-center transition-transform duration-200 transform group-hover:-translate-y-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-5.0 -10.0 110.0 135.0" class="w-full h-full text-gray-600 group-hover:text-primary-light" aria-hidden="true" fill="currentColor">
+                                    <path d="m89.301 19.027c-0.57812-0.76953-1.4922-1.2188-2.4531-1.2109h-3.3594v-3.7617c0-1.3008-0.72656-2.4883-1.8828-3.082-1.1562-0.58984-2.5469-0.48047-3.5977 0.28125-0.65625-0.79688-1.6328-1.2578-2.6641-1.2578s-2.0078 0.46094-2.6641 1.2578c-0.75781-0.55469-1.7109-0.76953-2.6367-0.60547-0.92578 0.16797-1.7422 0.70312-2.2617 1.4883-0.9375-0.58203-2.0977-0.67969-3.1172-0.26562-1.0195 0.41797-1.7812 1.293-2.0508 2.3633-5.2812-2.8008-11.176-4.2578-17.156-4.2344-8.707-0.078125-17.137 3.0508-23.684 8.7852-6.2227 5.3281-9.8398 13.086-9.9141 21.277v12.945h-0.70312c-0.29297 0-0.57422 0.11719-0.78516 0.32422-0.20703 0.21094-0.32422 0.49219-0.32422 0.78516v15.039c0 0.29297 0.11719 0.57812 0.32422 0.78516 0.21094 0.20703 0.49219 0.32422 0.78516 0.32422h3.3906v7.875l0.003906 0.003906c0.003907 4.7422 3.8477 8.5859 8.5898 8.5898h16.297c0.50781 1.9219 2.2461 3.2617 4.2344 3.2656h3.5703c2.4141 0 4.375-1.9609 4.375-4.375 0-2.418-1.9609-4.3789-4.375-4.3789h-3.5703c-1.9883 0.003906-3.7266 1.3438-4.2344 3.2656h-16.289c-3.5195-0.003907-6.3672-2.8516-6.3711-6.3672v-7.8789h2.5938c0.67578 3.7539 4.1016 6.3711 7.8984 6.0312 3.7969-0.33594 6.7109-3.5156 6.7109-7.3281v-14.656c-0.003907-4.0664-3.2969-7.3594-7.3633-7.3633-2.8516 0-5.4453 1.6484-6.6602 4.2266v-11.113c0-12.465 11.438-22.602 25.5-22.602v0.003906c6.1836-0.042969 12.199 2.0195 17.055 5.8477v8.8398c-0.003907 0.78125 0.15625 1.5508 0.47266 2.2617l1.6992 3.9062c0.19531 0.42969 0.29297 0.89844 0.28516 1.375v0.64453-0.003906c-0.95312 0.4375-1.5664 1.3867-1.5703 2.4375v4.2266c-3.6875 0.45703-6.4609 3.5898-6.4648 7.3086v14.656c0 3.8125 2.9102 6.9922 6.707 7.332 3.7969 0.33594 7.2266-2.2812 7.8984-6.0312h8.2109c0.29297 0 0.57812-0.11719 0.78516-0.32812 0.20703-0.20703 0.32422-0.48828 0.32422-0.78516v-15.035c0-0.29297-0.11719-0.57422-0.32422-0.78516-0.20703-0.20703-0.49219-0.32422-0.78516-0.32422h-0.69531v-2.2305h2.6836c1.4805-0.003906 2.6797-1.1992 2.6836-2.6758v-5.332c-0.003906-1.0508-0.61719-2.0039-1.5703-2.4375v-3.8438c-0.007812-0.55469 0.125-1.1016 0.39063-1.5898l2.7266-5.2227c0.46484-0.90234 0.99219-1.7695 1.5703-2.6016 1.1367-1.6094 1.918-3.4375 2.3008-5.3672 0.25781-0.92578 0.054687-1.9219-0.53906-2.6797zm-45.629 64.441h3.5703c1.1875 0 2.1523 0.96484 2.1523 2.1562 0 1.1875-0.96484 2.1523-2.1523 2.1523h-3.5703c-1.1914 0-2.1562-0.96484-2.1562-2.1523 0-1.1914 0.96484-2.1562 2.1562-2.1562zm-12.418-31.375c0.33203 0.69141 0.5 1.4492 0.5 2.2188v14.652c0 0.76562-0.16797 1.5273-0.5 2.2188-2.6875-2.4297-4.1641-5.9258-4.0352-9.5469-0.12891-3.6211 1.3477-7.1133 4.0352-9.543zm-9.7773 2.2188c0-1.9922 1.1445-3.8008 2.9453-4.6523 1.7969-0.84766 3.9258-0.58203 5.4609 0.68359-3.2227 2.8516-5.0117 6.9922-4.8828 11.293-0.12891 4.3047 1.6641 8.4414 4.8867 11.293-1.5352 1.2656-3.6641 1.5312-5.4609 0.68359-1.8008-0.84766-2.9453-2.6602-2.9453-4.6484zm-9.1992 0.91797h6.9805v12.816h-6.9805zm33.18-39.992c-7.1797-0.0625-14.133 2.5156-19.531 7.25-5.1406 4.4023-8.125 10.809-8.1914 17.574v12.945h-3.6562v-12.945c0-15.352 14.074-27.844 31.375-27.844l0.003906 0.003906c5.9805-0.023437 11.867 1.5312 17.055 4.5078v3.8008-0.003906c-5.0039-3.4727-10.961-5.3203-17.055-5.2891zm14.199 55.945c-0.33203-0.69141-0.50391-1.4531-0.5-2.2188v-14.652c-0.003906-0.76953 0.16797-1.5273 0.5-2.2188 2.6875 2.4297 4.1641 5.9219 4.0352 9.543 0.12891 3.6211-1.3438 7.1172-4.0312 9.5469zm9.7773-2.2188c0 1.9883-1.1484 3.8008-2.9453 4.6484-1.8008 0.84766-3.9258 0.58203-5.4609-0.68359 3.2227-2.8516 5.0156-6.9883 4.8867-11.293 0.12891-4.3008-1.6641-8.4414-4.8867-11.293 0.74609-0.61719 1.6562-1.0078 2.6172-1.1289 0.4375 0.94922 1.3867 1.5586 2.4336 1.5625h1.9336c0.91016 0.95312 1.418 2.2188 1.4219 3.5352zm1.3086-18.188h0.21094v0.41406c-0.0625-0.14062-0.13281-0.27734-0.21094-0.41406zm7.8945 17.27h-6.9805v-12.816h6.9805zm-1.8047-15.039h-3.6523v-2.2305h3.6523zm5.3672-4.9062c-0.003907 0.25-0.20703 0.45313-0.45703 0.45703h-15.66c-0.25391-0.003906-0.45703-0.20703-0.46094-0.45703v-5.332c0.003906-0.25391 0.20703-0.45703 0.46094-0.46094h15.656c0.25391 0.003906 0.45703 0.20703 0.46094 0.46094zm5.4922-26.961c-0.32031 1.6875-0.99609 3.2852-1.9844 4.6875-0.62891 0.89844-1.1992 1.8398-1.707 2.8164l-2.7266 5.2227c-0.42969 0.80859-0.65234 1.707-0.64453 2.6211v3.6016h-13.438v-0.39844c0.007813-0.78125-0.15234-1.5508-0.46875-2.2617l-1.6992-3.9062c-0.19531-0.43359-0.29297-0.89844-0.28906-1.375v-17.07c0-0.68359 0.55469-1.2344 1.2344-1.2344s1.2344 0.55078 1.2344 1.2344c0 0.61328 0.49609 1.1094 1.1094 1.1094s1.1133-0.49609 1.1133-1.1094c0-0.22266-0.023437-0.44141-0.066406-0.65625 0.042969-0.12109 0.0625-0.24219 0.066406-0.36719 0-0.68359 0.55078-1.2344 1.2305-1.2344 0.68359 0 1.2344 0.55078 1.2344 1.2344 0 0.61328 0.49609 1.1094 1.1094 1.1094s1.1133-0.49609 1.1133-1.1094c0-0.12891-0.007812-0.25781-0.023437-0.38281 0.015625-0.070313 0.023437-0.14453 0.023437-0.21875 0.019531-0.66406 0.5625-1.1953 1.2305-1.1953s1.2148 0.53125 1.2344 1.1953v0.60156c0 0.61328 0.5 1.1094 1.1133 1.1094 0.61328 0 1.1094-0.49609 1.1094-1.1094 0-0.67969 0.55078-1.2344 1.2344-1.2344 0.67969 0 1.2305 0.55469 1.2305 1.2344v7.9844c0 0.61328 0.5 1.1133 1.1133 1.1133 0.61328 0 1.1094-0.5 1.1094-1.1133v-2h3.3633c0.27344 0 0.52734 0.12891 0.69141 0.34375 0.16797 0.21484 0.22266 0.49609 0.14844 0.75781zm-28.047 19.938v-12.355c-0.003906-2.5703-2.0859-4.6562-4.6602-4.6602h-22.078c-2.5703 0.003906-4.6562 2.0898-4.6602 4.6602v12.355c0.003906 2.5703 2.0898 4.6523 4.6602 4.6562h8.4336l12.059 6.9648c0.34375 0.19922 0.76953 0.19922 1.1133 0s0.55469-0.5625 0.55469-0.96094v-6c2.543-0.046875 4.5742-2.1211 4.5781-4.6602zm-5.6836 2.4375v-0.003906c-0.61328 0.003906-1.1133 0.5-1.1133 1.1133v5.1914l-10.656-6.1562c-0.16797-0.09375-0.35938-0.14844-0.55469-0.14844h-8.7305c-1.3438 0-2.4336-1.0898-2.4375-2.4336v-12.355c0.003906-1.3438 1.0938-2.4336 2.4375-2.4375h22.078c1.3477 0.003906 2.4375 1.0938 2.4375 2.4375v12.355c0 1.3438-1.0898 2.4336-2.4375 2.4336zm-0.39453-12.199v-0.003906c0 0.61328-0.49609 1.1133-1.1133 1.1133h-17.016c-0.60156-0.019531-1.0781-0.51172-1.0781-1.1133s0.47656-1.0938 1.0781-1.1133h17.016c0.29688 0 0.57812 0.11719 0.78906 0.32812 0.20703 0.20703 0.32422 0.49219 0.32422 0.78516zm0 7.4141v-0.003907c0 0.61328-0.49609 1.1133-1.1133 1.1133h-17.016c-0.61328 0-1.1133-0.5-1.1133-1.1133 0-0.61328 0.5-1.1094 1.1133-1.1094h17.016c0.29688 0 0.57812 0.11719 0.78906 0.32422 0.20703 0.21094 0.32422 0.49219 0.32422 0.78906z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <span class="block mt-2 font-medium text-primary transition-colors duration-200 group-hover:text-primary-light h-10 text-xs sm:text-sm leading-tight">Organizavimas</span>
+                        </button>
+                    </div>
+                </li>
             </ul>
-
         </section>
 
 
             <section class="antialiased md:py-12 p-12">
                 <!-- Valymas -->
-                <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 " id="styled-valymas" role="tabpanel" aria-labelledby="valymas-tab">
-                    @foreach($categories as $category)
-                        @if($category['name'] === 'Namų priežiūra ir valymas') <!-- Check for 'Cleaning' category -->
-                        @foreach($category['subcategories'] as $subcategory) <!-- Loop through subcategories -->
-                        <a
-                            href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
-                            class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 shadow-sm hover:shadow hover:bg-gray-50 transition-all duration-200">
-                            <span class="text-sm font-medium text-gray-900">{{ $subcategory['name'] }}</span>
-                        </a>
+                <div class="hidden" id="styled-valymas" role="tabpanel" aria-labelledby="valymas-tab">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">Namų priežiūra ir valymas</h3>
+                    <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+                        @foreach($categories as $category)
+                            @if($category['name'] === 'Namų priežiūra ir valymas')
+                                @foreach($category['subcategories'] as $subcategory)
+                                    <a href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
+                                       class="flex items-center p-4 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-light/50 transition-all duration-200 group">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
+                                            <!-- You can use an appropriate icon for each subcategory -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <span class="text-sm font-medium text-gray-900 group-hover:text-primary-light">{{ $subcategory['name'] }}</span>
+                                        </div>
+                                    </a>
+                                @endforeach
+                            @endif
                         @endforeach
-                        @endif
-                    @endforeach
-                 </div>
+                    </div>
+                </div>
 
                 <!-- Kuryba -->
-                <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-kuryba" role="tabpanel" aria-labelledby="kuryba-tab">
-                    @foreach($categories as $category)
-                        @if($category['name'] === 'Kūrybinės ir medijų paslaugos')
-                        @foreach($category['subcategories'] as $subcategory)
-                                <a
-                                    href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
-                                    class="flex items-center rounded-lg border border-gray-200 bg-white px-5 py-3 hover:bg-gray-50">
-                                    <span class="text-sm font-medium text-gray-900">{{ $subcategory['name'] }}</span>
-                                </a>
+                <div class="hidden" id="styled-kuryba" role="tabpanel" aria-labelledby="kuryba-tab">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">Kūrybinės Paslaugos</h3>
+                    <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        @foreach($categories as $category)
+                            @if($category['name'] === 'Kūrybinės Paslaugos')
+                                @foreach($category['subcategories'] as $subcategory)
+                                    <a href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
+                                       class="flex items-center p-4 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-light/50 transition-all duration-200 group">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4V5h12v10z" clip-rule="evenodd" />
+                                                <path d="M8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <span class="text-sm font-medium text-gray-900 group-hover:text-primary-light">{{ $subcategory['name'] }}</span>
+                                        </div>
+                                    </a>
+                                @endforeach
+                            @endif
                         @endforeach
-                        @endif
-                    @endforeach
+                    </div>
                 </div>
 
                 <!-- Meistrai -->
-                <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-meistrai" role="tabpanel" aria-labelledby="meistrai-tab">
-                @foreach($categories as $category)
-                    @if($category['name'] === 'Meistriški darbai ir remontas')
-                    @foreach($category['subcategories'] as $subcategory)
-                                <a
-                                    href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
-                                    class="flex items-center rounded-lg border border-gray-200 bg-white px-5 py-3 hover:bg-gray-50">
-                                    <span class="text-sm font-medium text-gray-900">{{ $subcategory['name'] }}</span>
-                                </a>
-                    @endforeach
-                    @endif
-                @endforeach
-            </div>
+                <div class="hidden" id="styled-meistrai" role="tabpanel" aria-labelledby="meistrai-tab">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">Meistrai ir remontas</h3>
+                    <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        @foreach($categories as $category)
+                            @if($category['name'] === 'Meistrai ir remontas')
+                                @foreach($category['subcategories'] as $subcategory)
+                                    <a href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
+                                       class="flex items-center p-4 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-light/50 transition-all duration-200 group">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <span class="text-sm font-medium text-gray-900 group-hover:text-primary-light">{{ $subcategory['name'] }}</span>
+                                        </div>
+                                    </a>
+                                @endforeach
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
 
                 <!-- Kraustymas -->
-                <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-kraustymas" role="tabpanel" aria-labelledby="kraustymas-tab">
-                    @foreach($categories as $category)
-                        @if($category['name'] === 'Pristatymas ir transportavimas')
-                            @foreach($category['subcategories'] as $subcategory)
-                                <a
-                                    href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
-                                    class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50">
-                                    <span class="text-sm font-medium text-gray-900">{{ $subcategory['name'] }}</span>
-                                </a>
-                            @endforeach
-                        @endif
-                    @endforeach
+                <div class="hidden" id="styled-kraustymas" role="tabpanel" aria-labelledby="kraustymas-tab">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">Perkraustymo ir pakavimo paslaugos</h3>
+                    <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        @foreach($categories as $category)
+                            @if($category['name'] === 'Perkraustymo ir pakavimo paslaugos')
+                                @foreach($category['subcategories'] as $subcategory)
+                                    <a href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
+                                       class="flex items-center p-4 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-light/50 transition-all duration-200 group">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8z" />
+                                                <path d="M12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <span class="text-sm font-medium text-gray-900 group-hover:text-primary-light">{{ $subcategory['name'] }}</span>
+                                        </div>
+                                    </a>
+                                @endforeach
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
 
                 <!-- Sodininkyste -->
-                <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-sodininkyste" role="tabpanel" aria-labelledby="sodininkyste-tab">
-                    @foreach($categories as $category)
-                        @if($category['name'] === 'Sodininkystė ir lauko paslaugos')
-                            @foreach($category['subcategories'] as $subcategory)
-                                <a
-                                    href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
-                                    class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50">
-                                    <span class="text-sm font-medium text-gray-900">{{ $subcategory['name'] }}</span>
-                                </a>
-                            @endforeach
-                        @endif
-                    @endforeach
+                <div class="hidden" id="styled-sodininkyste" role="tabpanel" aria-labelledby="sodininkyste-tab">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">Sodininkystės ir lauko paslaugos</h3>
+                    <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        @foreach($categories as $category)
+                            @if($category['name'] === 'Sodininkystės ir lauko paslaugos')
+                                @foreach($category['subcategories'] as $subcategory)
+                                    <a href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
+                                       class="flex items-center p-4 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-light/50 transition-all duration-200 group">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M5.5 17a4.5 4.5 0 01-1.44-8.765 4.5 4.5 0 018.302-3.046 3.5 3.5 0 014.504 4.272A4 4 0 0115 17H5.5zm3.75-2.75a.75.75 0 001.5 0V9.66l1.95 2.1a.75.75 0 101.1-1.02l-3.25-3.5a.75.75 0 00-1.1 0l-3.25 3.5a.75.75 0 101.1 1.02l1.95-2.1v4.59z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <span class="text-sm font-medium text-gray-900 group-hover:text-primary-light">{{ $subcategory['name'] }}</span>
+                                        </div>
+                                    </a>
+                                @endforeach
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
 
 
                 <!-- fitnesas -->
-                <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-fitnesas" role="tabpanel" aria-labelledby="fitnesas-tab">
-                    @foreach($categories as $category)
-                        @if($category['name'] === 'Fitness ir gerovė')
-                            @foreach($category['subcategories'] as $subcategory)
-                                <a
-                                    href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
-                                    class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50">
-                                    <span class="text-sm font-medium text-gray-900">{{ $subcategory['name'] }}</span>
-                                </a>
-                            @endforeach
-                        @endif
-                    @endforeach
+                <div class="hidden" id="styled-fitnesas" role="tabpanel" aria-labelledby="fitnesas-tab">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">Fitnesas ir Sveikatingumus</h3>
+                    <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        @foreach($categories as $category)
+                            @if($category['name'] === 'Fitnesas ir Sveikatingumus')
+                                @foreach($category['subcategories'] as $subcategory)
+                                    <a href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
+                                       class="flex items-center p-4 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-light/50 transition-all duration-200 group">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <span class="text-sm font-medium text-gray-900 group-hover:text-primary-light">{{ $subcategory['name'] }}</span>
+                                        </div>
+                                    </a>
+                                @endforeach
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
 
                 <!-- Organizavimas -->
-                <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-organizavimas" role="tabpanel" aria-labelledby="organizavimas-tab">
-                @foreach($categories as $category)
-                    @if($category['name'] === 'Renginių palaikymas')
-                        @foreach($category['subcategories'] as $subcategory)
-                                <a
-                                    href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
-                                    class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50">
-                                    <span class="text-sm font-medium text-gray-900">{{ $subcategory['name'] }}</span>
-                                </a>
+                <div class="hidden" id="styled-organizavimas" role="tabpanel" aria-labelledby="organizavimas-tab">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">Renginių Pagalba</h3>
+                    <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        @foreach($categories as $category)
+                            @if($category['name'] === 'Renginių Pagalba')
+                                @foreach($category['subcategories'] as $subcategory)
+                                    <a href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
+                                       class="flex items-center p-4 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-light/50 transition-all duration-200 group">
+                                        <div class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-1a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v1h-3zM4.75 14.094A5.973 5.973 0 004 15v1H1v-1a3 3 0 015-2.262z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <span class="text-sm font-medium text-gray-900 group-hover:text-primary-light">{{ $subcategory['name'] }}</span>
+                                        </div>
+                                    </a>
+                                @endforeach
+                            @endif
                         @endforeach
-                    @endif
-                @endforeach
+                    </div>
                 </div>
             </section>
 
