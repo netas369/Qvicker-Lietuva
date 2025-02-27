@@ -311,7 +311,7 @@
                 <!-- Kuryba -->
                 <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-kuryba" role="tabpanel" aria-labelledby="kuryba-tab">
                     @foreach($categories as $category)
-                        @if($category['name'] === 'Kūrybinės ir medijų paslaugos')
+                        @if($category['name'] === 'Kūrybinės Paslaugos')
                         @foreach($category['subcategories'] as $subcategory)
                                 <a
                                     href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
@@ -326,7 +326,7 @@
                 <!-- Meistrai -->
                 <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-meistrai" role="tabpanel" aria-labelledby="meistrai-tab">
                 @foreach($categories as $category)
-                    @if($category['name'] === 'Meistriški darbai ir remontas')
+                    @if($category['name'] === 'Meistrai ir remontas')
                     @foreach($category['subcategories'] as $subcategory)
                                 <a
                                     href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
@@ -341,7 +341,7 @@
                 <!-- Kraustymas -->
                 <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-kraustymas" role="tabpanel" aria-labelledby="kraustymas-tab">
                     @foreach($categories as $category)
-                        @if($category['name'] === 'Pristatymas ir transportavimas')
+                        @if($category['name'] === 'Perkraustymo ir pakavimo paslaugos')
                             @foreach($category['subcategories'] as $subcategory)
                                 <a
                                     href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
@@ -356,7 +356,7 @@
                 <!-- Sodininkyste -->
                 <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-sodininkyste" role="tabpanel" aria-labelledby="sodininkyste-tab">
                     @foreach($categories as $category)
-                        @if($category['name'] === 'Sodininkystė ir lauko paslaugos')
+                        @if($category['name'] === 'Sodininkystės ir lauko paslaugos')
                             @foreach($category['subcategories'] as $subcategory)
                                 <a
                                     href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
@@ -372,7 +372,7 @@
                 <!-- fitnesas -->
                 <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-fitnesas" role="tabpanel" aria-labelledby="fitnesas-tab">
                     @foreach($categories as $category)
-                        @if($category['name'] === 'Fitness ir gerovė')
+                        @if($category['name'] === 'Fitnesas ir Sveikatingumus')
                             @foreach($category['subcategories'] as $subcategory)
                                 <a
                                     href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
@@ -387,7 +387,7 @@
                 <!-- Organizavimas -->
                 <div class="hidden grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="styled-organizavimas" role="tabpanel" aria-labelledby="organizavimas-tab">
                 @foreach($categories as $category)
-                    @if($category['name'] === 'Renginių palaikymas')
+                    @if($category['name'] === 'Renginių Pagalba')
                         @foreach($category['subcategories'] as $subcategory)
                                 <a
                                     href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"

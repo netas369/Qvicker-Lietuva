@@ -1,4 +1,3 @@
-{{-- resources/views/livewire/provider-calendar.blade.php --}}
 <div class="w-full max-w-4xl mx-auto p-4">
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
         <!-- Calendar Header -->

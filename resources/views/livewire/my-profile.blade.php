@@ -63,7 +63,12 @@
                 <!-- About Me Section -->
                 <div class="mb-6">
                     <h2 class="text-lg font-semibold mb-2">Apie Mane</h2>
+                    @if($this->user->role === 'provider')
                     <textarea wire:model="aboutMe" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('aboutMe') border-red-500 @enderror" placeholder="Apibūdinkite savo darbo įgūdžius..."></textarea>
+                    @endif
+                    @if($this->user->role === 'seeker')
+                    <textarea wire:model="aboutMe" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('aboutMe') border-red-500 @enderror" placeholder="Apibūdinkite save..."></textarea>
+                    @endif
                     @error('aboutMe')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror

@@ -19,6 +19,7 @@
                     </div>
                 </a>
 
+                @if(auth()->user()->role === 'provider')
                 <a href="{{ route('provider.calendar') }}"
                    class="w-1/2 sm:w-auto whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm sm:text-base md:text-lg transition duration-150 ease-in-out ml-0 sm:ml-8 md:ml-12
                    {{ Route::currentRouteName() == 'provider.calendar'
@@ -31,6 +32,7 @@
                         <span>Kalendorius</span>
                     </div>
                 </a>
+                @endif
             </nav>
         </div>
     </div>
