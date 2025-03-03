@@ -49,6 +49,6 @@
         </div>
     </div>
 
+    <livewire:provider-work-categories />
 
-    <livewire:provider-calendar />
 @endsection

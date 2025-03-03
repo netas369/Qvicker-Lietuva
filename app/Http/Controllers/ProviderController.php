@@ -15,4 +15,9 @@ class ProviderController extends Controller
     {
         return view('profile.calendar');
     }
+
+    public function work()
+    {
+        return view('profile.work');
+    }
 }
