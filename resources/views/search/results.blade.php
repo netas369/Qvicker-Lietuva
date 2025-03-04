@@ -4,21 +4,52 @@
     <div class="w-full max-w-4xl mx-auto p-2 md:p-4">
         <div class="mb-4 md:mb-6">
             <h1 class="text-xl md:text-2xl font-bold text-primary mb-2">Rasti meistrai</h1>
-            <div class="flex flex-wrap gap-1 md:gap-2 text-xs md:text-sm text-gray-600">
-                @if($subcategory)
-                    <span class="bg-gray-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full">{{ $subcategory }}</span>
-                @endif
-                <span class="bg-gray-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full">{{ $city }}</span>
-                <span class="bg-gray-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full">
-                    @if($taskSize == 'small')
-                        Maža (1-2 val.)
-                    @elseif($taskSize == 'medium')
-                        Vidutinė (2-4 val.)
-                    @else
-                        Didelė (4-8 val.)
+
+            <!-- Search filters with date change functionality -->
+            <div class="mb-3">
+                <form action="{{ route('search.results') }}" method="POST" class="flex flex-wrap items-end gap-2">
+                    @csrf
+                    <!-- Hidden fields to preserve current search parameters -->
+                    <input type="hidden" name="subcategory" value="{{ $subcategory ?? '' }}">
+                    @if(isset($subcategoryId))
+                        <input type="hidden" name="subcategory_id" value="{{ $subcategoryId }}">
                     @endif
-                </span>
-                <span class="bg-gray-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full">{{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}</span>
+                    <input type="hidden" name="city" value="{{ $city }}">
+                    <input type="hidden" name="task_size" value="{{ $taskSize }}">
+
+                    <!-- Current filters display -->
+                    <div class="flex flex-wrap gap-1 md:gap-2 text-xs md:text-sm text-gray-600">
+                        @if($subcategory)
+                            <span class="bg-gray-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full">{{ $subcategory }}</span>
+                        @endif
+                        <span class="bg-gray-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full">{{ $city }}</span>
+                        <span class="bg-gray-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full">
+                            @if($taskSize == 'small')
+                                Maža (1-2 val.)
+                            @elseif($taskSize == 'medium')
+                                Vidutinė (2-4 val.)
+                            @else
+                                Didelė (4-8 val.)
+                            @endif
+                        </span>
+                    </div>
+
+                    <!-- Date filter input -->
+                    <div class="flex items-center gap-2 ml-auto mt-2 md:mt-0">
+                        <label for="date-filter" class="text-xs md:text-sm text-gray-600">Data:</label>
+                        <input
+                            type="date"
+                            id="date-filter"
+                            name="date"
+                            value="{{ $date }}"
+                            min="{{ date('Y-m-d') }}"
+                            class="text-xs md:text-sm border border-gray-300 rounded px-2 py-1 md:px-3 md:py-1.5"
+                        >
+                        <button type="submit" class="bg-primary text-white text-xs md:text-sm rounded px-2 py-1 md:px-3 md:py-1.5 hover:bg-primary-dark transition">
+                            Atnaujinti
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -72,9 +103,9 @@
                                     </div>
 
                                     <!-- Mobile: Button at the bottom right corner -->
-                                    <div class="mt-2 md:mt-4 flex justify-end">
+                                    <div class="mt-2 md:mt-3 flex justify-end">
                                         <a href=""
-                                           class="inline-block rounded-md bg-gradient-to-tr from-primary to-primary-light py-1 px-3 md:py-3 md:px-6 border border-transparent
+                                           class="inline-block rounded-md bg-gradient-to-tr from-primary to-primary-light py-1 px-3 md:py-2 md:px-4 border border-transparent
                                            text-center text-xs md:text-base text-white font-sans hover:from-primary-dark hover:to-primary-light transition">
                                             Rezervuoti
                                         </a>
