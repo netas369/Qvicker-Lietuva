@@ -172,7 +172,7 @@
                 @if($this->user->role === 'provider')
                     <!-- Work Categories Section -->
                     <div class="mb-6">
-                        <h3 class="text-lg font-medium text-gray-800 mb-3">Darbo Kategorijos</h3>
+                        <h3 class="text-lg font-medium text-gray-800 mb-3">Jūsų Darbo Kategorijos</h3>
 
                         <!-- Category Cards Display -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
