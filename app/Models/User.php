@@ -81,5 +81,21 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Category::class, 'user_subcategory', 'user_id', 'subcategory_id');
     }
 
+    /**
+     * Get the reservations made by this seeker.
+     */
+    public function seekerReservations()
+    {
+        return $this->hasMany(Reservation::class, 'seeker_id');
+    }
+
+    /**
+     * Get the reservations assigned to this provider.
+     */
+    public function providerReservations()
+    {
+        return $this->hasMany(Reservation::class, 'provider_id');
+    }
+
 
 }

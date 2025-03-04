@@ -6,6 +6,7 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProviderCalendarController;
 use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\SearchHandymanController;
 use App\Http\Controllers\SeekerController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,13 @@ Route::get('/dashboard', function () {
 // Shared route for both roles
 Route::middleware(['auth', 'role:provider,seeker'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'myprofile'])->name('myprofile');
+    Route::get('/provider/{id}/reserve', [SearchHandymanController::class, 'showReservation'])->name('provider.reserve');
+    Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.request');
+    Route::get('/my-reservations', [ReservationController::class, 'seekerReservations'])->name('reservations.seeker');
+    Route::get('/provider-reservations', [ReservationController::class, 'providerReservations'])->name('reservations.provider');
+    Route::delete('/reservation/{id}/cancel', [ReservationController::class, 'cancel'])->name('reservation.cancel');
+
+
 });
 
 
@@ -63,6 +71,10 @@ Route::middleware(['auth', 'provider'])->group(function () {
     Route::get('/provider/dashboard', [ProviderController::class, 'dashboard'])->name('provider.dashboard');
     Route::get('/provider/calendar', [ProviderController::class, 'calendar'])->name('provider.calendar');
     Route::get('/provider/work', [ProviderController::class, 'work'])->name('provider.work');
+    // Reservation management routes
+    Route::post('/reservation/{id}/accept', [ReservationController::class, 'accept'])->name('reservation.accept');
+    Route::post('/reservation/{id}/decline', [ReservationController::class, 'decline'])->name('reservation.decline');
+    Route::post('/reservation/{id}/complete', [ReservationController::class, 'complete'])->name('reservation.complete');
 });
 
 // Routes for seekers
