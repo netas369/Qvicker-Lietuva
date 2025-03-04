@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use NunoMaduro\Collision\Provider;
 
 class SearchHandymanController extends Controller
 {
@@ -88,6 +89,18 @@ class SearchHandymanController extends Controller
         });
 
         return view('search.results', compact('availableProviders', 'subcategory', 'city', 'taskSize', 'date'));
+    }
+
+    public function showReservation(Request $request, $id)
+    {
+        $provider = User::findOrFail($id);
+
+        $date = $request->query('date', now()->format('Y-m-d'));
+        $taskSize = $request->query('task_size');
+        $subcategory = $request->query('subcategory');
+        $city = $request->query('city');
+
+        return view('search.reserve.reserve', compact('provider', 'date', 'taskSize', 'subcategory', 'city'));
     }
 
 }
