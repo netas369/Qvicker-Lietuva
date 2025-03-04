@@ -70,10 +70,13 @@ class ProviderWorkCategories extends Component
         // Show appropriate success message based on action
         if ($actionType === 'added') {
             session()->flash('message', "Kategorija {$categoryName} sėkmingai pridėta!");
+            session()->flash('messageType', 'added');
         } elseif ($actionType === 'removed') {
             session()->flash('message', "Kategorija {$categoryName} sėkmingai pašalinta!");
+            session()->flash('messageType', 'removed');
         } else {
             session()->flash('message', "Kategorijos sėkmingai atnaujintos!");
+            // Use default message type for general updates
         }
     }
 
