@@ -49,6 +49,8 @@
         </div>
     </div>
 
+    <div class="w-full max-w-4xl mx-auto p-4">
+    <livewire:provider-work-categories />
+    </div>
 
-    <livewire:provider-calendar />
 @endsection

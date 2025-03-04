@@ -167,26 +167,55 @@
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-
-                    @if($this->user->role === 'provider')
-                        <!-- Subcategories -->
-                        <div class="md:col-span-2">
-                            <label for="subcategories" class="block text-sm font-medium text-gray-700">Darbo Kategorijos</label>
-                            <select id="subcategories" name="subcategories[]" multiple
-                                    class="mt-1 block w-full rounded-md  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('subcategories') border-red-500 @enderror">
-                                @foreach($this->user->categories as $category)
-                                    <optgroup class="font-medium"label="{{ $category->category }}">
-                                        <option value="{{ $category->id }}" selected>{{ $category->subcategory }}</option>
-                                    </optgroup>
-                                @endforeach
-                            </select>
-                            @error('subcategories')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    @endif
                 </div>
 
+                @if($this->user->role === 'provider')
+                    <!-- Work Categories Section -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-medium text-gray-800 mb-3">Darbo Kategorijos</h3>
+
+                        <!-- Category Cards Display -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                            @php
+                                // Group subcategories by their parent category
+                                $groupedCategories = collect($this->user->categories)
+                                    ->groupBy('category')
+                                    ->map(function ($items) {
+                                        return $items->pluck('subcategory', 'id');
+                                    });
+                            @endphp
+
+                            @forelse($groupedCategories as $category => $subcategories)
+                                <div class="bg-white rounded-lg border border-gray-200 p-3 shadow-sm hover:shadow transition-shadow">
+                                    <h4 class="font-medium text-gray-800 border-b pb-2 mb-2">{{ $category }}</h4>
+                                    <ul class="space-y-1">
+                                        @foreach($subcategories as $id => $subcategory)
+                                            <li class="text-sm text-gray-600 flex items-start">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                </svg>
+                                                <span>{{ $subcategory }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @empty
+                                <div class="col-span-full bg-gray-50 rounded-lg p-4 text-center text-gray-500">
+                                    Nėra pasirinktų darbo kategorijų
+                                </div>
+                            @endforelse
+                        </div>
+
+                        <!-- Hidden form field for form submission -->
+                        <div class="hidden">
+                            <select id="subcategories" name="subcategories[]" multiple>
+                                @foreach($this->user->categories as $category)
+                                    <option value="{{ $category->id }}" selected>{{ $category->subcategory }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                @endif
                 <!-- Submit Button -->
                 <div class="flex justify-end mt-8">
                     <button type="submit"

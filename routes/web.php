@@ -14,11 +14,6 @@ Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 Route::get('/search', [SearchHandymanController::class, 'index'])->name('search');
 Route::post('/search/results', [SearchHandymanController::class, 'searchResults'])->name('search.results');
 
-// Add this to your routes/web.php file
-//Route::get('/provider/{id}', function($id) {
-//    $provider = \App\Models\User::findOrFail($id);
-//    return view('provider.profile', compact('provider'));
-//})->name('provider.profile');
 
 Route::get('/partners', [LandingPageController::class, 'partners'])->name('partners');
 
@@ -61,12 +56,16 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name
 Route::middleware(['auth', 'provider'])->group(function () {
     Route::get('/provider/dashboard', [ProviderController::class, 'dashboard'])->name('provider.dashboard');
     Route::get('/provider/calendar', [ProviderController::class, 'calendar'])->name('provider.calendar');
+    Route::get('/provider/work', [ProviderController::class, 'work'])->name('provider.work');
 });
 
 // Routes for seekers
 Route::middleware(['auth', 'seeker'])->group(function () {
     Route::get('/seeker/dashboard', [SeekerController::class, 'dashboard'])->name('seeker.dashboard');
-
+    Route::get('/provider/{id}', function($id) {
+        $provider = \App\Models\User::findOrFail($id);
+        return view('provider.profile', compact('provider'));
+    })->name('provider.profile');
     // ... other seeker routes
 });
 
