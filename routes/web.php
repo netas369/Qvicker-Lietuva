@@ -27,30 +27,36 @@ Route::middleware(['auth', 'role:provider,seeker'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'myprofile'])->name('myprofile');
 });
 
-Route::get('register', [RegisteredUserController::class, 'providerOrSeeker']);
 
-// Service Seeker Registration
-Route::get('/register/seeker', [RegisteredUserController::class, 'createSeeker'])->name('register.seeker');
-Route::post('/register/seeker', [RegisteredUserController::class, 'storeSeeker'])->name('register.seeker.store');
 
 
 
 // Service Provider Registration
-Route::get('/register/provider', [RegisteredUserController::class, 'createProviderStep1'])->name('register.provider'); // step 1 personal details form
-Route::post('/register/provider/step1', [RegisteredUserController::class, 'processStep1'])->name('register.provider.processStep1'); // Process Step 1
-
-
-Route::get('/register/provider/step2', [RegisteredUserController::class, 'createProviderStep2'])->name('register.provider.step2'); // Step 2 (Skills Form)
-Route::post('/register/provider/step2', [RegisteredUserController::class, 'processStep2'])->name('register.provider.processStep2'); // Process Step 2
-
-Route::post('/register/provider/step3', [RegisteredUserController::class, 'createProviderStep3'])->name('register.provider.step3');
-Route::get('/register/provider/step3', [RegisteredUserController::class, 'processStep3'])->name('register.provider.processStep3');
+//Route::post('/register/provider/step1', [RegisteredUserController::class, 'processStep1'])->name('register.provider.processStep1'); // Process Step 1
+//
+//
+//Route::get('/register/provider/step2', [RegisteredUserController::class, 'createProviderStep2'])->name('register.provider.step2'); // Step 2 (Skills Form)
+//Route::post('/register/provider/step2', [RegisteredUserController::class, 'processStep2'])->name('register.provider.processStep2'); // Process Step 2
+//
+//Route::post('/register/provider/step3', [RegisteredUserController::class, 'createProviderStep3'])->name('register.provider.step3');
+//Route::get('/register/provider/step3', [RegisteredUserController::class, 'processStep3'])->name('register.provider.processStep3');
 
 
 // Login routes
-Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
-Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+// Routes for guests
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+
+    Route::get('/register/provider', [RegisteredUserController::class, 'createProviderStep1'])->name('register.provider'); // step 1 personal details form
+    Route::get('register', [RegisteredUserController::class, 'providerOrSeeker']);
+
+    Route::get('/register/seeker', [RegisteredUserController::class, 'createSeeker'])->name('register.seeker');
+    Route::post('/register/seeker', [RegisteredUserController::class, 'storeSeeker'])->name('register.seeker.store');
+});
 
 // Routes for providers
 Route::middleware(['auth', 'provider'])->group(function () {

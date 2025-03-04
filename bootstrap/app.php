@@ -18,6 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'provider' => \App\Http\Middleware\ProviderMiddleware::class,
             'seeker' => \App\Http\Middleware\SeekerMiddleware::class,
             'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+
 
         ]);
     })
