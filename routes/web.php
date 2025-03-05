@@ -28,31 +28,13 @@ Route::middleware(['auth', 'role:provider,seeker'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'myprofile'])->name('myprofile');
     Route::get('/provider/{id}/reserve', [SearchHandymanController::class, 'showReservation'])->name('provider.reserve');
     Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.request');
-    Route::get('/my-reservations', [ReservationController::class, 'seekerReservations'])->name('reservations.seeker');
     Route::get('/provider-reservations', [ReservationController::class, 'providerReservations'])->name('reservations.provider');
     Route::delete('/reservation/{id}/cancel', [ReservationController::class, 'cancel'])->name('reservation.cancel');
-
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 });
 
 
-
-
-
-// Service Provider Registration
-//Route::post('/register/provider/step1', [RegisteredUserController::class, 'processStep1'])->name('register.provider.processStep1'); // Process Step 1
-//
-//
-//Route::get('/register/provider/step2', [RegisteredUserController::class, 'createProviderStep2'])->name('register.provider.step2'); // Step 2 (Skills Form)
-//Route::post('/register/provider/step2', [RegisteredUserController::class, 'processStep2'])->name('register.provider.processStep2'); // Process Step 2
-//
-//Route::post('/register/provider/step3', [RegisteredUserController::class, 'createProviderStep3'])->name('register.provider.step3');
-//Route::get('/register/provider/step3', [RegisteredUserController::class, 'processStep3'])->name('register.provider.processStep3');
-
-
-// Login routes
-
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 // Routes for guests
 Route::middleware('guest')->group(function () {
@@ -84,6 +66,8 @@ Route::middleware(['auth', 'seeker'])->group(function () {
         $provider = \App\Models\User::findOrFail($id);
         return view('provider.profile', compact('provider'));
     })->name('provider.profile');
-    // ... other seeker routes
+    Route::get('/my-reservations', [ReservationController::class, 'seekerReservations'])->name('reservations.seeker');
+
+
 });
 
