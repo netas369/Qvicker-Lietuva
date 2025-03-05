@@ -64,7 +64,7 @@ class ReservationController extends Controller
      */
     public function providerReservations(Request $request)
     {
-        $status = $request->query('status', 'pending');
+        $status = $request->query('status', 'all');
 
         $query = Reservation::where('provider_id', Auth::id())
             ->with('seeker')
@@ -171,5 +171,17 @@ class ReservationController extends Controller
         $reservation->save();
 
         return redirect()->route('reservations.provider')->with('success', 'Užklausa pažymėta kaip užbaigta.');
+    }
+
+    public function modify($id)
+    {
+        $reservation = Reservation::findOrFail($id);
+
+        // Check if the reservation belongs to the authenticated provider
+        if (auth()->user()->id !== $reservation->provider_id) {
+            abort(403, 'Unauthorized action. This reservation does not belong to you.');
+        }
+
+        return view('reservations.modify-reservation-providers.modify-reservation', compact('reservation'));
     }
 }
