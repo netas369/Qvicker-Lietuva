@@ -28,7 +28,6 @@ Route::middleware(['auth', 'role:provider,seeker'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'myprofile'])->name('myprofile');
     Route::get('/provider/{id}/reserve', [SearchHandymanController::class, 'showReservation'])->name('provider.reserve');
     Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.request');
-    Route::get('/provider-reservations', [ReservationController::class, 'providerReservations'])->name('reservations.provider');
     Route::delete('/reservation/{id}/cancel', [ReservationController::class, 'cancel'])->name('reservation.cancel');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
@@ -57,6 +56,9 @@ Route::middleware(['auth', 'provider'])->group(function () {
     Route::post('/reservation/{id}/accept', [ReservationController::class, 'accept'])->name('reservation.accept');
     Route::post('/reservation/{id}/decline', [ReservationController::class, 'decline'])->name('reservation.decline');
     Route::post('/reservation/{id}/complete', [ReservationController::class, 'complete'])->name('reservation.complete');
+    Route::get('/provider-reservations', [ReservationController::class, 'providerReservations'])->name('reservations.provider');
+    Route::get('/reservation/{id}/modify', [ReservationController::class, 'modify'])->name('reservation.modify');
+
 });
 
 // Routes for seekers

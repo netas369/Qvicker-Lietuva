@@ -73,7 +73,7 @@
                             <span>Gautos užklausos</span>
                         </div>
                     </a>
-                    
+
                 @else
                     <a href="{{ route('reservations.seeker') }}"
                        class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base md:text-lg transition duration-150 ease-in-out ml-8 md:ml-12
