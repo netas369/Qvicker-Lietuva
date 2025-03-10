@@ -26,10 +26,9 @@ Route::get('/dashboard', function () {
 // Shared route for both roles
 Route::middleware(['auth', 'role:provider,seeker'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'myprofile'])->name('myprofile');
-    Route::get('/provider/{id}/reserve', [SearchHandymanController::class, 'showReservation'])->name('provider.reserve');
-    Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.request');
     Route::delete('/reservation/{id}/cancel', [ReservationController::class, 'cancel'])->name('reservation.cancel');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    Route::post('/reservation/{id}/decline', [ReservationController::class, 'decline'])->name('reservation.decline');
 
 });
 
@@ -54,22 +53,19 @@ Route::middleware(['auth', 'provider'])->group(function () {
     Route::get('/provider/work', [ProviderController::class, 'work'])->name('provider.work');
     // Reservation management routes
     Route::post('/reservation/{id}/accept', [ReservationController::class, 'accept'])->name('reservation.accept');
-    Route::post('/reservation/{id}/decline', [ReservationController::class, 'decline'])->name('reservation.decline');
     Route::post('/reservation/{id}/complete', [ReservationController::class, 'complete'])->name('reservation.complete');
     Route::get('/provider-reservations', [ReservationController::class, 'providerReservations'])->name('reservations.provider');
-    Route::get('/reservation/{id}/modify', [ReservationController::class, 'modify'])->name('reservation.modify');
+    Route::get('/reservation/{id}/modify', [ReservationController::class, 'modifyProvider'])->name('reservation.modify');
 
 });
 
 // Routes for seekers
 Route::middleware(['auth', 'seeker'])->group(function () {
     Route::get('/seeker/dashboard', [SeekerController::class, 'dashboard'])->name('seeker.dashboard');
-    Route::get('/provider/{id}', function($id) {
-        $provider = \App\Models\User::findOrFail($id);
-        return view('provider.profile', compact('provider'));
-    })->name('provider.profile');
+    Route::get('/provider/{id}/reserve', [SearchHandymanController::class, 'showReservation'])->name('provider.reserve');
     Route::get('/my-reservations', [ReservationController::class, 'seekerReservations'])->name('reservations.seeker');
-
+    Route::get('/my-reservations/{id}', [ReservationController::class, 'modifySeeker'])->name('reservation.modifySeeker');
+    Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.request');
 
 });
 

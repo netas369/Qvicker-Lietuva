@@ -23,6 +23,14 @@ class ReservationController extends Controller
             'task_size' => 'required|string|in:small,medium,big',
             'subcategory' => 'nullable|string',
             'city' => 'required|string',
+            ], [
+            'description.required' => 'Užduoties aprašymas yra privalomas.',
+            'description.min' => 'Užduoties aprašymas turi būti bent 10 simbolių ilgio.',
+            'address.required' => 'Adresas yra privalomas.',
+            'phone.required' => 'Telefono numeris yra privalomas.',
+            'date.required' => 'Data yra privaloma.',
+            'date.after_or_equal' => 'Data negali būti praeityje.',
+            'city.required' => 'Miestas yra privalomas.',
         ]);
 
         // Create the reservation
@@ -46,12 +54,20 @@ class ReservationController extends Controller
     /**
      * Display seeker's reservations
      */
-    public function seekerReservations()
+    public function seekerReservations(Request $request)
     {
-        $reservations = Reservation::where('seeker_id', Auth::id())
+        $status = $request->query('status', 'all');
+
+        $query = Reservation::where('seeker_id', Auth::id())
             ->with('provider')
-            ->orderBy('created_at', 'desc')
-            ->get();
+            ->orderBy('created_at', 'desc');
+
+        if ($status !== 'all')
+        {
+            $query->where('status', $status);
+        }
+
+        $reservations = $query->get();
 
         return view('reservations.seeker', compact('reservations'));
     }
@@ -135,9 +151,9 @@ class ReservationController extends Controller
         $reservation = Reservation::findOrFail($id);
 
         // Ensure the provider can only decline their own reservations
-        if (Auth::id() != $reservation->provider_id) {
-            return redirect()->back()->with('error', 'Neturite teisių atmesti šios užklausos.');
-        }
+//        if (Auth::id() != $reservation->provider_id || Auth::id() != $reservation->seeker_id) {
+//            return redirect()->back()->with('error', 'Neturite teisių atmesti šios užklausos.');
+//        }
 
         // Only allow declining pending reservations
         if ($reservation->status != 'pending') {
@@ -147,7 +163,12 @@ class ReservationController extends Controller
         $reservation->status = 'declined';
         $reservation->save();
 
-        return redirect()->route('reservations.provider')->with('success', 'Užklausa atmesta.');
+        if (Auth::id() !== $reservation->provider_id)
+        {
+            return redirect()->back()->with('success', 'Užklausa atmesta.');
+        } else if(Auth::id() !== $reservation->seeker_id){
+            return redirect()->back()->with('success', 'Užklausa atmesta.');
+        }
     }
 
     /**
@@ -173,7 +194,7 @@ class ReservationController extends Controller
         return redirect()->route('reservations.provider')->with('success', 'Užklausa pažymėta kaip užbaigta.');
     }
 
-    public function modify($id)
+    public function modifyProvider($id)
     {
         $reservation = Reservation::findOrFail($id);
 
@@ -183,5 +204,17 @@ class ReservationController extends Controller
         }
 
         return view('reservations.modify-reservation-providers.modify-reservation', compact('reservation'));
+    }
+
+    public function modifySeeker($id)
+    {
+        $reservation = Reservation::findOrFail($id);
+
+        // Check if the reservation belongs to the authenticated seeker
+        if (auth()->user()->id !== $reservation->seeker_id) {
+            abort(403, 'Unauthorized action. This reservation does not belong to you.');
+        }
+
+        return view('reservations.modify-reservation-seeker.modify-reservation', compact('reservation'));
     }
 }

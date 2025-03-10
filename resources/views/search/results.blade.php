@@ -94,7 +94,7 @@
                                                     <span class="hidden md:inline">
                                                         {{ strlen($provider->aboutme) > 200 ? substr($provider->aboutme, 200, 100) : '' }}
                                                         @if(strlen($provider->aboutme) > 300)
-                                                            <a href="{{ route('provider.profile', $provider->id) }}" class="text-primary hover:underline">Skaityti daugiau</a>
+                                                            <a href="" class="text-primary hover:underline">Skaityti daugiau</a>
                                                         @endif
                                                     </span>
                                                 </p>
