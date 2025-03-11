@@ -94,24 +94,41 @@
                         <div>
                             <label for="description" class="block text-sm md:text-base font-medium text-gray-700 mb-1">Aprašykite užduotį:</label>
                             <textarea id="description" name="description" rows="4"
-                                      class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
-                                      placeholder="Detaliai aprašykite, kokią užduotį reikia atlikti..."></textarea>
+                                      class="w-full rounded-md border @error('description') border-red-500 @else border-gray-300 @enderror shadow-sm p-2 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                                      placeholder="Detaliai aprašykite, kokią užduotį reikia atlikti...">{{ old('description') }}</textarea>
+                            @error('description')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- Address -->
                         <div>
                             <label for="address" class="block text-sm md:text-base font-medium text-gray-700 mb-1">Adresas:</label>
-                            <input type="text" id="address" name="address"
-                                   class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                            <input type="text" id="address" name="address" value="{{ old('address') }}"
+                                   class="w-full rounded-md border @error('address') border-red-500 @else border-gray-300 @enderror shadow-sm p-2 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
                                    placeholder="Įveskite tikslų adresą...">
+                            @error('address')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- Phone -->
                         <div>
                             <label for="phone" class="block text-sm md:text-base font-medium text-gray-700 mb-1">Telefono numeris:</label>
-                            <input type="tel" id="phone" name="phone"
-                                   class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
-                                   placeholder="+37000000000">
+                            <div class="flex">
+                            <span class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
+                             +370
+                             </span>
+                                <input type="tel" id="phone" name="phone" value="{{ old('phone') }}"
+                                       class="w-full rounded-none rounded-r-md border @error('phone') border-red-500 @else border-gray-300 @enderror shadow-sm p-2 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                                       placeholder="6XXXXXXX"
+                                       pattern="[6]{1}[0-9]{7}"
+                                       title="Įveskite 8 skaitmenis, prasidedančius 6">
+                            </div>
+                            <small class="text-gray-500 mt-1 block">Formatas: 6XXXXXXX (be +370)</small>
+                            @error('phone')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <small class="text-red-500">Jūsų asmeninė informacija nebus matoma ligi kol užsakymas nebus patvirtintas.</small>
 

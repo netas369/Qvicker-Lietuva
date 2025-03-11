@@ -16,41 +16,64 @@
         </div>
 
         <!-- Progress tracker -->
-        <div class="mb-8 bg-white rounded-lg p-6 shadow-sm">
+        <div class="mb-8 bg-white rounded-lg p-4 md:p-6 shadow-sm">
             <div class="relative">
-                <div class="flex justify-between mb-2">
+                <!-- Status labels - hidden on mobile, visible on larger screens -->
+                <div class="hidden md:flex justify-between mb-2">
+                    @if($reservation->status !== 'declined')
                     <div class="text-center {{ $reservation->status == 'pending' ? 'text-primary font-medium' : '' }}">
                         <span>Užklausa</span>
                     </div>
                     <div class="text-center {{ $reservation->status == 'accepted' ? 'text-primary font-medium' : '' }}">
                         <span>Patvirtinta</span>
                     </div>
-                    <div class="text-center {{ $reservation->status == 'processing' ? 'text-primary font-medium' : '' }}">
-                        <span>Apmokėta</span>
-                    </div>
-                    <div class="text-center {{ $reservation->status == 'in_progress' ? 'text-primary font-medium' : '' }}">
-                        <span>Vykdoma</span>
-                    </div>
                     <div class="text-center {{ $reservation->status == 'completed' ? 'text-primary font-medium' : '' }}">
                         <span>Užbaigta</span>
                     </div>
+                    @else
+                        <div class="text-center  {{ $reservation->status == 'declined' ? 'text-red-800 font-medium' : '' }}">
+                            <span>Atmesta</span>
+                        </div>
+                    @endif
                 </div>
+
+                <!-- Progress bar -->
                 <div class="overflow-hidden h-2 mb-4 flex bg-gray-200 rounded">
                     @if($reservation->status == 'pending')
-                        <div class="bg-primary" style="width: 20%"></div>
+                        <div class="bg-primary" style="width: 25%"></div>
                     @elseif($reservation->status == 'accepted')
-                        <div class="bg-primary" style="width: 40%"></div>
-                    @elseif($reservation->status == 'processing')
                         <div class="bg-primary" style="width: 60%"></div>
-                    @elseif($reservation->status == 'in_progress')
-                        <div class="bg-primary" style="width: 80%"></div>
+{{--                    @elseif($reservation->status == 'processing')--}}
+{{--                        <div class="bg-primary" style="width: 60%"></div>--}}
+{{--                    @elseif($reservation->status == 'in_progress')--}}
+{{--                        <div class="bg-primary" style="width: 80%"></div>--}}
                     @elseif($reservation->status == 'completed')
                         <div class="bg-primary" style="width: 100%"></div>
                     @else
-                        <div class="bg-primary" style="width: 20%"></div>
+                        <div class="bg-red-900" style="width: 100%"></div>
                     @endif
                 </div>
+
+                <!-- Mobile-friendly status indicator -->
+                <div class="md:hidden text-center mb-2">
+            <span class="font-medium text-primary">
+                @if($reservation->status == 'pending')
+                    Užklausa (1/3)
+                @elseif($reservation->status == 'accepted')
+                    Patvirtinta (2/3)
+{{--                @elseif($reservation->status == 'processing')--}}
+{{--                    Apmokėta (3/5)--}}
+{{--                @elseif($reservation->status == 'in_progress')--}}
+{{--                    Vykdoma (3/4)--}}
+                @elseif($reservation->status == 'completed')
+                    Užbaigta (3/3)
+                @elseif($reservation->status == 'declined')
+                    <span class="text-red-800">Atmesta</span>
+                @endif
+            </span>
+                </div>
             </div>
+        </div>
 
             <div class="text-center my-4">
                 <p class="text-gray-700">
@@ -93,7 +116,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Left column: Service details -->
             <div class="col-span-2">
                 <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
@@ -174,7 +197,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                             <div>
                                 <h3 class="text-gray-600 text-sm mb-1">Adresas</h3>
-                                <p class="text-gray-800">{{ $reservation->address ?? 'Nepateiktas' }}</p>
+                                <p class="text-gray-800">{{ $reservation->address . ', ' .  $reservation->city ?? 'Nepateiktas' }}</p>
                             </div>
 
                             <div>
