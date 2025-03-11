@@ -20,148 +20,6 @@
             <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
         </div>
 
-{{--        <!-- Improved Categories Section with Responsive Layout -->--}}
-{{--        <div class="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60">--}}
-{{--            <div class="text-center mt-10 mb-8">--}}
-{{--                <h1 class="text-3xl lg:text-4xl font-bold text-primary-light font-sans leading-tight">Visos Kategorijos</h1>--}}
-{{--            </div>--}}
-
-{{--            <!-- Mobile View: Horizontal Scrolling with Improved UX -->--}}
-{{--            <section class="lg:hidden relative">--}}
-{{--                <!-- Scroll indicator -->--}}
-{{--                <div class="absolute right-0 top-1/2 -translate-y-1/2 bg-gradient-to-l from-white via-white to-transparent w-12 h-full flex items-center justify-end pr-2 pointer-events-none z-10">--}}
-{{--                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-light animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">--}}
-{{--                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />--}}
-{{--                    </svg>--}}
-{{--                </div>--}}
-
-{{--                <!-- Scroll container -->--}}
-{{--                <div class="flex snap-x snap-mandatory flex-nowrap overflow-x-auto overflow-y-hidden pb-2 scrollbar-hide">--}}
-{{--                    <ul class="flex flex-nowrap -mb-px"--}}
-{{--                        id="mobile-categories-tab"--}}
-{{--                        data-tabs-toggle="#categories-tab-content"--}}
-{{--                        data-tabs-active-classes="text-primary-light border-b-2 border-primary-light font-semibold"--}}
-{{--                        data-tabs-inactive-classes="text-gray-500 hover:text-primary-light/80 hover:border-gray-300"--}}
-{{--                        role="tablist">--}}
-
-{{--                        <!-- Category 1: Valymas -->--}}
-{{--                        <li class="w-[100px] flex-none snap-always snap-center">--}}
-{{--                            <button class="inline-block p-4 rounded-lg transition-all duration-200 hover:bg-gray-50 group focus:outline-none focus:ring-2 focus:ring-primary-light/50"--}}
-{{--                                    id="valymas-tab"--}}
-{{--                                    data-tabs-target="#styled-valymas"--}}
-{{--                                    type="button"--}}
-{{--                                    role="tab"--}}
-{{--                                    aria-controls="valymas"--}}
-{{--                                    aria-selected="false">--}}
-
-{{--                                <div class="w-14 h-14 mx-auto relative transition-transform duration-200 transform group-hover:-translate-y-1">--}}
-{{--                                    <svg xmlns="http://www.w3.org/2000/svg" data-name="ICON Black" viewBox="0 0 32 40" class="w-full h-full text-gray-600 group-hover:text-primary-light" fill="currentColor" aria-hidden="true">--}}
-{{--                                        <path d="M29.5,20.606V18.759a1.5,1.5,0,0,0-1.5-1.5H22.873V9.27a2,2,0,0,0-2-2h-.745a2,2,0,0,0-2,2v7.989H13a1.5,1.5,0,0,0-1.5,1.5v1.847a1.5,1.5,0,0,0,.932,1.387L11.9,28.962a.509.509,0,0,0,.132.378.5.5,0,0,0,.367.16H28.6a.5.5,0,0,0,.367-.16.509.509,0,0,0,.132-.378l-.533-6.969A1.5,1.5,0,0,0,29.5,20.606ZM19.13,9.27a1,1,0,0,1,1-1h.745a1,1,0,0,1,1,1v7.989H19.13ZM12.5,18.759a.5.5,0,0,1,.5-.5H28a.5.5,0,0,1,.5.5v1.847a.5.5,0,0,1-.5.5H13a.5.5,0,0,1-.5-.5Zm.439,9.741.488-6.394h2.735l-.133,2.986a.5.5,0,0,0,.477.522h.022a.5.5,0,0,0,.5-.478l.135-3.031H20V23.36a.5.5,0,0,0,1,0V22.106h2.836l.135,3.031a.5.5,0,0,0,.5.478h.022a.5.5,0,0,0,.477-.522l-.133-2.986h2.735l.489,6.394ZM5,19.069l2.946-3.911a1.509,1.509,0,0,1,1.2-.6h4.1a.5.5,0,0,1,.5.5V16a.5.5,0,0,0,1,0v-.94a1.5,1.5,0,0,0-1.437-1.494V11.973a1.5,1.5,0,0,0,1.438-1.494V8.458a1.5,1.5,0,0,0-1.5-1.5H8.376A1.5,1.5,0,0,0,6.929,8.083H5.406a1.386,1.386,0,0,0,0,2.771H6.929a1.482,1.482,0,0,0,.306.587L5.6,13.772a.5.5,0,0,0,.122.7.491.491,0,0,0,.287.091.5.5,0,0,0,.409-.212l1.683-2.4a1.487,1.487,0,0,0,.277.028h2.1V13.56H9.147a2.515,2.515,0,0,0-2,1L4.2,18.468a3.52,3.52,0,0,0-.7,2.105V28A1.5,1.5,0,0,0,5,29.5h5.469a.5.5,0,1,0,0-1H5a.5.5,0,0,1-.5-.5V20.573A2.519,2.519,0,0,1,5,19.069ZM7.876,8.458a.5.5,0,0,1,.5-.5h4.875a.5.5,0,0,1,.5.5v2.021a.5.5,0,0,1-.5.5H8.376a.5.5,0,0,1-.5-.5V8.458ZM5.021,9.469a.385.385,0,0,1,.385-.386h1.47v.771H5.406A.385.385,0,0,1,5.021,9.469Zm6.458,2.51h.834V13.56h-.834Z" />--}}
-{{--                                    </svg>--}}
-{{--                                </div>--}}
-
-{{--                                <span class="block mt-2 text-sm font-medium transition-colors duration-200 group-hover:text-primary-light">Valymas</span>--}}
-{{--                            </button>--}}
-{{--                        </li>--}}
-
-{{--                        <!-- Category 2: Kūryba -->--}}
-{{--                        <li class="w-[100px] flex-none snap-always snap-center">--}}
-{{--                            <button class="inline-block p-4 rounded-lg transition-all duration-200 hover:bg-gray-50 group focus:outline-none focus:ring-2 focus:ring-primary-light/50"--}}
-{{--                                    id="kuryba-tab"--}}
-{{--                                    data-tabs-target="#styled-kuryba"--}}
-{{--                                    type="button"--}}
-{{--                                    role="tab"--}}
-{{--                                    aria-controls="kuryba"--}}
-{{--                                    aria-selected="false">--}}
-
-{{--                                <div class="w-14 h-14 mx-auto relative transition-transform duration-200 transform group-hover:-translate-y-1">--}}
-{{--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 35" class="w-full h-full text-gray-600 group-hover:text-primary-light" fill="currentColor" aria-hidden="true">--}}
-{{--                                        <title>Kūryba</title>--}}
-{{--                                        <g data-name="Layer 2">--}}
-{{--                                            <path d="M25.814,11.637a1.476,1.476,0,0,0-1.514.1l-3.8,2.709V12.937A2.439,2.439,0,0,0,18.063,10.5h-.269a4.489,4.489,0,1,0-6.957-5.2,3.991,3.991,0,1,0-5.955,5.2H3.937A2.439,2.439,0,0,0,1.5,12.937V23.063A2.439,2.439,0,0,0,3.937,25.5H18.063A2.439,2.439,0,0,0,20.5,23.063V21.525l1.132.807a.489.489,0,0,0,.183.131L24.3,24.235a1.446,1.446,0,0,0,.839.265,1.47,1.47,0,0,0,.675-.163,1.2,1.2,0,0,0,.686-1.074V12.711A1.2,1.2,0,0,0,25.814,11.637ZM15,3.5A3.5,3.5,0,1,1,11.5,7,3.5,3.5,0,0,1,15,3.5Zm-2.794,7H10.118A4.011,4.011,0,0,0,11.1,9.207,4.5,4.5,0,0,0,12.206,10.5ZM4.5,7.5a3,3,0,1,1,3,3A3,3,0,0,1,4.5,7.5Zm15,15.563A1.439,1.439,0,0,1,18.063,24.5H3.937A1.439,1.439,0,0,1,2.5,23.063V12.937A1.439,1.439,0,0,1,3.937,11.5H18.063A1.439,1.439,0,0,1,19.5,12.937Zm1-7.386,1-.713V21.01l-1-.714Zm5,7.586a.231.231,0,0,1-.143.185.471.471,0,0,1-.476-.027l-2.381-1.7V14.251l2.381-1.7a.471.471,0,0,1,.476-.027.231.231,0,0,1,.143.185Z"/>--}}
-{{--                                        </g>--}}
-{{--                                    </svg>--}}
-{{--                                </div>--}}
-
-{{--                                <span class="block mt-2 text-sm font-medium transition-colors duration-200 group-hover:text-primary-light">Kūryba</span>--}}
-{{--                            </button>--}}
-{{--                        </li>--}}
-
-{{--                        <!-- Additional categories would follow the same pattern -->--}}
-{{--                        <!-- I'll include one more as an example -->--}}
-
-{{--                        <!-- Category 3: Meistrai -->--}}
-{{--                        <li class="w-[100px] flex-none snap-always snap-center">--}}
-{{--                            <button class="inline-block p-4 rounded-lg transition-all duration-200 hover:bg-gray-50 group focus:outline-none focus:ring-2 focus:ring-primary-light/50"--}}
-{{--                                    id="meistrai-tab"--}}
-{{--                                    data-tabs-target="#styled-meistrai"--}}
-{{--                                    type="button"--}}
-{{--                                    role="tab"--}}
-{{--                                    aria-controls="meistrai"--}}
-{{--                                    aria-selected="false">--}}
-
-{{--                                <div class="w-14 h-14 mx-auto relative transition-transform duration-200 transform group-hover:-translate-y-1">--}}
-{{--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5.0 -10.0 110.0 135.0" class="w-full h-full text-gray-600 group-hover:text-primary-light" fill="currentColor" aria-hidden="true">--}}
-{{--                                        <!-- SVG path omitted for brevity, but would be the same as original -->--}}
-{{--                                        <path d="m82.434 34.676h2.125c8.5117 0 15.441-6.9258 15.441-15.441 0-8.5117-6.9258-15.438-15.441-15.438h-39.953c-0.86328 0-1.5625 0.69922-1.5625 1.5625v2.6836h-7.8945c-0.86328 0-1.5625 0.69922-1.5625 1.5625v1.9922h-7.8945c-0.86328 0-1.5625 0.69922-1.5625 1.5625v1.9922h-7.8945c-0.86328 0-1.5625 0.69922-1.5625 1.5625v0.95703h-7.8945c-0.22656 0-0.45312 0.050781-0.66016 0.14453l-5.2109 2.4297c-0.55078 0.25781-0.90625 0.80859-0.90625 1.418 0 0.60938 0.35156 1.1602 0.90625 1.418l5.2188 2.4258c0.20703 0.097657 0.43359 0.14453 0.66016 0.14453h7.8945v0.95703c0 0.86328 0.69922 1.5625 1.5625 1.5625h7.8945v1.9922c0 0.86328 0.69922 1.5625 1.5625 1.5625h7.8945v1.9922c0 0.86328 0.69922 1.5625 1.5625 1.5625h7.8945v2.6836c0 0.86328 0.69922 1.5625 1.5625 1.5625h6.3203v6.375c0 1.5273 1.2422 2.7695 2.7695 2.7695h4.3125l3.0469 13.316h-2.6172c-4.8125 0-8.7227 3.9141-8.7227 8.7227v3.6016h-2.5781c-6.0352 0-10.945 4.9102-10.945 10.945 0 6.0352 4.9102 10.945 10.945 10.945h36.516c6.0352 0 10.945-4.9102 10.945-10.945 0-3.418-1.5781-6.4727-4.043-8.4844v-6.0625c0-4.6484-3.6602-8.4492-8.2461-8.6992 1.25-7.8945-0.87891-13.965-2.9883-17.758-1.4531-2.6133-0.95703-5.8359 1.2109-7.832l1.9023-1.7539z"/>--}}
-{{--                                    </svg>--}}
-{{--                                </div>--}}
-
-{{--                                <span class="block mt-2 text-sm font-medium transition-colors duration-200 group-hover:text-primary-light">Meistrai</span>--}}
-{{--                            </button>--}}
-{{--                        </li>--}}
-
-{{--                        <!-- Additional categories would continue here -->--}}
-{{--                    </ul>--}}
-{{--                </div>--}}
-{{--            </section>--}}
-
-{{--            <!-- Desktop View: Grid Layout -->--}}
-{{--            <section class="hidden lg:block border-b-2 border-primary-light border-opacity-50">--}}
-{{--                <ul class="grid grid-cols-4 xl:grid-cols-8 gap-4 py-3"--}}
-{{--                    id="desktop-categories-tab"--}}
-{{--                    data-tabs-toggle="#categories-tab-content"--}}
-{{--                    data-tabs-active-classes="text-primary-light border-b-2 border-primary-light font-semibold"--}}
-{{--                    data-tabs-inactive-classes="text-gray-500 hover:text-primary-light/80 hover:border-gray-300"--}}
-{{--                    role="tablist">--}}
-
-{{--                    <!-- Desktop Category 1: Valymas -->--}}
-{{--                    <li class="flex items-center justify-center">--}}
-{{--                        <button class="p-3 rounded-lg transition-all duration-200 flex flex-col items-center hover:bg-gray-50 group focus:outline-none focus:ring-2 focus:ring-primary-light/50"--}}
-{{--                                id="desktop-valymas-tab"--}}
-{{--                                data-tabs-target="#styled-valymas"--}}
-{{--                                type="button"--}}
-{{--                                role="tab"--}}
-{{--                                aria-controls="valymas"--}}
-{{--                                aria-selected="false">--}}
-
-{{--                            <div class="w-12 h-12 mb-2 transition-transform duration-200 transform group-hover:-translate-y-1 group-hover:shadow-sm">--}}
-{{--                                <svg xmlns="http://www.w3.org/2000/svg" data-name="ICON Black" viewBox="0 0 32 40" class="w-full h-full text-gray-600 group-hover:text-primary-light" fill="currentColor" aria-hidden="true">--}}
-{{--                                    <path d="M29.5,20.606V18.759a1.5,1.5,0,0,0-1.5-1.5H22.873V9.27a2,2,0,0,0-2-2h-.745a2,2,0,0,0-2,2v7.989H13a1.5,1.5,0,0,0-1.5,1.5v1.847a1.5,1.5,0,0,0,.932,1.387L11.9,28.962a.509.509,0,0,0,.132.378.5.5,0,0,0,.367.16H28.6a.5.5,0,0,0,.367-.16.509.509,0,0,0,.132-.378l-.533-6.969A1.5,1.5,0,0,0,29.5,20.606ZM19.13,9.27a1,1,0,0,1,1-1h.745a1,1,0,0,1,1,1v7.989H19.13ZM12.5,18.759a.5.5,0,0,1,.5-.5H28a.5.5,0,0,1,.5.5v1.847a.5.5,0,0,1-.5.5H13a.5.5,0,0,1-.5-.5Zm.439,9.741.488-6.394h2.735l-.133,2.986a.5.5,0,0,0,.477.522h.022a.5.5,0,0,0,.5-.478l.135-3.031H20V23.36a.5.5,0,0,0,1,0V22.106h2.836l.135,3.031a.5.5,0,0,0,.5.478h.022a.5.5,0,0,0,.477-.522l-.133-2.986h2.735l.489,6.394ZM5,19.069l2.946-3.911a1.509,1.509,0,0,1,1.2-.6h4.1a.5.5,0,0,1,.5.5V16a.5.5,0,0,0,1,0v-.94a1.5,1.5,0,0,0-1.437-1.494V11.973a1.5,1.5,0,0,0,1.438-1.494V8.458a1.5,1.5,0,0,0-1.5-1.5H8.376A1.5,1.5,0,0,0,6.929,8.083H5.406a1.386,1.386,0,0,0,0,2.771H6.929a1.482,1.482,0,0,0,.306.587L5.6,13.772a.5.5,0,0,0,.122.7.491.491,0,0,0,.287.091.5.5,0,0,0,.409-.212l1.683-2.4a1.487,1.487,0,0,0,.277.028h2.1V13.56H9.147a2.515,2.515,0,0,0-2,1L4.2,18.468a3.52,3.52,0,0,0-.7,2.105V28A1.5,1.5,0,0,0,5,29.5h5.469a.5.5,0,1,0,0-1H5a.5.5,0,0,1-.5-.5V20.573A2.519,2.519,0,0,1,5,19.069ZM7.876,8.458a.5.5,0,0,1,.5-.5h4.875a.5.5,0,0,1,.5.5v2.021a.5.5,0,0,1-.5.5H8.376a.5.5,0,0,1-.5-.5V8.458ZM5.021,9.469a.385.385,0,0,1,.385-.386h1.47v.771H5.406A.385.385,0,0,1,5.021,9.469Zm6.458,2.51h.834V13.56h-.834Z" />--}}
-{{--                                </svg>--}}
-{{--                            </div>--}}
-
-{{--                            <span class="text-sm font-medium transition-colors duration-200 group-hover:text-primary-light">Valymas</span>--}}
-{{--                        </button>--}}
-{{--                    </li>--}}
-
-{{--                    <!-- Additional desktop categories would follow the same pattern -->--}}
-{{--                    <!-- For brevity, I'm not including all of them here -->--}}
-{{--                </ul>--}}
-{{--            </section>--}}
-
-{{--            <!-- Content container for tab panels -->--}}
-{{--            <div id="categories-tab-content">--}}
-{{--                <div id="styled-valymas" role="tabpanel" aria-labelledby="valymas-tab" class="hidden">--}}
-{{--                    <!-- Valymas content would go here -->--}}
-{{--                </div>--}}
-{{--                <div id="styled-kuryba" role="tabpanel" aria-labelledby="kuryba-tab" class="hidden">--}}
-{{--                    <!-- Kūryba content would go here -->--}}
-{{--                </div>--}}
-{{--                <!-- Additional tab content would go here -->--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
 
         <!-- Populiarios kategorijos -->
         <div class="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60">
@@ -183,23 +41,6 @@
                 </div>
             </div>
 
-            <!-- Right edge gradient for scrolling indication -->
-            <div class="absolute right-0 top-0 h-full bg-gradient-to-l from-white to-transparent w-12 pointer-events-none z-10 lg:hidden">
-                <div class="h-full flex items-center justify-end">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-light animate-pulse mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </div>
-            </div>
-
-            <!-- Left edge gradient (shows when scrolled) -->
-            <div class="absolute left-0 top-0 h-full bg-gradient-to-r from-white to-transparent w-12 pointer-events-none z-10 opacity-0 transition-opacity duration-300 lg:hidden" id="left-scroll-indicator">
-                <div class="h-full flex items-center justify-start">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-light animate-pulse ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </div>
-            </div>
 
             <ul
                 class="flex flex-nowrap -mb-px text-sm font-medium text-center"
@@ -496,40 +337,59 @@
         </div>
 
         <!-- kaip mes veikiame -->
-        <section class="pt-8 pb-24 relative">
-            <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
-                <div class="w-full flex-col justify-start items-center lg:gap-12 gap-10 inline-flex">
-                    <div class="w-full flex-col justify-start items-center gap-3 flex">
-                        <h2 class="w-full text-center text-primary-light text-4xl font-bold font-manrope leading-normal">Kaip viskas veikia</h2>
-                        <p class="w-full text-center text-gray-500 text-base font-normal leading-relaxed">MyApp Lietuva padeda jum rasti freelancerio pagalba naujovišku budu  <br/>Nesvarbu kokia jūsų problema, mūsų partneriai jums padės</p>
+        <section class="py-16 md:py-24 relative bg-gray-50">
+            <div class="w-full max-w-7xl px-4 md:px-8 mx-auto">
+                <div class="w-full flex-col justify-start items-center gap-12 inline-flex">
+                    <!-- Section header -->
+                    <div class="w-full max-w-2xl mx-auto flex-col justify-start items-center gap-4 flex">
+                        <h2 class="text-primary-light text-3xl md:text-4xl font-bold font-manrope">Kaip viskas veikia</h2>
+                        <p class="text-center text-gray-600 text-lg">Raskite profesionalią pagalbą vos trimis paprastais žingsniais</p>
                     </div>
-                    <div class="w-full justify-start items-center gap-4 flex md:flex-row flex-col">
-                        <div class="grow shrink basis-0 flex-col justify-start items-center gap-2.5 inline-flex">
-                            <div class="self-stretch flex-col justify-start items-center gap-0.5 flex">
-                                <h3 class="self-stretch text-center text-primary-light text-4xl font-extrabold font-manrope leading-normal">1</h3>
-                                <h4 class="self-stretch text-center text-primary text-xl font-semibold leading-8">Suraskite problemą atitinkančia kategoriją</h4>
+
+                    <!-- Process steps -->
+                    <div class="w-full justify-between items-center gap-4 flex md:flex-row flex-col">
+                        <!-- Step 1 -->
+                        <div class="md:w-1/3 p-6 flex-col justify-start items-center gap-4 inline-flex">
+                            <div class="w-16 h-16 rounded-full bg-primary-light/10 flex items-center justify-center mb-2">
+                                <!-- Icon could go here -->
+                                <span class="text-primary-light text-2xl font-bold">1</span>
                             </div>
-                            <p class="self-stretch text-center text-gray-500 text-base font-normal leading-relaxed">Naudokites paieškos langeliu arba ieškokite tarp visų kategorijų, išsirinkite sau tinkamą.</p>
+                            <h4 class="text-center text-primary text-xl font-semibold">Pasirinkite kategoriją</h4>
+                            <p class="text-center text-gray-500">Greitai raskite reikiamą paslaugą naudodami paiešką arba naršykite kategorijose.</p>
                         </div>
-                        <svg class="md:flex hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M5.50159 6L11.5018 12.0002L5.49805 18.004M12.5016 6L18.5018 12.0002L12.498 18.004" stroke="#266867" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <div class="grow shrink basis-0 flex-col justify-start items-center gap-2.5 inline-flex">
-                            <div class="self-stretch flex-col justify-start items-center gap-0.5 flex">
-                                <h3 class="self-stretch text-center text-primary-light text-4xl font-extrabold font-manrope leading-normal">2</h3>
-                                <h4 class="self-stretch text-center text-primary  text-xl font-semibold leading-8">Išsirinkite patinkantį freelancerį</h4>
-                            </div>
-                            <p class="self-stretch text-center text-gray-500 text-base font-normal leading-relaxed">Mes parinksime jums tinkamiausius freelancerius pagal vietove, įvertinimą ir paslaugos tipą.</p>
+
+                        <!-- Connector for desktop -->
+                        <div class="hidden md:flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M5.50159 6L11.5018 12.0002L5.49805 18.004M12.5016 6L18.5018 12.0002L12.498 18.004" stroke="#266867" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                         </div>
-                        <svg class="md:flex hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M5.50159 6L11.5018 12.0002L5.49805 18.004M12.5016 6L18.5018 12.0002L12.498 18.004" stroke="#266867" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <div class="grow shrink basis-0 flex-col justify-start items-center gap-2.5 inline-flex">
-                            <div class="self-stretch flex-col justify-start items-center gap-0.5 flex">
-                                <h3 class="self-stretch text-center text-primary-light text-4xl font-extrabold font-manrope leading-normal">3</h3>
-                                <h4 class="self-stretch text-center text-primary  text-xl font-semibold leading-8">Susisiekite su freelanceriu</h4>
+
+                        <!-- Step 2 -->
+                        <div class="md:w-1/3 p-6 flex-col justify-start items-center gap-4 inline-flex">
+                            <div class="w-16 h-16 rounded-full bg-primary-light/10 flex items-center justify-center mb-2">
+                                <!-- Icon could go here -->
+                                <span class="text-primary-light text-2xl font-bold">2</span>
                             </div>
-                            <p class="self-stretch text-center text-gray-500 text-base font-normal leading-relaxed">Susisiekite ir susitarkite. O tada belieka tik laukti ! Po paslaugos nepamirškite palikti atsiliepimą.</p>
+                            <h4 class="text-center text-primary text-xl font-semibold">Išsirinkite freelancerį</h4>
+                            <p class="text-center text-gray-500">Peržiūrėkite įvertinimus, kainas ir patirtį, kad rastumėte geriausią specialistą.</p>
+                        </div>
+
+                        <!-- Connector for desktop -->
+                        <div class="hidden md:flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M5.50159 6L11.5018 12.0002L5.49805 18.004M12.5016 6L18.5018 12.0002L12.498 18.004" stroke="#266867" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="md:w-1/3 p-6 flex-col justify-start items-center gap-4 inline-flex">
+                            <div class="w-16 h-16 rounded-full bg-primary-light/10 flex items-center justify-center mb-2">
+                                <!-- Icon could go here -->
+                                <span class="text-primary-light text-2xl font-bold">3</span>
+                            </div>
+                            <h4 class="text-center text-primary text-xl font-semibold">Susisiekite ir užsakykite</h4>
+                            <p class="text-center text-gray-500">Tiesiogiai susisiekite, aptarkite detales ir po paslaugos suteikimo palikite atsiliepimą.</p>
                         </div>
                     </div>
                 </div>

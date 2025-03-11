@@ -23,11 +23,15 @@ class MultiStepForm extends Component
     public $email;
     public $miestas;
     public $adresas;
+    public $post_code;
+    public $phone;
     public $slaptazodis;
     public $slaptazodis_confirmation;
-
     public $selectedSubcategories = [];
     public $categories;
+    public $gender;
+    public $languages = [];
+    public $selectedLanguage = '';
 
     protected $rules = [
         'terms' => 'required|accepted',
@@ -88,8 +92,12 @@ class MultiStepForm extends Component
                 'email' => 'required|email|unique:users,email',
                 'miestas' => 'required|string|max:255',
                 'adresas' => 'required|string|max:255',
+                'post_code' => 'required|string|max:6',
+                'phone' => 'required|string|regex:/^6[0-9]{7}$/',
                 'slaptazodis' => 'required|string|min:8|confirmed',
                 'slaptazodis_confirmation' => 'required|string|min:8',
+                'gender' => 'required',
+                'languages' => 'required|array|min:1',
             ];
         }
 
@@ -103,8 +111,12 @@ class MultiStepForm extends Component
                 'email' => 'required|email|unique:users,email',
                 'miestas' => 'required|string|max:255',
                 'adresas' => 'required|string|max:255',
+                'phone' => 'required|string|regex:/^6[0-9]{7}$/',
+                'post_code' => 'required|string|max:6',
                 'slaptazodis' => 'required|string|min:8|confirmed',
                 'slaptazodis_confirmation' => 'required|string|min:8',
+                'gender' => 'required',
+                'languages' => 'required|array|min:1',
             ];
         }
 
@@ -129,9 +141,13 @@ class MultiStepForm extends Component
             'min' => 'Laukas :attribute turi būti bent :min simbolių ilgio.',
             'confirmed' => 'Laukas :attribute patvirtinimas nesutampa.',
             'unique' => 'Toks :attribute jau užregistruotas.',
+            'regex' => 'Laukas :attribute neatitinka reikalaujamo formato.',
+            'size' => 'Laukas :attribute turi būti :size simbolių ilgio.',
 
             // Custom rules
             'gimimo_data.before_or_equal' => 'Jūs turite būti bent 14 metų.',
+            'phone.regex' => 'Telefono numeris turi prasidėti skaitmeniu 6 ir būti 8 skaitmenų ilgio.',
+            'phone.size' => 'Telefono numeris turi būti 8 skaitmenų ilgio.',
 
             // Field-specific overrides
             'vardas.required' => 'Vardas yra privalomas.',
@@ -140,10 +156,16 @@ class MultiStepForm extends Component
             'email.required' => 'El. paštas yra privalomas.',
             'miestas.required' => 'Miestas yra privalomas.',
             'adresas.required' => 'Adresas yra privalomas.',
+            'post_code.required' => 'Pašto kodas yra privalomas',
+            'gender.required' => 'Lytis yra privaloma',
+            'phone.required' => 'Telefono numeris yra privalomas.',
             'slaptazodis.required' => 'Slaptažodis yra privalomas.',
             'slaptazodis_confirmation.required' => 'Slaptažodžio patvirtinimas yra privalomas.',
             'selectedCategories.required' => 'Privaloma pasirinkti bent vieną kategoriją',
             'selectedCategories.min' => 'Privaloma pasirinkti bent vieną kategoriją',
+            'languages.required' => 'Privaloma pasirinkti bent vieną kalbą',
+            'languages.min' => 'Privaloma pasirinkti bent vieną kalbą',
+            'languages.array' => 'Kalbos turi būti pateiktos sąrašu',
         ];
     }
 
@@ -156,8 +178,12 @@ class MultiStepForm extends Component
             'email' => 'el. paštas',
             'miestas' => 'miestas',
             'adresas' => 'adresas',
+            'post_code' => 'pašto kodas',
+            'phone' => 'telefono numeris',
             'slaptazodis' => 'slaptažodis',
-            'slaptazodis_confirmation' => 'slaptažodžio patvirtinimas'
+            'slaptazodis_confirmation' => 'slaptažodžio patvirtinimas',
+            'gender' => 'lytis',
+            'languages' => 'kalbos',
         ];
     }
 
@@ -175,6 +201,8 @@ class MultiStepForm extends Component
             $this->validate($this->getValidationRules());
         }
 
+        $formattedPhone = '+370' . $this->phone;
+
         // Create new user
         $user = User::create([
             'name' => $this->vardas,
@@ -182,10 +210,13 @@ class MultiStepForm extends Component
             'birthday' => $this->gimimo_data,
             'email' => $this->email,
             'city' => $this->miestas,
+            'phone' => $formattedPhone,
             'address' => $this->adresas,
+            'postal_code' => $this->post_code,
+            'gender' => $this->gender,
+            'languages' => json_encode($this->languages),
             'password' => bcrypt($this->slaptazodis),
             'role' => $userRole,
-//            'subcategories' => json_encode($this->selectedSubcategories)
         ]);
 
         $user->categories()->attach($this->selectedSubcategories);
@@ -199,11 +230,26 @@ class MultiStepForm extends Component
 
         if (Auth::attempt($credentials)) {
             // User logged in successfully
-            return redirect()->route('landingpage');
+            return redirect()->route('myprofile');
         } else {
             // Failed to log in the user
             return redirect()->back()->withErrors(['message' => 'Failed to log in the user.']);
         }
+    }
+
+    public function addLanguage()
+    {
+        if (!empty($this->selectedLanguage) && !in_array($this->selectedLanguage, $this->languages)) {
+            $this->languages[] = $this->selectedLanguage;
+            $this->selectedLanguage = ''; // Reset selection
+        }
+    }
+
+    public function removeLanguage($language)
+    {
+        $this->languages = array_filter($this->languages, function($lang) use ($language) {
+            return $lang !== $language;
+        });
     }
 
 }

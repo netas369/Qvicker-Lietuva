@@ -59,10 +59,43 @@
                     </div>
 
                     <div>
+                        <label for="gender" class="block text-sm font-medium text-gray-700">Lytis</label>
+                        <select wire:model="gender" id="gender"
+                                class="w-full rounded-md border @error('gender') border-red-500 @else border-gray-300 @enderror shadow-sm p-2 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                            <option value="">Pasirinkite...</option>
+                            <option value="male">Vyras</option>
+                            <option value="female">Moteris</option>
+                            <option value="other">Kita</option>
+                        </select>
+                        @error('gender')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
                         <label for="email" class="block text-sm font-medium text-gray-700">El. paštas</label>
                         <input type="email" wire:model="email" id="email"
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light">
                         @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700">Telefono numeris:</label>
+                        <div class="flex">
+                            <span class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
+                             +370
+                             </span>
+                            <input type="tel" id="phone" name="phone" value="{{ old('phone') }}"
+                                   wire:model="phone"
+                                   class="w-full rounded-none rounded-r-md border @error('phone') border-red-500 @else border-gray-300 @enderror shadow-sm p-2 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                                   placeholder="6XXXXXXX"
+                                   pattern="[6]{1}[0-9]{7}"
+                                   title="Įveskite 8 skaitmenis, prasidedančius 6">
+                        </div>
+                        @error('phone')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                        <small class="text-gray-500 mt-1 block">Formatas: 6XXXXXXX (be +370)</small>
                     </div>
 
                     <div>
@@ -83,6 +116,60 @@
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light">
                         @error('adresas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
+
+                    <div>
+                        <label for="post_code" class="block text-sm font-medium text-gray-700">Pašto Kodas</label>
+                        <div class="flex">
+                        <span class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
+                            LT-
+                        </span>
+                            <input type="text" wire:model="post_code" id="post_code"
+                                   class="w-full rounded-none rounded-r-md border @error('post_code') border-red-500 @else border-gray-300 @enderror shadow-sm p-2 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                                   placeholder="XXXXX">
+                        </div>
+                        @error('post_code')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                        <small class="text-gray-500 mt-1 block">Formatas: XXXXX (be LT-)</small>
+                    </div>
+
+                    <div>
+                        <label for="language-select" class="block text-sm font-medium text-gray-700">Kalbos</label>
+
+                        <!-- Selected languages display as tags -->
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            @foreach($languages as $lang)
+                                <div class="bg-primary-light text-white px-2 py-1 rounded-md flex items-center text-sm">
+                                    {{ $lang }}
+                                    <button type="button" wire:click="removeLanguage('{{ $lang }}')" class="ml-1 focus:outline-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Language selector dropdown -->
+                        <div class="relative">
+                            <select wire:model="selectedLanguage" wire:change="addLanguage" id="language-select"
+                                    class="w-full rounded-md border @error('languages') border-red-500 @else border-gray-300 @enderror shadow-sm p-2 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                                <option value="">Pasirinkite kalbą...</option>
+                                <option value="Lietuvių">Lietuvių</option>
+                                <option value="Anglų">Anglų</option>
+                                <option value="Rusų">Rusų</option>
+                                <option value="Lenkų">Lenkų</option>
+                                <option value="Vokiečių">Vokiečių</option>
+                                <option value="Prancūzų">Prancūzų</option>
+                            </select>
+                        </div>
+
+                        @error('languages')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                        <small class="text-gray-500 mt-1 block">Pasirinkite visas kalbas, kuriomis kalbate</small>
+                    </div>
+
                 </div>
 
 

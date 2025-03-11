@@ -32,7 +32,7 @@
 
         @if($reservations->isEmpty())
             <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
-                <p class="text-gray-600">Jūs dar neturite gautų užklausų su šiuo statusu.</p>
+                <p class="text-gray-600">Jūs dar neturite užklausų su šiuo statusu.</p>
             </div>
         @else
             <!-- Reservation cards -->

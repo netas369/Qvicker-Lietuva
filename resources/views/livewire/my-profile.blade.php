@@ -30,11 +30,14 @@
                     <h2 class="text-lg font-semibold mb-2">Profile Picture</h2>
 
                     <!-- Current Profile Picture -->
-                    @if(auth()->user()->profile_photo_url)
+                    @if(auth()->user()->image)
                         <img src="{{ auth()->user()->profile_photo_url }}"
                              class="w-32 h-32 rounded-full mb-4 object-cover"
                              alt="Current profile photo">
-
+                    @else
+                        <div class="w-32 h-32 rounded-full mb-4 flex items-center justify-center bg-gray-400 text-white text-5xl font-bold">
+                            {{ strtoupper(substr(auth()->user()->name, 0, 1) . substr(auth()->user()->lastname, 0, 1)) }}
+                        </div>
                     @endif
 
                     <!-- Upload Input -->
@@ -117,15 +120,17 @@
                         @enderror
                     </div>
 
-                    <!-- Lytis -->
+                    <!-- Gender -->
                     <div>
-                        <label for="role" class="block text-sm font-medium text-gray-700">Lytis</label>
-                        <select id="role" name="lytis" disabled
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('role') border-red-500 @enderror">
-                            <option value="vyras" >Vyras</option>
-                            <option value="moteris" >Moteris</option>
+                        <label for="gender" class="block text-sm font-medium text-gray-700">Lytis</label>
+                        <select wire:model="gender" id="gender" disabled
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('gender') border-red-500 @enderror">
+                            <option value="">Pasirinkite...</option>
+                            <option value="male">Vyras</option>
+                            <option value="female">Moteris</option>
+                            <option value="other">Kita</option>
                         </select>
-                        @error('role')
+                        @error('gender')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
@@ -153,6 +158,25 @@
                         @enderror
                     </div>
 
+                    <!-- Post Code -->
+                    <div>
+                        <label for="post_code" class="block text-sm font-medium text-gray-700">Pašto Kodas</label>
+                        <div class="flex">
+                        <span class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
+                            LT-
+                        </span>
+                            <input type="text" wire:model="post_code" id="post_code"
+                                   class="w-full rounded-none rounded-r-md border @error('post_code') border-red-500 @else border-gray-300 @enderror shadow-sm p-2 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                                   placeholder="XXXXX">
+                        </div>
+                        @error('post_code')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                        <small class="text-gray-500 mt-1 block">Formatas: XXXXX (be LT-)</small>
+                    </div>
+
+
+
                     <!-- City -->
                     <div class="">
                         <label for="city" class="block text-sm font-medium text-gray-700">Miestas</label>
@@ -166,6 +190,64 @@
                         @error('city')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700">Telefono numeris:</label>
+                        <div class="flex">
+                            <span class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
+                             +370
+                             </span>
+                            <input type="tel" id="phone" name="phone" value="{{ old('phone') }}"
+                                   wire:model="phone"
+                                   class="w-full rounded-none rounded-r-md border @error('phone') border-red-500 @else border-gray-300 @enderror shadow-sm p-2 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                                   placeholder="6XXXXXXX"
+                                   pattern="[6]{1}[0-9]{7}"
+                                   title="Įveskite 8 skaitmenis, prasidedančius 6">
+                        </div>
+                        @error('phone')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                        <small class="text-gray-500 mt-1 block">Formatas: 6XXXXXXX (be +370)</small>
+                    </div>
+
+                    <!-- Languages -->
+                    <div>
+                        <label for="language-select" class="block text-sm font-medium text-gray-700">Kalbos</label>
+
+                        <!-- Selected languages display as tags -->
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            @foreach($languages as $lang)
+                                <div class="bg-primary-light text-white px-2 py-1 rounded-md flex items-center text-sm">
+                                    {{ $lang }}
+                                    <button type="button" wire:click="removeLanguage('{{ $lang }}')" class="ml-1 focus:outline-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Language selector dropdown -->
+                        <div class="relative">
+                            <select wire:model="selectedLanguage" wire:change="addLanguage" id="language-select"
+                                    class="w-full rounded-md border @error('languages') border-red-500 @else border-gray-300 @enderror shadow-sm p-2 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                                <option value="">Pasirinkite kalbą...</option>
+                                <option value="Lietuvių">Lietuvių</option>
+                                <option value="Anglų">Anglų</option>
+                                <option value="Rusų">Rusų</option>
+                                <option value="Lenkų">Lenkų</option>
+                                <option value="Vokiečių">Vokiečių</option>
+                                <option value="Prancūzų">Prancūzų</option>
+                            </select>
+                        </div>
+
+                        @error('languages')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                        <small class="text-gray-500 mt-1 block">Pasirinkite visas kalbas, kuriomis kalbate</small>
                     </div>
                 </div>
 
