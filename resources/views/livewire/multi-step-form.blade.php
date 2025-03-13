@@ -531,7 +531,7 @@
                 <!-- Personal Information Review -->
                 <div class="bg-gray-50 p-6 rounded-lg">
                     <h3 class="text-lg font-semibold text-primary mb-4">Asmeninė informacija</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <p class="text-sm font-medium text-gray-600">Vardas</p>
                             <p class="text-gray-900">{{ $vardas }}</p>
@@ -545,8 +545,16 @@
                             <p class="text-gray-900">{{ $gimimo_data }}</p>
                         </div>
                         <div>
+                            <p class="text-sm font-medium text-gray-600">Lytis</p>
+                            <p class="text-gray-900">{{ $gender }}</p>
+                        </div>
+                        <div>
                             <p class="text-sm font-medium text-gray-600">El. paštas</p>
                             <p class="text-gray-900">{{ $email }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-600">Tel. Nr.</p>
+                            <p class="text-gray-900">{{ '+370' . $this->phone }}</p>
                         </div>
                         <div>
                             <p class="text-sm font-medium text-gray-600">Miestas</p>
@@ -556,19 +564,52 @@
                             <p class="text-sm font-medium text-gray-600">Adresas</p>
                             <p class="text-gray-900">{{ $adresas }}</p>
                         </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-600">Pašto Kodas</p>
+                            <p class="text-gray-900">{{ $post_code }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-600">Kalbos</p>
+                            <p class="text-gray-900">
+                                {{ is_array($languages) ? implode(', ', $languages) : $languages }}
+                            </p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Selected Services Review -->
                 <div class="bg-gray-50 p-6 rounded-lg">
                     <h3 class="text-lg font-semibold text-primary mb-4">Pasirinktos paslaugos</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                        @foreach($selectedSubcategories as $subcategory)
-                            <div class="bg-white p-3 rounded border border-gray-200">
-                                <p class="text-sm text-gray-700">{{ $subcategory }}</p>
-                            </div>
-                        @endforeach
-                    </div>
+                    @if(count($selectedSubcategories) > 0)
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                            @foreach($selectedSubcategories as $subcategoryId)
+                                @php
+                                    $foundSubcategory = null;
+                                    $parentCategory = null;
+
+                                    // Find the subcategory and its parent category
+                                    foreach($categories as $category) {
+                                        foreach($category['subcategories'] as $subcategory) {
+                                            if($subcategory['id'] == $subcategoryId) {
+                                                $foundSubcategory = $subcategory;
+                                                $parentCategory = $category['name'];
+                                                break 2;
+                                            }
+                                        }
+                                    }
+                                @endphp
+
+                                @if($foundSubcategory)
+                                    <div class="bg-white p-3 rounded border border-gray-200">
+                                        <p class="text-sm font-medium text-primary-light">{{ $foundSubcategory['name'] }}</p>
+                                        <p class="text-xs text-gray-500">{{ $parentCategory }}</p>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    @else
+                        <p class="text-gray-500">Nėra pasirinktų paslaugų</p>
+                    @endif
                 </div>
 
                 <!-- Terms and Conditions -->
