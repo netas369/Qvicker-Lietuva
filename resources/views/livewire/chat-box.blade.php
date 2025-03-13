@@ -1,9 +1,9 @@
 <div>
     <h2 class="text-lg font-semibold text-gray-800 mb-4">Pokalbis su {{ $this->isProvider() ? 'klientu' : 'tiekėju' }}</h2>
 
-    <!-- Messages container -->
+    <!-- Messages container - h-60 for mobile, h-96 for desktop -->
     <div wire:poll.5s="loadMessages"
-         class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-4 h-60 overflow-y-auto"
+         class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-4 h-60 md:h-96 overflow-y-auto"
          id="messages-container">
 
         @if(count($messages) > 0)
@@ -34,7 +34,7 @@
             <textarea wire:model="messageText"
                       wire:keydown.enter.prevent="sendMessage"
                       class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-primary"
-                      rows="2"
+                      rows="3"
                       placeholder="Rašykite žinutę..."></textarea>
             <button wire:click="sendMessage"
                     class="ml-2 bg-primary hover:bg-primary-dark text-white py-2 px-4 rounded-lg flex-none">
