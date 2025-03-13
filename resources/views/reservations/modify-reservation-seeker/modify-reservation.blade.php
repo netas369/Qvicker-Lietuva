@@ -253,19 +253,9 @@
                 <p class="text-gray-600">{{ \Carbon\Carbon::parse($reservation->created_at)->format('Y-m-d H:i') }}</p>
             </div>
 
-            <!-- Placeholder for future chat functionality -->
+            <!-- Chat functionality -->
             <div class="bg-white rounded-lg shadow-sm p-6">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">Pokalbis su klientu</h2>
-                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 text-center text-gray-500 mb-4">
-                    <p>Pokalbio funkcija bus įdiegta vėliau</p>
-                </div>
-
-                <div class="mt-4">
-                    <textarea class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-primary" rows="3" placeholder="Rašykite žinutę..."></textarea>
-                    <button type="button" class="mt-2 w-full bg-primary hover:bg-primary-dark text-white py-2 px-4 rounded-lg" disabled>
-                        Siųsti
-                    </button>
-                </div>
+                @livewire('chat-box', ['reservation' => $reservation])
             </div>
         </div>
     </div>

@@ -37,4 +37,9 @@ class Reservation extends Model
     {
         return $this->belongsTo(User::class, 'provider_id');
     }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
 }
