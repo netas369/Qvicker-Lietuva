@@ -153,7 +153,7 @@
 
                             <div>
                                 <h3 class="text-gray-600 text-sm mb-1">Telefono numeris</h3>
-                                <p class="text-gray-800">{{ $reservation->phone ?? 'Nepateiktas' }}</p>
+                                <p class="text-gray-800">{{ '+370' . $reservation->phone ?? 'Nepateiktas' }}</p>
                             </div>
                         @endif
                     </div>

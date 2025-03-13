@@ -118,9 +118,15 @@
                         </div>
                         <div>
                             <h3 class="font-medium text-gray-800">{{ ucfirst($reservation->provider->name) }} {{ ucfirst($reservation->provider->lastname) }}</h3>
+                            @if($reservation->status == 'accepted')
                             <p class="text-gray-600 text-sm">
                                 {{ $reservation->provider->email }}
                             </p>
+                            @elseif($reservation->status == 'pending')
+                                <p class="text-gray-600 text-sm">
+                                Daugiau informacijos matysite kai bus patvirtinta rezervacija.
+                                </p>
+                            @endif
                         </div>
                     </div>
 
