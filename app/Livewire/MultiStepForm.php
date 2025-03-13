@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class MultiStepForm extends Component
 {
-    public $currentStep = 1;
+    public $currentStep = 2;
     public $totalSteps = 3;
 
     public $userType;
@@ -32,6 +32,7 @@ class MultiStepForm extends Component
     public $gender;
     public $languages = [];
     public $selectedLanguage = '';
+    public $activeTab = 0;
 
     protected $rules = [
         'terms' => 'required|accepted',
@@ -250,6 +251,18 @@ class MultiStepForm extends Component
         $this->languages = array_filter($this->languages, function($lang) use ($language) {
             return $lang !== $language;
         });
+    }
+
+    public function setActiveTab($index)
+    {
+        $this->activeTab = $index;
+    }
+
+    public function removeSubcategory($id)
+    {
+        $this->selectedSubcategories = array_values(array_filter($this->selectedSubcategories, function($subcategoryId) use ($id) {
+            return $subcategoryId != $id;
+        }));
     }
 
 }
