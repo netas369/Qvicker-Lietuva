@@ -2,10 +2,6 @@
 
 @section('content')
     <div class="max-w-4xl mx-auto p-4 md:p-6">
-        <!-- Header -->
-        <div class="mb-2">
-            <h1 class="text-2xl font-bold text-primary">Užklausa Nr. {{ $reservation->id }}</h1>
-        </div>
         <!-- Back button -->
         <a href="{{ route('reservations.seeker') }}" class="inline-flex items-center text-primary hover:underline">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
@@ -15,6 +11,11 @@
             </svg>
             Grįžti į užklausų sąrašą
         </a>
+
+        <!-- Header -->
+        <div class="mb-2">
+            <h1 class="text-2xl font-bold text-primary">Užklausa Nr. {{ $reservation->id }}</h1>
+        </div>
     </div>
 
     <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-8 gap-6">
@@ -284,34 +285,3 @@
     </div>
 
 @endsection
-
-
-{{--<div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4 mt-2">--}}
-{{--    @if($reservation->status == 'pending')--}}
-
-{{--        <form method="POST" action="{{ route('reservation.decline', $reservation->id) }}">--}}
-{{--            @csrf--}}
-{{--            <button type="submit" onclick="return confirm('Ar tikrai norite atmesti šią užklausą?')"--}}
-{{--                    class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 border border-red-600 text-red-600 rounded-md hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">--}}
-{{--                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"--}}
-{{--                     fill="currentColor">--}}
-{{--                    <path fill-rule="evenodd"--}}
-{{--                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"--}}
-{{--                          clip-rule="evenodd"/>--}}
-{{--                </svg>--}}
-{{--                Atšaukti užklausą--}}
-{{--            </button>--}}
-{{--        </form>--}}
-
-{{--    @elseif($reservation->status == 'accepted')--}}
-{{--        --}}{{--                <form method="POST" action="{{ route('reservation.complete', $reservation->id) }}">--}}
-{{--        --}}{{--                    @csrf--}}
-{{--        --}}{{--                    <button type="submit" class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">--}}
-{{--        --}}{{--                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">--}}
-{{--        --}}{{--                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />--}}
-{{--        --}}{{--                        </svg>--}}
-{{--        --}}{{--                        Pažymėti kaip užbaigtą--}}
-{{--        --}}{{--                    </button>--}}
-{{--        --}}{{--                </form>--}}
-{{--    @endif--}}
-{{--</div>--}}
