@@ -117,7 +117,7 @@ class ReservationController extends Controller
         $reservation->status = 'canceled';
         $reservation->save();
 
-        return redirect()->route('reservations.seeker')->with('success', 'Užklausa sėkmingai atšaukta.');
+        return redirect()->back()->with('success', 'Užklausa sėkmingai atšaukta.');
     }
 
     /**
@@ -140,7 +140,7 @@ class ReservationController extends Controller
         $reservation->status = 'accepted';
         $reservation->save();
 
-        return redirect()->route('reservations.provider')->with('success', 'Užklausa sėkmingai patvirtinta.');
+        return redirect()->back()->with('success', 'Užklausa sėkmingai patvirtinta.');
     }
 
     /**
@@ -191,7 +191,7 @@ class ReservationController extends Controller
         $reservation->status = 'completed';
         $reservation->save();
 
-        return redirect()->route('reservations.provider')->with('success', 'Užklausa pažymėta kaip užbaigta.');
+        return redirect()->back()->with('success', 'Užklausa pažymėta kaip užbaigta.');
     }
 
     public function modifyProvider($id)
