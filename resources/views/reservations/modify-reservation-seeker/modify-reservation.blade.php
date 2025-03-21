@@ -19,6 +19,10 @@
         </div>
     </div>
 
+    @if($reservation->status == 'completed')
+        @livewire('reservation-feedback', ['reservation' => $reservation])
+    @endif
+
     <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-8 gap-6">
         <!-- Left column: Service details -->
         <div class="col-span-3">
@@ -276,5 +280,4 @@
             </div>
         </div>
     </div>
-
 @endsection

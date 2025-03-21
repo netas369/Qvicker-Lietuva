@@ -42,4 +42,15 @@ class Reservation extends Model
     {
         return $this->hasMany(Message::class);
     }
+
+    public function review()
+    {
+        return $this->hasOne(Review::class);
+    }
+
+    // Check if this reservation can be reviewed
+    public function canBeReviewed()
+    {
+        return $this->status === 'completed' && !$this->review()->exists();
+    }
 }
