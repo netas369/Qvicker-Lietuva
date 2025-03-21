@@ -26,6 +26,19 @@ class ChatBox extends Component
         return Auth::id() === $this->reservation->provider_id;
     }
 
+    public function name()
+    {
+        if(Auth::id() === $this->reservation->provider_id)
+        {
+            // If authenticated user is the provider, show seeker's name
+            return $this->reservation->seeker->name;
+        } else {
+            // If authenticated user is the seeker, show provider's name
+            return $this->reservation->provider->name;
+        }
+    }
+
+
     #[On('message-received')]
     public function refreshMessages()
     {

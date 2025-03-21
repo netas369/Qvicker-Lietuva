@@ -28,8 +28,6 @@ Route::middleware(['auth', 'role:provider,seeker'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'myprofile'])->name('myprofile');
     Route::delete('/reservation/{id}/cancel', [ReservationController::class, 'cancel'])->name('reservation.cancel');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
-    Route::post('/reservation/{id}/decline', [ReservationController::class, 'decline'])->name('reservation.decline');
-
 });
 
 
@@ -56,6 +54,8 @@ Route::middleware(['auth', 'provider'])->group(function () {
     Route::post('/reservation/{id}/complete', [ReservationController::class, 'complete'])->name('reservation.complete');
     Route::get('/provider-reservations', [ReservationController::class, 'providerReservations'])->name('reservations.provider');
     Route::get('/reservation/{id}/modify', [ReservationController::class, 'modifyProvider'])->name('reservation.modify');
+    Route::post('/reservation/{id}/decline', [ReservationController::class, 'declineProvider'])->name('reservation.declineProvider');
+    Route::put('/reservations/{id}/edit-seeker', [ReservationController::class, 'editProvider'])->name('reservations.editProvider');
 
 });
 
@@ -66,6 +66,7 @@ Route::middleware(['auth', 'seeker'])->group(function () {
     Route::get('/my-reservations', [ReservationController::class, 'seekerReservations'])->name('reservations.seeker');
     Route::get('/my-reservations/{id}', [ReservationController::class, 'modifySeeker'])->name('reservation.modifySeeker');
     Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.request');
+    Route::post('/reservation/{id}/cancel', [ReservationController::class, 'declineSeeker'])->name('reservation.declineSeeker');
 
 });
 
