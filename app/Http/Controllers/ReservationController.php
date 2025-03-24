@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -146,14 +147,14 @@ class ReservationController extends Controller
     /**
      * Decline a reservation
      */
-    public function decline($id)
+    public function declineSeeker($id)
     {
         $reservation = Reservation::findOrFail($id);
 
-        // Ensure the provider can only decline their own reservations
-//        if (Auth::id() != $reservation->provider_id || Auth::id() != $reservation->seeker_id) {
-//            return redirect()->back()->with('error', 'Neturite teisių atmesti šios užklausos.');
-//        }
+         //Ensure the seeker can only decline their own reservations
+        if (Auth::id() != $reservation->seeker_id) {
+            return redirect()->back()->with('error', 'Neturite teisių atmesti šios užklausos.');
+        }
 
         // Only allow declining pending reservations
         if ($reservation->status != 'pending') {
@@ -163,7 +164,41 @@ class ReservationController extends Controller
         $reservation->status = 'declined';
         $reservation->save();
 
-        if (Auth::id() !== $reservation->provider_id)
+        if (Auth::id() == $reservation->seeker_id)
+        {
+            return redirect()->back()->with('success', 'Užklausa atšaukta.');
+        } else if(Auth::id() !== $reservation->seeker_id){
+            return redirect()->back()->with('success', 'Užklausa atšaukta.');
+        }
+    }
+
+    public function declineProvider($id)
+    {
+        $reservation = Reservation::findOrFail($id);
+        if (Auth::id() != $reservation->provider_id) {
+            return redirect()->back()->with('error', 'Neturite teisių atmesti šios užklausos.');
+        }
+
+        // Only allow declining pending reservations
+        if ($reservation->status != 'pending') {
+            return redirect()->back()->with('error', 'Galima atmesti tik laukiančias užklausas.');
+        }
+
+        $reservation->status = 'declined';
+        $reservation->save();
+
+        $declineMessage = 'Sveiki, ' . ucfirst($reservation->seeker->name) . ' jūsų ūžklausa atšaukta, kadangi ..... ';
+
+        $message = new Message([
+            'reservation_id' => $reservation->id,
+            'sender_id' => Auth::id(),
+            'sender_type' => 'provider',
+            'message' => $declineMessage,
+        ]);
+
+        $message->save();
+
+        if (Auth::id() == $reservation->provider_id)
         {
             return redirect()->back()->with('success', 'Užklausa atmesta.');
         } else if(Auth::id() !== $reservation->seeker_id){
@@ -216,5 +251,46 @@ class ReservationController extends Controller
         }
 
         return view('reservations.modify-reservation-seeker.modify-reservation', compact('reservation'));
+    }
+
+    public function editProvider($id, Request $request)
+    {
+        $reservation = Reservation::findOrFail($id);
+
+        if(Auth::id() !== $reservation->provider_id){
+            abort(403, 'Unauthorized action. This reservation does not belong to you.');
+        }
+
+        $validated = $request->validate([
+            'date' => [
+                'required',
+                'date',
+                function ($attribute, $value, $fail) use ($reservation) {
+                    $existingReservation = Reservation::where('reservation_date', $value)
+                        ->where('id', '!=', $reservation->id)
+                        ->where('provider_id', $reservation->provider_id)
+                        ->exists();
+
+                    if ($existingReservation) {
+                        $fail('Ši data jau yra užimta. Prašome pasirinkti kitą datą.');
+                    }
+                },
+            ],
+        ]);
+
+        $reservation->reservation_date = $validated['date'];
+        $reservation->save();
+
+
+        $changeDayMessage = 'Rezervacijos data pakeista į ' . $reservation->reservation_date . '.';
+        $message = new Message([
+            'reservation_id' => $reservation->id,
+            'sender_id' => Auth::id(),
+            'sender_type' => 'provider',
+            'message' => $changeDayMessage,
+        ]);
+        $message->save();
+
+        return redirect()->back()->with('success', 'Rezervacijos data sėkmingai atnaujinta.');
     }
 }

@@ -1,5 +1,5 @@
 <div>
-    <h2 class="text-lg font-semibold text-gray-800 mb-4">Pokalbis su {{ $this->isProvider() ? 'klientu' : 'tiekėju' }}</h2>
+    <h2 class="text-lg font-semibold text-primary mb-4">Pokalbis su {{ ucfirst($this->name()) }}</h2>
 
     <!-- Messages container - h-60 for mobile, h-96 for desktop -->
     <div wire:poll.5s="loadMessages"

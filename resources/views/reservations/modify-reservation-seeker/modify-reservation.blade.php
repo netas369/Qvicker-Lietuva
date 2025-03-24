@@ -3,7 +3,8 @@
 @section('content')
     <div class="max-w-4xl mx-auto p-4 md:p-6">
         <!-- Back button -->
-        <a href="{{ route('reservations.seeker') }}" class="inline-flex items-center text-primary hover:underline">
+        <a href="{{ route('reservations.seeker') }}"
+           class="inline-flex items-center text-primary hover:underline mb-6">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd"
                       d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z"
@@ -17,6 +18,10 @@
             <h1 class="text-2xl font-bold text-primary">Užklausa Nr. {{ $reservation->id }}</h1>
         </div>
     </div>
+
+    @if($reservation->status == 'completed')
+        @livewire('reservation-feedback', ['reservation' => $reservation])
+    @endif
 
     <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-8 gap-6">
         <!-- Left column: Service details -->
@@ -73,7 +78,7 @@
                 <div class="flex flex-col sm:flex-row justify-left space-y-3 sm:space-y-0 sm:space-x-4 mt-4">
                     @if($reservation->status == 'pending')
 
-                        <form method="POST" action="{{ route('reservation.decline', $reservation->id) }}">
+                        <form method="POST" action="{{ route('reservation.declineSeeker', $reservation->id) }}">
                             @csrf
                             <button type="submit" onclick="return confirm('Ar tikrai norite atmesti šią užklausą?')"
                                     class="w-full sm:w-auto inline-flex justify-center items-center px-2 py-1 border border-red-600 text-red-600 rounded-md hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 text-sm">
@@ -88,18 +93,21 @@
                         </form>
 
                     @elseif($reservation->status == 'accepted')
-                                        <form method="POST" action="{{ route('reservation.complete', $reservation->id) }}">
-                                            @csrf
-                                            <button type="submit" class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                                </svg>
-                                                Pažymėti kaip užbaigtą
-                                            </button>
-                                        </form>
+                        <form method="POST" action="{{ route('reservation.complete', $reservation->id) }}">
+                            @csrf
+                            <button type="submit"
+                                    class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
+                                     fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                                Pažymėti kaip užbaigtą
+                            </button>
+                        </form>
                     @endif
                 </div>
-
             </div>
 
             @if($reservation->status == 'accepted' || $reservation->status == 'completed' || $reservation->status == 'pending')
@@ -119,12 +127,12 @@
                         <div>
                             <h3 class="font-medium text-gray-800">{{ ucfirst($reservation->provider->name) }} {{ ucfirst($reservation->provider->lastname) }}</h3>
                             @if($reservation->status == 'accepted')
-                            <p class="text-gray-600 text-sm">
-                                {{ $reservation->provider->email }}
-                            </p>
+                                <p class="text-gray-600 text-sm">
+                                    {{ $reservation->provider->email }}
+                                </p>
                             @elseif($reservation->status == 'pending')
                                 <p class="text-gray-600 text-sm">
-                                Daugiau informacijos matysite kai bus patvirtinta rezervacija.
+                                    Daugiau informacijos matysite kai bus patvirtinta rezervacija.
                                 </p>
                             @endif
                         </div>
@@ -177,10 +185,6 @@
                                 <div class="bg-primary" style="width: 25%"></div>
                             @elseif($reservation->status == 'accepted')
                                 <div class="bg-primary" style="width: 60%"></div>
-                                {{--                    @elseif($reservation->status == 'processing')--}}
-                                {{--                        <div class="bg-primary" style="width: 60%"></div>--}}
-                                {{--                    @elseif($reservation->status == 'in_progress')--}}
-                                {{--                        <div class="bg-primary" style="width: 80%"></div>--}}
                             @elseif($reservation->status == 'completed')
                                 <div class="bg-primary" style="width: 100%"></div>
                             @else
@@ -195,10 +199,6 @@
                     Užklausa (1/3)
                 @elseif($reservation->status == 'accepted')
                     Patvirtinta (2/3)
-                    {{--                @elseif($reservation->status == 'processing')--}}
-                    {{--                    Apmokėta (3/5)--}}
-                    {{--                @elseif($reservation->status == 'in_progress')--}}
-                    {{--                    Vykdoma (3/4)--}}
                 @elseif($reservation->status == 'completed')
                     Užbaigta (3/3)
                 @elseif($reservation->status == 'declined')
@@ -208,29 +208,20 @@
                         </div>
                     </div>
                 </div>
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">Užklausos statusas</h2>
+                <h2 class="text-lg font-semibold text-primary mb-4">Užklausos statusas</h2>
                 <div class="mb-4">
                     @if($reservation->status == 'pending')
                         <div class="flex items-center">
-                            <div class="grid grid-cols-2">
-                                <div>
-                                    <span
-                                        class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-yellow-100 text-yellow-800 mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                         fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                                              clip-rule="evenodd"/>
-                                    </svg>
-                                </span>
-                                    <span class="text-yellow-800 font-medium">Laukiama patvirtinimo</span>
-                                </div>
-                                <div>
-
-                                </div>
-
-                            </div>
-
+                            <span
+                                class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-yellow-100 text-yellow-800 mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                     fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                            </span>
+                            <span class="text-yellow-800 font-medium">Laukiama patvirtinimo</span>
                         </div>
                     @elseif($reservation->status == 'accepted')
                         <div class="flex items-center">
@@ -289,5 +280,4 @@
             </div>
         </div>
     </div>
-
 @endsection

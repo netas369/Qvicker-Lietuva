@@ -77,8 +77,8 @@
                         <form method="POST" action="{{ route('reservation.accept', $reservation->id) }}">
                             @csrf
                             <button type="submit"
-                                    class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 text-sm ">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
+                                    class="w-full sm:w-auto inline-flex justify-center items-center px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 text-sm ">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20"
                                      fill="currentColor">
                                     <path fill-rule="evenodd"
                                           d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -88,11 +88,11 @@
                             </button>
                         </form>
 
-                        <form method="POST" action="{{ route('reservation.decline', $reservation->id) }}">
+                        <form method="POST" action="{{ route('reservation.declineProvider', $reservation->id) }}">
                             @csrf
                             <button type="submit" onclick="return confirm('Ar tikrai norite atmesti šią užklausą?')"
-                                    class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 border border-red-600 text-red-600 rounded-md hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 text-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
+                                    class="w-full sm:w-auto inline-flex justify-center items-center px-3 py-2 border border-red-600 text-red-600 rounded-md hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 text-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20"
                                      fill="currentColor">
                                     <path fill-rule="evenodd"
                                           d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -117,6 +117,15 @@
                         </form>
                     @endif
                 </div>
+                @if($reservation->status == 'pending')
+                    <div class="mt-4">
+                        <button type="button"
+                                class="text-primary-light hover:text-primary-dark underline focus:outline-none text-sm"
+                                onclick="openDateChangeModal()">
+                            Keisti rezervacijos detales...
+                        </button>
+                    </div>
+                @endif
             </div>
 
             @if($reservation->status == 'accepted' || $reservation->status == 'completed' || $reservation->status == 'pending')
@@ -231,7 +240,7 @@
             </span>
                         </div>
                     </div>
-                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Užklausos statusas</h2>
+                    <h2 class="text-lg font-semibold text-primary mb-4">Užklausos statusas</h2>
                     <div class="mb-4">
                         @if($reservation->status == 'pending')
                             <div class="flex items-center">
@@ -302,4 +311,83 @@
                 @livewire('chat-box', ['reservation' => $reservation])
             </div>
         </div>
+
+        <!-- Modalinis langas datos keitimui -->
+        <div id="dateChangeModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+            <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <!-- Tamsus fonas -->
+                <div class="fixed inset-0 transition-opacity" onclick="closeDateChangeModal()">
+                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                </div>
+
+                <!-- Modalinio lango turinys -->
+                <div
+                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                    Keisti rezervacijos datą
+                                </h3>
+                                <p class="text-red-500 mt-3">Turėkite omenyje, kad prieš keičiant datą privalote susitarti su klientu. Tam naudokite
+                                 susirašinėjimo funkciją.</p>
+                                <div class="mt-4">
+                                    <form id="dateChangeForm" method="POST"
+                                          action="{{ route('reservations.editProvider', $reservation->id) }}">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <div class="mb-4">
+                                            <label for="date" class="block text-sm font-medium text-gray-700">Nauja
+                                                data</label>
+                                            <input type="date" id="date" name="date"
+                                                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                   value="{{ old('date', is_object($reservation->reservation_date) ? $reservation->reservation_date->format('Y-m-d') : $reservation->reservation_date) }}"
+                                                   required>
+                                            @error('date')
+                                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button type="submit" form="dateChangeForm"
+                                class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                            Išsaugoti
+                        </button>
+                        <button type="button" onclick="closeDateChangeModal()"
+                                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                            Atšaukti
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 @endsection
+
+        <script>
+            function openDateChangeModal() {
+                document.getElementById('dateChangeModal').classList.remove('hidden');
+            }
+
+            function closeDateChangeModal() {
+                document.getElementById('dateChangeModal').classList.add('hidden');
+            }
+
+            // Uždaryti modalinį langą paspaudus Escape klavišą
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    closeDateChangeModal();
+                }
+            });
+
+            // Jei yra validavimo klaidų, automatiškai atidaryti modalinį langą
+            @if($errors->has('date'))
+            document.addEventListener('DOMContentLoaded', function() {
+                openDateChangeModal();
+            });
+            @endif
+        </script>
