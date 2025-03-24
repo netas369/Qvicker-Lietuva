@@ -1,5 +1,13 @@
 <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 bg-white rounded-lg shadow-sm p-6 mb-6">
     <div class="col-span-2">
+
+        <!-- Success Message -->
+        @if(session()->has('message'))
+            <div class="mt-1 p-3 bg-green-100 text-green-700 rounded-lg mb-4">
+                {{ session('message') }}
+            </div>
+        @endif
+
         @if(!$reviewIsLeft)
             <h1 class="text-center text-primary text-xl font-semibold">Palikite Atsiliepimą</h1>
         @else
@@ -80,11 +88,5 @@
             </div>
         @endif
 
-        <!-- Success Message -->
-        @if(session()->has('message'))
-            <div class="mt-4 p-3 bg-green-100 text-green-700 rounded-lg">
-                {{ session('message') }}
-            </div>
-        @endif
     </div>
 </div>

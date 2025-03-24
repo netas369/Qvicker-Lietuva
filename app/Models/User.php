@@ -113,5 +113,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->reviewsReceived()->avg('rating') ?: 0;
     }
 
+    public function getTotalReservationsDone()
+    {
+        return $this->providerReservations()->where('status', 'completed')->count() ?: 0;
+    }
+
 
 }

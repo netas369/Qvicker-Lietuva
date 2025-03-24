@@ -62,6 +62,7 @@ class ReservationFeedback extends Component
         $this->reset(['rating', 'feedbackText', 'showFeedbackField']);
         $this->reviewIsLeft = true;
         session()->flash('message', 'Ačiū už jūsų atsiliepimą!');
+        $this->redirect(request()->header('Referer'));
 
     }
 }
