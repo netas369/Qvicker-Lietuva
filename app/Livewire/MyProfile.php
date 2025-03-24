@@ -171,6 +171,29 @@ class MyProfile extends Component
 
     }
 
+    public function updatedImage()
+    {
+        $this->validate([
+            'image' => 'image|max:2048', // 1MB Max
+        ]);
+
+        if ($this->user->image) {
+            Storage::disk('public')->delete($this->user->image);
+        }
+
+        // Process and save the image immediately
+        $filename = $this->image->store('profile-photos', 'public');
+
+        // Update user's profile image in the database
+        $this->user->image = $filename;
+        $this->user->save();
+
+        // Show success message
+        session()->flash('message', 'Nuotrauka sėkmingai atnaujinta!');
+
+        return redirect(request()->header('Referer'));
+    }
+
     public function addLanguage()
     {
         if (!empty($this->selectedLanguage) && !in_array($this->selectedLanguage, $this->languages)) {

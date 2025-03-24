@@ -19,12 +19,12 @@ export default {
             },
             colors: {
                 primary: {
-                    verylight: '#3ea8a6',
-                    light: '#266867',  // lighter version of primary color
-                    DEFAULT: '#1A4645', // main primary color
-                    dark: '#133232',    // darker version of primary color (optional)
-                    backgroundlight:'9BCCCB',
-                    backgrounddark: '79A5A4'
+                    verylight: '#0A97B0',    // Very light blue, good for backgrounds
+                    light: '#266867',        // Light blue, good for secondary elements
+                    DEFAULT: '#1A4645',      // Main primary - trustworthy blue
+                    dark: '#133232',         // Darker blue for hover states
+                    backgroundlight: '#9BCCCB', // Light teal for backgrounds
+                    backgrounddark: '#79A5A4'
                 },
             }
         },
