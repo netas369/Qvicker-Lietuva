@@ -1,7 +1,7 @@
-<div>
+<div class="md:flex md:justify-center md:w-full">
     <!-- Responsive Tabs Navigation -->
-    <div class="bg-gray-50 border-b shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-xl border-b shadow-sm max-w-4xl mt-4 px-10">
+        <div class=" mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Mobile Dropdown Menu (visible on small screens only) -->
             <div class="sm:hidden py-2">
                 <select id="mobileNavigation" onchange="navigateTo(this.value)" class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-primary focus:outline-none focus:ring-primary">
@@ -70,7 +70,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-7 md:w-7 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                             </svg>
-                            <span>Gautos užklausos</span>
+                            <span>Užklausos</span>
                         </div>
                     </a>
 
@@ -84,7 +84,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-7 md:w-7 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                             </svg>
-                            <span>Mano užklausos</span>
+                            <span>Užklausos</span>
                         </div>
                     </a>
                 @endif
