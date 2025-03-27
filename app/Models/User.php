@@ -118,5 +118,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->providerReservations()->where('status', 'completed')->count() ?: 0;
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function unreadNotifications()
+    {
+        return $this->notifications()->whereNull('read_at');
+    }
+
 
 }

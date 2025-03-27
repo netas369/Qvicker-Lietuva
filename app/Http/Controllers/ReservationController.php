@@ -3,13 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\Models\Notification;
 use App\Models\Reservation;
 use App\Models\Review;
+use App\Models\User;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
+    protected $notificationService;
+
+    public function __construct(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
     /**
      * Store a new reservation request.
      */
@@ -48,6 +57,9 @@ class ReservationController extends Controller
         $reservation->city = $validated['city'];
         $reservation->status = 'pending';
         $reservation->save();
+
+        $provider = User::find($validated['provider_id']);
+        $this->notificationService->notifyNewReservation($provider, $reservation);
 
         // Redirect with success message
         return redirect()->route('reservations.seeker')->with('success', 'Jūsų užklausa išsiųsta. Meistras peržiūrės ją artimiausiu metu.');
