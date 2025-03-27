@@ -18,7 +18,7 @@
                 </script>
             @endif
 
-            <h1 class="text-2xl font-bold mb-6 text-primary">Mano Profilis</h1>
+            <h1 class="text-2xl font-bold mb-6 text-primary-light">Mano Profilis</h1>
 
             <form wire:submit.prevent="update" class="space-y-6">
                 <div class="w-full grid grid-cols-12">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use App\Models\Reservation;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -233,12 +234,14 @@ class ReservationController extends Controller
     {
         $reservation = Reservation::findOrFail($id);
 
+        $reviewIsLeft = Review::where('reservation_id', $reservation->id)->first();
+
         // Check if the reservation belongs to the authenticated provider
         if (auth()->user()->id !== $reservation->provider_id) {
             abort(403, 'Unauthorized action. This reservation does not belong to you.');
         }
 
-        return view('reservations.modify-reservation-providers.modify-reservation', compact('reservation'));
+        return view('reservations.modify-reservation-providers.modify-reservation', compact('reservation', 'reviewIsLeft'));
     }
 
     public function modifySeeker($id)

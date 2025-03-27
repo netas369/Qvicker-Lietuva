@@ -1,4 +1,4 @@
-<div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 bg-white rounded-lg shadow-sm p-6 mb-6">
+<div class="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 bg-white rounded-lg shadow-sm p-6 mb-6">
     <div class="col-span-2">
 
         <!-- Success Message -->
@@ -8,11 +8,14 @@
             </div>
         @endif
 
-        @if(!$reviewIsLeft)
-            <h1 class="text-center text-primary text-xl font-semibold">Palikite Atsiliepimą</h1>
-        @else
-            <h1 class="text-center text-primary text-xl font-semibold">Jūsų Atsiliepimas</h1>
-        @endif
+            @if($user->role == 'provider' && $reviewIsLeft)
+            <h1 class="text-center text-primary text-xl font-semibold">Gavote Atsiliepimą</h1>
+            @elseif(!$reviewIsLeft)
+                <h1 class="text-center text-primary text-xl font-semibold">Palikite Atsiliepimą</h1>
+            @else
+                <h1 class="text-center text-primary text-xl font-semibold">Jūsų Atsiliepimas</h1>
+            @endif
+
     </div>
 
     <div class="col-span-2">
