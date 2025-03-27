@@ -24,10 +24,17 @@
                 </div>
             @endforeach
         @else
-            <p class="text-center text-gray-500">Pokalbis tuščias. Pradėkite bendrauti!</p>
+            @if($reservation->status == 'completed')
+                <p class="text-center text-gray-500">Pokalbis uždarytas. Paslauga atlikta!</p>
+            @elseif($reservation->status == 'declined')
+                <p class="text-center text-gray-500">Rezervacija atšaukta. Pokalbis uždarytas!</p>
+            @else
+                <p class="text-center text-gray-500">Pokalbis tuščias. Pradėkite bendrauti!</p>
+            @endif
         @endif
     </div>
 
+    @if($reservation->status !== 'completed' && $reservation->status !== 'declined')
     <!-- Message input -->
     <div class="mt-4">
         <div class="flex">
@@ -44,6 +51,7 @@
             </button>
         </div>
     </div>
+    @endif
 
     <!-- Script for handling auto-scrolling -->
     <script>
