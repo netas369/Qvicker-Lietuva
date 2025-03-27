@@ -10,11 +10,17 @@ class NavbarNotifications extends Component
     public $unreadCount = 0;
     public $isOpen = false;
 
-    protected $listeners = ['refreshNotifications' => 'loadNotifications'];
+    protected $listeners = ['refreshNotifications' => 'loadNotifications',
+                            'closeDropdown' => 'closeDropdown'];
 
     public function mount()
     {
         $this->loadNotifications();
+    }
+
+    public function closeDropdown()
+    {
+        $this->isOpen = false;
     }
 
     public function loadNotifications()
@@ -44,16 +50,31 @@ class NavbarNotifications extends Component
         $notification = auth()->user()->notifications()->findOrFail($notificationId);
         $notification->update(['read_at' => now()]);
 
-        $this->loadNotifications();
-        $this->emit('refreshNotifications');
+        // Only update in the local array without full reload
+        foreach ($this->notifications as $key => $notification) {
+            if ($notification['id'] === $notificationId) {
+                $this->notifications[$key]['read_at'] = now()->toDateTimeString();
+                break;
+            }
+        }
+
+        // Update count without full reload
+        $this->unreadCount = max(0, $this->unreadCount - 1);
     }
 
     public function markAllAsRead()
     {
         auth()->user()->notifications()->whereNull('read_at')->update(['read_at' => now()]);
 
-        $this->loadNotifications();
-        $this->emit('refreshNotifications');
+        // Update local data without full reload
+        foreach ($this->notifications as $key => $notification) {
+            if ($notification['read_at'] === null) {
+                $this->notifications[$key]['read_at'] = now()->toDateTimeString();
+            }
+        }
+
+        // Reset unread count
+        $this->unreadCount = 0;
     }
 
     public function render()
