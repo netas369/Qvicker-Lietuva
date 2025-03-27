@@ -19,6 +19,9 @@
         </div>
     </div>
 
+    @if($reservation->status == 'completed' && $reviewIsLeft)
+        @livewire('reservation-feedback', ['reservation' => $reservation])
+    @endif
 
     <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-8 gap-6">
         <!-- Left column: Service details -->

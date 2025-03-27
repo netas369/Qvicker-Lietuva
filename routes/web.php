@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProviderCalendarController;
 use App\Http\Controllers\ProviderController;
@@ -28,6 +30,8 @@ Route::middleware(['auth', 'role:provider,seeker'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'myprofile'])->name('myprofile');
     Route::delete('/reservation/{id}/cancel', [ReservationController::class, 'cancel'])->name('reservation.cancel');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('profile.dashboard');
 });
 
 

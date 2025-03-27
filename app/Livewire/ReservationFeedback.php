@@ -14,10 +14,13 @@ class ReservationFeedback extends Component
     public $showFeedbackField = false;
     public $reviewIsLeft = false;
     public $feedbackCreatedAt;
+    public $user;
 
     public function mount(Reservation $reservation)
     {
         $this->reservation = $reservation;
+
+        $this->user =  auth()->user();
 
         $existingFeedback = Review::where('reservation_id', $this->reservation->id)->first();
 

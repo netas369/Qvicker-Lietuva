@@ -1,8 +1,6 @@
 <div>
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
-
-
+    <div class="container mx-auto px-4 py-4">
+        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6">
             @if (session()->has('message'))
                 <div
                     id="session-message"
@@ -20,13 +18,11 @@
                 </script>
             @endif
 
-            <h1 class="text-2xl font-bold mb-6 text-primary">Mano Profilis</h1>
+            <h1 class="text-2xl font-bold mb-6 text-primary-light">Mano Profilis</h1>
 
             <form wire:submit.prevent="update" class="space-y-6">
-
-
                 <div class="w-full grid grid-cols-12">
-                    <div class="col-span-12 md:col-span-4">
+                    <div class="col-span-12 md:col-span-4 md:ml-8">
                         <!-- Profile Picture Upload - Modified for instant upload -->
                         <div class="mb-6">
                             <!-- Current Profile Picture -->

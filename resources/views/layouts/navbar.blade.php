@@ -3,7 +3,16 @@
         <p class="text-primary-light font-bold sm:text-3xl text-2xl">WORK<span class="text-primary">LINK</span><span><small class="text-gray-600 text-xs ml-1">beta</small></span></p>
 {{--        <img src="{{ asset('images/worklinklogo.png') }}" alt="logo" class="h-10">--}}
     </a>
-    <div class="lg:hidden">
+
+
+    <div class="lg:hidden flex items-center gap-2">
+        @auth
+            <!-- Mobile notification bell -->
+            <div class="relative">
+                @livewire('navbar-notifications')
+            </div>
+        @endauth
+
         <button class="navbar-burger flex items-center text-blue-600 p-3 hover:bg-gray-50 transition duration-200">
             <svg class="block h-6 w-6 fill-primary" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <title>Mobile menu</title>
@@ -38,38 +47,46 @@
     @endguest
 
     @auth
-        <div class="hidden lg:inline-block relative group lg:ml-auto lg:mr-3">
-            <!-- User avatar button -->
-            <button class="flex items-center focus:outline-none">
-                <div class="w-10 h-10 rounded-full border-2 border-primary bg-primary-light flex items-center justify-center hover:bg-primary-verylight transition duration-200">
-                    @if(auth()->user()->profile_photo_url)
-                        <img src="{{ auth()->user()->profile_photo_url }}" alt="User  Profile Photo" class="w-full h-full rounded-full object-cover">
-                    @else
-                        <!-- Fallback icon if no profile photo is set -->
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                        </svg>
-                    @endif
-                </div>
-            </button>
+        <div class="hidden lg:flex lg:items-center lg:gap-3 lg:ml-auto lg:mr-3">
+            <!-- Notification component -->
+            <div class="relative">
+                @livewire('navbar-notifications')
+            </div>
 
-            <!-- Dropdown menu -->
-            <div class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-2 invisible opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100 transition-all duration-200">
-                <!-- Role display -->
-                <div class="px-4 py-2 border-b border-gray-100">
-                    <div class="text-xs font-medium text-primary-dark">Logged in as</div>
-                    <div class="text-sm font-semibold text-gray-700 truncate">{{ auth()->user()->role }}</div>
-                </div>
+            <!-- User profile dropdown -->
+            <div class="relative group">
+                <!-- User avatar button -->
+                <button class="flex items-center focus:outline-none">
+                    <div class="w-10 h-10 rounded-full border-2 border-primary bg-primary-light flex items-center justify-center hover:bg-primary-verylight transition duration-200">
+                        @if(auth()->user()->profile_photo_url)
+                            <img src="{{ auth()->user()->profile_photo_url }}" alt="User Profile Photo" class="w-full h-full rounded-full object-cover">
+                        @else
+                            <!-- Fallback icon if no profile photo is set -->
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        @endif
+                    </div>
+                </button>
 
-                <a href="/profile" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
-                    Profilis
-                </a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
-                        Atsijungti
-                    </button>
-                </form>
+                <!-- Dropdown menu -->
+                <div class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-2 invisible opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100 transition-all duration-200">
+                    <!-- Role display -->
+                    <div class="px-4 py-2 border-b border-gray-100">
+                        <div class="text-xs font-medium text-primary-dark">Logged in as</div>
+                        <div class="text-sm font-semibold text-gray-700 truncate">{{ auth()->user()->role }}</div>
+                    </div>
+
+                    <a href="/profile" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
+                        Profilis
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
+                            Atsijungti
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     @endauth
@@ -128,6 +145,7 @@
             @endguest
 
             @auth
+
                     <a href="{{ route('myprofile') }}" class="flex justify-center items-center text-gray-900 text-lg px-4 py-3 hover:bg-gray-50 font-bold w-full">
                         Profilis
                     </a>
