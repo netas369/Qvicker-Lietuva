@@ -42,7 +42,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 
     Route::get('/register/provider', [RegisteredUserController::class, 'createProviderStep1'])->name('register.provider'); // step 1 personal details form
-    Route::get('register', [RegisteredUserController::class, 'providerOrSeeker']);
+    Route::get('/register', [RegisteredUserController::class, 'providerOrSeeker']);
 
     Route::get('/register/seeker', [RegisteredUserController::class, 'createSeeker'])->name('register.seeker');
     Route::post('/register/seeker', [RegisteredUserController::class, 'storeSeeker'])->name('register.seeker.store');

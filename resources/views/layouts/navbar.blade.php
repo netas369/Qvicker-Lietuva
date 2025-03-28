@@ -57,14 +57,14 @@
             <div class="relative group">
                 <!-- User avatar button -->
                 <button class="flex items-center focus:outline-none">
-                    <div class="w-10 h-10 rounded-full border-2 border-primary bg-primary-light flex items-center justify-center hover:bg-primary-verylight transition duration-200">
+                    <div class="w-12 h-12 rounded-full border-2 border-primary bg-gray-400 flex items-center justify-center hover:bg-primary-verylight transition duration-200">
                         @if(auth()->user()->profile_photo_url)
                             <img src="{{ auth()->user()->profile_photo_url }}" alt="User Profile Photo" class="w-full h-full rounded-full object-cover">
                         @else
-                            <!-- Fallback icon if no profile photo is set -->
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                            </svg>
+                            <!-- Fallback to initials if no profile photo is set -->
+                            <div class="w-full h-full rounded-full flex items-center justify-center text-white text-sm font-bold">
+                                {{ strtoupper(substr(auth()->user()->name, 0, 1) . (auth()->user()->lastname ? substr(auth()->user()->lastname, 0, 1) : '')) }}
+                            </div>
                         @endif
                     </div>
                 </button>
