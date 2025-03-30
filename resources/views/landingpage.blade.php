@@ -5,64 +5,8 @@
 @endpush
 
 @section('content')
-    <!-- Bouncing Lottie Animation Container -->
-    <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10">
-        <div class="bouncing-lottie-container">
-            <iframe src="https://cdn.lottielab.com/l/8PxTuW31ZDnx2R.html" frameborder="0" width="400" height="200" style="opacity: 1;"></iframe>
-        </div>
-    </div>
 
-    <style>
-        /* Bouncing animation styles */
-        .bouncing-lottie-container {
-            position: absolute;
-            top: -200px;
-            right: 15%;
-            animation: bounce-down 15s ease-in-out infinite;
-        }
 
-        @keyframes bounce-down {
-            0% {
-                transform: translateY(-200px) translateX(0) rotate(5deg);
-            }
-            10% {
-                transform: translateY(100px) translateX(-100px) rotate(-5deg);
-            }
-            20% {
-                transform: translateY(200px) translateX(150px) rotate(10deg);
-            }
-            30% {
-                transform: translateY(300px) translateX(-100px) rotate(-10deg);
-            }
-            40% {
-                transform: translateY(400px) translateX(120px) rotate(5deg);
-            }
-            50% {
-                transform: translateY(500px) translateX(-80px) rotate(-5deg);
-            }
-            60% {
-                transform: translateY(600px) translateX(100px) rotate(10deg);
-            }
-            70% {
-                transform: translateY(700px) translateX(-120px) rotate(-10deg);
-            }
-            80% {
-                transform: translateY(800px) translateX(50px) rotate(5deg);
-            }
-            90% {
-                transform: translateY(900px) translateX(-70px) rotate(-5deg);
-            }
-            100% {
-                transform: translateY(120vh) translateX(0) rotate(0);
-            }
-        }
-
-        /* Make sure text elements are on a higher layer */
-        h1, h2, h3, p, .text-content {
-            position: relative;
-            z-index: 10;
-        }
-    </style>
     <!-- MAIN CONTENT DIV -->
     <div class="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60 lg:mt-24 md:mt-14">
         <div class="text-center mt-10">
