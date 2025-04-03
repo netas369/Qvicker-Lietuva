@@ -59,7 +59,9 @@ class ReservationController extends Controller
         $reservation->save();
 
         $provider = User::find($validated['provider_id']);
+        $seeker = Auth::user();
         $this->notificationService->notifyNewReservation($provider, $reservation);
+        $this->notificationService->notifyNewReservationSeeker($seeker, $reservation);
 
         // Redirect with success message
         return redirect()->route('reservations.seeker')->with('success', 'Jūsų užklausa išsiųsta. Meistras peržiūrės ją artimiausiu metu.');

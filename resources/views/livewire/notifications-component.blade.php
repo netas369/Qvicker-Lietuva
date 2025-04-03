@@ -34,7 +34,7 @@
                                           d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
                                 </svg>
                             </span>
-                        @elseif($notification['type'] === 'new_reservation')
+                        @elseif($notification['type'] === 'new_reservation' || $notification['type'] === 'reservation_requested')
                             <span class="text-green-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                      stroke="currentColor">
@@ -53,15 +53,18 @@
                         @endif
                     </div>
                     <div class="flex-1">
-                        @if($notification['type'] === 'new_message')
-                            <p class="text-gray-800">
-                                You have received a new message from {{ $notification['data']['sender_name'] }}
-                            </p>
-                        @elseif($notification['type'] === 'new_reservation')
-                            <a href="{{ route('reservation.modify', ['id' => $notification['data']['reservation_id']]) }}"
+                        @if($notification['type'] === 'reservation_requested')
+                            <a href="javascript:void(0)"
                                class="block hover:bg-gray-50"
-                               wire:click.stop="markAsRead('{{ $notification['id'] }}')"
-                               wire:navigate>
+                               wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
+                                <p class="text-gray-800">
+                                    Išsiuntėte naują užklausą darbui mieste {{ $notification['data']['city'] }}. Laukite patvirtinimo iš {{ $notification['data']['provider_name'] }}.
+                                </p>
+                            </a>
+                        @elseif($notification['type'] === 'new_reservation')
+                            <a href="javascript:void(0)"
+                               class="block hover:bg-gray-50"
+                               wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
                                 <p class="text-gray-800">
                                     {{ $notification['data']['seeker_name'] }} atsiuntė naują užklausą darbui
                                     mieste {{ $notification['data']['city'] }}

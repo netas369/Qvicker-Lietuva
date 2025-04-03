@@ -9,5 +9,6 @@ class NotificationType
     public const RESERVATION_ACCEPTED = 'reservation_accepted';
     public const RESERVATION_DECLINED = 'reservation_declined';
     public const REVIEW_RECEIVED = 'review_received';
+    public const RESERVATION_REQUESTED = 'reservation_requested';
 
 }

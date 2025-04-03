@@ -129,6 +129,7 @@
                                 </span>
                             </div>
                         @endif
+                        @if($user->role == 'provider')
                         <div class="flex items-center mt-4 md:mt-8 text-sm md:text-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-primary-light" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
@@ -136,6 +137,7 @@
                             </svg>
                             <p class="text-primary-light font-bold">Įvykdyti Užsakymai: <span>{{$this->user->getTotalReservationsDone()}}</span></p>
                         </div>
+                        @endif
                     </div>
                 </div>
 

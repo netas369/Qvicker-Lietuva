@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\RecurringUnavailability;
+use App\Models\Reservation;
 use Livewire\Component;
 use App\Models\Unavailability;
 use App\Models\AvailabilityException;
@@ -19,6 +20,7 @@ class ProviderCalendar extends Component
     public $calendar = [];
     public $recurringUnavailableDays = [];
     public $showRecurringModal = false;
+    public $reservations = [];
 
     public function mount($providerId = null)
     {
@@ -39,6 +41,8 @@ class ProviderCalendar extends Component
         // Load exceptions to recurring rules
         $this->loadExceptions();
 
+        $this->loadReservations();
+
         // Generate the calendar
         $this->generateCalendar();
     }
@@ -56,6 +60,25 @@ class ProviderCalendar extends Component
             ->toArray();
 
         $this->unavailableDates = $dates;
+    }
+
+    public function loadReservations()
+    {
+        $reservations = Reservation::where('provider_id', $this->providerId)
+            ->whereMonth('reservation_date', $this->month)
+            ->whereYear('reservation_date', $this->year)
+            ->where('status', 'accepted')
+            ->get();
+
+        // Group reservations by date
+        $this->reservations = [];
+        foreach ($reservations as $reservation) {
+            $dateStr = Carbon::parse($reservation->reservation_date)->format('Y-m-d');
+            if (!isset($this->reservations[$dateStr])) {
+                $this->reservations[$dateStr] = [];
+            }
+            $this->reservations[$dateStr][] = $reservation;
+        }
     }
 
     public function loadRecurringUnavailabilities()
@@ -126,11 +149,6 @@ class ProviderCalendar extends Component
                     // Check if this falls on a recurring unavailable day
                     $isRecurringDay = in_array($currentDate->dayOfWeek, $this->recurringUnavailableDays);
 
-                    // A day is unavailable if it's:
-                    // 1. Specifically marked unavailable OR
-                    // 2. On a recurring unavailable day (but not excepted) OR
-                    // 3. In the past
-
                     // Check if this date is in the past
                     $isPastDate = $currentDate->lt($today);
 
@@ -139,6 +157,10 @@ class ProviderCalendar extends Component
 
                     // Final availability determination
                     $isUnavailable = $isSpecificUnavailable || $isRecurringUnavailable || $isPastDate;
+
+                    // Get reservation count for this date
+                    $reservationCount = isset($this->reservations[$dateString]) ? count($this->reservations[$dateString]) : 0;
+                    $hasReservations = $reservationCount > 0;
 
                     $weekData[] = [
                         'day' => $day,
@@ -150,6 +172,9 @@ class ProviderCalendar extends Component
                         'isRecurringUnavailable' => $isRecurringUnavailable,
                         'isPastDate' => $isPastDate,
                         'isException' => $isException,
+                        'hasReservations' => $hasReservations,
+                        'reservationCount' => $reservationCount,
+                        'reservations' => $hasReservations ? $this->reservations[$dateString] : [],
                     ];
 
                     $day++;
@@ -315,6 +340,7 @@ class ProviderCalendar extends Component
         // Reload data for new month
         $this->loadUnavailableDates();
         $this->loadExceptions();
+        $this->loadReservations();
         $this->generateCalendar();
     }
 
@@ -328,6 +354,7 @@ class ProviderCalendar extends Component
         // Reload data for new month
         $this->loadUnavailableDates();
         $this->loadExceptions();
+        $this->loadReservations();
         $this->generateCalendar();
     }
 

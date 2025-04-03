@@ -9,6 +9,10 @@ class ProviderWorkCategories extends Component
 {
     public $selectedCategories = [];
     public $groupedCategories = [];
+    public $searchQuery = '';
+    public $notification = null;
+    public $userCategories = [];
+    protected $listeners = ['refreshCategories' => 'loadCategories'];
 
     protected $rules = [
         'selectedCategories' => 'array',
@@ -22,15 +26,33 @@ class ProviderWorkCategories extends Component
 
         // Load and group all available categories
         $this->loadCategories();
+
+        $this->getUserCategories();
+
     }
 
     public function loadCategories()
     {
-        // Get all categories grouped by main category
-        $categories = Category::all();
+        // Get all categories
+        $query = Category::query();
+
+        // Apply search filter if provided
+        if (!empty($this->searchQuery)) {
+            $query->where(function($q) {
+                $q->where('subcategory', 'like', '%' . $this->searchQuery . '%')
+                    ->orWhere('category', 'like', '%' . $this->searchQuery . '%');
+            });
+        }
+
+        $categories = $query->get();
 
         // Group them by main category
         $this->groupedCategories = $categories->groupBy('category')->toArray();
+    }
+
+    public function updatedSearchQuery()
+    {
+        $this->loadCategories();
     }
 
     public function toggleCategory($categoryId)
@@ -48,6 +70,10 @@ class ProviderWorkCategories extends Component
 
         // Immediately update the database
         $this->saveToDatabase($actionType, $categoryId);
+
+        // Refresh the categories lists
+        $this->loadCategories();
+        $this->getUserCategories(); // Add this line to refresh user categories
     }
 
     protected function saveToDatabase($actionType, $categoryId = null)
@@ -67,17 +93,51 @@ class ProviderWorkCategories extends Component
             }
         }
 
-        // Show appropriate success message based on action
+        // Set component notification instead of using session flashes
         if ($actionType === 'added') {
-            session()->flash('message', "Kategorija {$categoryName} sėkmingai pridėta!");
-            session()->flash('messageType', 'added');
+            $this->notification = [
+                'message' => "Kategorija {$categoryName} sėkmingai pridėta!",
+                'type' => 'added'
+            ];
         } elseif ($actionType === 'removed') {
-            session()->flash('message', "Kategorija {$categoryName} sėkmingai pašalinta!");
-            session()->flash('messageType', 'removed');
+            $this->notification = [
+                'message' => "Kategorija {$categoryName} sėkmingai pašalinta!",
+                'type' => 'removed'
+            ];
         } else {
-            session()->flash('message', "Kategorijos sėkmingai atnaujintos!");
-            // Use default message type for general updates
+            $this->notification = [
+                'message' => "Kategorijos sėkmingai atnaujintos!",
+                'type' => 'updated'
+            ];
         }
+    }
+
+    public function clearNotification()
+    {
+        $this->notification = null;
+    }
+
+    public function getUserCategories()
+    {
+        // First get the collection
+        $categories = Category::whereIn('id', $this->selectedCategories)
+            ->get();
+
+        // Then manually convert to an array structure that Livewire can handle
+        $grouped = [];
+        foreach ($categories->groupBy('category') as $mainCategory => $subcategories) {
+            $subcategoryArray = [];
+            foreach ($subcategories as $subcategory) {
+                $subcategoryArray[] = [
+                    'id' => $subcategory->id,
+                    'subcategory' => $subcategory->subcategory,
+                    // Add other needed fields
+                ];
+            }
+            $grouped[$mainCategory] = $subcategoryArray;
+        }
+
+        $this->userCategories = $grouped;
     }
 
     public function render()
