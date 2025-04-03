@@ -79,8 +79,10 @@ class NavbarNotifications extends Component
 
     public function markAsReadAndNavigate($notificationId, $reservationId)
     {
+        $user = auth()->user();
+        
         // Mark notification as read
-        $notification = auth()->user()->notifications()->findOrFail($notificationId);
+        $notification = $user->notifications()->findOrFail($notificationId);
         $notification->update(['read_at' => now()]);
 
         // Update local state
@@ -94,8 +96,12 @@ class NavbarNotifications extends Component
         // Update count without full reload
         $this->unreadCount = max(0, $this->unreadCount - 1);
 
-        // Navigate to the reservation page
-        return $this->redirect(route('reservation.modify', ['id' => $reservationId]));
+        if($user->role == 'provider')
+        {
+            return $this->redirect(route('reservation.modify', ['id' => $reservationId]));
+        } else {
+            return $this->redirect(route('reservation.modifySeeker', ['id' => $reservationId]));
+        }
     }
 
     public function render()

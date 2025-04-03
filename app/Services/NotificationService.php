@@ -38,6 +38,30 @@ class NotificationService
         return $notification;
     }
 
+    public function notifyNewReservationSeeker(User $seeker, Reservation $reservation): Notification
+    {
+        $provider = User::find($reservation->provider_id);
+
+        $notification = Notification::create([
+           'user_id' => $seeker->id,
+           'type' => NotificationType::RESERVATION_REQUESTED,
+           'data' => [
+               'reservation_id' => $reservation->id,
+               'provider_id' => $provider->id,
+               'provider_name' => $provider->name,
+               'description' => substr($reservation->description, 0, 100) . (strlen($reservation->description) > 100 ? '...' : ''),
+               'city' => $reservation->city,
+               'date' => $reservation->reservation_date,
+               'timestamp' => now()->toIso8601String(),
+           ],
+           'read_at' => null,
+        ]);
+
+        $this->emitLivewireEvent();
+
+        return $notification;
+    }
+
     /**
      * Create a notification for a reservation status change
      */
