@@ -12,6 +12,7 @@ class Message extends Model
     protected $fillable = [
         'reservation_id',
         'sender_id',
+        'receiver_id',
         'sender_type',
         'message',
         'is_read'

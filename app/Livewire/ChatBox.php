@@ -75,9 +75,16 @@ class ChatBox extends Component
             return;
         }
 
+        if($this->isProvider()) {
+            $receiver_id = $this->reservation->seeker_id;
+        } else {
+            $receiver_id = $this->reservation->provider_id;
+        }
+
         $message = new Message([
             'reservation_id' => $this->reservation->id,
             'sender_id' => Auth::id(),
+            'receiver_id' => $receiver_id,
             'sender_type' => $this->isProvider() ? 'provider' : 'seeker',
             'message' => $this->messageText,
         ]);

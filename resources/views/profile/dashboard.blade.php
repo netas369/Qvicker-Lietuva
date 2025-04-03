@@ -24,7 +24,8 @@
                 </div>
                 <div class="flex flex-col items-center mt-10">
                     <p class="text-primary text-md md:text-lg font-light text-center">
-                        Narys nuo <span class="text-primary-verylight italic">{{ $user->created_at->format('Y') }}</span>
+                        Narys nuo <span
+                            class="text-primary-verylight italic">{{ $user->created_at->format('Y') }}</span>
                     </p>
                 </div>
             </div>
@@ -72,7 +73,6 @@
             {{ $user->reviewsReceived()->count() == 1 ? 'Atsiliepimas' : 'Atsiliepimai' }}
         </span>
                     </div>
-
                     <!-- Completed Orders - Styled like Rating -->
                     <div class="flex flex-col items-center w-full sm:w-auto">
                         <!-- Order Count with Icon -->
@@ -97,6 +97,10 @@
             <!-- Notifications Component -->
             <div class="w-full mb-4">
                 @livewire('notifications-component')
+            </div>
+
+            <div class="w-full mb-4">
+                @livewire('last-messages-component')
             </div>
         </div>
     </div>
