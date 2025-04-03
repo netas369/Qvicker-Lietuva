@@ -47,9 +47,9 @@
                         <div
                             @if($day && !$day['isPastDate'])
                                 wire:click="toggleDate('{{ $day['date'] }}')"
-                            class="h-16 md:h-24 p-1 {{ $day['isToday'] ? 'bg-blue-50' : '' }} {{ $day['isUnavailable'] ? 'bg-red-50' : '' }} {{ $day['isRecurringUnavailable'] && !$day['isPastDate'] ? 'bg-red-100' : '' }} {{ $day['isException'] ? 'bg-green-50' : '' }} hover:bg-gray-100 cursor-pointer transition"
+                            class="h-16 md:h-24 p-1 relative {{ $day['isToday'] ? 'bg-blue-50' : '' }} {{ $day['isUnavailable'] ? 'bg-red-50' : '' }} {{ $day['isRecurringUnavailable'] && !$day['isPastDate'] ? 'bg-red-100' : '' }} {{ $day['isException'] ? 'bg-green-50' : '' }} hover:bg-gray-100 cursor-pointer transition"
                             @else
-                                class="h-16 md:h-24 p-1 {{ $day && $day['isPastDate'] ? 'bg-gray-200' : 'bg-gray-50' }} {{ $day && $day['isToday'] ? 'bg-blue-50' : '' }}"
+                                class="h-16 md:h-24 p-1 relative {{ $day && $day['isPastDate'] ? 'bg-gray-200' : 'bg-gray-50' }} {{ $day && $day['isToday'] ? 'bg-blue-50' : '' }}"
                             @endif
                         >
                             @if($day)
@@ -57,10 +57,35 @@
                                     <!-- Day Number -->
                                     <div class="text-sm font-medium {{ $day['isToday'] ? 'text-blue-600' : 'text-gray-700' }}">
                                         {{ $day['day'] }}
+
+                                        <!-- Reservation count badge -->
+                                        @if($day['reservationCount'] > 0)
+                                            <span class="ml-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold bg-yellow-500 text-white rounded-full">
+                                                {{ $day['reservationCount'] }}
+                                            </span>
+                                        @endif
                                     </div>
 
+                                    <!-- Reservations indicator (only visible on non-mobile) -->
+                                    @if($day['hasReservations'] && !$day['isPastDate'])
+                                        <div class="hidden md:flex mt-1 flex-wrap gap-1">
+                                            @foreach($day['reservations'] as $index => $reservation)
+                                                @if($index < 2 || count($day['reservations']) <= 3)
+                                                    <div class="px-1 py-0.5 bg-yellow-100 text-yellow-800 text-xs rounded truncate max-w-full" title="{{ $reservation->description }}">
+                                                        {{ \Illuminate\Support\Str::limit($reservation->subcategory, 10) }}
+                                                    </div>
+                                                @elseif($index == 2)
+                                                    <div class="px-1 py-0.5 bg-yellow-100 text-yellow-800 text-xs rounded">
+                                                        +{{ count($day['reservations']) - 2 }}
+                                                    </div>
+                                                    @break
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    @endif
+
                                     <!-- Unavailable Indicator - text for future unavailable dates only -->
-                                    @if($day['isUnavailable'] && !$day['isPastDate'])
+                                    @if($day['isUnavailable'] && !$day['isPastDate'] && !$day['hasReservations'])
                                         <div class="mt-1 flex-grow flex items-center justify-center">
                                             <!-- Text for larger screens -->
                                             <span class="hidden md:inline-block bg-red-100 text-red-800 text-xs font-medium px-2 py-0.5 rounded">
@@ -73,7 +98,7 @@
                                     @endif
 
                                     <!-- Recurring Unavailable Indicator -->
-                                    @if($day['isRecurringUnavailable'] && !$day['isPastDate'])
+                                    @if($day['isRecurringUnavailable'] && !$day['isPastDate'] && !$day['hasReservations'])
                                         <div class="mt-1 flex-grow flex items-center justify-center">
                                             <span class="hidden md:inline-block bg-orange-100 text-orange-800 text-xs font-medium px-1 py-0.5 rounded-full">
                                                 Kartojasi
@@ -82,7 +107,7 @@
                                     @endif
 
                                     <!-- Exception Indicator -->
-                                    @if($day['isException'])
+                                    @if($day['isException'] && !$day['hasReservations'])
                                         <div class="mt-1 flex-grow flex items-center justify-center">
                                             <span class="hidden md:inline-block bg-green-100 text-green-800 text-xs font-medium px-1 py-0.5 rounded-full">
                                                 Išimtis
@@ -100,7 +125,7 @@
         </div>
 
         <!-- Legend -->
-        <div class="bg-gray-50 p-4 flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4 text-sm text-gray-600">
+        <div class="bg-gray-50 p-4 flex flex-wrap items-center gap-3 text-sm text-gray-600">
             <div class="flex items-center">
                 <span class="inline-block w-3 h-3 bg-blue-100 rounded-full mr-1"></span>
                 <span>Šiandien</span>
@@ -116,6 +141,10 @@
             <div class="flex items-center">
                 <span class="inline-block w-3 h-3 bg-green-500 rounded-full mr-1"></span>
                 <span>Išimtis</span>
+            </div>
+            <div class="flex items-center">
+                <span class="inline-block w-3 h-3 bg-yellow-500 rounded-full mr-1"></span>
+                <span>Užsakymai</span>
             </div>
             <div class="flex items-center">
                 <span class="inline-block w-3 h-3 bg-gray-200 rounded-full mr-1"></span>
