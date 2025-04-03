@@ -46,10 +46,9 @@
 
 
                                 @elseif($notification['type'] === 'new_reservation')
-                                    <a href="{{ route('reservation.modify', ['id' => $notification['data']['reservation_id']]) }}"
+                                    <a href="javascript:void(0)"
                                        class="block"
-                                       wire:click.stop="markAsRead('{{ $notification['id'] }}')"
-                                       wire:navigate>
+                                       wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
 
                                         <p class="text-gray-800 text-sm"><span class="text-green-500">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"

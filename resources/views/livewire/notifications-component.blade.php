@@ -58,10 +58,9 @@
                                 You have received a new message from {{ $notification['data']['sender_name'] }}
                             </p>
                         @elseif($notification['type'] === 'new_reservation')
-                            <a href="{{ route('reservation.modify', ['id' => $notification['data']['reservation_id']]) }}"
+                            <a href="javascript:void(0)"
                                class="block hover:bg-gray-50"
-                               wire:click.stop="markAsRead('{{ $notification['id'] }}')"
-                               wire:navigate>
+                               wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
                                 <p class="text-gray-800">
                                     {{ $notification['data']['seeker_name'] }} atsiuntė naują užklausą darbui
                                     mieste {{ $notification['data']['city'] }}

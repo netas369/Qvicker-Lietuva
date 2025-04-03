@@ -77,6 +77,27 @@ class NavbarNotifications extends Component
         $this->unreadCount = 0;
     }
 
+    public function markAsReadAndNavigate($notificationId, $reservationId)
+    {
+        // Mark notification as read
+        $notification = auth()->user()->notifications()->findOrFail($notificationId);
+        $notification->update(['read_at' => now()]);
+
+        // Update local state
+        foreach ($this->notifications as $key => $notification) {
+            if ($notification['id'] === $notificationId) {
+                $this->notifications[$key]['read_at'] = now()->toDateTimeString();
+                break;
+            }
+        }
+
+        // Update count without full reload
+        $this->unreadCount = max(0, $this->unreadCount - 1);
+
+        // Navigate to the reservation page
+        return $this->redirect(route('reservation.modify', ['id' => $reservationId]));
+    }
+
     public function render()
     {
         return view('livewire.navbar-notifications');
