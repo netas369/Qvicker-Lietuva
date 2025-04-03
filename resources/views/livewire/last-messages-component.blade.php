@@ -9,7 +9,13 @@
         @else
             <div class="space-y-3">
                 @foreach($messages as $message)
-                    <a href="{{ route('reservation.modify', ['id' => $message->reservation_id]) }}"
+                    <a href="
+                    @if($user->role == 'provider')
+                    {{ route('reservation.modify', ['id' => $message->reservation_id]) }}
+                    @else
+                    {{ route('reservation.modifySeeker', ['id' => $message->reservation_id]) }}
+                    @endif
+                    "
                        class="block hover:bg-gray-50 rounded-md transition duration-150"
                        wire:navigate>
                         <div class="pb-3 border-b border-gray-100" wire:key="{{ $message->id }}">

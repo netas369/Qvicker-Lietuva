@@ -9,8 +9,11 @@ class LastMessagesComponent extends Component
 {
     public $messages;
 
+    public $user;
+
     public function mount()
     {
+        $this->user = auth()->user();
         $this->loadMessages();
     }
 
@@ -25,7 +28,7 @@ class LastMessagesComponent extends Component
                 ->leftJoin('users', 'users.id', '=', 'messages.sender_id')
                 ->where('messages.receiver_id', $user->id)
                 ->orderBy('messages.created_at', 'desc')
-                ->take(5)
+                ->take(4)
                 ->get();
         }
     }

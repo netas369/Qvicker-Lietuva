@@ -41,6 +41,8 @@ class ProviderCalendar extends Component
         // Load exceptions to recurring rules
         $this->loadExceptions();
 
+        $this->loadReservations();
+
         // Generate the calendar
         $this->generateCalendar();
     }
