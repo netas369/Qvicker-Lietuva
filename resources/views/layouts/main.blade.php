@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>@yield('title')</title>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
-{{--    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />--}}
+
+    {{--    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />--}}
 
     <!-- Include Tailwind compiled by Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -35,13 +36,10 @@
 
 <!-- Full-width and centered Lottie animation -->
 <div class="lottie-container">
-    <iframe
-        src="https://cdn.lottielab.com/l/4snxnQuvEVEVwB.html"
-        class="lottie-iframe h-[150px] md:h-[250px] lg:h-[350px]"
-        frameborder="0"
-        title="City skyline animation"
-        loading="lazy"
-    ></iframe>
+    <div
+        id="footer-lottie-container"
+        class="h-[150px] md:h-[250px] lg:h-[350px] xl:h-[400px]"
+    ></div>
 </div>
 
 @include('layouts.footer')
@@ -49,6 +47,24 @@
 <!-- Scripts -->
 {{--<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>--}}
 @stack('scripts')
+
+<!-- Lottie library and initialization -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const footerAnimationContainer = document.getElementById('footer-lottie-container');
+
+        if (footerAnimationContainer) {
+            lottie.loadAnimation({
+                container: footerAnimationContainer,
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: '/animations/lottie_footer.json'
+            });
+        }
+    });
+</script>
 
 @yield('script')
 </body>
