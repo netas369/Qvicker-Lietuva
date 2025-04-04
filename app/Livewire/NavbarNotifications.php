@@ -80,7 +80,7 @@ class NavbarNotifications extends Component
     public function markAsReadAndNavigate($notificationId, $reservationId)
     {
         $user = auth()->user();
-        
+
         // Mark notification as read
         $notification = $user->notifications()->findOrFail($notificationId);
         $notification->update(['read_at' => now()]);
