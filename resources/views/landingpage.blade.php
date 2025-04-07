@@ -46,18 +46,16 @@
                             <h2 class="text-primary-light text-3xl md:text-4xl font-bold font-manrope">Kaip viskas
                                 veikia</h2>
                             <p class="text-center text-gray-600 text-lg">Raskite profesionalią pagalbą vos trimis
-                                paprastais
-                                žingsniais</p>
+                                paprastais žingsniais</p>
                         </div>
 
                         <!-- Process steps -->
                         <div class="w-full justify-between items-center gap-4 flex md:flex-row flex-col">
                             <!-- Step 1 -->
-                            <div class="md:w-1/3 p-6 flex-col justify-start items-center gap-4 inline-flex">
+                            <div class="md:w-1/3 p-4 flex-col justify-start items-center gap-4 inline-flex">
                                 <div
-                                    class="w-16 h-16 rounded-full bg-primary-light/10 flex items-center justify-center mb-2">
-                                    <!-- Icon could go here -->
-                                    <span class="text-primary-light text-2xl font-bold">1</span>
+                                    class="md:w-36 md:h-36 w-28 h-28 rounded-full flex items-center justify-center mb-2">
+                                    <img src="{{ asset('images/lp_icon1.png') }}" alt="pasirinkite-kategorija">
                                 </div>
                                 <h4 class="text-center text-primary text-xl font-semibold">Pasirinkite kategoriją</h4>
                                 <p class="text-center text-gray-500">Greitai raskite reikiamą paslaugą naudodami paiešką
@@ -77,11 +75,10 @@
                             </div>
 
                             <!-- Step 2 -->
-                            <div class="md:w-1/3 p-6 flex-col justify-start items-center gap-4 inline-flex">
+                            <div class="md:w-1/3 p-2 flex-col justify-start items-center gap-4 inline-flex">
                                 <div
-                                    class="w-16 h-16 rounded-full bg-primary-light/10 flex items-center justify-center mb-2">
-                                    <!-- Icon could go here -->
-                                    <span class="text-primary-light text-2xl font-bold">2</span>
+                                    class="md:w-36 md:h-36 w-28 h-28 rounded-full flex items-center justify-center mb-2">
+                                    <img src="{{ asset('images/lp_icon2.png') }}" alt="isirinkite-tiekeja">
                                 </div>
                                 <h4 class="text-center text-primary text-xl font-semibold">Išsirinkite freelancerį</h4>
                                 <p class="text-center text-gray-500">Peržiūrėkite įvertinimus, kainas ir patirtį, kad
@@ -101,11 +98,10 @@
                             </div>
 
                             <!-- Step 3 -->
-                            <div class="md:w-1/3 p-6 flex-col justify-start items-center gap-4 inline-flex">
+                            <div class="md:w-1/3  flex-col justify-start items-center gap-4 inline-flex">
                                 <div
-                                    class="w-16 h-16 rounded-full bg-primary-light/10 flex items-center justify-center mb-2">
-                                    <!-- Icon could go here -->
-                                    <span class="text-primary-light text-2xl font-bold">3</span>
+                                    class="md:w-36 md:h-36 w-28 h-28 rounded-full flex items-center justify-center mb-2">
+                                    <img src="{{ asset('images/lp_icon3.png') }}" alt="susisiekite-ir-uzsisakykite">
                                 </div>
                                 <h4 class="text-center text-primary text-xl font-semibold">Susisiekite ir
                                     užsakykite</h4>
