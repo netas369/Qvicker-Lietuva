@@ -101,7 +101,9 @@ php artisan storage:link
 ```
 
 ## License
-[MIT License](LICENSE)
+All Rights Reserved
+This project and its source code are proprietary and confidential. No part of this project may be reproduced, distributed, or transmitted in any form or by any means, without the prior written permission of the copyright holder.
+@Netas Neverauskas 2025
 
 ## Contact
 Name: Netas Neverauskas
