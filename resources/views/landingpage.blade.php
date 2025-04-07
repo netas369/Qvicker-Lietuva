@@ -10,11 +10,14 @@
     <!-- MAIN CONTENT DIV -->
     <div class="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60 lg:mt-24 md:mt-14">
         <div class="text-center mt-10">
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-light font-sans leading-7">Rasti
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-light ">Rasti
                 profesionalią pagalbą - dabar lengva.</h1>
-            <p class="mt-10 text-lg text-primary-light font-sans">Susisiekite tiesiogiai su patikimais paslaugų
-                teikėjais visiems namų poreikiams, nuo žolės
-                pjovimo iki dažymo ir dar daugiau.</p>
+            <div class="flex justify-center">
+                <p class="mt-10 text-lg text-primary-light font-sans max-w-3xl">Susisiekite tiesiogiai su patikimais paslaugų
+                    teikėjais visiems namų poreikiams, nuo žolės
+                    pjovimo iki dažymo ir dar daugiau.</p>
+            </div>
+
         </div>
         <div>
             @livewire('search-bar')
@@ -30,15 +33,9 @@
             @include('components.landingpage-categories', ['categories' => $categories])
 
 
-            <!-- Skiriamoji juosta -->
-            <div class="flex justify-center items-center space-x-2 mx-auto max-w-md ">
-                <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
-                <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
-                <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
-            </div>
 
             <!-- kaip mes veikiame -->
-            <section class="py-16 md:py-24 relative bg-gray-50">
+            <section class="py-ū md:py-24 relative bg-gray-50">
                 <div class="w-full max-w-7xl px-4 md:px-8 mx-auto">
                     <div class="w-full flex-col justify-start items-center gap-12 inline-flex">
                         <!-- Section header -->
@@ -114,207 +111,10 @@
                 </div>
             </section>
 
-            <!-- Skiriamoji juosta -->
-            <div class="flex justify-center items-center space-x-2 mx-auto max-w-md my-8 mt-4">
-                <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
-                <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
-                <hr class="w-16 h-1 bg-primary-light border-0 rounded md:my-12 opacity-50">
-            </div>
 
-
-            {{--        <h2 class="w-full text-center text-primary-light text-4xl font-bold font-manrope leading-normal mb-12">Patikimiausi Partneriai</h2>--}}
-
-            {{--        <!-- Karusele su profiliais -->--}}
-            {{--        <div class="flex flex-wrap justify-center gap-4 relative">--}}
-            {{--            <!-- Navigation Buttons -->--}}
-            {{--            <div class="swiper-button-prev absolute left-4 top-1/2 transform -translate-y-1/2 z-10 text-gray-800 hover:bg-gray-300 p-3 rounded-full shadow-md cursor-pointer">--}}
-            {{--                &lt; <!-- Replace with an icon if needed -->--}}
-            {{--            </div>--}}
-            {{--            <div class="swiper-button-next absolute right-4 top-1/2 transform -translate-y-1/2 z-10 text-gray-800 hover:bg-gray-300 p-3 rounded-full shadow-md cursor-pointer">--}}
-            {{--                &gt; <!-- Replace with an icon if needed -->--}}
-            {{--            </div>--}}
-            {{--            <div class="swiper-container">--}}
-            {{--                <div class="swiper-wrapper">--}}
-            {{--                    <!-- First Card -->--}}
-            {{--                    <div class="swiper-slide">--}}
-            {{--                        <section class="border bg-neutral-100 p-4 rounded-lg max-w-full h-auto sm:h-64 min-h-[300px]">--}}
-            {{--                            <div class="mx-auto">--}}
-            {{--                                <div class="card md:flex max-w-lg">--}}
-            {{--                                    <div class="w-20 h-20 mx-auto mb-6 md:mr-6 flex-shrink-0">--}}
-            {{--                                        <img class="object-cover rounded-full" src="https://tailwindflex.com/public/images/user.png">--}}
-            {{--                                    </div>--}}
-            {{--                                    <div class="flex-grow text-center md:text-left">--}}
-            {{--                                        <p class="font-bold">Medkirtys</p>--}}
-            {{--                                        <div class="flex items-center justify-center md:justify-start space-x-2">--}}
-            {{--                                            <h3 class="text-xl font-bold heading">Jonas Ponas</h3>--}}
-            {{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 fill-yellow">--}}
-            {{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="..." />--}}
-            {{--                                            </svg>--}}
-            {{--                                            <span class="text-md text-gray-600">(4.9)</span>--}}
-            {{--                                        </div>--}}
-            {{--                                        <p class="mt-2 mb-3">Jonas yra profesionalus medzio apdailininkas galintis padeti jums ivairiausiais klausimais.</p>--}}
-            {{--                                        <div class="flex flex-wrap gap-2 mt-3">--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Perkraustymas</span>--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Santechnika</span>--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Medkirtys</span>--}}
-            {{--                                        </div>--}}
-            {{--                                    </div>--}}
-            {{--                                </div>--}}
-            {{--                            </div>--}}
-            {{--                        </section>--}}
-            {{--                    </div>--}}
-
-            {{--                    <!-- Second Card -->--}}
-            {{--                    <div class="swiper-slide">--}}
-            {{--                        <section class="border bg-neutral-100 p-4 rounded-lg max-w-full h-auto sm:h-64 min-h-[300px]">--}}
-            {{--                            <div class="mx-auto">--}}
-            {{--                                <div class="card md:flex max-w-lg">--}}
-            {{--                                    <div class="w-20 h-20 mx-auto mb-6 md:mr-6 flex-shrink-0">--}}
-            {{--                                        <img class="object-cover rounded-full" src="https://tailwindflex.com/public/images/user.png">--}}
-            {{--                                    </div>--}}
-            {{--                                    <div class="flex-grow text-center md:text-left">--}}
-            {{--                                        <p class="font-bold">Medkirtys</p>--}}
-            {{--                                        <div class="flex items-center justify-center md:justify-start space-x-2">--}}
-            {{--                                            <h3 class="text-xl font-bold heading">Jonas Ponas</h3>--}}
-            {{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 fill-yellow">--}}
-            {{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="..." />--}}
-            {{--                                            </svg>--}}
-            {{--                                            <span class="text-md text-gray-600">(4.9)</span>--}}
-            {{--                                        </div>--}}
-            {{--                                        <p class="mt-2 mb-3">Jonas yra profesionalus medzio apdailininkas...</p>--}}
-            {{--                                        <div class="flex flex-wrap gap-2 mt-3">--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Perkraustymas</span>--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Santechnika</span>--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Medkirtys</span>--}}
-            {{--                                        </div>--}}
-            {{--                                    </div>--}}
-            {{--                                </div>--}}
-            {{--                            </div>--}}
-            {{--                        </section>--}}
-            {{--                    </div>--}}
-
-            {{--                    <!-- Second Card -->--}}
-            {{--                    <div class="swiper-slide">--}}
-            {{--                        <section class="border bg-neutral-100 p-4 rounded-lg max-w-full h-auto sm:h-64 min-h-[300px]">--}}
-            {{--                            <div class="mx-auto">--}}
-            {{--                                <div class="card md:flex max-w-lg">--}}
-            {{--                                    <div class="w-20 h-20 mx-auto mb-6 md:mr-6 flex-shrink-0">--}}
-            {{--                                        <img class="object-cover rounded-full" src="https://tailwindflex.com/public/images/user.png">--}}
-            {{--                                    </div>--}}
-            {{--                                    <div class="flex-grow text-center md:text-left">--}}
-            {{--                                        <p class="font-bold">Medkirtys</p>--}}
-            {{--                                        <div class="flex items-center justify-center md:justify-start space-x-2">--}}
-            {{--                                            <h3 class="text-xl font-bold heading">Jonas Ponas</h3>--}}
-            {{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 fill-yellow">--}}
-            {{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="..." />--}}
-            {{--                                            </svg>--}}
-            {{--                                            <span class="text-md text-gray-600">(4.9)</span>--}}
-            {{--                                        </div>--}}
-            {{--                                        <p class="mt-2 mb-3">Jonas yra profesionalus medzio apdailininkas...</p>--}}
-            {{--                                        <div class="flex flex-wrap gap-2 mt-3">--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Perkraustymas</span>--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Santechnika</span>--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Medkirtys</span>--}}
-            {{--                                        </div>--}}
-            {{--                                    </div>--}}
-            {{--                                </div>--}}
-            {{--                            </div>--}}
-            {{--                        </section>--}}
-            {{--                    </div>--}}
-
-            {{--                    <!-- Second Card -->--}}
-            {{--                    <div class="swiper-slide">--}}
-            {{--                        <section class="border bg-neutral-100 p-4 rounded-lg max-w-full h-auto sm:h-64 min-h-[300px]">--}}
-            {{--                            <div class="mx-auto">--}}
-            {{--                                <div class="card md:flex max-w-lg">--}}
-            {{--                                    <div class="w-20 h-20 mx-auto mb-6 md:mr-6 flex-shrink-0">--}}
-            {{--                                        <img class="object-cover rounded-full" src="https://tailwindflex.com/public/images/user.png">--}}
-            {{--                                    </div>--}}
-            {{--                                    <div class="flex-grow text-center md:text-left">--}}
-            {{--                                        <p class="font-bold">Medkirtys</p>--}}
-            {{--                                        <div class="flex items-center justify-center md:justify-start space-x-2">--}}
-            {{--                                            <h3 class="text-xl font-bold heading">Jonas Ponas</h3>--}}
-            {{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 fill-yellow">--}}
-            {{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="..." />--}}
-            {{--                                            </svg>--}}
-            {{--                                            <span class="text-md text-gray-600">(4.9)</span>--}}
-            {{--                                        </div>--}}
-            {{--                                        <p class="mt-2 mb-3">Jonas yra profesionalus medzio apdailininkas...</p>--}}
-            {{--                                        <div class="flex flex-wrap gap-2 mt-3">--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Perkraustymas</span>--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Santechnika</span>--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Medkirtys</span>--}}
-            {{--                                        </div>--}}
-            {{--                                    </div>--}}
-            {{--                                </div>--}}
-            {{--                            </div>--}}
-            {{--                        </section>--}}
-            {{--                    </div>--}}
-
-            {{--                    <!-- Second Card -->--}}
-            {{--                    <div class="swiper-slide">--}}
-            {{--                        <section class="border bg-neutral-100 p-4 rounded-lg max-w-full h-auto sm:h-64 min-h-[300px]">--}}
-            {{--                            <div class="mx-auto">--}}
-            {{--                                <div class="card md:flex max-w-lg">--}}
-            {{--                                    <div class="w-20 h-20 mx-auto mb-6 md:mr-6 flex-shrink-0">--}}
-            {{--                                        <img class="object-cover rounded-full" src="https://tailwindflex.com/public/images/user.png">--}}
-            {{--                                    </div>--}}
-            {{--                                    <div class="flex-grow text-center md:text-left">--}}
-            {{--                                        <p class="font-bold">Medkirtys</p>--}}
-            {{--                                        <div class="flex items-center justify-center md:justify-start space-x-2">--}}
-            {{--                                            <h3 class="text-xl font-bold heading">Jonas Ponas</h3>--}}
-            {{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 fill-yellow">--}}
-            {{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="..." />--}}
-            {{--                                            </svg>--}}
-            {{--                                            <span class="text-md text-gray-600">(4.9)</span>--}}
-            {{--                                        </div>--}}
-            {{--                                        <p class="mt-2 mb-3">Jonas yra profesionalus medzio apdailininkas...</p>--}}
-            {{--                                        <div class="flex flex-wrap gap-2 mt-3">--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Perkraustymas</span>--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Santechnika</span>--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Medkirtys</span>--}}
-            {{--                                        </div>--}}
-            {{--                                    </div>--}}
-            {{--                                </div>--}}
-            {{--                            </div>--}}
-            {{--                        </section>--}}
-            {{--                    </div>--}}
-
-            {{--                    <!-- Second Card -->--}}
-            {{--                    <div class="swiper-slide">--}}
-            {{--                        <section class="border bg-neutral-100 p-4 rounded-lg max-w-full h-auto sm:h-64 min-h-[300px]">--}}
-            {{--                            <div class="mx-auto">--}}
-            {{--                                <div class="card md:flex max-w-lg">--}}
-            {{--                                    <div class="w-20 h-20 mx-auto mb-6 md:mr-6 flex-shrink-0">--}}
-            {{--                                        <img class="object-cover rounded-full" src="https://tailwindflex.com/public/images/user.png">--}}
-            {{--                                    </div>--}}
-            {{--                                    <div class="flex-grow text-center md:text-left">--}}
-            {{--                                        <p class="font-bold">Medkirtys</p>--}}
-            {{--                                        <div class="flex items-center justify-center md:justify-start space-x-2">--}}
-            {{--                                            <h3 class="text-xl font-bold heading">Jonas Ponas</h3>--}}
-            {{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 fill-yellow">--}}
-            {{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="..." />--}}
-            {{--                                            </svg>--}}
-            {{--                                            <span class="text-md text-gray-600">(4.9)</span>--}}
-            {{--                                        </div>--}}
-            {{--                                        <p class="mt-2 mb-3">Jonas yra profesionalus medzio apdailininkas...</p>--}}
-            {{--                                        <div class="flex flex-wrap gap-2 mt-3">--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Perkraustymas</span>--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Santechnika</span>--}}
-            {{--                                            <span class="bg-gray-200 border px-3 py-1.5 rounded-lg text-sm">Medkirtys</span>--}}
-            {{--                                        </div>--}}
-            {{--                                    </div>--}}
-            {{--                                </div>--}}
-            {{--                            </div>--}}
-            {{--                        </section>--}}
-            {{--                    </div>--}}
-            {{--                    <!-- Add more cards here -->--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
-            {{--        </div>--}}
 
             <!-- Tapk Partneriu -->
-            <div class="overflow-hidden my-4 py-12 max-w-3xl mx-auto rounded-lg">
+            <div class="overflow-hidden my-4 py-š max-w-3xl mx-auto rounded-lg">
                 <div class="text-primary-light items-center text-center flex flex-col shadow-md p-6">
                     <h2 class="font-extrabold text-3xl md:text-3xl sm:text-1xl mb-2">Norite tapti mūsų partneriu ir
                         gauti
@@ -323,7 +123,7 @@
                         Prisijunkite dabar ir išnaudokite visas galimybes!
                     </p>
                     <a class="mt-6 mb-4 rounded-lg bg-primary-light px-6 py-3 text-base font-medium leading-6 text-white hover:bg-primary-verylight transition focus:outline-none focus:ring focus:border-primary-dark"
-                       href="/register">Registruotis</a>
+                       href="/register/provider">Registruotis</a>
                 </div>
             </div>
 
@@ -551,7 +351,7 @@
                             <div class="w-full flex-col justify-center items-start gap-8 flex">
                                 <div class="w-full flex-col justify-start lg:items-start items-center gap-3 flex">
                                     <h2
-                                        class="text-primary text-4xl font-bold font-manrope leading-normal lg:text-start text-center">
+                                        class="text-primary text-4xl font-bold leading-normal lg:text-start text-center">
                                         Skatiname Bendruomenes Dirbti Kartu</h2>
                                     <p class="text-gray-500 text-base font-normal leading-relaxed lg:text-start text-center">
                                         MyAPP Lietuva sujungia žmones, kuriems reikia paslaugų, su patikimais
@@ -584,16 +384,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <button
-                                class="sm:w-fit w-full px-3.5 py-2 bg-primary-light hover:bg-primary-verylight transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] justify-center items-center flex">
-                                <span
-                                    class="px-1.5 text-white text-sm font-medium leading-6">Rasti Specialistą Dabar</span>
-                            </button>
                         </div>
                         <div
                             class="w-full justify-center items-start gap-6 grid sm:grid-cols-2 grid-cols-1 lg:order-last order-first">
                             <div class="pt-24 lg:justify-center sm:justify-end justify-start items-start gap-2.5 flex">
-                                <img class=" rounded-1xl object-cover" src="{{ asset('images/delivery-man.jpg') }}"
+                                <img class=" rounded-xl object-cover" src="{{ asset('images/delivery-man.jpg') }}"
                                      alt="about Us image"/>
                             </div>
                             <img class="sm:ml-0 ml-auto rounded-xl object-cover"
