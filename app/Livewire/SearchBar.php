@@ -21,4 +21,9 @@ class SearchBar extends Component
             'results' => $results
         ]);
     }
+
+    public function clearSearch()
+    {
+        $this->search = "";
+    }
 }
