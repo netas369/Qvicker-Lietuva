@@ -37,6 +37,9 @@
 
         @if($userType === 'seeker')
             <div class="space-y-6">
+                <div class="pb-4 border-b border-gray-200 border-shadow">
+                    <h1 class="text-primary font-bold text-xl md:text-2xl">Vartotojo Registracija</h1>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label for="vardas" class="block text-sm font-medium text-gray-700">Vardas</label>
