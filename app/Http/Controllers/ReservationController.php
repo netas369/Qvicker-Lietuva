@@ -9,6 +9,7 @@ use App\Models\Review;
 use App\Models\User;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
@@ -227,6 +228,13 @@ class ReservationController extends Controller
     public function complete($id)
     {
         $reservation = Reservation::findOrFail($id);
+        $current_time = Carbon::now()->format('Y-m-d');
+        $reservation_date = $reservation->reservation_date;
+
+
+        if ($current_time < $reservation_date) {
+            return redirect()->back()->with('error', 'Užklausą galima užbaigti tik rezervacijos dieną arba vėliau.');
+        }
 
         // Ensure the provider can only complete their own reservations
         if (Auth::id() != $reservation->provider_id) {
@@ -261,13 +269,14 @@ class ReservationController extends Controller
     public function modifySeeker($id)
     {
         $reservation = Reservation::findOrFail($id);
+        $user = auth()->user();
 
         // Check if the reservation belongs to the authenticated seeker
         if (auth()->user()->id !== $reservation->seeker_id) {
             abort(403, 'Unauthorized action. This reservation does not belong to you.');
         }
 
-        return view('reservations.modify-reservation-seeker.modify-reservation', compact('reservation'));
+        return view('reservations.modify-reservation-seeker.modify-reservation', compact('reservation', 'user'));
     }
 
     public function editProvider($id, Request $request)

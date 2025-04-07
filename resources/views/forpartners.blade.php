@@ -3,7 +3,7 @@
 @section('content')
 
     <!-- Hero Section -->
-    <div class="bg-gradient-to-br from-white to-gray-100 py-16 md:py-24">
+    <div class="py-16 md:py-24">
         <div class="container mx-auto px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60">
             <div class="text-center mb-16">
                 <h1 class="text-3xl lg:text-4xl xl:text-5xl font-bold text-primary-light font-sans leading-tight mb-6">
@@ -27,16 +27,22 @@
     </div>
 
     <!-- Benefits Section -->
-    <div class="py-16 bg-primary-light rounded-lg">
+    <div class="py-16 bg-primary-light bg-opacity-95 rounded-xl">
         <div class="container mx-auto px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60">
-            <h2 class="text-2xl md:text-3xl font-bold text-center text-white mb-12">Kodėl verta prisijungti?</h2>
+            <h2 class="text-2xl md:text-4xl font-bold text-center text-white mb-12">Kodėl verta prisijungti?</h2>
 
             <div class="grid md:grid-cols-3 gap-8">
                 <!-- Benefit 1 -->
                 <div class="bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300">
                     <div class="w-14 h-14 bg-primary-light/10 rounded-full flex items-center justify-center mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <!-- Calendar base with wavy time indication for flexibility -->
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            <!-- Wavy line representing flexible hours -->
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 14c.85 0 1.5.5 1.5 1s.65 1 1.5 1 1.5-.5 1.5-1 .65-1 1.5-1" />
+                            <!-- Sun/clock combination to show day/night flexibility -->
+                            <circle cx="16" cy="17" r="1" fill="currentColor" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M8 17h2" />
                         </svg>
                     </div>
                     <h3 class="text-xl font-semibold mb-2 text-gray-800">Lankstus Grafikas</h3>

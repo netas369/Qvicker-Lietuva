@@ -92,7 +92,7 @@
                             </button>
                         </form>
 
-                    @elseif($reservation->status == 'accepted')
+                    @elseif($reservation->status == 'accepted' && $user->role == 'provider' )
                         <form method="POST" action="{{ route('reservation.complete', $reservation->id) }}">
                             @csrf
                             <button type="submit"
