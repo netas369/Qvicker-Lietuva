@@ -210,14 +210,10 @@
                     @foreach($category['subcategories'] as $subcategory)
                         <a href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
                            class="flex items-center p-4 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-light/50 transition-all duration-200 group">
-                            <div
-                                class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
-                                <!-- You can use an appropriate icon for each subcategory -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20"
-                                     fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                          d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414z"
-                                          clip-rule="evenodd"/>
+                            <div class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                 </svg>
                             </div>
                             <div>
@@ -242,12 +238,11 @@
                            class="flex items-center p-4 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-light/50 transition-all duration-200 group">
                             <div
                                 class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20"
-                                     fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                          d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4V5h12v10z"
-                                          clip-rule="evenodd"/>
-                                    <path d="M8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z"/>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                                    <circle cx="12" cy="13" r="4" />
+                                    <line x1="8" y1="5" x2="16" y2="5" />
+                                    <line x1="17" y1="9.5" x2="20" y2="9.5" />
                                 </svg>
                             </div>
                             <div>
@@ -270,13 +265,11 @@
                     @foreach($category['subcategories'] as $subcategory)
                         <a href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
                            class="flex items-center p-4 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-light/50 transition-all duration-200 group">
-                            <div
-                                class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20"
-                                     fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                          d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                                          clip-rule="evenodd"/>
+                            <div class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M15 12l-8.5 8.5c-.83.83-2.17.83-3 0 0 0 0 0 0 0-.83-.83-.83-2.17 0-3L12 9" />
+                                    <path d="M17.64 15L22 10.64" />
+                                    <path d="M20.91 11.7l-1.25-1.25c-.6-.6-.93-1.4-.93-2.25v-.86L16.01 4.6a5.56 5.56 0 0 0-3.94-1.64H9l.92.82A6.18 6.18 0 0 1 12 8.4v1.56l2 2h2.47l2.26 1.91" />
                                 </svg>
                             </div>
                             <div>
@@ -299,14 +292,11 @@
                     @foreach($category['subcategories'] as $subcategory)
                         <a href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
                            class="flex items-center p-4 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-light/50 transition-all duration-200 group">
-                            <div
-                                class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20"
-                                     fill="currentColor">
-                                    <path
-                                        d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8z"/>
-                                    <path
-                                        d="M12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z"/>
+                            <div class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="8" y="4" width="8" height="6" />
+                                    <rect x="2" y="13" width="8" height="7" />
+                                    <rect x="14" y="13" width="8" height="7" />
                                 </svg>
                             </div>
                             <div>
@@ -329,13 +319,13 @@
                     @foreach($category['subcategories'] as $subcategory)
                         <a href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
                            class="flex items-center p-4 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-light/50 transition-all duration-200 group">
-                            <div
-                                class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20"
-                                     fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                          d="M5.5 17a4.5 4.5 0 01-1.44-8.765 4.5 4.5 0 018.302-3.046 3.5 3.5 0 014.504 4.272A4 4 0 0115 17H5.5zm3.75-2.75a.75.75 0 001.5 0V9.66l1.95 2.1a.75.75 0 101.1-1.02l-3.25-3.5a.75.75 0 00-1.1 0l-3.25 3.5a.75.75 0 101.1 1.02l1.95-2.1v4.59z"
-                                          clip-rule="evenodd"/>
+                            <div class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22V12" />
+                                    <path d="M12 12L18 6" />
+                                    <path d="M12 12L6 6" />
+                                    <path d="M12 6L15 3" />
+                                    <path d="M12 6L9 3" />
                                 </svg>
                             </div>
                             <div>
@@ -359,13 +349,11 @@
                     @foreach($category['subcategories'] as $subcategory)
                         <a href="{{ url('/search?subcategory=' . urlencode($subcategory['name'])) }}"
                            class="flex items-center p-4 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-light/50 transition-all duration-200 group">
-                            <div
-                                class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20"
-                                     fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z"
-                                          clip-rule="evenodd"/>
+                            <div class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="6" width="4" height="12" rx="1" />
+                                    <rect x="18" y="6" width="4" height="12" rx="1" />
+                                    <path d="M6 12h12" />
                                 </svg>
                             </div>
                             <div>
@@ -390,10 +378,13 @@
                            class="flex items-center p-4 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-light/50 transition-all duration-200 group">
                             <div
                                 class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20"
-                                     fill="currentColor">
-                                    <path
-                                        d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-1a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v1h-3zM4.75 14.094A5.973 5.973 0 004 15v1H1v-1a3 3 0 015-2.262z"/>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="2" width="6" height="11" rx="3" />
+                                    <path d="M5 10a7 7 0 0 0 14 0" />
+                                    <line x1="12" y1="18" x2="12" y2="22" />
+                                    <line x1="8" y1="22" x2="16" y2="22" />
+                                    <path d="M15 6h1" />
+                                    <path d="M15 10h1" />
                                 </svg>
                             </div>
                             <div>
