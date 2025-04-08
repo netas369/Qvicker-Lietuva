@@ -97,7 +97,9 @@ class ReservationController extends Controller
      */
     public function providerReservations(Request $request)
     {
+
         $status = $request->query('status', 'all');
+        $perPage = $request->query('per_page', 10);
 
         $query = Reservation::where('provider_id', Auth::id())
             ->with('seeker')
@@ -108,7 +110,9 @@ class ReservationController extends Controller
             $query->where('status', $status);
         }
 
-        $reservations = $query->get();
+        $reservations = $query->paginate($perPage);
+
+        $reservations->appends($request->query());
 
         return view('reservations.provider', compact('reservations'));
     }

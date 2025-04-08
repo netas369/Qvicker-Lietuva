@@ -31,6 +31,10 @@
             </div>
         </div>
 
+        <div class="my-4 ">
+            {{ $reservations->links() }}
+        </div>
+
         @if($reservations->isEmpty())
             <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
                 <p class="text-gray-600">Jūs dar neturite gautų užklausų su šiuo statusu.</p>
@@ -97,5 +101,8 @@
                 @endforeach
             </div>
         @endif
+        <div class="mt-4">
+            {{ $reservations->links() }}
+        </div>
     </div>
 @endsection
