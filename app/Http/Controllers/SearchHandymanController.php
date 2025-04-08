@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use NunoMaduro\Collision\Provider;
 
 class SearchHandymanController extends Controller
 {
@@ -87,6 +86,29 @@ class SearchHandymanController extends Controller
 
             return true; // Provider is available
         });
+
+        // Store results in session
+        session([
+            'available_providers' => $availableProviders,
+            'subcategory' => $subcategory,
+            'city' => $city,
+            'task_size' => $taskSize,
+            'date' => $date
+        ]);
+
+        // Redirect to a GET route
+        return redirect()->route('search.results.show');
+
+    }
+
+    public function showSearchResults()
+    {
+        // Retrieve data from session
+        $availableProviders = session('available_providers');
+        $subcategory = session('subcategory');
+        $city = session('city');
+        $taskSize = session('task_size');
+        $date = session('date');
 
         return view('search.results', compact('availableProviders', 'subcategory', 'city', 'taskSize', 'date'));
     }

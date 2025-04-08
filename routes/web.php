@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 Route::get('/search', [SearchHandymanController::class, 'index'])->name('search');
 Route::post('/search/results', [SearchHandymanController::class, 'searchResults'])->name('search.results');
+Route::get('/search/results/show', [SearchHandymanController::class, 'showSearchResults'])->name('search.results.show');
+
 
 
 Route::get('/partners', [LandingPageController::class, 'partners'])->name('partners');
