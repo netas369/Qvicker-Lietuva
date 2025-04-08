@@ -29,6 +29,9 @@ class MyProfile extends Component
     public $gender;
     public $languages = [];
     public $selectedLanguage = '';
+    public $portfolioPhotos = [];
+    public $newPortfolioPhoto;
+    public $maxPortfolioPhotos = 5;
 
 
     public function render()
@@ -51,8 +54,13 @@ class MyProfile extends Component
         // Retrieve the associated categories for the user
         $this->userCategories = $this->user->categories;
         $this->gender = $this->user->gender;
+
         if ($this->user->languages) {
             $this->languages = json_decode($this->user->languages, true) ?? [];
+        }
+
+        if ($this->user->portfolio_photos) {
+            $this->portfolioPhotos = json_decode($this->user->portfolio_photos, true) ?? [];
         }
     }
 
@@ -72,6 +80,7 @@ class MyProfile extends Component
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Specify allowed image types
             'gender' => 'required',
             'languages' => 'required|array|min:1',
+            'newPortfolioPhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ];
     }
 
@@ -111,7 +120,9 @@ class MyProfile extends Component
             'image.max' => 'Nuotrauka negali viršyti 2mb dydžio.',
             'phone.required' => 'Telefono numeris yra privalomas.',
             'post_code.required' => 'Pašto kodas yra privalomas',
-
+            'newPortfolioPhoto.image' => 'Failas privalo būti nuotrauka.',
+            'newPortfolioPhoto.mimes' => 'Nuotraukos failas privalo būti: jpeg, png, jpg, gif.',
+            'newPortfolioPhoto.max' => 'Nuotrauka negali viršyti 2mb dydžio.',
 
         ];
     }
@@ -145,6 +156,7 @@ class MyProfile extends Component
         $this->user->phone = '+370' . $this->phone;
         $this->user->gender = $this->gender;
         $this->user->languages = json_encode($this->languages);
+        $this->user->portfolio_photos = json_encode($this->portfolioPhotos);
 
 
         // Check if the password is being updated for later when will be option to update it
@@ -169,6 +181,59 @@ class MyProfile extends Component
         session()->flash('message', 'Informacija sėkmingai atnaujinta');
         return redirect()->route('myprofile'); // Adjust the route as necessary
 
+    }
+
+    // New method to handle portfolio photo uploads
+    public function updatedNewPortfolioPhoto()
+    {
+        $this->validate([
+            'newPortfolioPhoto' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Check if we already have maximum photos
+        if (count($this->portfolioPhotos) >= $this->maxPortfolioPhotos) {
+            session()->flash('error', 'Jūs jau turite maksimalų nuotraukų skaičių (' . $this->maxPortfolioPhotos . ')');
+            $this->newPortfolioPhoto = null;
+            return;
+        }
+
+        // Store the new photo
+        $filename = $this->newPortfolioPhoto->store('portfolio-photos', 'public');
+        $photoUrl = Storage::url($filename);
+
+        // Add to the photos array
+        $this->portfolioPhotos[] = [
+            'path' => $filename,
+            'url' => $photoUrl,
+        ];
+
+        // Save to the user model
+        $this->user->portfolio_photos = json_encode($this->portfolioPhotos);
+        $this->user->save();
+
+        // Reset the upload field
+        $this->newPortfolioPhoto = null;
+
+        session()->flash('message', 'Nuotrauka sėkmingai pridėta');
+    }
+
+    // Method to remove a portfolio photo
+    public function removePortfolioPhoto($index)
+    {
+        if (isset($this->portfolioPhotos[$index])) {
+            // Delete the file from storage
+            Storage::disk('public')->delete($this->portfolioPhotos[$index]['path']);
+
+            // Remove from array
+            unset($this->portfolioPhotos[$index]);
+            $this->portfolioPhotos = array_values($this->portfolioPhotos); // Re-index
+
+            // Update user record
+            $this->user->portfolio_photos = json_encode($this->portfolioPhotos);
+            $this->user->save();
+
+            session()->flash('message', 'Nuotrauka sėkmingai pašalinta');
+        }
     }
 
     public function updatedImage()
