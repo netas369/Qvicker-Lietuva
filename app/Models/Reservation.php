@@ -10,7 +10,7 @@ class Reservation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'seeker_id',
         'provider_id',
         'reservation_date',
         'description',
@@ -20,6 +20,9 @@ class Reservation extends Model
         'subcategory',
         'city',
         'status',
+        'cancellation_reason',
+        'cancellation_details',
+        'cancelled_by'
     ];
 
     /**

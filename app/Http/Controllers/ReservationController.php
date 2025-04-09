@@ -162,6 +162,8 @@ class ReservationController extends Controller
         }
 
         $reservation->status = 'accepted';
+        $reservation->accepted_at = now();
+
         $reservation->save();
 
         return redirect()->back()->with('success', 'Užklausa sėkmingai patvirtinta.');
