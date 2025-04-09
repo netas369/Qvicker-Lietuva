@@ -32,6 +32,8 @@ class MyProfile extends Component
     public $portfolioPhotos = [];
     public $newPortfolioPhoto;
     public $maxPortfolioPhotos = 5;
+    public $cities = [];
+    public $selectedCity = '';
 
 
     public function render()
@@ -46,7 +48,6 @@ class MyProfile extends Component
         $this->lastname = $this->user->lastname;
         $this->email = $this->user->email;
         $this->birthday = $this->user->birthday;
-        $this->city = $this->user->city;
         $this->address = $this->user->address;
         $this->aboutMe = $this->user->aboutme;
         $this->post_code = $this->user->postal_code;
@@ -54,6 +55,7 @@ class MyProfile extends Component
         // Retrieve the associated categories for the user
         $this->userCategories = $this->user->categories;
         $this->gender = $this->user->gender;
+        $this->cities = $this->user->cities ?? [];
 
         if ($this->user->languages) {
             $this->languages = json_decode($this->user->languages, true) ?? [];
@@ -62,6 +64,7 @@ class MyProfile extends Component
         if ($this->user->portfolio_photos) {
             $this->portfolioPhotos = json_decode($this->user->portfolio_photos, true) ?? [];
         }
+
     }
 
     public function getValidationRules()
@@ -81,6 +84,7 @@ class MyProfile extends Component
             'gender' => 'required',
             'languages' => 'required|array|min:1',
             'newPortfolioPhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'cities' => 'required|array|min:1',
             ];
     }
 
@@ -123,21 +127,8 @@ class MyProfile extends Component
             'newPortfolioPhoto.image' => 'Failas privalo būti nuotrauka.',
             'newPortfolioPhoto.mimes' => 'Nuotraukos failas privalo būti: jpeg, png, jpg, gif.',
             'newPortfolioPhoto.max' => 'Nuotrauka negali viršyti 2mb dydžio.',
+            'cities.required' => 'Pasirinkite bent vieną miestą.'
 
-        ];
-    }
-
-    public function validationAttributes()
-    {
-        return [
-            'name' => 'vardas',
-            'lastname' => 'pavardė',
-            'birthday' => 'gimimo data',
-            'email' => 'el. paštas',
-            'city' => 'miestas',
-            'address' => 'adresas',
-            'password' => 'slaptažodis',
-            'slaptazodis_confirmation' => 'slaptažodžio patvirtinimas'
         ];
     }
 
@@ -180,6 +171,37 @@ class MyProfile extends Component
         // Optionally, you can redirect or show a success message
         session()->flash('message', 'Informacija sėkmingai atnaujinta');
         return redirect()->route('myprofile'); // Adjust the route as necessary
+
+    }
+
+    public function addCity()
+    {
+        if (!empty($this->selectedCity) && !in_array($this->selectedCity, $this->cities)) {
+            // Add to local array
+            $this->cities[] = $this->selectedCity;
+
+            // Immediately update in database
+            $this->user->update([
+                'cities' => $this->cities
+            ]);
+
+            // Reset selection
+            $this->selectedCity = '';
+
+        }
+    }
+
+    public function removeCity($city)
+    {
+        // Remove from local array
+        $this->cities = array_values(array_filter($this->cities, function($c) use ($city) {
+            return $c !== $city;
+        }));
+
+        // Immediately update in database
+        $this->user->update([
+            'cities' => $this->cities
+        ]);
 
     }
 

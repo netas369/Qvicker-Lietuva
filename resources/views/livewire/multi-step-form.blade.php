@@ -109,6 +109,8 @@
                             <option value="Vilnius">Vilnius</option>
                             <option value="Kaunas">Kaunas</option>
                             <option value="Klaipeda">Klaipėda</option>
+                            <option value="Šiauliai">Šiauliai</option>
+                            <option value="Panevėžys">Panevėžys</option>
                         </select>
                         @error('miestas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
@@ -277,6 +279,8 @@
                             <option value="Vilnius">Vilnius</option>
                             <option value="Kaunas">Kaunas</option>
                             <option value="Klaipeda">Klaipėda</option>
+                            <option value="Šiauliai">Šiauliai</option>
+                            <option value="Panevėžys">Panevėžys</option>
                         </select>
                         @error('miestas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>

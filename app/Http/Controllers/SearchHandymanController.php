@@ -20,10 +20,13 @@ class SearchHandymanController extends Controller
 
     public function searchResults(Request $request)
     {
-        // Validate the request
+
         $validated = $request->validate([
-            'city' => 'required|string',
-            'task_size' => 'required|string|in:small,medium,big',
+            'city' => 'required',
+            'task_size' => 'required'
+        ], [
+            'city.required' => 'Pasirinkite miestą kurioje reikia paslaugos',
+            'task_size.required' => 'Pasirinkite užduoties dydį'
         ]);
 
         // Get the subcategory from the original request
@@ -60,7 +63,7 @@ class SearchHandymanController extends Controller
 
         // Build the base query for providers
         $query = User::where('role', 'provider')
-            ->where('city', $city);
+            ->whereJsonContains('cities', $city); // Updated to use JSON contains for cities array
 
         // Filter by subcategory if specified
         if ($subcategoryId) {
