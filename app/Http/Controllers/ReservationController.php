@@ -65,7 +65,7 @@ class ReservationController extends Controller
         $this->notificationService->notifyNewReservationSeeker($seeker, $reservation);
 
         // Redirect with success message
-        return redirect()->route('reservations.seeker')->with('success', 'Jūsų užklausa išsiųsta. Meistras peržiūrės ją artimiausiu metu.');
+        return redirect()->route('reservation.modifySeeker', [$reservation->id])->with('success', 'Jūsų užklausa išsiųsta. Meistras peržiūrės ją artimiausiu metu.');
     }
 
     /**

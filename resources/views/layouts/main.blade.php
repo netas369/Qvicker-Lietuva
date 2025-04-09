@@ -6,20 +6,21 @@
     <title>@yield('title')</title>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
 
-    {{--    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />--}}
-
-    <!-- Include Tailwind compiled by Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
-    <!-- Custom style to help with iframe positioning -->
+    <!-- Updated styles to fix horizontal scroll -->
     <style>
-        .lottie-container {
-            width: 100vw;
-            margin-left: calc(-50vw + 50%);
-            max-width: none;
-            overflow: hidden;
-            position: relative;
+        /* Fix for full-width elements to prevent horizontal scrolling */
+        body {
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
+
+        .lottie-container {
+            position: relative;
+            width: 100%;  /* Use percentage instead of viewport width */
+            overflow: hidden;
+        }
+
         .lottie-iframe {
             width: 100%;
             display: block;
@@ -34,7 +35,7 @@
     @yield('content')
 </div>
 
-<!-- Full-width and centered Lottie animation -->
+<!-- Updated Lottie animation container -->
 <div class="lottie-container">
     <div
         id="footer-lottie-container"
@@ -45,7 +46,6 @@
 @include('layouts.footer')
 
 <!-- Scripts -->
-{{--<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>--}}
 @stack('scripts')
 
 <!-- Lottie library and initialization -->
@@ -116,8 +116,6 @@
 @endif
 
 @yield('script')
-</body>
-
 
 <!-- Script to close error pop ups automatically -->
 <script>
@@ -176,5 +174,5 @@
         }
     });
 </script>
-
+</body>
 </html>

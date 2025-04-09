@@ -53,7 +53,7 @@ class SearchHandymanController extends Controller
         $subcategoryId = $request->query('subcategory_id');
         $subcategory = $request->query('subcategory');
         $date = $request->query('date');
-        
+
 
         // Parse date or use current date as default
         $specificDate = $date ? Carbon::parse($date) : now();
@@ -120,8 +120,12 @@ class SearchHandymanController extends Controller
         $taskSize = $request->query('task_size');
         $subcategory = $request->query('subcategory');
         $city = $request->query('city');
+        $portfolioPhotos = json_decode($provider->portfolio_photos ?? '[]', true);
 
-        return view('search.reserve.reserve', compact('provider', 'date', 'taskSize', 'subcategory', 'city'));
+
+
+
+        return view('search.reserve.reserve', compact('provider', 'date', 'taskSize', 'subcategory', 'city', 'portfolioPhotos'));
     }
 
 }

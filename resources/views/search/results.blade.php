@@ -177,7 +177,7 @@
                                         <a href="{{ route('provider.reserve', ['id' => $provider->id, 'date' => $date, 'task_size' => $taskSize, 'subcategory' => $subcategory, 'city' => $city]) }}"
                                            class="inline-block rounded-md bg-gradient-to-tr from-primary to-primary-light py-1 px-3 md:py-2 md:px-4 border border-transparent
                                             text-center text-xs md:text-base text-white font-sans hover:from-primary-dark hover:to-primary-light transition">
-                                            Rezervuoti
+                                            Plačiau..
                                         </a>
                                     </div>
                                 </div>
