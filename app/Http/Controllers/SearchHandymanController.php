@@ -54,7 +54,6 @@ class SearchHandymanController extends Controller
         $subcategory = $request->query('subcategory');
         $date = $request->query('date');
 
-
         // Parse date or use current date as default
         $specificDate = $date ? Carbon::parse($date) : now();
         $dayOfWeek = $specificDate->dayOfWeek;
@@ -78,38 +77,112 @@ class SearchHandymanController extends Controller
             }
         }
 
-        // Find providers who don't have specific unavailability for this date
-        $availableProviders = $query->get()->filter(function($provider) use ($specificDate, $dayOfWeek) {
-            // Check if provider has a specific unavailability for this date
-            $hasUnavailability = $provider->unavailabilities()
-                ->whereDate('date', $specificDate)
-                ->exists();
+        // Get all potential providers
+        $allProviders = $query->get();
 
-            if ($hasUnavailability) {
-                return false; // Provider is unavailable
-            }
+        // Arrays to store our results
+        $exactlyAvailableProviders = [];
+        $soonAvailableProviders = [];
 
-            // Check if provider has a recurring unavailability for this day of week
-            $hasRecurringUnavailability = $provider->recurringUnavailabilities()
-                ->where('day_of_week', $dayOfWeek)
-                ->exists();
+        // Loop through each provider to check availability
+        foreach ($allProviders as $provider) {
+            // Check if provider is available on the specific date
+            if ($this->isProviderAvailableOnDate($provider, $specificDate)) {
+                // Add to exactly available providers
+                $exactlyAvailableProviders[] = [
+                    'provider' => $provider,
+                    'available_date' => $specificDate,
+                    'is_exact_match' => true
+                ];
+            } else {
+                // Find the closest available date within +/- 4 days
+                $closestDate = $this->findClosestAvailableDate($provider, $specificDate, 4);
 
-            if ($hasRecurringUnavailability) {
-                // Check if there's an exception for this specific date
-                $hasException = $provider->availabilityExceptions()
-                    ->whereDate('date', $specificDate)
-                    ->exists();
-
-                if (!$hasException) {
-                    return false; // Provider is unavailable on this recurring day
+                if ($closestDate) {
+                    // Add to soon available providers
+                    $soonAvailableProviders[] = [
+                        'provider' => $provider,
+                        'available_date' => $closestDate,
+                        'is_exact_match' => false,
+                        'days_difference' => $specificDate->diffInDays($closestDate, false)
+                    ];
                 }
             }
+        }
 
-            return true; // Provider is available
+        // Sort soon available providers by how close their available date is to the requested date
+        usort($soonAvailableProviders, function($a, $b) {
+            return abs($a['days_difference']) - abs($b['days_difference']);
         });
 
         // Return view with all parameters
-        return view('search.results', compact('availableProviders', 'subcategory', 'city', 'taskSize', 'date'));
+        return view('search.results', [
+            'exactlyAvailableProviders' => $exactlyAvailableProviders,
+            'soonAvailableProviders' => $soonAvailableProviders,
+            'subcategory' => $subcategory,
+            'city' => $city,
+            'taskSize' => $taskSize,
+            'date' => $date,
+            'specificDate' => $specificDate
+        ]);
+    }
+
+    /**
+     * Check if a provider is available on a specific date
+     */
+    private function isProviderAvailableOnDate($provider, $date)
+    {
+        $dayOfWeek = $date->dayOfWeek;
+
+        // Check if provider has a specific unavailability for this date
+        $hasUnavailability = $provider->unavailabilities()
+            ->whereDate('date', $date)
+            ->exists();
+
+        if ($hasUnavailability) {
+            return false; // Provider is unavailable
+        }
+
+        // Check if provider has a recurring unavailability for this day of week
+        $hasRecurringUnavailability = $provider->recurringUnavailabilities()
+            ->where('day_of_week', $dayOfWeek)
+            ->exists();
+
+        if ($hasRecurringUnavailability) {
+            // Check if there's an exception for this specific date
+            $hasException = $provider->availabilityExceptions()
+                ->whereDate('date', $date)
+                ->exists();
+
+            if (!$hasException) {
+                return false; // Provider is unavailable on this recurring day
+            }
+        }
+
+        return true; // Provider is available
+    }
+
+    /**
+     * Find the closest available date for a provider within a given range of days
+     */
+    private function findClosestAvailableDate($provider, $targetDate, $maxDays)
+    {
+        // Check days forward and backward from the target date, prioritizing closer dates
+        for ($i = 1; $i <= $maxDays; $i++) {
+            // Check day ahead
+            $dayAhead = $targetDate->copy()->addDays($i);
+            if ($this->isProviderAvailableOnDate($provider, $dayAhead)) {
+                return $dayAhead;
+            }
+
+            // Check day behind
+            $dayBehind = $targetDate->copy()->subDays($i);
+            if ($this->isProviderAvailableOnDate($provider, $dayBehind)) {
+                return $dayBehind;
+            }
+        }
+
+        return null; // No available date found within range
     }
 
     public function showReservation(Request $request, $id)
