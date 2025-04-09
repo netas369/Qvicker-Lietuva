@@ -3,7 +3,7 @@
 @section('content')
 
     <!-- Hero Section -->
-    <div class="bg-gradient-to-br from-white to-gray-100 py-16 md:py-24">
+    <div class="py-16 md:py-24">
         <div class="container mx-auto px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60">
             <div class="text-center mb-16">
                 <h1 class="text-3xl lg:text-4xl xl:text-5xl font-bold text-primary-light font-sans leading-tight mb-6">
@@ -27,41 +27,36 @@
     </div>
 
     <!-- Benefits Section -->
-    <div class="py-16 bg-primary-light rounded-lg">
+
+    <div class="py-16 bg-primary-light bg-opacity-95 rounded-xl">
         <div class="container mx-auto px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60">
-            <h2 class="text-2xl md:text-3xl font-bold text-center text-white mb-12">Kodėl verta prisijungti?</h2>
+            <h2 class="text-2xl md:text-4xl font-bold text-center text-white mb-12">Kodėl verta prisijungti?</h2>
 
             <div class="grid md:grid-cols-3 gap-8">
                 <!-- Benefit 1 -->
                 <div class="bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300">
-                    <div class="w-14 h-14 bg-primary-light/10 rounded-full flex items-center justify-center mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+                    <div class="flex justify-center mb-4">
+                        <img src="/images/pt_icon1.png" alt="Lankstus Grafikas" class="h-32 w-auto" draggable="false">
                     </div>
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Lankstus Grafikas</h3>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800 text-center">Lankstus Grafikas</h3>
                     <p class="text-gray-600">Dirbk kada nori ir kiek nori. Tu visiškai kontroliuoji savo darbo laiką.</p>
                 </div>
 
                 <!-- Benefit 2 -->
                 <div class="bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300">
-                    <div class="w-14 h-14 bg-primary-light/10 rounded-full flex items-center justify-center mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+                    <div class="flex justify-center mb-4">
+                        <img src="/images/pt_icon2.png" alt="Papildomos Pajamos" class="h-32 w-auto" draggable="false">
                     </div>
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Papildomos Pajamos</h3>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800 text-center">Papildomos Pajamos</h3>
                     <p class="text-gray-600">Užsidirbk papildomai darant tai, ką moki geriausiai. Nustatyk savo kainas.</p>
                 </div>
 
                 <!-- Benefit 3 -->
                 <div class="bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300">
-                    <div class="w-14 h-14 bg-primary-light/10 rounded-full flex items-center justify-center mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                        </svg>
+                    <div class="flex justify-center mb-4">
+                        <img src="/images/pt_icon3.png" alt="Nauji Klientai" class="h-32 w-auto" draggable="false">
                     </div>
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Nauji Klientai</h3>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800 text-center">Nauji Klientai</h3>
                     <p class="text-gray-600">Prieik prie plataus klientų tinklo be jokių rinkodaros išlaidų.</p>
                 </div>
             </div>
@@ -76,37 +71,53 @@
             <div class="grid md:grid-cols-4 gap-8">
                 <!-- Step 1 -->
                 <div class="text-center">
-                    <div class="w-16 h-16 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">1</div>
+                    <div class="w-16 h-16 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                        </svg>
+                    </div>
                     <h3 class="text-xl font-semibold mb-2 text-gray-800">Užsiregistruok</h3>
                     <p class="text-gray-600">Sukurk savo profilį vos per kelias minutes.</p>
                 </div>
 
                 <!-- Step 2 -->
                 <div class="text-center">
-                    <div class="w-16 h-16 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">2</div>
+                    <div class="w-16 h-16 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
                     <h3 class="text-xl font-semibold mb-2 text-gray-800">Gauk Patvirtinimą</h3>
-                    <p class="text-gray-600">Mūsų komanda peržiūrės tavo paraišką.</p>
+                    <p class="text-gray-600">Mūsų komanda peržiūrės tavo paraišką ir susisieks su tavim.</p>
                 </div>
 
                 <!-- Step 3 -->
                 <div class="text-center">
-                    <div class="w-16 h-16 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">3</div>
+                    <div class="w-16 h-16 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                        </svg>
+                    </div>
                     <h3 class="text-xl font-semibold mb-2 text-gray-800">Gauk Užsakymus</h3>
                     <p class="text-gray-600">Klientai galės matyti tavo paslaugas ir siųsti užklausas.</p>
                 </div>
 
                 <!-- Step 4 -->
                 <div class="text-center">
-                    <div class="w-16 h-16 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">4</div>
+                    <div class="w-16 h-16 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
                     <h3 class="text-xl font-semibold mb-2 text-gray-800">Uždirbk</h3>
-                    <p class="text-gray-600">Atlik darbą ir gauk patogų apmokėjimą.</p>
+                    <p class="text-gray-600">Atlik darbą ir užsidirbk pinigų.</p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Testimonials -->
-    <div class="py-16 bg-white rounded-t-xl">
+    <div class="py-16 rounded-t-xl">
         <div class="container mx-auto px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60">
             <h2 class="text-2xl md:text-3xl font-bold text-center text-primary-light mb-12">Ką sako mūsų partneriai</h2>
 

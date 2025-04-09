@@ -20,6 +20,8 @@
 
             <h1 class="text-2xl font-bold mb-6 text-primary-light">Mano Profilis</h1>
 
+
+
             <form wire:submit.prevent="update" class="space-y-6">
                 <div class="w-full grid grid-cols-12">
                     <div class="col-span-12 md:col-span-4 md:ml-8">
@@ -68,7 +70,7 @@
                         <p class="text-primary-verylight text-md md:text-2xl font-bold">{{ ucfirst($this->name) . ' '. ucfirst($this->lastname) }}</p>
                         @if($this->user->role == 'provider')
                             <!-- Star Rating Display -->
-                            <div class="flex items-center mt-2">
+                            <div class="flex items-center mt-4">
                                 <div class="flex text-yellow-400">
                                     <!-- Full Stars -->
                                     @for ($i = 1; $i <= floor($this->user->average_rating); $i++)
@@ -130,20 +132,108 @@
                             </div>
                         @endif
                         @if($user->role == 'provider')
-                        <div class="flex items-center mt-4 md:mt-8 text-sm md:text-lg">
+                        <div class="flex items-center mt-4 md:mt-4 text-sm md:text-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-primary-light" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
                                 <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
                             </svg>
                             <p class="text-primary-light font-bold">Įvykdyti Užsakymai: <span>{{$this->user->getTotalReservationsDone()}}</span></p>
                         </div>
+
+
                         @endif
+
+
                     </div>
                 </div>
 
+                <!-- Portfolio Photos Section (Only for providers) -->
+                @if($user->role == 'provider')
+                    <div class="mt-6">
+                        <h3 class="text-primary-light font-bold text-sm md:text-lg flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-primary-light" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                            </svg>
+                            Mano Darbų Pavyzdžiai
+                        </h3>
+
+                        <!-- Photo Grid -->
+                        <div class="grid grid-cols-3 md:grid-cols-5 gap-2 mt-3">
+                            <!-- Photo Upload Boxes -->
+                            @for ($i = 0; $i < $maxPortfolioPhotos; $i++)
+                                <div class="relative aspect-square border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors overflow-hidden">
+                                    @if(isset($portfolioPhotos[$i]))
+                                        <!-- If photo exists in this slot -->
+                                        <div class="w-full h-full relative group">
+                                            <img src="{{ Storage::url($portfolioPhotos[$i]['path']) }}" class="w-full h-full object-cover" alt="Portfolio work">
+
+                                            <!-- Mobile: Always visible delete button in corner -->
+                                            <button type="button"
+                                                    wire:click="removePortfolioPhoto({{ $i }})"
+                                                    class="absolute top-1 right-1 p-1 rounded-full bg-red-500 hover:bg-red-600 text-white shadow-md md:hidden z-10">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-2 w-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </button>
+
+                                            <!-- Desktop: Hover overlay with delete button -->
+                                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex items-center justify-center">
+                                                <button type="button"
+                                                        wire:click="removePortfolioPhoto({{ $i }})"
+                                                        class="text-white p-1 rounded-full bg-red-500 hover:bg-red-600">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <!-- Empty upload slot -->
+                                        <label for="portfolio-photo-{{ $i }}" class="flex flex-col items-center justify-center w-full h-full cursor-pointer">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                            </svg>
+                                            <span class="text-xs text-gray-500 mt-1 text-center px-1">Pridėti nuotrauką</span>
+                                            <input type="file" id="portfolio-photo-{{ $i }}" wire:model="newPortfolioPhoto" class="hidden" accept="image/*">
+                                        </label>
+                                    @endif
+                                </div>
+                            @endfor
+                        </div>
+
+                        <!-- Error Message -->
+                        @error('newPortfolioPhoto')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+
+                        <!-- Loading Indicator -->
+                        <div wire:loading wire:target="newPortfolioPhoto, removePortfolioPhoto" class="mt-2">
+                            <span class="text-sm text-gray-600 flex items-center">
+                                <svg class="animate-spin h-4 w-4 mr-2 text-primary-light" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg> Apdorojama...
+                            </span>
+                        </div>
+
+                        <!-- Success/Error Messages -->
+                        @if (session()->has('message'))
+                            <div class="text-sm text-green-600 mt-2">
+                                {{ session('message') }}
+                            </div>
+                        @endif
+
+                        @if (session()->has('error'))
+                            <div class="text-sm text-red-600 mt-2">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+                    </div>
+                @endif
+
                 <!-- About Me Section -->
                 <div class="mb-6">
-                    <h2 class="text-lg font-semibold mb-2">Apie Mane</h2>
+                    <h2 class="text-lg font-semibold mb-2 text-gray-700">Apie Mane</h2>
                     @if($this->user->role === 'provider')
                         <textarea wire:model="aboutMe" rows="4"
                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('aboutMe') border-red-500 @enderror"
@@ -158,6 +248,7 @@
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+
 
                 <!-- Grid Container -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

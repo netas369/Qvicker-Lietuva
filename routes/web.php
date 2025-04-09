@@ -6,7 +6,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProviderCalendarController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\SearchHandymanController;
@@ -15,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 Route::get('/search', [SearchHandymanController::class, 'index'])->name('search');
+Route::get('/search/results/show', [SearchHandymanController::class, 'showSearchResults'])->name('search.results.show');
 Route::post('/search/results', [SearchHandymanController::class, 'searchResults'])->name('search.results');
+
 
 
 Route::get('/partners', [LandingPageController::class, 'partners'])->name('partners');

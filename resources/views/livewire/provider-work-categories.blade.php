@@ -127,16 +127,6 @@
                                 </svg>
                             </div>
                             <p class="text-gray-500">Nėra pasirinktų darbo kategorijų</p>
-                            <button
-                                wire:click="$emit('openCategorySelection')"
-                                class="mt-2 inline-flex items-center px-3 py-2 text-sm font-medium text-primary-700 bg-primary-50 hover:bg-primary-100 rounded-lg transition">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="-ml-0.5 mr-1.5 h-4 w-4" fill="none"
-                                     viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                                </svg>
-                                Pridėti kategorijas
-                            </button>
                         </div>
                     </div>
                 @endif

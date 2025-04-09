@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use NunoMaduro\Collision\Provider;
 
 class SearchHandymanController extends Controller
 {
@@ -18,6 +17,7 @@ class SearchHandymanController extends Controller
         return view('search', compact('subcategory', 'subcategoryId'));
     }
 
+
     public function searchResults(Request $request)
     {
         // Validate the request
@@ -26,17 +26,37 @@ class SearchHandymanController extends Controller
             'task_size' => 'required|string|in:small,medium,big',
         ]);
 
-        // Get the subcategory from the original request, not from validation
-        // as it might not be passed in the form but received from the query string
-        $subcategoryId = $request->query('subcategory_id') ?? $request->input('subcategory_id');
-        $subcategory = $request->query('subcategory') ?? $request->input('subcategory');
+        // Get the subcategory from the original request
+        $subcategoryId = $request->input('subcategory_id');
+        $subcategory = $request->input('subcategory');
 
+        // Get validated data
         $city = $validated['city'];
         $taskSize = $validated['task_size'];
-
-        // Default to current date if not specified
         $date = $request->input('date', now()->format('Y-m-d'));
-        $specificDate = Carbon::parse($date);
+
+        // Redirect to results page with parameters in URL
+        return redirect()->route('search.results.show', [
+            'city' => $city,
+            'task_size' => $taskSize,
+            'subcategory_id' => $subcategoryId,
+            'subcategory' => $subcategory,
+            'date' => $date
+        ]);
+    }
+
+    public function showSearchResults(Request $request)
+    {
+        // Get parameters from URL
+        $city = $request->query('city');
+        $taskSize = $request->query('task_size');
+        $subcategoryId = $request->query('subcategory_id');
+        $subcategory = $request->query('subcategory');
+        $date = $request->query('date');
+
+
+        // Parse date or use current date as default
+        $specificDate = $date ? Carbon::parse($date) : now();
         $dayOfWeek = $specificDate->dayOfWeek;
 
         // Build the base query for providers
@@ -88,6 +108,7 @@ class SearchHandymanController extends Controller
             return true; // Provider is available
         });
 
+        // Return view with all parameters
         return view('search.results', compact('availableProviders', 'subcategory', 'city', 'taskSize', 'date'));
     }
 
@@ -99,8 +120,12 @@ class SearchHandymanController extends Controller
         $taskSize = $request->query('task_size');
         $subcategory = $request->query('subcategory');
         $city = $request->query('city');
+        $portfolioPhotos = json_decode($provider->portfolio_photos ?? '[]', true);
 
-        return view('search.reserve.reserve', compact('provider', 'date', 'taskSize', 'subcategory', 'city'));
+
+
+
+        return view('search.reserve.reserve', compact('provider', 'date', 'taskSize', 'subcategory', 'city', 'portfolioPhotos'));
     }
 
 }
