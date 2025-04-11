@@ -71,14 +71,22 @@
                                             mieste {{ $notification['data']['city'] }}
                                         </p>
                                     </a>
+                                @elseif($notification['type'] === 'reservation_cancelled')
+                                    <a href="javascript:void(0)"
+                                       class="block"
+                                       wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
 
-                                @elseif(str_contains($notification['type'], 'reservation_'))
-                                    <p class="text-sm font-medium text-gray-900">
-                                        Reservation {{ str_contains($notification['type'], 'accepted') ? 'accepted' : 'declined' }}
-                                    </p>
-                                    <p class="text-xs text-gray-500">{{ $notification['data']['provider_name'] }}
-                                        has {{ str_contains($notification['type'], 'accepted') ? 'accepted' : 'declined' }}
-                                        your reservation</p>
+                                        <p class="text-gray-800 text-sm"><span class="text-green-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                                 stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                            </svg>
+                                            </span>
+                                            Rezervacija Nr. {{ $notification['data']['reservation_id'] }} mieste  {{$notification['data']['city']}}
+                                            buvo atšaukta sistemos, kadangi paslaugų teikėjas nepriimė paslaugos per 36h.
+                                        </p>
+                                    </a>
                                 @endif
                                 <p class="text-xs text-gray-400 mt-1">
                                     {{ \Carbon\Carbon::parse($notification['created_at'])->locale('lt')->diffForHumans() }}                                </p>

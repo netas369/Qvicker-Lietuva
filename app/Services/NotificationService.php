@@ -62,6 +62,57 @@ class NotificationService
         return $notification;
     }
 
+    public function notifyReservationCancelledSeeker(Reservation $reservation): Notification
+    {
+        $seeker = User::find($reservation->seeker_id);
+        $provider = User::find($reservation->provider_id);
+
+        $notification = Notification::create([
+            'user_id' => $seeker->id,
+            'type' => NotificationType::RESERVATION_CANCELLED,
+            'data' => [
+                'reservation_id' => $reservation->id,
+                'provider_id' => $provider->id,
+                'provider_name' => $provider->name,
+                'description' => substr($reservation->description, 0, 100) . (strlen($reservation->description) > 100 ? '...' : ''),
+                'city' => $reservation->city,
+                'date' => $reservation->reservation_date,
+                'timestamp' => now()->toIso8601String(),
+            ],
+            'read_at' => null,
+        ]);
+
+        $this->emitLivewireEvent();
+
+        return $notification;
+    }
+
+    public function notifyReservationCancelledProvider(Reservation $reservation): Notification
+    {
+        $provider = User::find($reservation->provider_id);
+        $seeker = User::find($reservation->seeker_id);
+
+        $notification = Notification::create([
+            'user_id' => $provider->id,
+            'type' => NotificationType::RESERVATION_CANCELLED,
+            'data' => [
+                'reservation_id' => $reservation->id,
+                'seeker_id' => $seeker->id,
+                'seeker_name' => $seeker->name,
+                'description' => substr($reservation->description, 0, 100) . (strlen($reservation->description) > 100 ? '...' : ''),
+                'city' => $reservation->city,
+                'date' => $reservation->reservation_date,
+                'timestamp' => now()->toIso8601String(),
+            ],
+            'read_at' => null,
+        ]);
+
+        $this->emitLivewireEvent();
+
+        return $notification;
+
+    }
+
     /**
      * Create a notification for a reservation status change
      */

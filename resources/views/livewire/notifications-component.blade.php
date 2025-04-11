@@ -50,6 +50,14 @@
                                           d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                             </span>
+                        @elseif($notification['type'] === 'reservation_cancelled')
+                            <span class="text-red-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </span>
                         @endif
                     </div>
                     <div class="flex-1">
@@ -57,7 +65,7 @@
                             <a href="javascript:void(0)"
                                class="block hover:bg-gray-50"
                                wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
-                                <p class="text-gray-800">
+                                <p class="text-gray-800 ">
                                     Išsiuntėte naują užklausą darbui mieste {{ $notification['data']['city'] }}. Laukite patvirtinimo iš {{ $notification['data']['provider_name'] }}.
                                 </p>
                             </a>
@@ -70,14 +78,22 @@
                                     mieste {{ $notification['data']['city'] }}
                                 </p>
                             </a>
-                        @elseif($notification['type'] === 'reservation_accepted')
-                            <p class="text-gray-800">
-                                {{ $notification['data']['provider_name'] }} accepted your reservation
-                            </p>
-                        @elseif($notification['type'] === 'reservation_declined')
-                            <p class="text-gray-800">
-                                {{ $notification['data']['provider_name'] }} declined your reservation
-                            </p>
+                        @elseif($notification['type'] === 'reservation_cancelled')
+                            <a href="javascript:void(0)"
+                               class="block hover:bg-gray-50"
+                               wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
+                                @if($user->role == 'seeker')
+                                <p class="text-gray-800 text-sm">
+                                    Rezervacija Nr. {{ $notification['data']['reservation_id'] }} mieste  {{$notification['data']['city']}}
+                                    buvo atšaukta sistemos, kadangi paslaugų teikėjas nepriėmė paslaugos per 36 val.
+                                </p>
+                                @elseif($user->role == 'provider')
+                                    <p class="text-gray-800 text-sm">
+                                        Rezervacija Nr. {{ $notification['data']['reservation_id'] }} mieste  {{$notification['data']['city']}}
+                                        buvo atšaukta sistemos, kadangi jūs nepriėmėtė paslaugos per 36val.
+                                    </p>
+                                @endif
+                            </a>
                         @endif
                         <p class="text-sm text-gray-500 mt-1">
                             {{ \Carbon\Carbon::parse($notification['created_at'])->format('d/m/Y H:i') }}
