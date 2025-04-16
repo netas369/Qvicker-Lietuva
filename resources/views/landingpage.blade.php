@@ -35,7 +35,7 @@
 
 
             <!-- kaip mes veikiame -->
-            <section class="py-ū md:py-24 relative bg-gray-50">
+            <section class="py-2 md:py-24 relative bg-gray-50">
                 <div class="w-full max-w-7xl px-4 md:px-8 mx-auto">
                     <div class="w-full flex-col justify-start items-center gap-12 inline-flex">
                         <!-- Section header -->
@@ -114,7 +114,7 @@
 
 
             <!-- Tapk Partneriu -->
-            <div class="overflow-hidden my-4 py-š max-w-3xl mx-auto rounded-lg">
+            <div class="overflow-hidden my-4 py-6 max-w-3xl mx-auto rounded-lg">
                 <div class="text-primary-light items-center text-center flex flex-col shadow-md p-6">
                     <h2 class="font-extrabold text-3xl md:text-3xl sm:text-1xl mb-2">Norite tapti mūsų partneriu ir
                         gauti

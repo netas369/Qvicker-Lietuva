@@ -39,7 +39,7 @@
 <div class="lottie-container">
     <div
         id="footer-lottie-container"
-        class="h-[150px] md:h-[250px] lg:h-[350px] xl:h-[400px]"
+        class="h-[150px] md:h-[250px] lg:h-[350px] xl:h-[350px]"
     ></div>
 </div>
 
