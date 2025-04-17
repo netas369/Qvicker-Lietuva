@@ -43,15 +43,17 @@
                                        class="block"
                                        wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
 
-                                        <p class="text-gray-800 text-sm">
-                                            <span class="text-green-500">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                        <p class="text-gray-800 text-sm flex items-center">
+                                            <span class="text-green-500 inline-flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                                                      stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                                             </svg>
                                             </span>
-                                            Išsiuntėte naują užklausą darbui mieste {{ $notification['data']['city'] }}. Laukite patvirtinimo iš {{ $notification['data']['provider_name'] }}.
+                                            <span>
+                                                Išsiuntėte naują užklausą darbui mieste {{ $notification['data']['city'] }}. Laukite patvirtinimo iš {{ $notification['data']['provider_name'] }}.
+                                            </span>
                                         </p>
                                     </a>
 
@@ -60,15 +62,18 @@
                                        class="block"
                                        wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
 
-                                        <p class="text-gray-800 text-sm"><span class="text-green-500">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                        <p class="text-gray-800 text-sm flex items-center"><span class="text-green-500 inline-flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                                             stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                                             </svg>
                                             </span>
-                                            {{ $notification['data']['seeker_name'] }} atsiuntė naują užklausą darbui
+                                            <span>
+                                                {{ $notification['data']['seeker_name'] }} atsiuntė naują užklausą darbui
                                             mieste {{ $notification['data']['city'] }}
+                                            </span>
+
                                         </p>
                                     </a>
                                 @elseif($notification['type'] === 'reservation_cancelled')
@@ -76,16 +81,35 @@
                                        class="block"
                                        wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
 
-                                        <p class="text-gray-800 text-sm"><span class="text-green-500">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                        <p class="text-gray-800 text-sm flex items-center"><span class="text-green-500 inline-flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                                                  stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                                             </svg>
                                             </span>
-                                            Rezervacija Nr. {{ $notification['data']['reservation_id'] }} mieste  {{$notification['data']['city']}}
+                                            <span>Rezervacija Nr. {{ $notification['data']['reservation_id'] }} mieste  {{$notification['data']['city']}}
                                             buvo atšaukta sistemos, kadangi paslaugų teikėjas nepriimė paslaugos per 36h.
+                                            </span>
+
                                         </p>
+                                    </a>
+                                @elseif($notification['type'] === 'reservation_cancelled_by_seeker' || $notification['type'] === 'reservation_cancelled_by_provider')
+                                    <a href="javascript:void(0)"
+                                       class="block"
+                                       wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
+
+                                        <p class="text-gray-800 text-sm flex items-center">
+                                            <span class="text-red-800 inline-block mr-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                                    stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                </svg>
+                                            </span>
+                                            <span>{{ $notification['data']['notification_text'] }}</span>
+                                        </p>
+
                                     </a>
                                 @endif
                                 <p class="text-xs text-gray-400 mt-1">

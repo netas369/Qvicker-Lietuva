@@ -11,5 +11,7 @@ class NotificationType
     public const REVIEW_RECEIVED = 'review_received';
     public const RESERVATION_REQUESTED = 'reservation_requested';
     public const RESERVATION_CANCELLED = 'reservation_cancelled';
+    public const RESERVATION_CANCELLED_BY_SEEKER = 'reservation_cancelled_by_seeker';
+    public const RESERVATION_CANCELLED_BY_PROVIDER = 'reservation_cancelled_by_provider';
 
 }

@@ -50,7 +50,7 @@
                                           d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                             </span>
-                        @elseif($notification['type'] === 'reservation_cancelled')
+                        @elseif($notification['type'] === 'reservation_cancelled' || $notification['type'] === 'reservation_cancelled_by_seeker' || $notification['type'] === 'reservation_cancelled_by_provider')
                             <span class="text-red-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
@@ -83,18 +83,27 @@
                                class="block hover:bg-gray-50"
                                wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
                                 @if($user->role == 'seeker')
-                                <p class="text-gray-800 text-sm">
+                                <p class="text-gray-800 text-md">
                                     Rezervacija Nr. {{ $notification['data']['reservation_id'] }} mieste  {{$notification['data']['city']}}
                                     buvo atšaukta sistemos, kadangi paslaugų teikėjas nepriėmė paslaugos per 36 val.
                                 </p>
                                 @elseif($user->role == 'provider')
-                                    <p class="text-gray-800 text-sm">
+                                    <p class="text-gray-800 text-md">
                                         Rezervacija Nr. {{ $notification['data']['reservation_id'] }} mieste  {{$notification['data']['city']}}
                                         buvo atšaukta sistemos, kadangi jūs nepriėmėtė paslaugos per 36val.
                                     </p>
                                 @endif
                             </a>
+                        @elseif($notification['type'] === 'reservation_cancelled_by_seeker' || $notification['type'] === 'reservation_cancelled_by_provider')
+                            <a href="javascript:void(0)"
+                               class="block hover:bg-gray-50"
+                               wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
+                                    <p class="text-gray-800 text-md">
+                                        {{ $notification['data']['notification_text'] }}
+                                    </p>
+                            </a>
                         @endif
+
                         <p class="text-sm text-gray-500 mt-1">
                             {{ \Carbon\Carbon::parse($notification['created_at'])->format('d/m/Y H:i') }}
                         </p>

@@ -11,6 +11,60 @@ use App\Models\Review;
 
 class NotificationService
 {
+    public function notifyProviderCanceledReservation(Reservation $reservation): Notification
+    {
+        $seeker = User::find($reservation->seeker_id);
+        $provider = User::find($reservation->provider_id);
+
+        $notification_text = 'Rezervacija Nr. ' . $reservation->id . ' mieste ' . $reservation->city . ' buvo atšaukta paslaugos tiekėjo.';
+
+        $notification = Notification::create([
+           'user_id' => $seeker->id,
+           'type' => NotificationType::RESERVATION_CANCELLED_BY_PROVIDER,
+           'data' => [
+               'reservation_id' => $reservation->id,
+               'provider_id' => $provider->id,
+               'provider_name' => $provider->name,
+               'city' => $reservation->city,
+               'date' => $reservation->reservation_date,
+               'notification_text' => $notification_text,
+               'timestamp' => now()->toIso8601String(),
+           ],
+           'read_at' => null,
+        ]);
+
+        $this->emitLivewireEvent();
+
+        return $notification;
+    }
+
+    public function notifySeekerCanceledReservation(Reservation $reservation): Notification
+    {
+        $seeker = User::find($reservation->seeker_id);
+        $provider = User::find($reservation->provider_id);
+
+        $notification_text = 'Rezervacija Nr. ' . $reservation->id . ' mieste ' . $reservation->city . ' buvo atšaukta paslaugos ieškotojo.';
+
+        $notification = Notification::create([
+           'user_id' => $provider->id,
+           'type' => NotificationType::RESERVATION_CANCELLED_BY_SEEKER,
+            'data' => [
+                'reservation_id' => $reservation->id,
+                'seeker_id' => $seeker->id,
+                'seeker_name' => $seeker->name,
+                'city' => $reservation->city,
+                'date' => $reservation->reservation_date,
+                'notification_text' => $notification_text,
+                'timestamp' => now()->toIso8601String(),
+            ],
+            'read_at' => null,
+        ]);
+
+        $this->emitLivewireEvent();
+
+        return $notification;
+    }
+
     /**
      * Create a notification for a new reservation
      */

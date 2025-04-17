@@ -189,6 +189,8 @@ class ReservationController extends Controller
         $reservation->status = 'declined';
         $reservation->save();
 
+        $this->notificationService->notifySeekerCanceledReservation($reservation);
+
         if (Auth::id() == $reservation->seeker_id)
         {
             return redirect()->back()->with('success', 'Užklausa atšaukta.');
@@ -212,16 +214,16 @@ class ReservationController extends Controller
         $reservation->status = 'declined';
         $reservation->save();
 
-        $declineMessage = 'Sveiki, ' . ucfirst($reservation->seeker->name) . ' jūsų ūžklausa atšaukta, kadangi ..... ';
+        $this->notificationService->notifyProviderCanceledReservation($reservation);
 
-        $message = new Message([
-            'reservation_id' => $reservation->id,
-            'sender_id' => Auth::id(),
-            'sender_type' => 'provider',
-            'message' => $declineMessage,
-        ]);
-
-        $message->save();
+//        $declineMessage = 'Sveiki, ' . ucfirst($reservation->seeker->name) . ' jūsų ūžklausa atšaukta, kadangi ..... ';
+//        $message = new Message([
+//            'reservation_id' => $reservation->id,
+//            'sender_id' => Auth::id(),
+//            'sender_type' => 'provider',
+//            'message' => $declineMessage,
+//        ]);
+//        $message->save();
 
         if (Auth::id() == $reservation->provider_id)
         {
