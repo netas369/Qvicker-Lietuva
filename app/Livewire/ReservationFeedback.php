@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Reservation;
 use App\Models\Review;
+use App\Services\NotificationService;
 use Livewire\Component;
 
 class ReservationFeedback extends Component
@@ -61,6 +62,10 @@ class ReservationFeedback extends Component
             'comment' => $this->feedbackText,
             'is_approved' => true
         ]);
+
+        $notificationService = new NotificationService();
+
+        $notificationService->notifyReviewIsReceived($this->reservation);
 
         $this->reset(['rating', 'feedbackText', 'showFeedbackField']);
         $this->reviewIsLeft = true;

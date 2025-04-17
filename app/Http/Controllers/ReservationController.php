@@ -263,6 +263,8 @@ class ReservationController extends Controller
         $reservation->status = 'completed';
         $reservation->save();
 
+        $this->notificationService->notifyReservationCompleted($reservation);
+
         return redirect()->back()->with('success', 'Užklausa pažymėta kaip užbaigta.');
     }
 

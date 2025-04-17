@@ -38,6 +38,159 @@ class NotificationService
         return $notification;
     }
 
+    public function notifyMessageReceivedSeeker(Reservation $reservation): Notification
+    {
+        $seeker = User::find($reservation->seeker_id);
+        $provider = User::find($reservation->provider_id);
+
+        // Check if there's an unread notification for this conversation
+        $existingNotification = Notification::where('user_id', $seeker->id)
+            ->where('type', NotificationType::NEW_MESSAGE_FOR_SEEKER)
+            ->whereNull('read_at')
+            ->whereJsonContains('data->reservation_id', $reservation->id)
+            ->first();
+
+        if ($existingNotification) {
+            // Get the current data - check if it's already an array
+            $data = is_string($existingNotification->data)
+                ? json_decode($existingNotification->data, true)
+                : $existingNotification->data;
+
+            // Update the message count
+            $messageCount = isset($data['message_count']) ? $data['message_count'] + 1 : 2;
+
+            // Update notification text to show message count
+            $notification_text = 'Gavote ' . $messageCount . ' žinutes nuo ' . $provider->name . '! Rezervacijos Nr. ' . $reservation->id . '. Paspauskite, kad peržiūrėti.';
+
+            // Update the notification
+            $data['notification_text'] = $notification_text;
+            $data['message_count'] = $messageCount;
+            $existingNotification->data = $data; // Laravel will handle the JSON encoding
+
+            // Update timestamp
+            $existingNotification->updated_at = now();
+            $existingNotification->save();
+
+            return $existingNotification;
+        } else {
+            // Create new notification
+            $notification_text = 'Gavote žinutę nuo ' . $provider->name . '! Rezervacijos Nr. ' . $reservation->id . '. Paspauskite, kad peržiūrėti.';
+
+            return $this->createNotification(
+                $seeker->id,
+                NotificationType::NEW_MESSAGE_FOR_SEEKER,
+                $reservation,
+                $provider,
+                $seeker,
+                $notification_text,
+                ['message_count' => 1]
+            );
+        }
+    }
+
+    public function notifyMessageReceivedProvider(Reservation $reservation): Notification
+    {
+        $seeker = User::find($reservation->seeker_id);
+        $provider = User::find($reservation->provider_id);
+
+        // Check if there's an unread notification for this conversation
+        $existingNotification = Notification::where('user_id', $provider->id)
+            ->where('type', NotificationType::NEW_MESSAGE_FOR_PROVIDER)
+            ->whereNull('read_at')
+            ->whereJsonContains('data->reservation_id', $reservation->id)
+            ->first();
+
+        if ($existingNotification) {
+            // Get the current data - check if it's already an array
+            $data = is_string($existingNotification->data)
+                ? json_decode($existingNotification->data, true)
+                : $existingNotification->data;
+
+            // Update the message count
+            $messageCount = isset($data['message_count']) ? $data['message_count'] + 1 : 2;
+
+            // Update notification text to show message count
+            $notification_text = 'Gavote ' . $messageCount . ' žinutes nuo ' . $seeker->name . '! Rezervacijos Nr. ' . $reservation->id . '. Paspauskite, kad peržiūrėti.';
+
+            // Update the notification
+            $data['notification_text'] = $notification_text;
+            $data['message_count'] = $messageCount;
+            $existingNotification->data = $data; // Laravel will handle the JSON encoding
+
+            // Update timestamp
+            $existingNotification->updated_at = now();
+            $existingNotification->save();
+
+            return $existingNotification;
+        } else {
+            // Create new notification
+            $notification_text = 'Gavote žinutę nuo ' . $seeker->name . '! Rezervacijos Nr. ' . $reservation->id . '. Paspauskite, kad peržiūrėti.';
+
+            return $this->createNotification(
+                $provider->id,
+                NotificationType::NEW_MESSAGE_FOR_PROVIDER,
+                $reservation,
+                $provider,
+                $seeker,
+                $notification_text,
+                ['message_count' => 1]
+            );
+        }
+    }
+
+    public function notifyReviewIsReceived(Reservation $reservation): Notification
+    {
+        $seeker = User::find($reservation->seeker_id);
+        $provider = User::find($reservation->provider_id);
+
+        $notification_text = 'Gavote Atsiliepimą nuo ' . $seeker->name . '! Rezervacijos Nr. ' . $reservation->id . '. Paspauskite, kad peržiūrėti.';
+
+        return $this->createNotification(
+            $provider->id,
+            NotificationType::REVIEW_RECEIVED,
+            $reservation,
+            $provider,
+            $seeker,
+            $notification_text
+        );
+    }
+
+    public function notifyReservationAutoCompleted(Reservation $reservation): Notification
+    {
+        $seeker = User::find($reservation->seeker_id);
+        $provider = User::find($reservation->provider_id);
+
+        $notification_text = 'Rezervacijos Nr. ' . $reservation->id . ' statusas buvo automatiškai pakeistas į UŽBAIGTA. Kadangi
+        nebuvo pažymėta kaip užbaigta per 72 val.';
+
+        return $this->createNotification(
+            $provider->id,
+            NotificationType::RESERVATION_AUTOMATICALLY_COMPLETED,
+            $reservation,
+            $provider,
+            $seeker,
+            $notification_text
+        );
+    }
+
+    public function notifyReservationCompleted(Reservation $reservation): Notification
+    {
+        $seeker = User::find($reservation->seeker_id);
+        $provider = User::find($reservation->provider_id);
+
+        $notification_text = 'Rezervacijos Nr. ' . $reservation->id . ' statusas buvo pakeistas į UŽBAIGTA. Nepamirškite palikti atsiliepimą apie ' .
+        $provider->name . '.';
+
+        return $this->createNotification(
+            $seeker->id,
+            NotificationType::RESERVATION_COMPLETED,
+            $reservation,
+            $provider,
+            $seeker,
+            $notification_text
+        );
+    }
+
     public function notifyReservationDayChanged(Reservation $reservation): Notification
     {
         $seeker = User::find($reservation->seeker_id);
