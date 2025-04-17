@@ -161,6 +161,8 @@ class ReservationController extends Controller
             return redirect()->back()->with('error', 'Galima patvirtinti tik laukiančias užklausas.');
         }
 
+        $this->notificationService->notifySeekerReservationAccepted($reservation);
+
         $reservation->status = 'accepted';
         $reservation->accepted_at = now();
 

@@ -58,6 +58,13 @@
                                     d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                             </span>
+                        @elseif($notification['type'] === 'reservation_accepted')
+                            <span class="text-green-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                     stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </span>
                         @endif
                     </div>
                     <div class="flex-1">
@@ -101,6 +108,14 @@
                                     <p class="text-gray-800 text-md">
                                         {{ $notification['data']['notification_text'] }}
                                     </p>
+                            </a>
+                        @elseif($notification['type'] === 'reservation_accepted')
+                            <a href="javascript:void(0)"
+                               class="block hover:bg-gray-50"
+                               wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
+                                <p class="text-gray-800 text-md">
+                                    {{ $notification['data']['notification_text'] }}
+                                </p>
                             </a>
                         @endif
 

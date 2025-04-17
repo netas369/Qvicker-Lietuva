@@ -98,7 +98,6 @@
                                     <a href="javascript:void(0)"
                                        class="block"
                                        wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
-
                                         <p class="text-gray-800 text-sm flex items-center">
                                             <span class="text-red-800 inline-block mr-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -109,7 +108,21 @@
                                             </span>
                                             <span>{{ $notification['data']['notification_text'] }}</span>
                                         </p>
-
+                                    </a>
+                                @elseif($notification['type'] === 'reservation_accepted')
+                                    <a href="javascript:void(0)"
+                                       class="block"
+                                       wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
+                                        <p class="text-gray-800 text-sm flex items-center">
+                                            <span class="text-green-500 inline-block mr-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                                     stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7"/>
+                                                </svg>
+                                            </span>
+                                            <span>{{ $notification['data']['notification_text'] }}</span>
+                                        </p>
                                     </a>
                                 @endif
                                 <p class="text-xs text-gray-400 mt-1">

@@ -11,6 +11,53 @@ use App\Models\Review;
 
 class NotificationService
 {
+    /**
+     * Private function to reduce redundant code for making notifications
+     */
+    private function createNotification($userId, $notificationType, Reservation $reservation, User $provider, User $seeker, $notificationText)
+    {
+        $notification = Notification::create([
+            'user_id' => $userId,
+            'type' => $notificationType,
+            'data' => [
+                'reservation_id' => $reservation->id,
+                'provider_id' => $provider->id,
+                'seeker_id' => $seeker->id,
+                'provider_name' => $provider->name,
+                'seeker_name' => $seeker->name,
+                'city' => $reservation->city,
+                'date' => $reservation->reservation_date,
+                'notification_text' => $notificationText,
+                'timestamp' => now()->toIso8601String(),
+            ],
+            'read_at' => null
+        ]);
+
+        $this->emitLivewireEvent();
+
+        return $notification;
+    }
+    public function notifySeekerReservationAccepted(Reservation $reservation): Notification
+    {
+        $seeker = User::find($reservation->seeker_id);
+        $provider = User::find($reservation->provider_id);
+
+        $notification_text = 'Rezervacija Nr. ' . $reservation->id . ' buvo priimta paslaugos tiekėjo ' . $provider->name . '.';
+
+        return $this->createNotification(
+            $seeker->id,
+            NotificationType::RESERVATION_ACCEPTED,
+            $reservation,
+            $provider,
+            $seeker,
+            $notification_text
+        );
+
+        $this->emitLivewireEvent();
+
+        return $notification;
+    }
+
     public function notifyProviderCanceledReservation(Reservation $reservation): Notification
     {
         $seeker = User::find($reservation->seeker_id);
@@ -167,32 +214,6 @@ class NotificationService
 
     }
 
-    /**
-     * Create a notification for a reservation status change
-     */
-    public function notifyReservationStatusChange(User $seeker, Reservation $reservation, bool $accepted): Notification
-    {
-        $provider = User::find($reservation->provider_id);
-
-        $notification = Notification::create([
-            'user_id' => $seeker->id,
-            'type' => $accepted ? NotificationType::RESERVATION_ACCEPTED : NotificationType::RESERVATION_DECLINED,
-            'data' => [
-                'reservation_id' => $reservation->id,
-                'provider_id' => $provider->id,
-                'provider_name' => $provider->name,
-                'description' => substr($reservation->description, 0, 100) . (strlen($reservation->description) > 100 ? '...' : ''),
-                'city' => $reservation->city,
-                'date' => $reservation->reservation_date,
-                'timestamp' => now()->toIso8601String(),
-            ],
-            'read_at' => null,
-        ]);
-
-        $this->emitLivewireEvent();
-
-        return $notification;
-    }
 
     /**
      * Create a notification for a new message
@@ -219,31 +240,6 @@ class NotificationService
         return $notification;
     }
 
-    /**
-     * Create a notification for a new review
-     */
-    public function notifyReviewReceived(User $provider, Review $review): Notification
-    {
-        $seeker = User::find($review->seeker_id);
-
-        $notification = Notification::create([
-            'user_id' => $provider->id,
-            'type' => NotificationType::REVIEW_RECEIVED,
-            'data' => [
-                'review_id' => $review->id,
-                'seeker_id' => $seeker->id,
-                'seeker_name' => $seeker->name,
-                'rating' => $review->rating,
-                'comment_preview' => substr($review->comment, 0, 100) . (strlen($review->comment) > 100 ? '...' : ''),
-                'timestamp' => now()->toIso8601String(),
-            ],
-            'read_at' => null,
-        ]);
-
-        $this->emitLivewireEvent();
-
-        return $notification;
-    }
 
     /**
      * Mark a notification as read
