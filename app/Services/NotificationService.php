@@ -37,6 +37,26 @@ class NotificationService
 
         return $notification;
     }
+
+    public function notifyReservationDayChanged(Reservation $reservation): Notification
+    {
+        $seeker = User::find($reservation->seeker_id);
+        $provider = User::find($reservation->provider_id);
+
+        $notification_text = 'Rezervacijos Nr. ' . $reservation->id . ' diena buvo pakeista į  ' . $reservation->reservation_date . '.';
+
+        return $this->createNotification(
+            $seeker->id,
+            NotificationType::RESERVATION_DAY_CHANGED,
+            $reservation,
+            $provider,
+            $seeker,
+            $notification_text
+        );
+
+    }
+
+
     public function notifySeekerReservationAccepted(Reservation $reservation): Notification
     {
         $seeker = User::find($reservation->seeker_id);
@@ -53,9 +73,6 @@ class NotificationService
             $notification_text
         );
 
-        $this->emitLivewireEvent();
-
-        return $notification;
     }
 
     public function notifyProviderCanceledReservation(Reservation $reservation): Notification
@@ -65,24 +82,15 @@ class NotificationService
 
         $notification_text = 'Rezervacija Nr. ' . $reservation->id . ' mieste ' . $reservation->city . ' buvo atšaukta paslaugos tiekėjo.';
 
-        $notification = Notification::create([
-           'user_id' => $seeker->id,
-           'type' => NotificationType::RESERVATION_CANCELLED_BY_PROVIDER,
-           'data' => [
-               'reservation_id' => $reservation->id,
-               'provider_id' => $provider->id,
-               'provider_name' => $provider->name,
-               'city' => $reservation->city,
-               'date' => $reservation->reservation_date,
-               'notification_text' => $notification_text,
-               'timestamp' => now()->toIso8601String(),
-           ],
-           'read_at' => null,
-        ]);
+        return $this->createNotification(
+            $seeker->id,
+            NotificationType::RESERVATION_CANCELLED_BY_PROVIDER,
+            $reservation,
+            $provider,
+            $seeker,
+            $notification_text
+        );
 
-        $this->emitLivewireEvent();
-
-        return $notification;
     }
 
     public function notifySeekerCanceledReservation(Reservation $reservation): Notification
@@ -92,24 +100,14 @@ class NotificationService
 
         $notification_text = 'Rezervacija Nr. ' . $reservation->id . ' mieste ' . $reservation->city . ' buvo atšaukta paslaugos ieškotojo.';
 
-        $notification = Notification::create([
-           'user_id' => $provider->id,
-           'type' => NotificationType::RESERVATION_CANCELLED_BY_SEEKER,
-            'data' => [
-                'reservation_id' => $reservation->id,
-                'seeker_id' => $seeker->id,
-                'seeker_name' => $seeker->name,
-                'city' => $reservation->city,
-                'date' => $reservation->reservation_date,
-                'notification_text' => $notification_text,
-                'timestamp' => now()->toIso8601String(),
-            ],
-            'read_at' => null,
-        ]);
-
-        $this->emitLivewireEvent();
-
-        return $notification;
+        return $this->createNotification(
+            $provider->id,
+            NotificationType::RESERVATION_CANCELLED_BY_SEEKER,
+            $reservation,
+            $provider,
+            $seeker,
+            $notification_text
+        );
     }
 
     /**
@@ -119,48 +117,33 @@ class NotificationService
     {
         $seeker = User::find($reservation->seeker_id);
 
-        $notification = Notification::create([
-            'user_id' => $provider->id,
-            'type' => NotificationType::NEW_RESERVATION,
-            'data' => [
-                'reservation_id' => $reservation->id,
-                'seeker_id' => $seeker->id,
-                'seeker_name' => $seeker->name,
-                'description' => substr($reservation->description, 0, 100) . (strlen($reservation->description) > 100 ? '...' : ''),
-                'city' => $reservation->city,
-                'date' => $reservation->reservation_date,
-                'timestamp' => now()->toIso8601String(),
-            ],
-            'read_at' => null,
-        ]);
+        $notification_text = $seeker->name . ' atsiuntė naują užklausą darbui ' . ' mieste ' . $reservation->city;
 
-        $this->emitLivewireEvent();
+        return $this->createNotification(
+            $provider->id,
+            NotificationType::NEW_RESERVATION,
+            $reservation,
+            $provider,
+            $seeker,
+            $notification_text
+        );
 
-        return $notification;
     }
 
     public function notifyNewReservationSeeker(User $seeker, Reservation $reservation): Notification
     {
         $provider = User::find($reservation->provider_id);
 
-        $notification = Notification::create([
-           'user_id' => $seeker->id,
-           'type' => NotificationType::RESERVATION_REQUESTED,
-           'data' => [
-               'reservation_id' => $reservation->id,
-               'provider_id' => $provider->id,
-               'provider_name' => $provider->name,
-               'description' => substr($reservation->description, 0, 100) . (strlen($reservation->description) > 100 ? '...' : ''),
-               'city' => $reservation->city,
-               'date' => $reservation->reservation_date,
-               'timestamp' => now()->toIso8601String(),
-           ],
-           'read_at' => null,
-        ]);
+        $notification_text = 'Išsiuntėte naują užklausą darbui mieste ' . $reservation->city . '. Laukite patvirtinimo iš ' . $provider->name . '.';
 
-        $this->emitLivewireEvent();
-
-        return $notification;
+        return $this->createNotification(
+            $seeker->id,
+            NotificationType::RESERVATION_REQUESTED,
+            $reservation,
+            $provider,
+            $seeker,
+            $notification_text
+        );
     }
 
     public function notifyReservationCancelledSeeker(Reservation $reservation): Notification
@@ -168,24 +151,16 @@ class NotificationService
         $seeker = User::find($reservation->seeker_id);
         $provider = User::find($reservation->provider_id);
 
-        $notification = Notification::create([
-            'user_id' => $seeker->id,
-            'type' => NotificationType::RESERVATION_CANCELLED,
-            'data' => [
-                'reservation_id' => $reservation->id,
-                'provider_id' => $provider->id,
-                'provider_name' => $provider->name,
-                'description' => substr($reservation->description, 0, 100) . (strlen($reservation->description) > 100 ? '...' : ''),
-                'city' => $reservation->city,
-                'date' => $reservation->reservation_date,
-                'timestamp' => now()->toIso8601String(),
-            ],
-            'read_at' => null,
-        ]);
+        $notification_text = 'Rezervacija Nr. ' . $reservation->id . ' buvo atšaukta.';
 
-        $this->emitLivewireEvent();
-
-        return $notification;
+        return $this->createNotification(
+            $seeker->id,
+            NotificationType::RESERVATION_CANCELLED_BY_SYSTEM,
+            $reservation,
+            $provider,
+            $seeker,
+            $notification_text
+        );
     }
 
     public function notifyReservationCancelledProvider(Reservation $reservation): Notification
@@ -193,51 +168,16 @@ class NotificationService
         $provider = User::find($reservation->provider_id);
         $seeker = User::find($reservation->seeker_id);
 
-        $notification = Notification::create([
-            'user_id' => $provider->id,
-            'type' => NotificationType::RESERVATION_CANCELLED,
-            'data' => [
-                'reservation_id' => $reservation->id,
-                'seeker_id' => $seeker->id,
-                'seeker_name' => $seeker->name,
-                'description' => substr($reservation->description, 0, 100) . (strlen($reservation->description) > 100 ? '...' : ''),
-                'city' => $reservation->city,
-                'date' => $reservation->reservation_date,
-                'timestamp' => now()->toIso8601String(),
-            ],
-            'read_at' => null,
-        ]);
+        $notification_text = 'Rezervacija Nr. ' . $reservation->id . ' buvo atšaukta.';
 
-        $this->emitLivewireEvent();
-
-        return $notification;
-
-    }
-
-
-    /**
-     * Create a notification for a new message
-     */
-    public function notifyNewMessage(User $receiver, Message $message): Notification
-    {
-        $sender = User::find($message->sender_id);
-
-        $notification = Notification::create([
-            'user_id' => $receiver->id,
-            'type' => NotificationType::NEW_MESSAGE,
-            'data' => [
-                'message_id' => $message->id,
-                'sender_id' => $sender->id,
-                'sender_name' => $sender->name,
-                'content_preview' => substr($message->content, 0, 100) . (strlen($message->content) > 100 ? '...' : ''),
-                'timestamp' => now()->toIso8601String(),
-            ],
-            'read_at' => null,
-        ]);
-
-        $this->emitLivewireEvent();
-
-        return $notification;
+        return $this->createNotification(
+            $provider->id,
+            NotificationType::RESERVATION_CANCELLED_BY_SYSTEM,
+            $reservation,
+            $provider,
+            $seeker,
+            $notification_text
+        );
     }
 
 

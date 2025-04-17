@@ -65,6 +65,12 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                 </svg>
                             </span>
+                        @elseif($notification['type'] === 'reservation_day_changed')
+                            <span class="text-yellow-500 inline-flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                                </svg>
+                            </span>
                         @endif
                     </div>
                     <div class="flex-1">
@@ -73,7 +79,7 @@
                                class="block hover:bg-gray-50"
                                wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
                                 <p class="text-gray-800 ">
-                                    Išsiuntėte naują užklausą darbui mieste {{ $notification['data']['city'] }}. Laukite patvirtinimo iš {{ $notification['data']['provider_name'] }}.
+                                    {{ $notification['data']['notification_text'] }}
                                 </p>
                             </a>
                         @elseif($notification['type'] === 'new_reservation')
@@ -81,11 +87,10 @@
                                class="block hover:bg-gray-50"
                                wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
                                 <p class="text-gray-800">
-                                    {{ $notification['data']['seeker_name'] }} atsiuntė naują užklausą darbui
-                                    mieste {{ $notification['data']['city'] }}
+                                    {{ $notification['data']['notification_text'] }}
                                 </p>
                             </a>
-                        @elseif($notification['type'] === 'reservation_cancelled')
+                        @elseif($notification['type'] === 'reservation_cancelled_by_system')
                             <a href="javascript:void(0)"
                                class="block hover:bg-gray-50"
                                wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
@@ -110,6 +115,14 @@
                                     </p>
                             </a>
                         @elseif($notification['type'] === 'reservation_accepted')
+                            <a href="javascript:void(0)"
+                               class="block hover:bg-gray-50"
+                               wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
+                                <p class="text-gray-800 text-md">
+                                    {{ $notification['data']['notification_text'] }}
+                                </p>
+                            </a>
+                        @elseif($notification['type'] === 'reservation_day_changed')
                             <a href="javascript:void(0)"
                                class="block hover:bg-gray-50"
                                wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">
