@@ -43,6 +43,7 @@ class MultiStepForm extends Component
         $this->userType = $userType;
         $this->totalSteps = $userType === 'provider' ? 3 : 1; // Set total steps based on user type
         $this->loadCategories();
+
     }
 
     public function loadCategories()
@@ -204,13 +205,17 @@ class MultiStepForm extends Component
 
         $formattedPhone = '+370' . $this->phone;
 
+        if (!is_array($this->miestas)) {
+            $this->miestas = [$this->miestas]; // Convert single value to array
+        }
+
         // Create new user
         $user = User::create([
             'name' => $this->vardas,
             'lastname' => $this->pavarde,
             'birthday' => $this->gimimo_data,
             'email' => $this->email,
-            'city' => $this->miestas,
+            'cities' => json_encode($this->miestas),
             'phone' => $formattedPhone,
             'address' => $this->adresas,
             'postal_code' => $this->post_code,
