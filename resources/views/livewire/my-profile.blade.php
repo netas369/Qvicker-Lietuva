@@ -21,7 +21,6 @@
             <h1 class="text-2xl font-bold mb-6 text-primary-light">Mano Profilis</h1>
 
 
-
             <form wire:submit.prevent="update" class="space-y-6">
                 <div class="w-full grid grid-cols-12">
                     <div class="col-span-12 md:col-span-4 md:ml-8">
@@ -132,14 +131,17 @@
                             </div>
                         @endif
                         @if($user->role == 'provider')
-                        <div class="flex items-center mt-4 md:mt-4 text-sm md:text-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-primary-light" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-                                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
-                            </svg>
-                            <p class="text-primary-light font-bold">Įvykdyti Užsakymai: <span>{{$this->user->getTotalReservationsDone()}}</span></p>
-                        </div>
-
+                            <div class="flex items-center mt-4 md:mt-4 text-sm md:text-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-primary-light"
+                                     viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                                    <path fill-rule="evenodd"
+                                          d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                                <p class="text-primary-light font-bold">Įvykdyti Užsakymai:
+                                    <span>{{$this->user->getTotalReservationsDone()}}</span></p>
+                            </div>
 
                         @endif
 
@@ -151,8 +153,11 @@
                 @if($user->role == 'provider')
                     <div class="mt-6">
                         <h3 class="text-primary-light font-bold text-sm md:text-lg flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-primary-light" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-primary-light"
+                                 viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                      d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                                      clip-rule="evenodd"/>
                             </svg>
                             Mano Darbų Pavyzdžiai
                         </h3>
@@ -161,40 +166,52 @@
                         <div class="grid grid-cols-3 md:grid-cols-5 gap-2 mt-3">
                             <!-- Photo Upload Boxes -->
                             @for ($i = 0; $i < $maxPortfolioPhotos; $i++)
-                                <div class="relative aspect-square border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors overflow-hidden">
+                                <div
+                                    class="relative aspect-square border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors overflow-hidden">
                                     @if(isset($portfolioPhotos[$i]))
                                         <!-- If photo exists in this slot -->
                                         <div class="w-full h-full relative group">
-                                            <img src="{{ Storage::url($portfolioPhotos[$i]['path']) }}" class="w-full h-full object-cover" alt="Portfolio work">
+                                            <img src="{{ Storage::url($portfolioPhotos[$i]['path']) }}"
+                                                 class="w-full h-full object-cover" alt="Portfolio work">
 
                                             <!-- Mobile: Always visible delete button in corner -->
                                             <button type="button"
                                                     wire:click="removePortfolioPhoto({{ $i }})"
                                                     class="absolute top-1 right-1 p-1 rounded-full bg-red-500 hover:bg-red-600 text-white shadow-md md:hidden z-10">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-2 w-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-2 w-2" fill="none"
+                                                     viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                                 </svg>
                                             </button>
 
                                             <!-- Desktop: Hover overlay with delete button -->
-                                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex items-center justify-center">
+                                            <div
+                                                class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex items-center justify-center">
                                                 <button type="button"
                                                         wire:click="removePortfolioPhoto({{ $i }})"
                                                         class="text-white p-1 rounded-full bg-red-500 hover:bg-red-600">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                         viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                                     </svg>
                                                 </button>
                                             </div>
                                         </div>
                                     @else
                                         <!-- Empty upload slot -->
-                                        <label for="portfolio-photo-{{ $i }}" class="flex flex-col items-center justify-center w-full h-full cursor-pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                        <label for="portfolio-photo-{{ $i }}"
+                                               class="flex flex-col items-center justify-center w-full h-full cursor-pointer">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400"
+                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M12 4v16m8-8H4"/>
                                             </svg>
-                                            <span class="text-xs text-gray-500 mt-1 text-center px-1">Pridėti nuotrauką</span>
-                                            <input type="file" id="portfolio-photo-{{ $i }}" wire:model="newPortfolioPhoto" class="hidden" accept="image/*">
+                                            <span
+                                                class="text-xs text-gray-500 mt-1 text-center px-1">Pridėti nuotrauką</span>
+                                            <input type="file" id="portfolio-photo-{{ $i }}"
+                                                   wire:model="newPortfolioPhoto" class="hidden" accept="image/*">
                                         </label>
                                     @endif
                                 </div>
@@ -203,15 +220,18 @@
 
                         <!-- Error Message -->
                         @error('newPortfolioPhoto')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
 
                         <!-- Loading Indicator -->
                         <div wire:loading wire:target="newPortfolioPhoto, removePortfolioPhoto" class="mt-2">
                             <span class="text-sm text-gray-600 flex items-center">
-                                <svg class="animate-spin h-4 w-4 mr-2 text-primary-light" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                <svg class="animate-spin h-4 w-4 mr-2 text-primary-light"
+                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg> Apdorojama...
                             </span>
                         </div>
@@ -351,19 +371,45 @@
                     </div>
 
 
-                    <!-- City -->
-                    <div class="">
-                        <label for="city" class="block text-sm font-medium text-gray-700">Miestas</label>
-                        <select id="city" name="city" wire:model="city"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('city') border-red-500 @enderror">
-                            <option value="" disabled>Pasirinkite miestą</option>
-                            <option value="Kaunas">Kaunas</option>
-                            <option value="Vilnius">Vilnius</option>
-                            <option value="Klaipeda">Klaipėda</option>
-                        </select>
-                        @error('city')
+                    <!-- Cities -->
+                    <div>
+                        <label for="city-select" class="block text-sm font-medium text-gray-700">Miestai</label>
+
+                        <!-- Selected cities display as tags -->
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            @foreach($cities as $city)
+                                <div class="bg-primary-light text-white px-2 py-1 rounded-md flex items-center text-sm">
+                                    {{ $city }}
+                                    <button type="button" wire:click="removeCity('{{ $city }}')"
+                                            class="ml-1 focus:outline-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                             viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- City selector dropdown -->
+                        <div class="relative">
+                            <select wire:model="selectedCity" wire:change="addCity" id="city-select"
+                                    class="w-full rounded-md border @error('cities') border-red-500 @else border-gray-300 @enderror shadow-sm p-2 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                                <option value="">Pasirinkite miestą...</option>
+                                <option value="Vilnius">Vilnius</option>
+                                <option value="Kaunas">Kaunas</option>
+                                <option value="Klaipėda">Klaipėda</option>
+                                <option value="Šiauliai">Šiauliai</option>
+                                <option value="Panevėžys">Panevėžys</option>
+                            </select>
+                        </div>
+
+                        @error('cities')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
+                        <small class="text-gray-500 mt-1 block">Pasirinkite visus miestus, kuriuose galite teikti
+                            paslaugas</small>
                     </div>
 
                     <!-- Phone Number -->

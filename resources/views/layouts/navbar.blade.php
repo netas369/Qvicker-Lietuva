@@ -1,6 +1,6 @@
 <nav style="position: sticky; top: 0; z-index: 50; padding: 1rem; display: flex; justify-content: space-between; align-items: center; background-color: white; border-bottom: 1px solid #e5e7eb; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); transition: opacity 0.3s ease;">
 <a class="text-3xl font-bold leading-none" href="/">
-        <p class="text-primary-light font-bold sm:text-3xl text-2xl">WORK<span class="text-primary">LINK</span><span><small class="text-gray-600 text-xs ml-1">beta</small></span></p>
+        <p class="text-primary-light font-bold sm:text-3xl text-2xl">Q<span class="text-primary">vicker</span><span><small class="text-gray-600 text-xs ml-1">LT</small></span></p>
 {{--        <img src="{{ asset('images/worklinklogo.png') }}" alt="logo" class="h-10">--}}
     </a>
 

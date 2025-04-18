@@ -63,6 +63,22 @@
                         class="w-5 h-5 text-primary-light focus:ring-green-100 border-primary-light">
                     <span class="ml-2 text-primary">Klaipėda</span>
                 </label>
+                <label class="flex items-center">
+                    <input
+                        type="radio"
+                        name="city"
+                        value="Šiauliai"
+                        class="w-5 h-5 text-primary-light focus:ring-green-100 border-primary-light">
+                    <span class="ml-2 text-primary">Šiauliai</span>
+                </label>
+                <label class="flex items-center">
+                    <input
+                        type="radio"
+                        name="city"
+                        value="Panevėžys"
+                        class="w-5 h-5 text-primary-light focus:ring-green-100 border-primary-light">
+                    <span class="ml-2 text-primary">Panevėžys</span>
+                </label>
             </div>
             @error('city')
             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

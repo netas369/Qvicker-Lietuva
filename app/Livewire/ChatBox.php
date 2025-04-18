@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Message;
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\On;
@@ -90,6 +91,15 @@ class ChatBox extends Component
         ]);
 
         $message->save();
+
+        $notification_service = new NotificationService();
+
+        if($this->isProvider())
+        {
+            $notification_service->notifyMessageReceivedSeeker($this->reservation);
+        } else {
+            $notification_service->notifyMessageReceivedProvider($this->reservation);
+        }
 
         // Clear message input
         $this->messageText = '';

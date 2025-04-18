@@ -14,6 +14,7 @@ class NotificationsComponent extends Component
     public $initialLoad = 5;
     public $perPage = 10;
     public $totalNotifications = 0;
+    public $user;
 
     protected $listeners = ['refreshNotifications' => 'loadNotifications'];
 
@@ -25,6 +26,7 @@ class NotificationsComponent extends Component
     public function loadNotifications($initial = false)
     {
         $user = auth()->user();
+        $this->user = $user;
 
         if ($user) {
             // Reset to first page if initial load

@@ -189,7 +189,7 @@
                         </svg>
                     </button>
                     <div class="p-4 pt-0">
-                        <p class="text-gray-600">Registracija platformoje yra visiškai nemokama. Mes imame tik nedidelį procentą nuo sėkmingai atliktų užsakymų.</p>
+                        <p class="text-gray-600">Registracija platformoje yra visiškai nemokama. Netrukus po registracijos, susisieksime su jumis trumpam pokalbiui - susipažinti.</p>
                     </div>
                 </div>
 
@@ -202,7 +202,7 @@
                         </svg>
                     </button>
                     <div class="p-4 pt-0">
-                        <p class="text-gray-600">Klientai moka per platformą. Pinigai pervedami į jūsų banko sąskaitą kas savaitę arba po kiekvieno užsakymo, pagal jūsų pasirinkimą.</p>
+                        <p class="text-gray-600">WorkLink už mokėjimus kol kas neatsako, turite sutarti kainą su klientu ir gauti atsiskaitymą tiesiogiai po atliktų darbų.</p>
                     </div>
                 </div>
 

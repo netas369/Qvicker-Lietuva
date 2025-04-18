@@ -20,7 +20,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name', 'lastname', 'birthday', 'email', 'city', 'address', 'password', 'subcategories', 'role', 'aboutme', 'image', 'phone', 'postal_code',
-        'gender', 'languages'
+        'gender', 'languages', 'cities'
     ];
 
     /**
@@ -53,6 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'cities' => 'array',
         ];
     }
 

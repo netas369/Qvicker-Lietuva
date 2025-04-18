@@ -6,6 +6,7 @@ use App\Models\Message;
 use App\Models\Notification;
 use App\Models\Reservation;
 use App\Models\Review;
+use App\Models\Unavailability;
 use App\Models\User;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
@@ -161,7 +162,11 @@ class ReservationController extends Controller
             return redirect()->back()->with('error', 'Galima patvirtinti tik laukiančias užklausas.');
         }
 
+        $this->notificationService->notifySeekerReservationAccepted($reservation);
+
         $reservation->status = 'accepted';
+        $reservation->accepted_at = now();
+
         $reservation->save();
 
         return redirect()->back()->with('success', 'Užklausa sėkmingai patvirtinta.');
@@ -187,6 +192,8 @@ class ReservationController extends Controller
         $reservation->status = 'declined';
         $reservation->save();
 
+        $this->notificationService->notifySeekerCanceledReservation($reservation);
+
         if (Auth::id() == $reservation->seeker_id)
         {
             return redirect()->back()->with('success', 'Užklausa atšaukta.');
@@ -210,16 +217,16 @@ class ReservationController extends Controller
         $reservation->status = 'declined';
         $reservation->save();
 
-        $declineMessage = 'Sveiki, ' . ucfirst($reservation->seeker->name) . ' jūsų ūžklausa atšaukta, kadangi ..... ';
+        $this->notificationService->notifyProviderCanceledReservation($reservation);
 
-        $message = new Message([
-            'reservation_id' => $reservation->id,
-            'sender_id' => Auth::id(),
-            'sender_type' => 'provider',
-            'message' => $declineMessage,
-        ]);
-
-        $message->save();
+//        $declineMessage = 'Sveiki, ' . ucfirst($reservation->seeker->name) . ' jūsų ūžklausa atšaukta, kadangi ..... ';
+//        $message = new Message([
+//            'reservation_id' => $reservation->id,
+//            'sender_id' => Auth::id(),
+//            'sender_type' => 'provider',
+//            'message' => $declineMessage,
+//        ]);
+//        $message->save();
 
         if (Auth::id() == $reservation->provider_id)
         {
@@ -255,6 +262,8 @@ class ReservationController extends Controller
 
         $reservation->status = 'completed';
         $reservation->save();
+
+        $this->notificationService->notifyReservationCompleted($reservation);
 
         return redirect()->back()->with('success', 'Užklausa pažymėta kaip užbaigta.');
     }
@@ -294,25 +303,28 @@ class ReservationController extends Controller
             abort(403, 'Unauthorized action. This reservation does not belong to you.');
         }
 
-        $validated = $request->validate([
-            'date' => [
-                'required',
-                'date',
-                function ($attribute, $value, $fail) use ($reservation) {
-                    $existingReservation = Reservation::where('reservation_date', $value)
-                        ->where('id', '!=', $reservation->id)
-                        ->where('provider_id', $reservation->provider_id)
-                        ->exists();
 
-                    if ($existingReservation) {
-                        $fail('Ši data jau yra užimta. Prašome pasirinkti kitą datą.');
-                    }
-                },
-            ],
+        $validated = $request->validate([
+            'date' => 'required|date',
         ]);
+
+//        $unavailabilities = Unavailability::where('provider_id', $reservation->provider_id)->get();
+//
+//        foreach($unavailabilities as $unavailability) {
+//            $unavailabilityDate = Carbon::parse($unavailability->date)->format('Y-m-d');
+//            $requestDate = Carbon::parse($validated['date'])->format('Y-m-d');
+//
+//            if($unavailabilityDate === $requestDate) {
+//                return redirect()->back()->withErrors(['date' => 'Ši data yra užimta jūsų kalendoryje. Prašome pasirinkti kitą datą.'])->withInput();
+//            }
+//        }
+
+        $this->notificationService->notifyReservationDayChanged($reservation);
 
         $reservation->reservation_date = $validated['date'];
         $reservation->save();
+
+
 
 
         $changeDayMessage = 'Rezervacijos data pakeista į ' . $reservation->reservation_date . '.';
