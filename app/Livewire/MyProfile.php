@@ -55,7 +55,6 @@ class MyProfile extends Component
         // Retrieve the associated categories for the user
         $this->userCategories = $this->user->categories;
         $this->gender = $this->user->gender;
-        $this->cities = $this->user->cities ?? [];
 
         if ($this->user->languages) {
             $this->languages = json_decode($this->user->languages, true) ?? [];
@@ -63,6 +62,23 @@ class MyProfile extends Component
 
         if ($this->user->portfolio_photos) {
             $this->portfolioPhotos = json_decode($this->user->portfolio_photos, true) ?? [];
+        }
+
+        // Get the cities from user
+        $rawCities = auth()->user()->cities;
+
+        // Check if it's already an array or a JSON string
+        if (is_string($rawCities)) {
+            // It's still a JSON string, so decode it
+            $this->cities = json_decode($rawCities, true) ?? [];
+        } else {
+            // It's already an array
+            $this->cities = $rawCities;
+        }
+
+        // If it's still not an array or is null, initialize as empty array
+        if (!is_array($this->cities)) {
+            $this->cities = [];
         }
 
     }
@@ -140,7 +156,6 @@ class MyProfile extends Component
         $this->user->lastname = $this->lastname;
         $this->user->birthday = $this->birthday;
         $this->user->email = $this->email;
-        $this->user->city = $this->city;
         $this->user->address = $this->address;
         $this->user->aboutme = $this->aboutMe;
         $this->user->postal_code = $this->post_code;
