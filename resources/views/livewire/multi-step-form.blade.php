@@ -283,6 +283,8 @@
                             <option value="Panevėžys">Panevėžys</option>
                         </select>
                         @error('miestas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        <small class="text-gray-500 mt-1 block">Pagrindinis miestas kuriame dirbsite</small>
+
                     </div>
 
                     <div>
