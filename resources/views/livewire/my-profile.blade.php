@@ -370,27 +370,26 @@
                         <small class="text-gray-500 mt-1 block">Formatas: XXXXX (be LT-)</small>
                     </div>
 
-
-                    <!-- Cities -->
-                    <div>
-                        <label for="city-select" class="block text-sm font-medium text-gray-700">Miestai</label>
-
-                        <!-- Selected cities display as tags -->
-                        <div class="flex flex-wrap gap-2 mb-2">
-                            @foreach($cities as $city)
-                                <div class="bg-primary-light text-white px-2 py-1 rounded-md flex items-center text-sm">
-                                    {{ $city }}
-                                    <button type="button" wire:click="removeCity('{{ $city }}')"
-                                            class="ml-1 focus:outline-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                             viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                  d="M6 18L18 6M6 6l12 12"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            @endforeach
-                        </div>
+                    @if($user->role == 'provider')
+                        <!-- Cities -->
+                        <div>
+                            <label for="city-select" class="block text-sm font-medium text-gray-700">Miestai</label>
+                            <!-- Selected cities display as tags -->
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                @foreach($cities as $city)
+                                    <div class="bg-primary-light text-white px-2 py-1 rounded-md flex items-center text-sm">
+                                        {{ $city }}
+                                        <button type="button" wire:click="removeCity('{{ $city }}')"
+                                                class="ml-1 focus:outline-none">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M6 18L18 6M6 6l12 12"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                @endforeach
+                            </div>
 
                         <!-- City selector dropdown -->
                         <div class="relative">
@@ -411,6 +410,31 @@
                         <small class="text-gray-500 mt-1 block">Pasirinkite visus miestus, kuriuose galite teikti
                             paslaugas</small>
                     </div>
+                    @elseif($user->role == 'seeker')
+                        <!-- Cities for seeker -->
+                        <div>
+                            <label for="seeker-city-select" class="block text-sm font-medium text-gray-700">Miestas</label>
+
+                            <!-- City selector dropdown -->
+                            <div class="relative">
+                                <select wire:model="currentSeekerCity" wire:change="addSingleCitySeeker" id="seeker-city-select"
+                                        class="w-full rounded-md border @error('cities') border-red-500 @else border-gray-300 @enderror shadow-sm p-2 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                                    <option value="">Pasirinkite miestą...</option>
+                                    <option value="Vilnius">Vilnius</option>
+                                    <option value="Kaunas">Kaunas</option>
+                                    <option value="Klaipėda">Klaipėda</option>
+                                    <option value="Šiauliai">Šiauliai</option>
+                                    <option value="Panevėžys">Panevėžys</option>
+                                </select>
+                            </div>
+
+                            @error('cities')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                            <small class="text-gray-500 mt-1 block">Pasirinkite miestą, kuriame norite gauti paslaugas</small>
+                        </div>
+                    @endif
+
 
                     <!-- Phone Number -->
                     <div>

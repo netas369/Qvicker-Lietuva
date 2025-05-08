@@ -34,6 +34,7 @@ class MyProfile extends Component
     public $maxPortfolioPhotos = 5;
     public $cities = [];
     public $selectedCity = '';
+    public $currentSeekerCity;
 
 
     public function render()
@@ -81,7 +82,13 @@ class MyProfile extends Component
             $this->cities = [];
         }
 
+        // Add this to your existing mount method or create if it doesn't exist
+        if ($this->user->role == 'seeker' && !empty($this->cities) && count($this->cities) > 0) {
+            $this->currentSeekerCity = $this->cities[0];
+        }
+
     }
+
 
     public function getValidationRules()
     {
@@ -203,6 +210,19 @@ class MyProfile extends Component
             // Reset selection
             $this->selectedCity = '';
 
+        }
+    }
+
+    public function addSingleCitySeeker()
+    {
+        if (!empty($this->currentSeekerCity)) {
+            // Override any existing city (only one allowed for seekers)
+            $this->cities = [$this->currentSeekerCity];
+
+            // Immediately update in database
+            $this->user->update([
+                'cities' => $this->cities
+            ]);
         }
     }
 
