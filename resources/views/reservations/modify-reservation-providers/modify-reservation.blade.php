@@ -56,7 +56,7 @@
 
                 <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <h3 class="text-gray-700 font-medium mb-2">Rezervacijos data</h3>
+                        <h3 class="text-gray-700 font-medium mb-2">Darbo data</h3>
                         <div class="flex items-center text-gray-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-400" fill="none"
                                  viewBox="0 0 24 24" stroke="currentColor">
