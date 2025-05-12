@@ -319,9 +319,11 @@ class ReservationController extends Controller
 //            }
 //        }
 
-        $this->notificationService->notifyReservationDayChanged($reservation);
 
         $reservation->reservation_date = $validated['date'];
+
+        $this->notificationService->notifyReservationDayChanged($reservation);
+
         $reservation->save();
 
 
