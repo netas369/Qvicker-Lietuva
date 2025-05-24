@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Http\Controllers\ProviderController;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Carbon;
@@ -12,26 +11,42 @@ use Livewire\Component;
 class MultiStepForm extends Component
 {
     public $currentStep = 1;
+
     public $totalSteps = 3;
 
     public $userType;
 
     //step 1 fields
     public $vardas;
+
     public $pavarde;
+
     public $gimimo_data;
+
     public $email;
+
     public $miestas;
+
     public $adresas;
+
     public $post_code;
+
     public $phone;
+
     public $slaptazodis;
+
     public $slaptazodis_confirmation;
+
     public $selectedSubcategories = [];
+
     public $categories;
+
     public $gender;
+
     public $languages = [];
+
     public $selectedLanguage = '';
+
     public $activeTab = 0;
 
     protected $rules = [
@@ -53,10 +68,10 @@ class MultiStepForm extends Component
             ->map(function ($group) {
                 return [
                     'name' => $group->first()->category,
-                    'subcategories' => $group->map(fn($item) => [
+                    'subcategories' => $group->map(fn ($item) => [
                         'id' => $item->id, // Include the ID of the subcategory
-                        'name' => $item->subcategory
-                    ])->toArray()
+                        'name' => $item->subcategory,
+                    ])->toArray(),
                 ];
             })->values();
     }
@@ -72,10 +87,10 @@ class MultiStepForm extends Component
         $this->currentStep++;
     }
 
-//    public function oneStepValidation()
-//    {
-//        $this->validate($this->getValidationRules());
-//    }
+    //    public function oneStepValidation()
+    //    {
+    //        $this->validate($this->getValidationRules());
+    //    }
 
     public function previousStep()
     {
@@ -84,13 +99,21 @@ class MultiStepForm extends Component
 
     private function getValidationRules()
     {
-        if($this->userType === 'seeker') {
+
+        if ($this->userType === 'seeker') {
             $minBirthDate = Carbon::now()->subYears(14)->format('Y-m-d');
+            $maxBirthDate = Carbon::now()->subYears(100)->format('Y-m-d');
 
             return [
                 'vardas' => 'required|string|max:255',
                 'pavarde' => 'required|string|max:255',
-                'gimimo_data' => ['required', 'date', 'before_or_equal:' . $minBirthDate],
+                'gimimo_data' => [
+                    'required',
+                    'date',
+                    'before_or_equal:'.$minBirthDate,
+                    'after_or_equal:'.$maxBirthDate,
+                    'date_format:Y-m-d',
+                ],
                 'email' => 'required|email|unique:users,email',
                 'miestas' => 'required|string|max:255',
                 'adresas' => 'required|string|max:255',
@@ -105,11 +128,18 @@ class MultiStepForm extends Component
 
         if ($this->currentStep === 1) {
             $minBirthDate = Carbon::now()->subYears(14)->format('Y-m-d');
+            $maxBirthDate = Carbon::now()->subYears(100)->format('Y-m-d');
 
             return [
                 'vardas' => 'required|string|max:255',
                 'pavarde' => 'required|string|max:255',
-                'gimimo_data' => ['required', 'date', 'before_or_equal:' . $minBirthDate],
+                'gimimo_data' => [
+                    'required',
+                    'date',
+                    'before_or_equal:'.$minBirthDate,
+                    'after_or_equal:'.$maxBirthDate,
+                    'date_format:Y-m-d',
+                ],
                 'email' => 'required|email|unique:users,email',
                 'miestas' => 'required|string|max:255',
                 'adresas' => 'required|string|max:255',
@@ -145,9 +175,12 @@ class MultiStepForm extends Component
             'unique' => 'Toks :attribute jau užregistruotas.',
             'regex' => 'Laukas :attribute neatitinka reikalaujamo formato.',
             'size' => 'Laukas :attribute turi būti :size simbolių ilgio.',
+            'date_format' => 'Laukas :attribute turi būti formato :format.',
 
             // Custom rules
             'gimimo_data.before_or_equal' => 'Jūs turite būti bent 14 metų.',
+            'gimimo_data.after_or_equal' => 'Neteisingas gimimo datos formatas. Patikrinkite metus.',
+            'gimimo_data.date_format' => 'Neteisingas datos formatas.',
             'phone.regex' => 'Telefono numeris turi prasidėti skaitmeniu 6 ir būti 8 skaitmenų ilgio.',
             'phone.size' => 'Telefono numeris turi būti 8 skaitmenų ilgio.',
 
@@ -168,6 +201,8 @@ class MultiStepForm extends Component
             'languages.required' => 'Privaloma pasirinkti bent vieną kalbą',
             'languages.min' => 'Privaloma pasirinkti bent vieną kalbą',
             'languages.array' => 'Kalbos turi būti pateiktos sąrašu',
+            'selectedSubcategories.required' => 'Privaloma pasirinkti bent vieną kategoriją',
+            'selectedSubcategories.min' => 'Privaloma pasirinkti bent vieną kategoriją',
         ];
     }
 
@@ -194,28 +229,31 @@ class MultiStepForm extends Component
         // Determine user role based on user type
         if ($this->userType === 'provider') {
             $userRole = 'provider';
-        } else if ($this->userType === 'seeker') {
+        } elseif ($this->userType === 'seeker') {
             $userRole = 'seeker';
-        }
-
-        // Validate seeker-specific fields
-        if ($this->userType === 'seeker') {
             $this->validate($this->getValidationRules());
         }
 
-        $formattedPhone = '+370' . $this->phone;
+        // Add date formatting to prevent invalid dates
+        try {
+            $birthDate = Carbon::parse($this->gimimo_data)->format('Y-m-d');
+        } catch (\Exception $e) {
+            return $this->addError('gimimo_data', 'Neteisingas datos formatas.');
+        }
 
-        if (!is_array($this->miestas)) {
+        $formattedPhone = '+370'.$this->phone;
+
+        if (! is_array($this->miestas)) {
             $this->miestas = [$this->miestas]; // Convert single value to array
         }
 
-        // Create new user
+        // Create new user with safely formatted date
         $user = User::create([
             'name' => $this->vardas,
             'lastname' => $this->pavarde,
-            'birthday' => $this->gimimo_data,
+            'birthday' => $birthDate, // Use the safely formatted date
             'email' => $this->email,
-            'cities' => json_encode($this->miestas),
+            'cities' => $this->miestas,
             'phone' => $formattedPhone,
             'address' => $this->adresas,
             'postal_code' => $this->post_code,
@@ -225,27 +263,24 @@ class MultiStepForm extends Component
             'role' => $userRole,
         ]);
 
+        // Rest of your code remains the same
         $user->categories()->attach($this->selectedSubcategories);
 
-
-        // After creating the new user, attempt to log in
         $credentials = [
             'email' => $user->email,
-            'password' => $this->slaptazodis, // Assuming you have a $slaptazodis variable with the plain-text password
+            'password' => $this->slaptazodis,
         ];
 
         if (Auth::attempt($credentials)) {
-            // User logged in successfully
             return redirect()->route('myprofile');
         } else {
-            // Failed to log in the user
             return redirect()->back()->withErrors(['message' => 'Failed to log in the user.']);
         }
     }
 
     public function addLanguage()
     {
-        if (!empty($this->selectedLanguage) && !in_array($this->selectedLanguage, $this->languages)) {
+        if (! empty($this->selectedLanguage) && ! in_array($this->selectedLanguage, $this->languages)) {
             $this->languages[] = $this->selectedLanguage;
             $this->selectedLanguage = ''; // Reset selection
         }
@@ -253,7 +288,7 @@ class MultiStepForm extends Component
 
     public function removeLanguage($language)
     {
-        $this->languages = array_filter($this->languages, function($lang) use ($language) {
+        $this->languages = array_filter($this->languages, function ($lang) use ($language) {
             return $lang !== $language;
         });
     }
@@ -265,9 +300,8 @@ class MultiStepForm extends Component
 
     public function removeSubcategory($id)
     {
-        $this->selectedSubcategories = array_values(array_filter($this->selectedSubcategories, function($subcategoryId) use ($id) {
+        $this->selectedSubcategories = array_values(array_filter($this->selectedSubcategories, function ($subcategoryId) use ($id) {
             return $subcategoryId != $id;
         }));
     }
-
 }

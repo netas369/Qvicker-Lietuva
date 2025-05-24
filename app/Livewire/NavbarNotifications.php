@@ -3,104 +3,140 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Illuminate\Support\Collection;
+use Illuminate\Notifications\DatabaseNotification;
 
 class NavbarNotifications extends Component
 {
-    public $notifications = [];
-    public $unreadCount = 0;
-    public $isOpen = false;
+    public array $notifications = [];
+    public int $unreadCount = 0;
+    public bool $isOpen = false;
 
-    protected $listeners = ['refreshNotifications' => 'loadNotifications',
-                            'closeDropdown' => 'closeDropdown'];
+    private const CACHE_TTL = 60; // seconds
+    private const NOTIFICATIONS_LIMIT = 5;
 
-    public function mount()
+    protected $listeners = [
+        'refreshNotifications' => 'loadNotifications',
+        'closeDropdown' => 'closeDropdown'
+    ];
+
+    public function mount(): void
     {
         $this->loadNotifications();
     }
 
-    public function closeDropdown()
+    public function closeDropdown(): void
     {
         $this->isOpen = false;
     }
 
-    public function loadNotifications()
+    private function getCacheKey(string $type): string
     {
+        return "user_" . auth()->id() . "_{$type}";
+    }
+
+    public function loadNotifications(): void
+    {
+        $startTime = microtime(true);
+        
         $user = auth()->user();
 
         if ($user) {
-            $this->notifications = $user->notifications()
-                ->latest()
-                ->take(5)
-                ->get()
-                ->toArray();
+            $this->notifications = cache()->remember(
+                $this->getCacheKey('notifications'),
+                self::CACHE_TTL,
+                fn() => $user->notifications()
+                    ->latest()
+                    ->take(self::NOTIFICATIONS_LIMIT)
+                    ->get()
+                    ->toArray()
+            );
 
-            $this->unreadCount = $user->notifications()
-                ->whereNull('read_at')
-                ->count();
+            $this->unreadCount = cache()->remember(
+                $this->getCacheKey('unread_count'),
+                self::CACHE_TTL,
+                fn() => $user->notifications()
+                    ->whereNull('read_at')
+                    ->count()
+            );
         }
+
+        $executionTime = (microtime(true) - $startTime) * 1000;
+        \Log::info("Notification load time: {$executionTime}ms");
     }
 
-    public function toggleDropdown()
+    public function toggleDropdown(): void
     {
         $this->isOpen = !$this->isOpen;
     }
 
-    public function markAsRead($notificationId)
+    public function markAsRead(string $notificationId): void
     {
-        $notification = auth()->user()->notifications()->findOrFail($notificationId);
+        $user = auth()->user();
+        $notification = $user->notifications()->findOrFail($notificationId);
         $notification->update(['read_at' => now()]);
 
-        // Only update in the local array without full reload
+        $this->clearCache();
+        $this->updateLocalNotification($notificationId);
+        $this->unreadCount = max(0, $this->unreadCount - 1);
+    }
+
+    public function markAllAsRead(): void
+    {
+        $user = auth()->user();
+        $user->notifications()->whereNull('read_at')->update(['read_at' => now()]);
+
+        $this->clearCache();
+        $this->updateAllLocalNotifications();
+        $this->unreadCount = 0;
+    }
+
+    public function markAsReadAndNavigate(string $notificationId, string $reservationId): mixed
+    {
+        $user = auth()->user();
+
+        try {
+            $notification = $user->notifications()->findOrFail($notificationId);
+            $notification->update(['read_at' => now()]);
+
+            $this->clearCache();
+            $this->updateLocalNotification($notificationId);
+            $this->unreadCount = max(0, $this->unreadCount - 1);
+
+            return $this->redirect(
+                $user->role === 'provider'
+                    ? route('reservation.modify', ['id' => $reservationId])
+                    : route('reservation.modifySeeker', ['id' => $reservationId])
+            );
+        } catch (\Exception $e) {
+            \Log::error("Error marking notification as read: " . $e->getMessage());
+            return $this->redirect(route('dashboard'));
+        }
+    }
+
+    private function clearCache(): void
+    {
+        $user = auth()->user();
+        cache()->forget($this->getCacheKey('notifications'));
+        cache()->forget($this->getCacheKey('unread_count'));
+    }
+
+    private function updateLocalNotification(string $notificationId): void
+    {
         foreach ($this->notifications as $key => $notification) {
             if ($notification['id'] === $notificationId) {
                 $this->notifications[$key]['read_at'] = now()->toDateTimeString();
                 break;
             }
         }
-
-        // Update count without full reload
-        $this->unreadCount = max(0, $this->unreadCount - 1);
     }
 
-    public function markAllAsRead()
+    private function updateAllLocalNotifications(): void
     {
-        auth()->user()->notifications()->whereNull('read_at')->update(['read_at' => now()]);
-
-        // Update local data without full reload
         foreach ($this->notifications as $key => $notification) {
             if ($notification['read_at'] === null) {
                 $this->notifications[$key]['read_at'] = now()->toDateTimeString();
             }
-        }
-
-        // Reset unread count
-        $this->unreadCount = 0;
-    }
-
-    public function markAsReadAndNavigate($notificationId, $reservationId)
-    {
-        $user = auth()->user();
-
-        // Mark notification as read
-        $notification = $user->notifications()->findOrFail($notificationId);
-        $notification->update(['read_at' => now()]);
-
-        // Update local state
-        foreach ($this->notifications as $key => $notification) {
-            if ($notification['id'] === $notificationId) {
-                $this->notifications[$key]['read_at'] = now()->toDateTimeString();
-                break;
-            }
-        }
-
-        // Update count without full reload
-        $this->unreadCount = max(0, $this->unreadCount - 1);
-
-        if($user->role == 'provider')
-        {
-            return $this->redirect(route('reservation.modify', ['id' => $reservationId]));
-        } else {
-            return $this->redirect(route('reservation.modifySeeker', ['id' => $reservationId]));
         }
     }
 

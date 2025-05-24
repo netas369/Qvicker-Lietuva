@@ -34,6 +34,7 @@ class MyProfile extends Component
     public $maxPortfolioPhotos = 5;
     public $cities = [];
     public $selectedCity = '';
+    public $currentSeekerCity;
 
 
     public function render()
@@ -81,7 +82,13 @@ class MyProfile extends Component
             $this->cities = [];
         }
 
+        // Add this to your existing mount method or create if it doesn't exist
+        if ($this->user->role == 'seeker' && !empty($this->cities) && count($this->cities) > 0) {
+            $this->currentSeekerCity = $this->cities[0];
+        }
+
     }
+
 
     public function getValidationRules()
     {
@@ -91,16 +98,11 @@ class MyProfile extends Component
             'name' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'birthday' => ['required', 'date', 'before_or_equal:' . $minBirthDate],
-            'city' => 'required|string|max:255',
             'address' => 'required|string|max:255',
-            'post_code' => 'required|string|max:6',
+            'post_code' => 'required|string|max:5',
             'phone' => 'required|string|regex:/^6[0-9]{7}$/',
             'aboutMe' => 'nullable|string|max:500',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Specify allowed image types
             'gender' => 'required',
-            'languages' => 'required|array|min:1',
-            'newPortfolioPhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'cities' => 'required|array|min:1',
             ];
     }
 
@@ -160,25 +162,6 @@ class MyProfile extends Component
         $this->user->aboutme = $this->aboutMe;
         $this->user->postal_code = $this->post_code;
         $this->user->phone = '+370' . $this->phone;
-        $this->user->gender = $this->gender;
-        $this->user->languages = json_encode($this->languages);
-        $this->user->portfolio_photos = json_encode($this->portfolioPhotos);
-
-
-        // Check if the password is being updated for later when will be option to update it
-        if ($this->slaptazodis) {
-            $this->user->password = bcrypt($this->slaptazodis); // Hash the password
-        }
-
-        if ($this->image) {
-            // Delete old image if exists
-            if ($this->user->image) {
-                Storage::disk('public')->delete($this->user->image);
-            }
-
-            $filename = $this->image->store('profile-photos', 'public');
-            $this->user->image = $filename;
-        }
 
         $this->user->save();
 
@@ -203,6 +186,19 @@ class MyProfile extends Component
             // Reset selection
             $this->selectedCity = '';
 
+        }
+    }
+
+    public function addSingleCitySeeker()
+    {
+        if (!empty($this->currentSeekerCity)) {
+            // Override any existing city (only one allowed for seekers)
+            $this->cities = [$this->currentSeekerCity];
+
+            // Immediately update in database
+            $this->user->update([
+                'cities' => $this->cities
+            ]);
         }
     }
 

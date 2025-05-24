@@ -63,7 +63,7 @@ class SearchHandymanController extends Controller
 
         // Build the base query for providers
         $query = User::where('role', 'provider')
-            ->whereJsonContains('cities', $city); // Updated to use JSON contains for cities array
+            ->whereRaw('JSON_CONTAINS(cities, ?)', ['"'.$city.'"']);
 
         // Filter by subcategory if specified
         if ($subcategoryId) {
