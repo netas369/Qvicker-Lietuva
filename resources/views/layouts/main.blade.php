@@ -31,9 +31,9 @@
 <body class="bg-gray-50 text-gray-800">
 @include('layouts.navbar')
 
-<div class="container mx-auto px-4">
+{{--<div class="container mx-auto px-4">--}}
     @yield('content')
-</div>
+{{--</div>--}}
 
 <!-- Updated Lottie animation container -->
 <div class="lottie-container">
