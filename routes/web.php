@@ -20,6 +20,7 @@ Route::post('/search/results', [SearchHandymanController::class, 'searchResults'
 
 
 Route::get('/partners', [LandingPageController::class, 'partners'])->name('partners');
+Route::get('/seekers', [LandingPageController::class, 'seekers'])->name('seekers');
 
 
 Route::get('/dashboard', function () {
