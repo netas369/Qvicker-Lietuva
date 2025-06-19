@@ -550,7 +550,7 @@
         <div class="container relative mx-auto px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60 text-center">
             <div class="max-w-3xl mx-auto">
                 <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Rask specialistą jau šiandien</h2>
-                <p class="text-white/90 text-lg md:text-xl mb-10 leading-relaxed">Užsiregistruok vos per kelias minutes ir gauk pasiūlymus iš patikimų paslaugų teikėjų jau šiandien.</p>
+                <p class="text-white/90 text-lg md:text-xl mb-10 leading-relaxed">Užsiregistruok vos per kelias minutes ir rask patikimą paslaugų teikėją jau šiandien.</p>
 
                 <div class="inline-block relative group">
                     <!-- Button glow -->
@@ -603,7 +603,7 @@
                             </div>
                         </button>
                         <div class="px-6 pb-6">
-                            <p class="text-gray-600 leading-relaxed">Ne, registracija ir naudojimasis platforma yra visiškai nemokamas klientams. Mokate tik už paslaugas tiesiogiai paslaugų teikėjui.</p>
+                            <p class="text-gray-600 leading-relaxed">Ne, registracija ir naudojimasis platforma yra visiškai nemokama klientams. Mokate tik už paslaugas tiesiogiai paslaugų teikėjui.</p>
                         </div>
                     </div>
                 </div>
@@ -637,7 +637,7 @@
                             </div>
                         </button>
                         <div class="px-6 pb-6">
-                            <p class="text-gray-600 leading-relaxed">Dažniausiai pasiūlymai pradeda ateiti per kelias valandas. Populiarioms paslaugoms galite gauti atsakymus jau per 30 minučių.</p>
+                            <p class="text-gray-600 leading-relaxed">Greičiausias būdas rasti paslaugų teikėja yra naudotis mūsų paieškos sistema ir išsirinkti tinkamiausia specialistą, tai užtrunka tik kelias minutes.</p>
                         </div>
                     </div>
                 </div>
@@ -654,7 +654,7 @@
                             </div>
                         </button>
                         <div class="px-6 pb-6">
-                            <p class="text-gray-600 leading-relaxed">Susisiekite su mūsų palaikymo komanda, ir mes padėsime išspręsti konfliktą. Taip pat galite palikti atsiliepimą, kad kiti klientai būtų informuoti.</p>
+                            <p class="text-gray-600 leading-relaxed">Susisiekite su mūsų komanda, ir mes padėsime išspręsti konfliktą. Taip pat galite palikti atsiliepimą, kad kiti klientai būtų informuoti.</p>
                         </div>
                     </div>
                 </div>
