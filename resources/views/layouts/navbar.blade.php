@@ -22,8 +22,8 @@
     </div>
     <ul class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
         <li><a class="text-md text-primary {{ request()->is('/') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/">Pagrindinis</a></li>
-        <li><a class="text-md text-primary {{ request()->is('partners') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/partners">Paslaugų teikėjams</a></li>
-        <li><a class="text-md text-primary {{ request()->is('kontaktai') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="#">Kontaktai</a></li>
+        <li><a class="text-md text-primary {{ request()->is('partners') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/partners">Partneriams</a></li>
+        <li><a class="text-md text-primary {{ request()->is('seekers') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/seekers">Naudotojams</a></li>
         <li><a class="text-md text-primary {{ request()->is('duk') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="#">DUK</a></li>
 {{--        <li><a class="text-md text-primary-light {{ request()->is('apiemus') ? 'font-bold' : 'font-normal' }} hover:text-gray-500" href="#">Apie Mus</a></li>--}}
     </ul>

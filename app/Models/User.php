@@ -7,6 +7,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\VerifyEmailNotification; // Add this
+
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -20,7 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name', 'lastname', 'birthday', 'email', 'city', 'address', 'password', 'subcategories', 'role', 'aboutme', 'image', 'phone', 'postal_code',
-        'gender', 'languages', 'cities'
+        'gender', 'languages', 'cities', 'email_verified_at'
     ];
 
     /**
@@ -128,5 +130,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->notifications()->whereNull('read_at');
     }
 
-
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmailNotification);
+    }
 }

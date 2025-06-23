@@ -40,4 +40,9 @@ class LandingPageController extends Controller
     {
         return view('forpartners');
     }
+
+    public function seekers()
+    {
+        return view('forseekers');
+    }
 }
