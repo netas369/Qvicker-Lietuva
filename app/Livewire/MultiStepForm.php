@@ -263,18 +263,22 @@ class MultiStepForm extends Component
             'role' => $userRole,
         ]);
 
-        // Rest of your code remains the same
-        $user->categories()->attach($this->selectedSubcategories);
+        if ($userRole === 'provider' && !empty($this->selectedSubcategories)) {
+            $user->categories()->attach($this->selectedSubcategories);
+        }
+        // Fire the Registered event - this triggers email verification
+        event(new \Illuminate\Auth\Events\Registered($user));
 
-        $credentials = [
-            'email' => $user->email,
-            'password' => $this->slaptazodis,
-        ];
+        // Log in the user
+        Auth::login($user);
 
-        if (Auth::attempt($credentials)) {
+        // Redirect based on user role and email verification status
+        if ($user->hasVerifiedEmail()) {
+            // If email is already verified (shouldn't happen), go to profile
             return redirect()->route('myprofile');
         } else {
-            return redirect()->back()->withErrors(['message' => 'Failed to log in the user.']);
+            // If email needs verification, redirect to verification page
+            return redirect()->route('verification.notice');
         }
     }
 

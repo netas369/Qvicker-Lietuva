@@ -295,65 +295,65 @@
                 <div class="w-20 h-1.5 bg-gradient-to-r from-primary-light to-transparent rounded-full"></div>
             </div>
 
-            <!-- About Section - Enhanced -->
-            <section class="py-20 relative">
+            <!-- About Section - Fully Responsive -->
+            <section class="py-12 md:py-16 lg:py-20 relative">
                 <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
-                    <div class="w-full justify-start items-center gap-12 grid lg:grid-cols-2 grid-cols-1">
-                        <div class="w-full flex-col justify-center lg:items-start items-center gap-10 inline-flex">
-                            <div class="w-full flex-col justify-center items-start gap-8 flex">
-                                <div class="w-full flex-col justify-start lg:items-start items-center gap-4 flex">
-                                    <span class="px-4 py-2 bg-primary-light/10 text-primary-light rounded-full text-sm font-semibold">
-                                        Apie mus
-                                    </span>
-                                    <h2 class="text-primary text-4xl md:text-5xl font-bold leading-tight lg:text-start text-center">
+                    <div class="w-full justify-start items-center gap-8 md:gap-12 grid lg:grid-cols-2 grid-cols-1">
+                        <div class="w-full flex-col justify-center lg:items-start items-center gap-6 md:gap-8 lg:gap-10 inline-flex">
+                            <div class="w-full flex-col justify-center items-start gap-6 md:gap-8 flex">
+                                <div class="w-full flex-col justify-start lg:items-start items-center gap-3 md:gap-4 flex">
+                        <span class="px-3 py-1.5 md:px-4 md:py-2 bg-primary-light/10 text-primary-light rounded-full text-xs md:text-sm font-semibold">
+                            Apie mus
+                        </span>
+                                    <h2 class="text-primary text-2xl md:text-4xl lg:text-5xl font-bold leading-tight lg:text-start text-center">
                                         Skatiname Bendruomenes Dirbti Kartu
                                     </h2>
-                                    <p class="text-gray-600 text-lg font-normal leading-relaxed lg:text-start text-center">
+                                    <p class="text-gray-600 text-base md:text-lg font-normal leading-relaxed lg:text-start text-center">
                                         MyAPP Lietuva sujungia žmones, kuriems reikia paslaugų, su patikimais specialistais jų mieste. Mūsų platforma pagrįsta pasitikėjimu ir bendradarbiavimu - nuo kasdienių darbų iki profesionalių paslaugų, padedame paprastai ir greitai rasti reikiamą pagalbą.
                                     </p>
                                 </div>
 
-                                <!-- Enhanced stats -->
-                                <div class="w-full lg:justify-start justify-center items-center gap-8 inline-flex">
-                                    <div class="group">
-                                        <div class="flex-col justify-start items-start inline-flex p-6 rounded-2xl bg-gradient-to-br from-primary-light/5 to-primary-light/10 hover:from-primary-light/10 hover:to-primary-light/20 transition-all duration-300">
-                                            <h3 class="text-primary-light text-5xl font-bold leading-tight group-hover:scale-110 transform transition-transform duration-300">
+                                <!-- Mobile-First Responsive Stats -->
+                                <div class="w-full flex flex-col space-y-4 md:grid md:grid-cols-2 md:gap-4 lg:grid-cols-3 lg:gap-6 lg:space-y-0">
+                                    <div class="group w-full">
+                                        <div class="w-full text-center lg:text-left p-4 md:p-5 lg:p-6 rounded-xl bg-gradient-to-br from-primary-light/5 to-primary-light/10 hover:from-primary-light/10 hover:to-primary-light/20 transition-all duration-300">
+                                            <h3 class="text-primary-light text-3xl md:text-4xl lg:text-5xl font-bold leading-tight group-hover:scale-105 transform transition-transform duration-300">
                                                 50+
                                             </h3>
-                                            <h6 class="text-gray-600 text-base font-medium mt-2">Paslaugų Rūšių</h6>
+                                            <h6 class="text-gray-600 text-sm md:text-base font-medium mt-2">Paslaugų Rūšių</h6>
                                         </div>
                                     </div>
-                                    <div class="group">
-                                        <div class="flex-col justify-start items-start inline-flex p-6 rounded-2xl bg-gradient-to-br from-blue-500/5 to-blue-500/10 hover:from-blue-500/10 hover:to-blue-500/20 transition-all duration-300">
-                                            <h4 class="text-blue-600 text-5xl font-bold leading-tight group-hover:scale-110 transform transition-transform duration-300">
+                                    <div class="group w-full">
+                                        <div class="w-full text-center lg:text-left p-4 md:p-5 lg:p-6 rounded-xl bg-gradient-to-br from-blue-500/5 to-blue-500/10 hover:from-blue-500/10 hover:to-blue-500/20 transition-all duration-300">
+                                            <h4 class="text-blue-600 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight group-hover:scale-105 transform transition-transform duration-300">
                                                 5000+
                                             </h4>
-                                            <h6 class="text-gray-600 text-base font-medium mt-2">Atliktų Užsakymų</h6>
+                                            <h6 class="text-gray-600 text-sm md:text-base font-medium mt-2">Atliktų Užsakymų</h6>
                                         </div>
                                     </div>
-                                    <div class="group">
-                                        <div class="flex-col justify-start items-start inline-flex p-6 rounded-2xl bg-gradient-to-br from-green-500/5 to-green-500/10 hover:from-green-500/10 hover:to-green-500/20 transition-all duration-300">
-                                            <h4 class="text-green-600 text-5xl font-bold leading-tight group-hover:scale-110 transform transition-transform duration-300">
+                                    <div class="group w-full md:col-span-2 lg:col-span-1">
+                                        <div class="w-full text-center lg:text-left p-4 md:p-5 lg:p-6 rounded-xl bg-gradient-to-br from-green-500/5 to-green-500/10 hover:from-green-500/10 hover:to-green-500/20 transition-all duration-300">
+                                            <h4 class="text-green-600 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight group-hover:scale-105 transform transition-transform duration-300">
                                                 500+
                                             </h4>
-                                            <h6 class="text-gray-600 text-base font-medium mt-2">Įvairių Sričių Partnerių</h6>
+                                            <h6 class="text-gray-600 text-sm md:text-base font-medium mt-2">Įvairių Sričių Partnerių</h6>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Enhanced image section -->
-                        <div class="w-full justify-center items-start gap-6 grid sm:grid-cols-2 grid-cols-1 lg:order-last order-first">
-                            <div class="pt-24 lg:justify-center sm:justify-end justify-start items-start gap-2.5 flex">
-                                <div class="relative group">
-                                    <div class="absolute -inset-4 bg-gradient-to-r from-primary-light to-blue-600 rounded-2xl blur-xl opacity-25 group-hover:opacity-50 transition duration-300"></div>
-                                    <img class="relative rounded-2xl object-cover shadow-2xl" src="{{ asset('images/delivery-man.jpg') }}" alt="about Us image"/>
+                        <!-- Enhanced Responsive Image Section -->
+                        <div class="w-full justify-center items-start gap-4 md:gap-6 grid grid-cols-2 lg:order-last order-first">
+                            <div class="pt-12 md:pt-24 lg:justify-center sm:justify-end justify-start items-start gap-2.5 flex">
+                                <div class="relative group w-full">
+                                    <div class="absolute -inset-2 md:-inset-4 bg-gradient-to-r from-primary-light to-blue-600 rounded-xl md:rounded-2xl blur-lg md:blur-xl opacity-25 group-hover:opacity-50 transition duration-300"></div>
+                                    <img class="relative w-full h-48 md:h-64 lg:h-auto rounded-xl md:rounded-2xl object-cover shadow-xl md:shadow-2xl" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Delivery service"/>
                                 </div>
                             </div>
-                            <div class="relative group">
-                                <div class="absolute -inset-4 bg-gradient-to-r from-purple-400 to-pink-400 rounded-2xl blur-xl opacity-25 group-hover:opacity-50 transition duration-300"></div>
-                                <img class="relative sm:ml-0 ml-auto rounded-2xl object-cover shadow-2xl" src="{{ asset('images/wedding-planner1.jpg') }}" alt="about Us image"/>
+                            <div class="relative group w-full">
+                                <div class="absolute -inset-2 md:-inset-4 bg-gradient-to-r from-purple-400 to-pink-400 rounded-xl md:rounded-2xl blur-lg md:blur-xl opacity-25 group-hover:opacity-50 transition duration-300"></div>
+                                <img class="relative w-full h-48 md:h-64 lg:h-auto sm:ml-0 ml-auto rounded-xl md:rounded-2xl object-cover shadow-xl md:shadow-2xl" src="https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Wedding planning"/>
                             </div>
                         </div>
                     </div>

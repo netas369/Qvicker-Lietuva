@@ -11,6 +11,9 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\SearchHandymanController;
 use App\Http\Controllers\SeekerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 Route::get('/search', [SearchHandymanController::class, 'index'])->name('search');
@@ -23,15 +26,31 @@ Route::get('/partners', [LandingPageController::class, 'partners'])->name('partn
 Route::get('/seekers', [LandingPageController::class, 'seekers'])->name('seekers');
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
+
+// EMAIL VERIFICATION ROUTES HERE:
+Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', EmailVerificationPromptController::class)
+        ->name('verification.notice');
+
+    Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+
+    Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+});
 
 // Shared route for both roles
-Route::middleware(['auth', 'role:provider,seeker'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:provider,seeker'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'myprofile'])->name('myprofile');
     Route::delete('/reservation/{id}/cancel', [ReservationController::class, 'cancel'])->name('reservation.cancel');
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('profile.dashboard');
 });
@@ -51,7 +70,7 @@ Route::middleware('guest')->group(function () {
 });
 
 // Routes for providers
-Route::middleware(['auth', 'provider'])->group(function () {
+Route::middleware(['auth', 'verified', 'provider'])->group(function () {
     Route::get('/provider/dashboard', [ProviderController::class, 'dashboard'])->name('provider.dashboard');
     Route::get('/provider/calendar', [ProviderController::class, 'calendar'])->name('provider.calendar');
     Route::get('/provider/work', [ProviderController::class, 'work'])->name('provider.work');
@@ -66,7 +85,7 @@ Route::middleware(['auth', 'provider'])->group(function () {
 });
 
 // Routes for seekers
-Route::middleware(['auth', 'seeker'])->group(function () {
+Route::middleware(['auth', 'verified', 'seeker'])->group(function () {
     Route::get('/seeker/dashboard', [SeekerController::class, 'dashboard'])->name('seeker.dashboard');
     Route::get('/provider/{id}/reserve', [SearchHandymanController::class, 'showReservation'])->name('provider.reserve');
     Route::get('/my-reservations', [ReservationController::class, 'seekerReservations'])->name('reservations.seeker');
