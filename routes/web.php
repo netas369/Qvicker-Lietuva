@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\EmailVerificationSuccessController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\NotificationController;
@@ -11,9 +15,6 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\SearchHandymanController;
 use App\Http\Controllers\SeekerController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\Auth\EmailVerificationPromptController;
-use App\Http\Controllers\Auth\VerifyEmailController;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 Route::get('/search', [SearchHandymanController::class, 'index'])->name('search');
@@ -42,6 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
+
+    Route::get('/email/verified', EmailVerificationSuccessController::class)->name('verification.success');
 
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
