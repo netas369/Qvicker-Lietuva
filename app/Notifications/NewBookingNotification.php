@@ -29,7 +29,14 @@ class NewBookingNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database'];
+        $channels = ['database']; // Always send database notification
+
+        // Only send email to providers
+        if ($notifiable->role === 'provider') {
+            $channels[] = 'mail';
+        }
+
+        return $channels;
     }
 
     /**
@@ -37,10 +44,13 @@ class NewBookingNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        // This will only be called for providers now
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject('🎯 Naujas užsakymas - QVICKER!')
+            ->view('emails.new-booking-provider', [
+                'notifiable' => $notifiable,
+                'reservation' => $this->reservation
+            ]);
     }
 
     /**
