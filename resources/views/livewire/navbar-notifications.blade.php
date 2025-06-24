@@ -57,7 +57,7 @@
                                         </p>
                                     </a>
 
-                                @elseif($notification['type'] === 'new_reservation')
+                                @elseif($notification['type'] === 'App\\Notifications\\NewBookingNotification')
                                     <a href="javascript:void(0)"
                                        class="block"
                                        wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">

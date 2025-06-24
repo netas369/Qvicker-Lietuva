@@ -8,9 +8,48 @@ use App\Models\User;
 use App\Models\Reservation;
 use App\Models\Message;
 use App\Models\Review;
+use App\Notifications\NewBookingNotification;
+use Illuminate\Support\Facades\Log;
 
 class NotificationService
 {
+    /**
+     * Send notification helper - handles both email and database
+     */
+    private function sendNotification($user, $notification)
+    {
+        try {
+            Log::info('Sending notification to user: ' . $user->id);
+            Log::info('Notification type: ' . get_class($notification));
+
+            $user->notify($notification);
+
+            // Clear the user's notification cache so they see it immediately
+            cache()->forget("user_{$user->id}_notifications");
+            cache()->forget("user_{$user->id}_unread_count");
+
+            Log::info('Notification sent successfully');
+            $this->emitLivewireEvent();
+
+
+        } catch (\Exception $e) {
+            Log::error('Failed to send notification: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
+        }
+    }
+
+    /**
+     * Create a notification for a new reservation
+     */
+    public function notifyNewReservation(User $provider, Reservation $reservation): void
+    {
+        // Send to provider (new booking alert)
+        $this->sendNotification($provider, new NewBookingNotification($reservation));
+
+        // Send to seeker (booking confirmation)
+        $this->sendNotification($reservation->seeker, new NewBookingNotification($reservation));
+    }
+
     /**
      * Private function to reduce redundant code for making notifications
      */
@@ -263,25 +302,6 @@ class NotificationService
         );
     }
 
-    /**
-     * Create a notification for a new reservation
-     */
-    public function notifyNewReservation(User $provider, Reservation $reservation): Notification
-    {
-        $seeker = User::find($reservation->seeker_id);
-
-        $notification_text = $seeker->name . ' atsiuntė naują užklausą darbui ' . ' mieste ' . $reservation->city;
-
-        return $this->createNotification(
-            $provider->id,
-            NotificationType::NEW_RESERVATION,
-            $reservation,
-            $provider,
-            $seeker,
-            $notification_text
-        );
-
-    }
 
     public function notifyNewReservationSeeker(User $seeker, Reservation $reservation): Notification
     {
