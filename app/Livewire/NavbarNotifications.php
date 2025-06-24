@@ -20,10 +20,18 @@ class NavbarNotifications extends Component
         'closeDropdown' => 'closeDropdown'
     ];
 
+    public function refreshNotifications(): void
+    {
+        $this->clearCache();
+        $this->loadNotifications();
+    }
+
     public function mount(): void
     {
         $this->loadNotifications();
+
     }
+
 
     public function closeDropdown(): void
     {
@@ -38,7 +46,7 @@ class NavbarNotifications extends Component
     public function loadNotifications(): void
     {
         $startTime = microtime(true);
-        
+
         $user = auth()->user();
 
         if ($user) {

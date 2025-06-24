@@ -8,7 +8,7 @@ class ProviderController extends Controller
 {
     public function dashboard()
     {
-        return view('dashboard');
+        return view('provider.dashboard');
     }
 
     public function calendar()
