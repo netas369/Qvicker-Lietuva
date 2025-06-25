@@ -15,6 +15,9 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\SearchHandymanController;
 use App\Http\Controllers\SeekerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\NewPasswordController;
+
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 Route::get('/search', [SearchHandymanController::class, 'index'])->name('search');
@@ -70,6 +73,21 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/register/seeker', [RegisteredUserController::class, 'createSeeker'])->name('register.seeker');
     Route::post('/register/seeker', [RegisteredUserController::class, 'storeSeeker'])->name('register.seeker.store');
+
+    Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
+        ->name('password.request');
+
+    // Send password reset link
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+        ->name('password.email');
+
+    // Show reset password form
+    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
+        ->name('password.reset');
+
+    // Process password reset
+    Route::post('/reset-password', [NewPasswordController::class, 'store'])
+        ->name('password.store');
 });
 
 // Routes for providers
