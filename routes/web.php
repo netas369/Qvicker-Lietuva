@@ -26,6 +26,10 @@ Route::post('/search/results', [SearchHandymanController::class, 'searchResults'
 Route::get('/partners', [LandingPageController::class, 'partners'])->name('partners');
 Route::get('/seekers', [LandingPageController::class, 'seekers'])->name('seekers');
 
+Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
+
 
 //Route::get('/dashboard', function () {
 //    return view('dashboard');
@@ -35,10 +39,6 @@ Route::get('/seekers', [LandingPageController::class, 'seekers'])->name('seekers
 Route::middleware('auth')->group(function () {
     Route::get('/email/verify', EmailVerificationPromptController::class)
         ->name('verification.notice');
-
-    Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
-        ->middleware(['signed', 'throttle:6,1'])
-        ->name('verification.verify');
 
     Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
         ->middleware('throttle:6,1')
