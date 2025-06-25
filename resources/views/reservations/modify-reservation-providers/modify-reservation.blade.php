@@ -77,9 +77,10 @@
                 </div>
                 <div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4 mt-4">
                     @if($reservation->status == 'pending')
-                        <form method="POST" action="{{ route('reservation.accept', $reservation->id) }}">
+                        <form id="acceptForm" method="POST" action="{{ route('reservation.accept', $reservation->id) }}">
                             @csrf
-                            <button type="submit"
+                            <button type="button"
+                                    onclick="showConfirmationModal('accept')"
                                     class="w-full sm:w-auto inline-flex justify-center items-center px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 text-sm ">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20"
                                      fill="currentColor">
@@ -91,9 +92,10 @@
                             </button>
                         </form>
 
-                        <form method="POST" action="{{ route('reservation.declineProvider', $reservation->id) }}">
+                        <form id="declineForm" method="POST" action="{{ route('reservation.declineProvider', $reservation->id) }}">
                             @csrf
-                            <button type="submit" onclick="return confirm('Ar tikrai norite atmesti šią užklausą?')"
+                            <button type="button"
+                                    onclick="showConfirmationModal('decline')"
                                     class="w-full sm:w-auto inline-flex justify-center items-center px-3 py-2 border border-red-600 text-red-600 rounded-md hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 text-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20"
                                      fill="currentColor">
@@ -105,9 +107,10 @@
                             </button>
                         </form>
                     @elseif($reservation->status == 'accepted')
-                        <form method="POST" action="{{ route('reservation.complete', $reservation->id) }}">
+                        <form id="completeForm" method="POST" action="{{ route('reservation.complete', $reservation->id) }}">
                             @csrf
-                            <button type="submit"
+                            <button type="button"
+                                    onclick="showConfirmationModal('complete')"
                                     class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 bg-green-700 text-white mt-4 rounded-md hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
                                      fill="currentColor">
@@ -369,6 +372,48 @@
                 </div>
             </div>
         </div>
+
+        <!-- Custom Confirmation Modal -->
+        <div id="confirmationModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+            <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <!-- Background overlay -->
+                <div class="fixed inset-0 transition-opacity" onclick="closeConfirmationModal()">
+                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                </div>
+
+                <!-- Modal content -->
+                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <!-- Icon -->
+                            <div id="modalIcon" class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10">
+                                <!-- Icon will be dynamically updated -->
+                            </div>
+                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modalTitle">
+                                    <!-- Title will be dynamically updated -->
+                                </h3>
+                                <div class="mt-2">
+                                    <p class="text-sm text-gray-500" id="modalMessage">
+                                        <!-- Message will be dynamically updated -->
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button id="confirmButton" type="button"
+                                class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-3 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm sm:py-2">
+                            <!-- Button text and color will be dynamically updated -->
+                        </button>
+                        <button type="button" onclick="closeConfirmationModal()"
+                                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-3 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm sm:py-2">
+                            Atšaukti
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 @endsection
 
         <script>
@@ -393,4 +438,83 @@
                 openDateChangeModal();
             });
             @endif
+
+            let currentAction = '';
+
+            function showConfirmationModal(action) {
+                currentAction = action;
+                const modal = document.getElementById('confirmationModal');
+                const modalIcon = document.getElementById('modalIcon');
+                const modalTitle = document.getElementById('modalTitle');
+                const modalMessage = document.getElementById('modalMessage');
+                const confirmButton = document.getElementById('confirmButton');
+
+                if (action === 'accept') {
+                    // Accept configuration
+                    modalIcon.innerHTML = '<svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>';
+                    modalIcon.className = 'mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10';
+                    modalTitle.textContent = 'Patvirtinti užklausą';
+                    modalMessage.textContent = 'Ar tikrai norite patvirtinti šią užklausą? Po patvirtinimo galėsite matyti kliento kontaktinius duomenis.';
+                    confirmButton.textContent = 'Taip, patvirtinti';
+                    confirmButton.className = 'w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-3 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm sm:py-2';
+                } else if (action === 'decline') {
+                    // Decline configuration
+                    modalIcon.innerHTML = '<svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L5.732 15.5c-.77.833.192 2.5 1.732 2.5z" /></svg>';
+                    modalIcon.className = 'mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10';
+                    modalTitle.textContent = 'Atmesti užklausą';
+                    modalMessage.textContent = 'Ar tikrai norite atmesti šią užklausą? Šio veiksmo nebegalėsite atšaukti.';
+                    confirmButton.textContent = 'Taip, atmesti';
+                    confirmButton.className = 'w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-3 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm sm:py-2';
+                } else if (action === 'complete') {
+                    // Complete configuration
+                    modalIcon.innerHTML = '<svg class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>';
+                    modalIcon.className = 'mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10';
+                    modalTitle.textContent = 'Užbaigti užklausą';
+                    modalMessage.textContent = 'Ar tikrai norite pažymėti šią užklausą kaip užbaigtą? Po to klientas galės palikti atsiliepimą apie jūsų paslaugas.';
+                    confirmButton.textContent = 'Taip, užbaigti';
+                    confirmButton.className = 'w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-3 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm sm:py-2';
+                }
+
+                confirmButton.onclick = function() {
+                    executeAction();
+                };
+
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+
+            function closeConfirmationModal() {
+                const modal = document.getElementById('confirmationModal');
+                modal.classList.add('hidden');
+                document.body.style.overflow = ''; // Restore scrolling
+                currentAction = '';
+            }
+
+            function executeAction() {
+                if (currentAction === 'accept') {
+                    document.getElementById('acceptForm').submit();
+                } else if (currentAction === 'decline') {
+                    document.getElementById('declineForm').submit();
+                } else if (currentAction === 'complete') {
+                    document.getElementById('completeForm').submit();
+                }
+                closeConfirmationModal();
+            }
+
+            // Close modal on Escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    closeConfirmationModal();
+                }
+            });
+
+            // Prevent modal from closing when clicking inside the modal content
+            document.addEventListener('DOMContentLoaded', function() {
+                const modalContent = document.querySelector('#confirmationModal .inline-block');
+                if (modalContent) {
+                    modalContent.addEventListener('click', function(event) {
+                        event.stopPropagation();
+                    });
+                }
+            });
         </script>
