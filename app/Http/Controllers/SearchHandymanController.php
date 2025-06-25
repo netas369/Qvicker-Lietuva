@@ -59,11 +59,24 @@ class SearchHandymanController extends Controller
 
         // Parse date or use current date as default
         $specificDate = $date ? Carbon::parse($date) : now();
-        $dayOfWeek = $specificDate->dayOfWeek;
 
-        // Build the base query for providers
+        // Build the base query for providers with Unicode-safe city search
         $query = User::where('role', 'provider')
-            ->whereRaw('JSON_CONTAINS(cities, ?)', ['"'.$city.'"']);
+            ->where(function($q) use ($city) {
+                // Method 1: Direct JSON search (for non-encoded)
+                $q->whereRaw('JSON_CONTAINS(cities, ?)', ['"'.$city.'"']);
+
+                // Method 2: LIKE search (catches both encoded and non-encoded)
+                $q->orWhere('cities', 'LIKE', '%'.addslashes($city).'%');
+
+                // Method 3: Search for unicode-escaped version
+                $unicodeCity = json_encode($city);
+                if ($unicodeCity !== '"'.$city.'"') {
+                    // Remove quotes and search for the unicode version
+                    $unicodeCityClean = trim($unicodeCity, '"');
+                    $q->orWhere('cities', 'LIKE', '%'.$unicodeCityClean.'%');
+                }
+            });
 
         // Filter by subcategory if specified
         if ($subcategoryId) {
