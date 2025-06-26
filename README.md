@@ -1,7 +1,7 @@
 # Lietuva
 
 ## Overview
-A modern web application built with Laravel, Tailwind CSS v3, and JavaScript.
+A modern web application built with Laravel, Tailwind CSS v3, JavaScript, Livewire v3.
 
 ## Features
 - User profiles with profile pictures
