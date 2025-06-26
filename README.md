@@ -6,7 +6,7 @@ A modern web application built with Laravel, Tailwind CSS v3, JavaScript, Livewi
 ## Features
 - User profiles with profile pictures
 - Category-based landing pages
-- Similar to [Scobo.lt](https://scobo.lt/) in functionality
+
 
 ## Tech Stack
 - **Backend:** Laravel 11
