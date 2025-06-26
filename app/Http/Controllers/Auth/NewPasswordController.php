@@ -32,7 +32,27 @@ class NewPasswordController extends Controller
         $request->validate([
             'token' => ['required'],
             'email' => ['required', 'email'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => [
+                'required',
+                'confirmed',
+                Rules\Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
+            ],
+        ], [
+            'email.required' => 'El. pašto adresas yra privalomas.',
+            'email.email' => 'Įveskite galiojantį el. pašto adresą.',
+            'password.required' => 'Slaptažodis yra privalomas.',
+            'password.confirmed' => 'Slaptažodžių patvirtinimas nesutampa.',
+            'password.min' => 'Slaptažodis turi būti bent :min simbolių ilgio.',
+            'password.letters' => 'Slaptažodis turi turėti bent vieną raidę.',
+            'password.mixed_case' => 'Slaptažodis turi turėti didžiųjų ir mažųjų raidžių.',
+            'password.numbers' => 'Slaptažodis turi turėti bent vieną skaičių.',
+            'password.symbols' => 'Slaptažodis turi turėti bent vieną specialų simbolį.',
+            'password.uncompromised' => 'Šis slaptažodis yra nesaugus. Pasirinkite kitą slaptažodį.',
         ]);
 
         // Here we will attempt to reset the user's password. If it is successful we
@@ -54,8 +74,8 @@ class NewPasswordController extends Controller
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
         return $status == Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                        ->withErrors(['email' => __($status)]);
+            ? redirect()->route('login')->with('status', 'Jūsų slaptažodis sėkmingai pakeistas!')
+            : back()->withInput($request->only('email'))
+                ->withErrors(['email' => 'Neteisingas el. pašto adresas arba netinkama nuoroda.']);
     }
 }

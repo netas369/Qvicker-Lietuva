@@ -76,14 +76,10 @@
                                 </label>
                             </div>
                             <div>
-                                {{--                            @if (Route::has('password.request'))--}}
-                                <a href="
-{{--                            {{ route('password.request') }}--}}
-                            "
+                                <a href="{{ route('password.request') }}"
                                    class="text-primary-light font-semibold text-sm hover:underline">
                                     Pamiršau Slaptažodį
                                 </a>
-                                {{--                            @endif--}}
                             </div>
                         </div>
 

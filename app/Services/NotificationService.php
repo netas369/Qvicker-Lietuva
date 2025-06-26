@@ -41,13 +41,13 @@ class NotificationService
     /**
      * Create a notification for a new reservation
      */
-    public function notifyNewReservation(User $provider, Reservation $reservation): void
+    public function notifyNewReservation(User $provider,User $seeker, Reservation $reservation): void
     {
         // Send to provider (new booking alert)
         $this->sendNotification($provider, new NewBookingNotification($reservation));
 
         // Send to seeker (booking confirmation)
-        $this->sendNotification($reservation->seeker, new NewBookingNotification($reservation));
+        $this->sendNotification($seeker, new NewBookingNotification($reservation));
     }
 
     /**

@@ -70,8 +70,7 @@
                                             </svg>
                                             </span>
                                             <span>
-                                                {{ $notification['data']['seeker_name'] }} atsiuntė naują užklausą darbui
-                                            mieste {{ $notification['data']['city'] }}
+                                                {{ $notification['data']['notification_text'] }}
                                             </span>
 
                                         </p>
