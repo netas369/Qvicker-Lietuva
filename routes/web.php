@@ -38,6 +38,21 @@ Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
 //    return view('dashboard');
 //})->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
+    ->name('password.request');
+
+// Send password reset link
+Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+    ->name('password.email');
+
+// Show reset password form
+Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
+    ->name('password.reset');
+
+// Process password reset
+Route::post('/reset-password', [NewPasswordController::class, 'store'])
+    ->name('password.store');
+
 // EMAIL VERIFICATION ROUTES HERE:
 Route::middleware('auth')->group(function () {
     Route::get('/email/verify', EmailVerificationPromptController::class)
@@ -74,20 +89,6 @@ Route::middleware('guest')->group(function () {
     Route::get('/register/seeker', [RegisteredUserController::class, 'createSeeker'])->name('register.seeker');
     Route::post('/register/seeker', [RegisteredUserController::class, 'storeSeeker'])->name('register.seeker.store');
 
-    Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
-        ->name('password.request');
-
-    // Send password reset link
-    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
-        ->name('password.email');
-
-    // Show reset password form
-    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
-        ->name('password.reset');
-
-    // Process password reset
-    Route::post('/reset-password', [NewPasswordController::class, 'store'])
-        ->name('password.store');
 });
 
 // Routes for providers

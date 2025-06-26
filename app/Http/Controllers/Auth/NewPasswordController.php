@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
@@ -19,13 +20,26 @@ class NewPasswordController extends Controller
      */
     public function create(Request $request): View
     {
-        return view('auth.reset-password', ['request' => $request]);
+        // Check if token and email are valid first
+        $token = $request->route('token');
+        $email = $request->query('email');
+
+        if (!$token || !$email) {
+            abort(404, 'Invalid password reset link.');
+        }
+
+        // DON'T logout user here - only show the form
+        // Let them decide if they want to proceed with reset
+
+        return view('auth.reset-password', [
+            'request' => $request,
+            'token' => $token,
+            'email' => $email
+        ]);
     }
 
     /**
      * Handle an incoming new password request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
@@ -55,9 +69,7 @@ class NewPasswordController extends Controller
             'password.uncompromised' => 'Šis slaptažodis yra nesaugus. Pasirinkite kitą slaptažodį.',
         ]);
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
+        // Reset the password
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) use ($request) {
@@ -70,12 +82,18 @@ class NewPasswordController extends Controller
             }
         );
 
-        // If the password was successfully reset, we will redirect the user back to
-        // the application's home authenticated view. If there is an error we can
-        // redirect them back to where they came from with their error message.
-        return $status == Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', 'Jūsų slaptažodis sėkmingai pakeistas!')
-            : back()->withInput($request->only('email'))
-                ->withErrors(['email' => 'Neteisingas el. pašto adresas arba netinkama nuoroda.']);
+        if ($status == Password::PASSWORD_RESET) {
+            // ONLY logout AFTER successful password reset
+            if (Auth::check()) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+            }
+
+            return redirect()->route('login')->with('status', 'Jūsų slaptažodis sėkmingai pakeistas! Prisijunkite su nauju slaptažodžiu.');
+        }
+
+        return back()->withInput($request->only('email'))
+            ->withErrors(['email' => 'Neteisingas el. pašto adresas arba netinkama nuoroda.']);
     }
 }
