@@ -97,6 +97,7 @@
                     @endif
                 </div>
             </div>
+
             <!-- Portfolio Photos Grid -->
             <div class="p-4 border-t">
                 <h1 class="text-primary text-xl font-semibold mb-4">Bendras Portfolio</h1>
@@ -116,8 +117,134 @@
                     </div>
                 @endif
             </div>
-        </div>
 
+            <!-- Reviews Section -->
+            <div class="p-4 border-t">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-primary text-xl font-semibold">Atsiliepimai</h2>
+                    <div class="flex items-center space-x-2 text-sm text-gray-600">
+                        <span class="font-medium">{{ $provider->reviewsReceived->where('is_approved', true)->count() }}</span>
+                        <span>{{ $provider->reviewsReceived->where('is_approved', true)->count() == 1 ? 'atsiliepimas' : 'atsiliepimai' }}</span>
+                    </div>
+                </div>
+
+                @if($provider->reviewsReceived->where('is_approved', true)->count() > 0)
+                    <!-- Overall Rating Summary -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="text-3xl font-bold text-primary">
+                                    {{ number_format($provider->average_rating, 1) }}
+                                </div>
+                                <div>
+                                    <div class="flex items-center mb-1">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            <svg class="h-5 w-5 {{ $i <= round($provider->average_rating) ? 'text-yellow-400' : 'text-gray-300' }}"
+                                                 fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.799-2.034c-.784-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                        @endfor
+                                    </div>
+                                    <div class="text-sm text-gray-600">
+                                        Bendras įvertinimas
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Rating Distribution (Optional - shows breakdown) -->
+                            <div class="hidden md:block text-right">
+                                <div class="text-sm text-gray-600">
+                                    @php
+                                        $approvedReviews = $provider->reviewsReceived->where('is_approved', true);
+                                        $totalReviews = $approvedReviews->count();
+                                    @endphp
+                                    @for($rating = 5; $rating >= 1; $rating--)
+                                        <div class="flex items-center space-x-2 mb-1">
+                                            <span class="w-8">{{ $rating }}★</span>
+                                            <div class="w-20 bg-gray-200 rounded-full h-2">
+                                                @php
+                                                    $ratingCount = $approvedReviews->where('rating', $rating)->count();
+                                                    $percentage = $totalReviews > 0 ? ($ratingCount / $totalReviews) * 100 : 0;
+                                                @endphp
+                                                <div class="bg-yellow-400 h-2 rounded-full" style="width: {{ $percentage }}%"></div>
+                                            </div>
+                                            <span class="w-6 text-xs">{{ $ratingCount }}</span>
+                                        </div>
+                                    @endfor
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Individual Reviews -->
+                    <div class="space-y-4 max-h-96 overflow-y-auto" id="reviewsContainer">
+                        @foreach($provider->reviewsReceived->where('is_approved', true)->sortByDesc('created_at')->take(10) as $review)
+                            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-start justify-between mb-2">
+                                    <div class="flex items-center space-x-3">
+                                        <!-- Reviewer Avatar -->
+                                        <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-sm font-medium text-gray-600">
+                                            {{ substr($review->seeker->name, 0, 1) }}{{ substr($review->seeker->lastname ?? '', 0, 1) }}
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-gray-900">
+                                                {{ $review->seeker->name }} {{ substr($review->seeker->lastname ?? '', 0, 1) }}.
+                                            </div>
+                                            <div class="flex items-center space-x-2">
+                                                <!-- Star Rating -->
+                                                <div class="flex items-center">
+                                                    @for($i = 1; $i <= 5; $i++)
+                                                        <svg class="h-4 w-4 {{ $i <= $review->rating ? 'text-yellow-400' : 'text-gray-300' }}"
+                                                             fill="currentColor" viewBox="0 0 20 20">
+                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.799-2.034c-.784-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                                        </svg>
+                                                    @endfor
+                                                </div>
+                                                <span class="text-sm text-gray-500">
+                                                    {{ $review->created_at->diffForHumans() }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Review Comment -->
+                                @if($review->comment)
+                                    <div class="mt-3">
+                                        <p class="text-gray-700 text-sm leading-relaxed">
+                                            {{ $review->comment }}
+                                        </p>
+                                    </div>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Show More Reviews Button (if there are more than 10) -->
+                    @if($provider->reviewsReceived->where('is_approved', true)->count() > 10)
+                        <div class="mt-4 text-center" id="showMoreButton">
+                            <button onclick="showAllReviews()" class="text-primary hover:text-primary-dark text-sm font-medium">
+                                Rodyti visus atsiliepimus ({{ $provider->reviewsReceived->where('is_approved', true)->count() }})
+                            </button>
+                        </div>
+                    @endif
+
+                @else
+                    <!-- No Reviews State -->
+                    <div class="text-center py-8">
+                        <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10m0 0V6a2 2 0 00-2-2H9a2 2 0 00-2 2v2m10 0v10a2 2 0 01-2 2H9a2 2 0 01-2-2V8m10 0H7m0 0v10a2 2 0 002 2h10a2 2 0 002-2V8"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">Atsiliepimų dar nėra</h3>
+                        <p class="text-gray-600 text-sm">
+                            Būkite pirmas, kuris palieka atsiliepimą apie šį paslaugų teikėją!
+                        </p>
+                    </div>
+                @endif
+            </div>
+        </div>
 
         <!-- Reservation form -->
         <div class="border rounded-lg shadow-sm overflow-hidden bg-white">
@@ -199,7 +326,6 @@
     </div>
 @endsection
 
-
 @once
     @push('scripts')
         <script>
@@ -237,6 +363,20 @@
                 imgContainer.appendChild(closeBtn);
                 overlay.appendChild(imgContainer);
                 document.body.appendChild(overlay);
+            }
+
+            function showAllReviews() {
+                // Remove the max-height and show all reviews
+                const reviewsContainer = document.getElementById('reviewsContainer');
+                if (reviewsContainer) {
+                    reviewsContainer.classList.remove('max-h-96', 'overflow-y-auto');
+
+                    // Hide the "show more" button
+                    const showMoreButton = document.getElementById('showMoreButton');
+                    if (showMoreButton) {
+                        showMoreButton.style.display = 'none';
+                    }
+                }
             }
         </script>
     @endpush
