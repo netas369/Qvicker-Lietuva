@@ -8,13 +8,24 @@
             </div>
         @endif
 
-            @if($user->role == 'provider' && $reviewIsLeft)
+        <!-- Error Messages -->
+        @if($errors->any())
+            <div class="mt-1 p-3 bg-red-100 text-red-700 rounded-lg mb-4">
+                <ul class="list-disc list-inside">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        @if($user->role == 'provider' && $reviewIsLeft)
             <h1 class="text-center text-primary text-xl font-semibold">Gavote Atsiliepimą</h1>
-            @elseif(!$reviewIsLeft)
-                <h1 class="text-center text-primary text-xl font-semibold">Palikite Atsiliepimą</h1>
-            @else
-                <h1 class="text-center text-primary text-xl font-semibold">Jūsų Atsiliepimas</h1>
-            @endif
+        @elseif(!$reviewIsLeft)
+            <h1 class="text-center text-primary text-xl font-semibold">Palikite Atsiliepimą</h1>
+        @else
+            <h1 class="text-center text-primary text-xl font-semibold">Jūsų Atsiliepimas</h1>
+        @endif
 
     </div>
 
@@ -62,15 +73,34 @@
                 @if(!$reviewIsLeft)
                     <!-- Editable feedback form -->
                     <form wire:submit.prevent="submitFeedback" class="flex flex-col items-center">
-                    <textarea
-                        wire:model.defer="feedbackText"
-                        rows="4"
-                        class="w-2/3 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                        placeholder="Parašykite savo atsiliepimą čia..."></textarea>
+                        <div class="w-2/3 relative">
+                            <textarea
+                                wire:model.live="feedbackText"
+                                rows="4"
+                                maxlength="500"
+                                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                                placeholder="Parašykite savo atsiliepimą čia... (iki 500 simbolių)"></textarea>
+
+                            <!-- Character Counter -->
+                            <div class="absolute bottom-2 right-2 text-xs {{ strlen($feedbackText) > 450 ? 'text-red-500' : 'text-gray-500' }}">
+                                {{ strlen($feedbackText) }}/500
+                            </div>
+                        </div>
+
+                        <!-- Character limit warning -->
+                        @if(strlen($feedbackText) > 500)
+                            <div class="w-2/3 mt-2 p-2 bg-red-100 text-red-700 rounded text-sm">
+                                Atsiliepimas per ilgas. Maksimalus ilgis: 500 simbolių.
+                            </div>
+                        @endif
 
                         <div class="mt-4 flex justify-end">
                             <button type="submit"
-                                    class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
+                                    @if(strlen($feedbackText) > 500 || $rating < 1) disabled @endif
+                                    class="px-6 py-2 text-white rounded-lg transition-colors
+                                    {{ (strlen($feedbackText) > 500 || $rating < 1)
+                                        ? 'bg-gray-400 cursor-not-allowed'
+                                        : 'bg-primary hover:bg-primary-dark' }}">
                                 Pateikti
                             </button>
                         </div>
@@ -78,11 +108,11 @@
                 @else
                     <!-- Read-only feedback display -->
                     @if($feedbackText)
-                    <div class="flex justify-center">
-                        <div class="w-2/3 p-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-700">
-                            {{ $feedbackText }}
+                        <div class="flex justify-center">
+                            <div class="w-2/3 p-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-700">
+                                {{ $feedbackText }}
+                            </div>
                         </div>
-                    </div>
                     @endif
                     <div class="mt-2 text-sm text-gray-500 italic text-right">
                         Atsiliepimas pateiktas {{ $feedbackCreatedAt }}
