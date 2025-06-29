@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Reservation;
 use App\Models\Message;
 use App\Models\Review;
+use App\Notifications\MessageReceivedSeeker;
 use App\Notifications\NewBookingNotification;
 use Illuminate\Support\Facades\Log;
 
@@ -77,54 +78,17 @@ class NotificationService
         return $notification;
     }
 
-    public function notifyMessageReceivedSeeker(Reservation $reservation): Notification
+    public function notifyMessageReceivedSeeker(Reservation $reservation): void
     {
-        $seeker = User::find($reservation->seeker_id);
-        $provider = User::find($reservation->provider_id);
+        // Use the static method from the notification class
+        MessageReceivedSeeker::notifyWithMessageCount($reservation);
 
-        // Check if there's an unread notification for this conversation
-        $existingNotification = Notification::where('user_id', $seeker->id)
-            ->where('type', NotificationType::NEW_MESSAGE_FOR_SEEKER)
-            ->whereNull('read_at')
-            ->whereJsonContains('data->reservation_id', $reservation->id)
-            ->first();
+        // Clear cache
+        $seeker = $reservation->seeker;
+        cache()->forget("user_{$seeker->id}_notifications");
+        cache()->forget("user_{$seeker->id}_unread_count");
 
-        if ($existingNotification) {
-            // Get the current data - check if it's already an array
-            $data = is_string($existingNotification->data)
-                ? json_decode($existingNotification->data, true)
-                : $existingNotification->data;
-
-            // Update the message count
-            $messageCount = isset($data['message_count']) ? $data['message_count'] + 1 : 2;
-
-            // Update notification text to show message count
-            $notification_text = 'Gavote ' . $messageCount . ' žinutes nuo ' . $provider->name . '! Rezervacijos Nr. ' . $reservation->id . '. Paspauskite, kad peržiūrėti.';
-
-            // Update the notification
-            $data['notification_text'] = $notification_text;
-            $data['message_count'] = $messageCount;
-            $existingNotification->data = $data; // Laravel will handle the JSON encoding
-
-            // Update timestamp
-            $existingNotification->updated_at = now();
-            $existingNotification->save();
-
-            return $existingNotification;
-        } else {
-            // Create new notification
-            $notification_text = 'Gavote žinutę nuo ' . $provider->name . '! Rezervacijos Nr. ' . $reservation->id . '. Paspauskite, kad peržiūrėti.';
-
-            return $this->createNotification(
-                $seeker->id,
-                NotificationType::NEW_MESSAGE_FOR_SEEKER,
-                $reservation,
-                $provider,
-                $seeker,
-                $notification_text,
-                ['message_count' => 1]
-            );
-        }
+        $this->emitLivewireEvent();
     }
 
     public function notifyMessageReceivedProvider(Reservation $reservation): Notification
