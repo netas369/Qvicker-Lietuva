@@ -162,7 +162,7 @@
                                             <span>{{ $notification['data']['notification_text'] }}</span>
                                         </p>
                                     </a>
-                                @elseif($notification['type'] === 'new_message_for_seeker' || $notification['type'] === 'new_message_for_provider')
+                                @elseif($notification['type'] === 'App\Notifications\MessageReceivedSeeker' || $notification['type'] === 'App\Notifications\MessageReceivedProvider')
                                     <a href="javascript:void(0)"
                                        class="block"
                                        wire:click="markAsReadAndNavigate('{{ $notification['id'] }}', '{{ $notification['data']['reservation_id'] }}')">

@@ -203,7 +203,19 @@ class SearchHandymanController extends Controller
 
     public function showReservation(Request $request, $id)
     {
-        $provider = User::findOrFail($id);
+        // Load provider with reviews relationship and calculate average rating
+        $provider = User::with([
+            'reviewsReceived' => function($query) {
+                $query->with('seeker')->orderBy('created_at', 'desc');
+            }
+        ])->findOrFail($id);
+
+        // Calculate average rating
+        $approvedReviews = $provider->reviewsReceived->where('is_approved', true);
+        $averageRating = $approvedReviews->count() > 0 ? $approvedReviews->avg('rating') : 0;
+
+        // Add the average rating as an attribute to the provider
+        $provider->average_rating = $averageRating;
 
         $date = $request->query('date', now()->format('Y-m-d'));
         $taskSize = $request->query('task_size');
@@ -211,10 +223,6 @@ class SearchHandymanController extends Controller
         $city = $request->query('city');
         $portfolioPhotos = json_decode($provider->portfolio_photos ?? '[]', true);
 
-
-
-
         return view('search.reserve.reserve', compact('provider', 'date', 'taskSize', 'subcategory', 'city', 'portfolioPhotos'));
     }
-
 }
