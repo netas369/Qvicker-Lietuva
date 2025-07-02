@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\LegalController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProviderController;
@@ -23,6 +24,10 @@ Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 Route::get('/search', [SearchHandymanController::class, 'index'])->name('search');
 Route::get('/search/results/show', [SearchHandymanController::class, 'showSearchResults'])->name('search.results.show');
 Route::post('/search/results', [SearchHandymanController::class, 'searchResults'])->name('search.results');
+Route::get('/cookies/policy', [LegalController::class, 'cookiesPolicy'])->name('cookies.policy');
+Route::get('/termsofuse', [LegalController::class, 'termsOfUse'])->name('termsofuse');
+Route::get('/privacy/policy', [LegalController::class, 'privacyPolicy'])->name('privacy.policy');
+
 
 
 
