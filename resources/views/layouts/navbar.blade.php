@@ -23,7 +23,9 @@
         <li><a class="text-md text-primary {{ request()->is('/') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/">Pagrindinis</a></li>
         <li><a class="text-md text-primary {{ request()->is('partners') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/partners">Partneriams</a></li>
         <li><a class="text-md text-primary {{ request()->is('seekers') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/seekers">Naudotojams</a></li>
-        <li><a class="text-md text-primary {{ request()->is('duk') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="#">DUK</a></li>
+        @if(auth()->user()->role == 'provider')
+        <li><a class="text-md text-primary {{ request()->is('provider/support') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/provider/support">Pagalba</a></li>
+        @endif
     </ul>
 
     @guest
@@ -164,7 +166,7 @@
                         <div class="border-t border-gray-100 p-2">
                             <div class="px-3 py-1.5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Nustatymai</div>
 
-                            <a href="/help" class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-all duration-150 group/item">
+                            <a href="/provider/support" class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-all duration-150 group/item">
                                 <div class="w-8 h-8 rounded-lg bg-pink-50 flex items-center justify-center mr-3 group-hover/item:bg-pink-100 transition-colors">
                                     <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>

@@ -103,6 +103,8 @@ Route::middleware(['auth', 'verified', 'provider'])->group(function () {
     Route::get('/reservation/{id}/modify', [ReservationController::class, 'modifyProvider'])->name('reservation.modify');
     Route::post('/reservation/{id}/decline', [ReservationController::class, 'declineProvider'])->name('reservation.declineProvider');
     Route::put('/reservations/{id}/edit-seeker', [ReservationController::class, 'editProvider'])->name('reservations.editProvider');
+    Route::get('/provider/support', [ProviderController::class, 'support'])->name('provider.support');
+    Route::post('/provider/support', [ProviderController::class, 'sendSupport'])->name('provider.support.send');
 
 });
 
