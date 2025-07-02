@@ -371,13 +371,16 @@
                         </li>
                     </ul>
                 </div>
-
                 <!-- Settings Section -->
                 <div class="px-3 mb-4">
                     <div class="px-3 py-1.5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Nustatymai</div>
                     <ul class="space-y-1">
                         <li>
-                            <a href="/help" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-all duration-200">
+                            @if(auth()->check() && auth()->user()->role == 'provider')
+                            <a href="/provider/support" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-all duration-200">
+                                @elseif(auth()->check() && auth()->user()->role == 'seeker')
+                                    <a href="/seeker/support" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-all duration-200">
+                                        @endif
                                 <div class="w-8 h-8 rounded-lg bg-pink-50 flex items-center justify-center mr-3">
                                     <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
