@@ -24,7 +24,6 @@ class ProviderController extends Controller
     {
         return view('profile.work');
     }
-
     public function support()
     {
         return view('profile.provider-support');
