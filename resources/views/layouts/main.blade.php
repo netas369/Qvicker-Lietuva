@@ -174,5 +174,7 @@
         }
     });
 </script>
+
+@include('components.cookie-banner')
 </body>
 </html>
