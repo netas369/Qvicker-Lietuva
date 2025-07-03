@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\LegalController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProviderController;
@@ -23,6 +24,10 @@ Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 Route::get('/search', [SearchHandymanController::class, 'index'])->name('search');
 Route::get('/search/results/show', [SearchHandymanController::class, 'showSearchResults'])->name('search.results.show');
 Route::post('/search/results', [SearchHandymanController::class, 'searchResults'])->name('search.results');
+Route::get('/cookies/policy', [LegalController::class, 'cookiesPolicy'])->name('cookies.policy');
+Route::get('/termsofuse', [LegalController::class, 'termsOfUse'])->name('termsofuse');
+Route::get('/privacy/policy', [LegalController::class, 'privacyPolicy'])->name('privacy.policy');
+
 
 
 
@@ -103,6 +108,8 @@ Route::middleware(['auth', 'verified', 'provider'])->group(function () {
     Route::get('/reservation/{id}/modify', [ReservationController::class, 'modifyProvider'])->name('reservation.modify');
     Route::post('/reservation/{id}/decline', [ReservationController::class, 'declineProvider'])->name('reservation.declineProvider');
     Route::put('/reservations/{id}/edit-seeker', [ReservationController::class, 'editProvider'])->name('reservations.editProvider');
+    Route::get('/provider/support', [ProviderController::class, 'support'])->name('provider.support');
+    Route::post('/provider/support', [ProviderController::class, 'sendSupport'])->name('provider.support.send');
 
 });
 
@@ -114,6 +121,8 @@ Route::middleware(['auth', 'verified', 'seeker'])->group(function () {
     Route::get('/my-reservations/{id}', [ReservationController::class, 'modifySeeker'])->name('reservation.modifySeeker');
     Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.request');
     Route::post('/reservation/{id}/cancel', [ReservationController::class, 'declineSeeker'])->name('reservation.declineSeeker');
+    Route::get('/seeker/support', [SeekerController::class, 'support'])->name('seeker.support');
+    Route::post('/seeker/support/send', [SeekerController::class, 'sendSeekerSupport'])->name('seeker.support.send');
 
 });
 

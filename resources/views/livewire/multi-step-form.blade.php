@@ -628,7 +628,7 @@
                                class="rounded border-gray-300 text-primary-light focus:ring-primary-light">
                         <span class="ml-2 text-sm text-gray-600">
                     Sutinku su
-                    <a href="#" class="text-primary-light hover:text-primary-dark">naudojimo sąlygomis</a>
+                    <a href="{{ route('termsofuse') }}" class="text-primary-light hover:text-primary-dark">naudojimo sąlygomis</a>
                 </span>
                     </label>
                     @error('terms') <span class="block text-red-500 text-sm mt-2">{{ $message }}</span> @enderror

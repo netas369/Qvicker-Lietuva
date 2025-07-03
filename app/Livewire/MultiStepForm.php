@@ -49,6 +49,8 @@ class MultiStepForm extends Component
 
     public $activeTab = 0;
 
+    public $terms = false;
+
     protected $rules = [
         'terms' => 'required|accepted',
     ];
@@ -56,7 +58,7 @@ class MultiStepForm extends Component
     public function mount($userType)
     {
         $this->userType = $userType;
-        $this->totalSteps = $userType === 'provider' ? 3 : 1; // Set total steps based on user type
+        $this->totalSteps = $userType === 'provider' ? 3 : 1;
         $this->loadCategories();
 
     }
@@ -86,11 +88,6 @@ class MultiStepForm extends Component
         $this->validate($this->getValidationRules());
         $this->currentStep++;
     }
-
-    //    public function oneStepValidation()
-    //    {
-    //        $this->validate($this->getValidationRules());
-    //    }
 
     public function previousStep()
     {
@@ -158,6 +155,12 @@ class MultiStepForm extends Component
             ];
         }
 
+        if ($this->currentStep === 3) {
+            return [
+                'terms' => 'required|accepted',
+            ];
+        }
+
         return [];
     }
 
@@ -203,6 +206,8 @@ class MultiStepForm extends Component
             'languages.array' => 'Kalbos turi būti pateiktos sąrašu',
             'selectedSubcategories.required' => 'Privaloma pasirinkti bent vieną kategoriją',
             'selectedSubcategories.min' => 'Privaloma pasirinkti bent vieną kategoriją',
+            'terms.required' => 'Privalote sutikti su naudojimo sąlygomis.',
+            'terms.accepted' => 'Privalote sutikti su naudojimo sąlygomis.',
         ];
     }
 
@@ -226,12 +231,13 @@ class MultiStepForm extends Component
 
     public function register()
     {
+        $this->validate($this->getValidationRules());
+
         // Determine user role based on user type
         if ($this->userType === 'provider') {
             $userRole = 'provider';
         } elseif ($this->userType === 'seeker') {
             $userRole = 'seeker';
-            $this->validate($this->getValidationRules());
         }
 
         // Add date formatting to prevent invalid dates
@@ -249,9 +255,9 @@ class MultiStepForm extends Component
 
         // Create new user with safely formatted date
         $user = User::create([
-            'name' => $this->vardas,
-            'lastname' => $this->pavarde,
-            'birthday' => $birthDate, // Use the safely formatted date
+            'name' => ucfirst(strtolower($this->vardas)),
+            'lastname' => ucfirst(strtolower($this->pavarde)),
+            'birthday' => $birthDate,
             'email' => $this->email,
             'cities' => $this->miestas,
             'phone' => $formattedPhone,
