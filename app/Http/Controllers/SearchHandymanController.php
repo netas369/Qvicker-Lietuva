@@ -14,7 +14,43 @@ class SearchHandymanController extends Controller
         $subcategory = $request->query('subcategory');
         $subcategoryId = $request->query('subcategory_id');
 
-        return view('search', compact('subcategory', 'subcategoryId'));
+        $categoriesData = Category::select('category', 'subcategory')->get();
+
+        $categories = $categoriesData->pluck('category')->unique()->values();
+
+        // Group subcategories by category for JavaScript
+        $subcategoriesData = $categoriesData->groupBy('category')->map(function ($items) {
+            return $items->pluck('subcategory')->unique()->values();
+        });
+
+        // Handle URL parameter for subcategory
+        $selectedSubcategory = $request->get('subcategory');
+        $selectedCategory = null;
+        $subcategories = collect();
+
+        if ($selectedSubcategory) {
+            // Find the category for the given subcategory
+            $categoryRecord = Category::where('subcategory', $selectedSubcategory)->first();
+
+            if ($categoryRecord) {
+                $selectedCategory = $categoryRecord->category;
+
+                // Get all subcategories for this category
+                $subcategories = Category::where('category', $selectedCategory)
+                    ->pluck('subcategory')
+                    ->unique()
+                    ->values();
+            }
+        }
+
+
+        return view('search', compact(
+            'categories',
+            'subcategoriesData',
+            'selectedCategory',
+            'selectedSubcategory',
+            'subcategories'
+        ));
     }
 
 
@@ -22,9 +58,16 @@ class SearchHandymanController extends Controller
     {
 
         $validated = $request->validate([
+            'category' => 'required|string|exists:categories,category',
+            'subcategory' => 'required|string|exists:categories,subcategory',
+            'date' => 'required|after_or_equal:today',
             'city' => 'required',
             'task_size' => 'required'
         ], [
+            'category.required' => 'Pasirinkite kategoriją',
+            'subcategory.required' => 'Pasirinkite sub-kategoriją',
+            'date.required' => 'Pasirinkite datą',
+            'date.after_or_equal' => 'Data negali būti praeityje',
             'city.required' => 'Pasirinkite miestą kurioje reikia paslaugos',
             'task_size.required' => 'Pasirinkite užduoties dydį'
         ]);
@@ -34,18 +77,32 @@ class SearchHandymanController extends Controller
         $subcategory = $request->input('subcategory');
 
         // Get validated data
+        $category = $validated['category'];
+        $subcategory = $validated['subcategory'];
         $city = $validated['city'];
         $taskSize = $validated['task_size'];
-        $date = $request->input('date', now()->format('Y-m-d'));
+        $date = $validated['date']; // Use validated date instead of overriding
 
         // Redirect to results page with parameters in URL
         return redirect()->route('search.results.show', [
+            'category' => $category,
             'city' => $city,
             'task_size' => $taskSize,
             'subcategory_id' => $subcategoryId,
             'subcategory' => $subcategory,
             'date' => $date
         ]);
+    }
+
+    // API endpoint to get subcategories for a specific category (if needed for AJAX)
+    public function getSubcategories($category)
+    {
+        $subcategories = Category::where('category', $category)
+            ->pluck('subcategory')
+            ->unique()
+            ->values();
+
+        return response()->json($subcategories);
     }
 
     public function showSearchResults(Request $request)
