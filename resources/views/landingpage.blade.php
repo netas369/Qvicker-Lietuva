@@ -7,7 +7,7 @@
 @section('content')
 
     <!-- MAIN CONTENT DIV -->
-    <div class="relative">
+    <div class="relative overflow-hidden">
         <!-- Hero Background -->
         <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 -z-10"></div>
 
@@ -296,7 +296,7 @@
             </div>
 
             <!-- About Section - Fully Responsive -->
-            <section class="py-12 sm:py-16 md:py-20 relative">
+            <section class="py-12 sm:py-16 md:py-20 relative overflow-hidden">
                 <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
                     <div class="w-full justify-start items-center gap-8 md:gap-12 grid lg:grid-cols-2 grid-cols-1">
                         <div class="w-full flex-col justify-center lg:items-start items-center gap-6 sm:gap-8 md:gap-10 inline-flex">
