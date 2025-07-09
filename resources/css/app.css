@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 
+
 @font-face {
     font-family: 'Franklin Gothic Heavy';
     src: url('/fonts/FranklinGothicHeavy.ttf') format('truetype');
