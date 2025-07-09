@@ -45,4 +45,14 @@ class LandingPageController extends Controller
     {
         return view('forseekers');
     }
+
+    public function duk()
+    {
+        return view('duk');
+    }
+
+    public function aboutus()
+    {
+        return view('aboutus');
+    }
 }

@@ -27,6 +27,8 @@ Route::post('/search/results', [SearchHandymanController::class, 'searchResults'
 Route::get('/cookies/policy', [LegalController::class, 'cookiesPolicy'])->name('cookies.policy');
 Route::get('/termsofuse', [LegalController::class, 'termsOfUse'])->name('termsofuse');
 Route::get('/privacy/policy', [LegalController::class, 'privacyPolicy'])->name('privacy.policy');
+Route::get('/duk', [LandingPageController::class, 'duk'])->name('duk');
+Route::get('/aboutus', [LandingPageController::class, 'aboutus'])->name('aboutus');
 
 
 
