@@ -81,7 +81,7 @@
                     <div class="faq-item group" data-category="general">
                         <div class="bg-white border-2 border-gray-100 rounded-2xl hover:border-primary-light/30 hover:shadow-lg transition-all duration-300">
                             <button class="faq-question flex justify-between items-center w-full p-6 text-left">
-                                <span class="text-lg font-semibold text-gray-800 group-hover:text-primary-light transition-colors duration-300">Kas yra WorkLink?</span>
+                                <span class="text-lg font-semibold text-gray-800 group-hover:text-primary-light transition-colors duration-300">Kas yra Qvicker?</span>
                                 <div class="ml-4 flex-shrink-0 w-10 h-10 bg-gray-100 group-hover:bg-primary-light/10 rounded-full flex items-center justify-center transition-all duration-300">
                                     <svg class="faq-icon h-5 w-5 text-gray-500 group-hover:text-primary-light transition-all duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -89,7 +89,7 @@
                                 </div>
                             </button>
                             <div class="faq-answer hidden px-6 pb-6">
-                                <p class="text-gray-600 leading-relaxed">WorkLink yra inovatyvi platforma, jungianti paslaugų teikėjus su klientais visoje Lietuvoje. Mes padedame žmonėms greitai ir patogiai rasti patikimus specialistus įvairioms paslaugoms - nuo namų remonto iki grožio paslaugų.</p>
+                                <p class="text-gray-600 leading-relaxed">Qvicker yra inovatyvi platforma, jungianti paslaugų teikėjus su klientais visoje Lietuvoje. Mes padedame žmonėms greitai ir patogiai rasti patikimus specialistus įvairioms paslaugoms - nuo namų remonto iki grožio paslaugų.</p>
                             </div>
                         </div>
                     </div>
@@ -302,7 +302,7 @@
                                 </div>
                             </button>
                             <div class="faq-answer hidden px-6 pb-6">
-                                <p class="text-gray-600 leading-relaxed">Šiuo metu WorkLink platforma neapdoroja mokėjimų. Atsiskaitymai vyksta tiesiogiai tarp kliento ir paslaugų teikėjo. Mokėjimo būdą (grynieji, pavedimu) susitarkite tarpusavyje prieš pradedant darbą.</p>
+                                <p class="text-gray-600 leading-relaxed">Šiuo metu Qvicker platforma neapdoroja mokėjimų. Atsiskaitymai vyksta tiesiogiai tarp kliento ir paslaugų teikėjo. Mokėjimo būdą (grynieji, pavedimu) susitarkite tarpusavyje prieš pradedant darbą.</p>
                             </div>
                         </div>
                     </div>
@@ -318,7 +318,7 @@
                                 </div>
                             </button>
                             <div class="faq-answer hidden px-6 pb-6">
-                                <p class="text-gray-600 leading-relaxed">Ne, šiuo metu WorkLink netaiko jokių mokesčių nei klientams, nei paslaugų teikėjams. Registracija ir naudojimasis platforma yra visiškai nemokama. Ateityje gali būti taikomi nedideli komisiniai mokesčiai paslaugų teikėjams.</p>
+                                <p class="text-gray-600 leading-relaxed">Ne, šiuo metu Qvicker netaiko jokių mokesčių nei klientams, nei paslaugų teikėjams. Registracija ir naudojimasis platforma yra visiškai nemokama. Ateityje gali būti taikomi nedideli komisiniai mokesčiai paslaugų teikėjams.</p>
                             </div>
                         </div>
                     </div>
@@ -389,7 +389,7 @@
                                 <ol class="list-decimal list-inside text-gray-600 space-y-2 mt-3">
                                     <li>Pirmiausia pabandykite išspręsti problemą tiesiogiai su paslaugų teikėju</li>
                                     <li>Palikite objektyvų atsiliepimą apie patirtį</li>
-                                    <li>Susisiekite su mūsų komanda el. paštu support@worklink.lt</li>
+                                    <li>Susisiekite su mūsų komanda el. paštu support@qvicker.lt</li>
                                     <li>Aprašykite situaciją ir pridėkite įrodymus (nuotraukas, susirašinėjimą)</li>
                                     <li>Mes padėsime rasti tinkamą sprendimą</li>
                                 </ol>
@@ -445,7 +445,7 @@
                                 </svg>
                             </div>
                             <h3 class="font-semibold text-gray-800 mb-2">El. paštas</h3>
-                            <a href="mailto:support@worklink.lt" class="text-primary-light hover:text-primary-dark transition-colors">support@worklink.lt</a>
+                            <a href="mailto:info@qvicker.lt" class="text-primary-light hover:text-primary-dark transition-colors">support@qvicker.lt</a>
                         </div>
                     </div>
 

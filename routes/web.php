@@ -28,7 +28,7 @@ Route::get('/cookies/policy', [LegalController::class, 'cookiesPolicy'])->name('
 Route::get('/termsofuse', [LegalController::class, 'termsOfUse'])->name('termsofuse');
 Route::get('/privacy/policy', [LegalController::class, 'privacyPolicy'])->name('privacy.policy');
 Route::get('/duk', [LandingPageController::class, 'duk'])->name('duk');
-Route::get('/aboutus', [LandingPageController::class, 'aboutus'])->name('aboutus');
+Route::get('/apiemus', [LandingPageController::class, 'aboutus'])->name('aboutus');
 
 
 
