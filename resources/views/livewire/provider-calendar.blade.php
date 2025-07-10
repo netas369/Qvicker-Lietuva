@@ -40,9 +40,9 @@
             ] as $day)
                 <div class="py-2 text-center text-sm font-medium text-gray-500">
                     <!-- Full day name on larger screens -->
-                    <span class="hidden md:inline">{{ $dayName }}</span>
-                    <!-- First letter only on mobile -->
-                    <span class="md:hidden">{{ substr($dayName, 0, 1) }}</span>
+                    <span class="hidden md:inline">{{ $day['short'] }}</span>
+                    <!-- Safe mobile character -->
+                    <span class="md:hidden">{{ $day['mobile'] }}</span>
                 </div>
             @endforeach
         </div>
