@@ -96,7 +96,7 @@ class SeekerController extends Controller
             try {
                 Mail::send('emails.seeker-support', $emailData, function ($message) use ($emailData) {
                     $message->to('info@qvicker.lt', 'Qvicker Support')
-                        ->subject('[NAUDOTOJO PALAIKYMAS] ' . $emailData['subject'])
+                        ->subject('[PAGALBA NAUDOTOJUI] ' . $emailData['subject'])
                         ->from(Config::get('mail.from.address'), Config::get('mail.from.name'))
                         ->replyTo($emailData['email'], $emailData['name']);
 

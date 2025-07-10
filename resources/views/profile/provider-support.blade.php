@@ -16,7 +16,7 @@
                 <!-- Badge -->
                 <div class="inline-block">
                     <div class="flex items-center space-x-3 bg-white/80 backdrop-blur-sm px-5 py-2.5 rounded-full shadow-md border border-gray-100">
-                        <span class="text-sm font-semibold text-gray-700">24/7 Palaikymas</span>
+                        <span class="text-sm font-semibold text-gray-700">24/7 Pagalba</span>
                         <span class="relative flex h-2.5 w-2.5">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                             <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
@@ -27,7 +27,7 @@
                 <!-- Heading -->
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
                     <span class="block bg-gradient-to-r from-blue-600 via-primary-light to-blue-600 bg-clip-text text-transparent pb-2">
-                        Partnerių palaikymas
+                        Pagalba partneriam
                     </span>
                     <span class="block text-gray-900 mt-2">Mes čia, kad padėtume</span>
                 </h1>

@@ -180,7 +180,7 @@
                                 </div>
                                 <div class="flex-1">
                                     <span class="font-medium">Pagalba</span>
-                                    <p class="text-xs text-gray-500">Palaikymas ir DUK</p>
+                                    <p class="text-xs text-gray-500">Pagalba ir DUK</p>
                                 </div>
                             </a>
                         </div>
@@ -388,7 +388,7 @@
                                 </div>
                                 <div class="flex-1">
                                     <span class="font-medium text-sm">Pagalba</span>
-                                    <p class="text-xs text-gray-500">Palaikymas ir DUK</p>
+                                    <p class="text-xs text-gray-500">Pagalba ir DUK</p>
                                 </div>
                             </a>
                         </li>

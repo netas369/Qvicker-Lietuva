@@ -119,7 +119,7 @@ class ProviderController extends Controller
             try {
                 Mail::send('emails.provider-support', $emailData, function ($message) use ($emailData) {
                     $message->to('info@qvicker.lt', 'Qvicker Support')
-                        ->subject('[PARTNERIO PALAIKYMAS] ' . $emailData['subject'])
+                        ->subject('[PAGALBA PARTNERIUI] ' . $emailData['subject'])
                         ->from(Config::get('mail.from.address'), Config::get('mail.from.name'))
                         ->replyTo($emailData['email'], $emailData['name']);
 
