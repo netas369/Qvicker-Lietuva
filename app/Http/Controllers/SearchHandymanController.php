@@ -6,6 +6,8 @@ use App\Models\Category;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 class SearchHandymanController extends Controller
 {
@@ -83,6 +85,9 @@ class SearchHandymanController extends Controller
         $taskSize = $validated['task_size'];
         $date = $validated['date']; // Use validated date instead of overriding
 
+        $perPage = 10;
+        $currentPage = $request->query('page', 1);
+
         // Redirect to results page with parameters in URL
         return redirect()->route('search.results.show', [
             'category' => $category,
@@ -113,6 +118,10 @@ class SearchHandymanController extends Controller
         $subcategoryId = $request->query('subcategory_id');
         $subcategory = $request->query('subcategory');
         $date = $request->query('date');
+
+        // Pagination parameters
+        $perPage = 5; // 5 providers per page
+        $currentPage = $request->query('page', 1);
 
         // Parse date or use current date as default
         $specificDate = $date ? Carbon::parse($date) : now();
@@ -188,16 +197,66 @@ class SearchHandymanController extends Controller
             return abs($a['days_difference']) - abs($b['days_difference']);
         });
 
-        // Return view with all parameters
+        // Combine both arrays for pagination
+        $allResults = array_merge($exactlyAvailableProviders, $soonAvailableProviders);
+
+        // Create pagination
+        $paginatedResults = $this->paginateArray($allResults, $perPage, $currentPage, $request);
+
+        // Separate paginated results back into exact and soon available
+        $paginatedExact = [];
+        $paginatedSoon = [];
+
+        foreach ($paginatedResults as $result) {
+            if ($result['is_exact_match']) {
+                $paginatedExact[] = $result;
+            } else {
+                $paginatedSoon[] = $result;
+            }
+        }
+
+        // Get total counts for display
+        $totalExact = count($exactlyAvailableProviders);
+        $totalSoon = count($soonAvailableProviders);
+
+        // Return view with paginated results
         return view('search.results', [
-            'exactlyAvailableProviders' => $exactlyAvailableProviders,
-            'soonAvailableProviders' => $soonAvailableProviders,
+            'exactlyAvailableProviders' => $paginatedExact,
+            'soonAvailableProviders' => $paginatedSoon,
+            'paginatedResults' => $paginatedResults,
+            'totalExact' => $totalExact,
+            'totalSoon' => $totalSoon,
             'subcategory' => $subcategory,
             'city' => $city,
             'taskSize' => $taskSize,
             'date' => $date,
             'specificDate' => $specificDate
         ]);
+    }
+
+    /**
+     * Paginate an array of results
+     */
+    private function paginateArray($items, $perPage, $currentPage, $request)
+    {
+        $currentPage = Paginator::resolveCurrentPage() ?: $currentPage;
+        $itemCollection = collect($items);
+
+        $currentPageItems = $itemCollection->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
+        $paginatedItems = new LengthAwarePaginator(
+            $currentPageItems,
+            $itemCollection->count(),
+            $perPage,
+            $currentPage,
+            [
+                'path' => $request->url(),
+                'pageName' => 'page',
+                'query' => $request->query(),
+            ]
+        );
+
+        return $paginatedItems;
     }
 
     /**

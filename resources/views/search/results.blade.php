@@ -2,6 +2,8 @@
 
 @section('content')
     <div class="w-full max-w-4xl mx-auto p-2 md:p-4">
+
+
         <div class="mb-4 md:mb-6">
             <h1 class="text-xl md:text-2xl font-bold text-primary mb-2">Rasti meistrai</h1>
 
@@ -52,6 +54,7 @@
                 </form>
             </div>
         </div>
+
 
         <!-- Check if there are any providers (exact or soon available) -->
         @if(empty($exactlyAvailableProviders) && empty($soonAvailableProviders))
@@ -389,6 +392,28 @@
             @endif
         @endif
 
+        <!-- Add this right before the "Grįžti į paiešką" link (around line 350) -->
+        <!-- Pagination Links -->
+        @if(isset($paginatedResults) && $paginatedResults->hasPages())
+            <div class="mt-6 mb-4 flex justify-center">
+                <div class="pagination-wrapper">
+                    {{ $paginatedResults->appends(request()->query())->links() }}
+                </div>
+            </div>
+        @endif
+
+
+        <!-- Results count -->
+        @if(isset($paginatedResults) && ($totalExact > 0 || $totalSoon > 0))
+            <div class="mb-3 text-sm text-gray-600">
+                Rasta {{ $totalExact + $totalSoon }} meistrų
+                ({{ $totalExact }} laisvi, {{ $totalSoon }} artimiausiomis dienomis)
+                @if($paginatedResults->total() > 0)
+                    - Rodoma {{ $paginatedResults->firstItem() ?? 0 }}-{{ $paginatedResults->lastItem() ?? 0 }}
+                @endif
+            </div>
+        @endif
+
         <div class="mt-4 md:mt-6">
             <a href="{{ route('search') }}?subcategory={{ urlencode($subcategory ?? '') }}" class="text-primary hover:text-primary-dark text-sm md:text-base">
                 &larr; Grįžti į paiešką
@@ -397,6 +422,38 @@
     </div>
 @endsection
 
+
+<!-- Add this CSS to make pagination mobile-friendly (in @push('styles') section) -->
+@push('styles')
+    <style>
+        .pagination-wrapper .pagination {
+            @apply flex items-center space-x-1 text-sm;
+        }
+
+        .pagination-wrapper .pagination .page-link {
+            @apply px-2 py-1 md:px-3 md:py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 rounded;
+        }
+
+        .pagination-wrapper .pagination .page-item.active .page-link {
+            @apply bg-primary text-white border-primary;
+        }
+
+        .pagination-wrapper .pagination .page-item.disabled .page-link {
+            @apply text-gray-400 cursor-not-allowed;
+        }
+
+        /* Mobile responsive pagination */
+        @media (max-width: 640px) {
+            .pagination-wrapper .pagination {
+                @apply text-xs space-x-0.5;
+            }
+
+            .pagination-wrapper .pagination .page-link {
+                @apply px-1.5 py-1 text-xs;
+            }
+        }
+    </style>
+@endpush
 
 @once
     @push('scripts')
