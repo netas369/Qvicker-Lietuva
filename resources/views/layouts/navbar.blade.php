@@ -28,6 +28,7 @@
             @elseif(auth()->check() && auth()->user()->role == 'seeker')
                 <li><a class="text-md text-primary {{ request()->is('seeker/support') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/seeker/support">Pagalba</a></li>
             @endif
+        <li><a class="text-md text-primary {{ request()->is('duk') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/duk">DUK</a></li>
     </ul>
 
     @guest
