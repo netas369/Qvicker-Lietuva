@@ -47,12 +47,11 @@
             <div>
                 <h4 class="text-lg font-semibold text-white mb-6">Navigacija</h4>
                 <ul class="space-y-3">
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Pagrindinis</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Apie Mus</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Paslaugos</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Produktai</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Naujienos</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Kontaktai</a></li>
+                    <li><a href="{{ route('landingpage') }}" class="text-gray-300 hover:text-white transition-colors duration-300">Pagrindinis</a></li>
+                    <li><a href="{{ route('aboutus') }}" class="text-gray-300 hover:text-white transition-colors duration-300">Apie Mus</a></li>
+                    <li><a href="{{ route('duk') }}" class="text-gray-300 hover:text-white transition-colors duration-300">DUK</a></li>
+                    <li><a href="{{ route('partners') }}" class="text-gray-300 hover:text-white transition-colors duration-300">Partneriams</a></li>
+                    <li><a href="{{ route('seekers') }}" class="text-gray-300 hover:text-white transition-colors duration-300">Naudotojams</a></li>
                 </ul>
             </div>
 
@@ -60,12 +59,7 @@
             <div>
                 <h4 class="text-lg font-semibold text-white mb-6">Paslaugos</h4>
                 <ul class="space-y-3">
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Konsultacijos</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Techninis palaikymas</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Produktų pristatymas</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Mokymai</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Garantijos</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Kainos</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Visos Paslaugos</a></li>
                 </ul>
             </div>
 
@@ -73,10 +67,8 @@
             <div>
                 <h4 class="text-lg font-semibold text-white mb-6">Kontaktai ir Pagalba</h4>
                 <ul class="space-y-3 mb-6">
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Pagalba</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">DUK</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Dokumentacija</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Karjera</a></li>
+                    <li><a href="{{ route('seeker.support') }}" class="text-gray-300 hover:text-white transition-colors duration-300">Pagalba</a></li>
+                    <li><a href="{{ route('duk') }}" class="text-gray-300 hover:text-white transition-colors duration-300">DUK</a></li>
                 </ul>
 
                 <!-- Contact Info -->

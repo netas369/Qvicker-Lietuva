@@ -27,12 +27,12 @@ Route::post('/search/results', [SearchHandymanController::class, 'searchResults'
 Route::get('/cookies/policy', [LegalController::class, 'cookiesPolicy'])->name('cookies.policy');
 Route::get('/termsofuse', [LegalController::class, 'termsOfUse'])->name('termsofuse');
 Route::get('/privacy/policy', [LegalController::class, 'privacyPolicy'])->name('privacy.policy');
-
-
-
-
+Route::get('/duk', [LandingPageController::class, 'duk'])->name('duk');
+Route::get('/apiemus', [LandingPageController::class, 'aboutus'])->name('aboutus');
 Route::get('/partners', [LandingPageController::class, 'partners'])->name('partners');
 Route::get('/seekers', [LandingPageController::class, 'seekers'])->name('seekers');
+Route::get('/seeker/support', [SeekerController::class, 'support'])->name('seeker.support');
+Route::post('/seeker/support/send', [SeekerController::class, 'sendSeekerSupport'])->name('seeker.support.send');
 
 Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
     ->middleware(['signed', 'throttle:6,1'])
@@ -121,8 +121,6 @@ Route::middleware(['auth', 'verified', 'seeker'])->group(function () {
     Route::get('/my-reservations/{id}', [ReservationController::class, 'modifySeeker'])->name('reservation.modifySeeker');
     Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.request');
     Route::post('/reservation/{id}/cancel', [ReservationController::class, 'declineSeeker'])->name('reservation.declineSeeker');
-    Route::get('/seeker/support', [SeekerController::class, 'support'])->name('seeker.support');
-    Route::post('/seeker/support/send', [SeekerController::class, 'sendSeekerSupport'])->name('seeker.support.send');
 
 });
 

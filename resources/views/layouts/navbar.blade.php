@@ -28,6 +28,7 @@
             @elseif(auth()->check() && auth()->user()->role == 'seeker')
                 <li><a class="text-md text-primary {{ request()->is('seeker/support') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/seeker/support">Pagalba</a></li>
             @endif
+        <li><a class="text-md text-primary {{ request()->is('duk') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/duk">DUK</a></li>
     </ul>
 
     @guest
@@ -180,7 +181,7 @@
                                 </div>
                                 <div class="flex-1">
                                     <span class="font-medium">Pagalba</span>
-                                    <p class="text-xs text-gray-500">Palaikymas ir DUK</p>
+                                    <p class="text-xs text-gray-500">Pagalba ir DUK</p>
                                 </div>
                             </a>
                         </div>
@@ -388,7 +389,7 @@
                                 </div>
                                 <div class="flex-1">
                                     <span class="font-medium text-sm">Pagalba</span>
-                                    <p class="text-xs text-gray-500">Palaikymas ir DUK</p>
+                                    <p class="text-xs text-gray-500">Pagalba ir DUK</p>
                                 </div>
                             </a>
                         </li>

@@ -7,20 +7,6 @@
 
 <section
     class="flex snap-x snap-mandatory flex-nowrap overflow-x-auto overflow-y-hidden lg:items-center lg:justify-center mt-8 border-b-2 border-gray-500 border-opacity-50">
-    <!-- Scroll indicator overlay - better positioned at the top of tabs -->
-    <div class="absolute inset-x-0 top-0 z-20 pointer-events-none lg:hidden">
-        <div class="bg-primary bg-opacity-80 text-white text-center py-1 px-4 mx-auto w-max rounded-b-lg shadow-md">
-            <div class="flex items-center text-xs font-medium">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1.5 animate-pulse" fill="none"
-                     viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M8 7h12m0 0l-4-4m4 4l-4 4m-8 6H4m0 0l4 4m-4-4l4-4"/>
-                </svg>
-                Swipe to see more
-            </div>
-        </div>
-    </div>
-
 
     <ul
         class="flex flex-nowrap -mb-px text-sm font-medium text-center"

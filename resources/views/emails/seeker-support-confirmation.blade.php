@@ -110,7 +110,7 @@
 
     <!-- Footer -->
     <div style="background-color: #f8fafc; padding: 2rem; text-align: center; border-top: 1px solid #e5e7eb; color: #6b7280; font-size: 0.875rem;">
-        <p style="margin: 0 0 0.5rem 0;"><strong>Qvicker naudotojų palaikymas</strong></p>
+        <p style="margin: 0 0 0.5rem 0;"><strong>Qvicker pagalba naudotojam</strong></p>
         <p style="margin: 0 0 0.5rem 0;">info@qvicker.lt | Mes čia, kad padėtume!</p>
         <p style="margin: 0;">
             Šis el. laiškas buvo išsiųstas automatiškai. Jei turite skubų klausimą,

@@ -34,7 +34,7 @@
 
                 <!-- Subheading -->
                 <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
-                    Tapk WorkLink partneriu ir pradėk gauti užsakymus jau šiandien. Dirbk savo tempu, valdyk savo laiką ir užsidirbk daugiau darydamas tai, ką mėgsti.
+                    Tapk Qvicker partneriu ir pradėk gauti užsakymus jau šiandien. Dirbk savo tempu, valdyk savo laiką ir užsidirbk daugiau darydamas tai, ką mėgsti.
                 </p>
 
                 <!-- CTA Section -->
@@ -289,7 +289,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="text-gray-700 leading-relaxed italic">"Prisijungęs prie WorkLink galiu pasirinkti užsakymus, kurie man patinka. Per mėnesį uždirbu papildomai 400€, o tai man labai padeda."</p>
+                        <p class="text-gray-700 leading-relaxed italic">"Prisijungęs prie Qvicker galiu pasirinkti užsakymus, kurie man patinka. Per mėnesį uždirbu papildomai 400€, o tai man labai padeda."</p>
 
                         <!-- Badge -->
                         <div class="mt-6 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
@@ -372,7 +372,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="text-gray-700 leading-relaxed italic">"Klientų niekada netrūksta! WorkLink platforma suteikia man galimybę nuolat turėti darbo ir plėsti savo klientų ratą."</p>
+                        <p class="text-gray-700 leading-relaxed italic">"Klientų niekada netrūksta! Qvicker platforma suteikia man galimybę nuolat turėti darbo ir plėsti savo klientų ratą."</p>
 
                         <div class="mt-6 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                             <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -469,7 +469,7 @@
                             </div>
                         </button>
                         <div class="px-6 pb-6">
-                            <p class="text-gray-600 leading-relaxed">WorkLink už mokėjimus kol kas neatsako, turite sutarti kainą su klientu ir gauti atsiskaitymą tiesiogiai po atliktų darbų.</p>
+                            <p class="text-gray-600 leading-relaxed">Qvicker už mokėjimus kol kas neatsako, turite sutarti kainą su klientu ir gauti atsiskaitymą tiesiogiai po atliktų darbų.</p>
                         </div>
                     </div>
                 </div>
@@ -515,7 +515,7 @@
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-3xl md:text-5xl font-bold text-gray-800 mb-6">
                     Pradėk savo kelionę kaip
-                    <span class="bg-gradient-to-r from-primary-light to-primary-verylight bg-clip-text text-transparent">WorkLink partneris</span>
+                    <span class="bg-gradient-to-r from-primary-light to-primary-verylight bg-clip-text text-transparent">Qvicker partneris</span>
                 </h2>
 
                 <p class="text-gray-600 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">

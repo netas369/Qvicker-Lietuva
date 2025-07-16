@@ -330,7 +330,7 @@
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-cyan-300 rounded-full mix-blend-overlay opacity-10 blur-3xl"></div>
 
         <div class="container relative mx-auto px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60">
-            <h2 class="text-3xl md:text-5xl font-bold text-center text-white mb-4">Kodėl rinktis WorkLink?</h2>
+            <h2 class="text-3xl md:text-5xl font-bold text-center text-white mb-4">Kodėl rinktis Qvicker?</h2>
             <p class="text-center text-white/80 max-w-2xl mx-auto mb-16 text-lg">Patikimi specialistai, saugi platforma</p>
 
             <div class="grid md:grid-cols-3 gap-8">
@@ -442,7 +442,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="text-gray-700 leading-relaxed italic">"Per WorkLink radau puikų elektrikai. Darbas atliktas kokybiškai ir laiku. Labai patiko, kad galiu matyti specialistų įvertinimus."</p>
+                        <p class="text-gray-700 leading-relaxed italic">"Per Qvicker radau puikų elektrikai. Darbas atliktas kokybiškai ir laiku. Labai patiko, kad galiu matyti specialistų įvertinimus."</p>
 
                         <div class="mt-6 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
                             <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -524,7 +524,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="text-gray-700 leading-relaxed italic">"WorkLink išsprendė mano problemą su virtuvės renovacija. Radau patikimą meistrą, kuris viską padarė profesionaliai ir laiku."</p>
+                        <p class="text-gray-700 leading-relaxed italic">"Qvicker išsprendė mano problemą su virtuvės renovacija. Radau patikimą meistrą, kuris viską padarė profesionaliai ir laiku."</p>
 
                         <div class="mt-6 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
                             <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -683,7 +683,7 @@
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-3xl md:text-5xl font-bold text-gray-800 mb-6">
                     Pradėk naudotis
-                    <span class="bg-gradient-to-r from-emerald-500 to-cyan-500 bg-clip-text text-transparent">WorkLink platforma</span>
+                    <span class="bg-gradient-to-r from-emerald-500 to-cyan-500 bg-clip-text text-transparent">Qvicker platforma</span>
                 </h2>
 
                 <p class="text-gray-600 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">

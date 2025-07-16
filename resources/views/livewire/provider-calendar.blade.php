@@ -29,12 +29,20 @@
 
         <!-- Day Headers -->
         <div class="grid grid-cols-7 bg-gray-50">
-            @foreach(['Sek', 'Pir', 'Ant', 'Tre', 'Ket', 'Pen', 'Šeš'] as $dayName)
+            @foreach([
+                ['full' => 'Sekmadienis', 'short' => 'Sek', 'mobile' => 'S'],
+                ['full' => 'Pirmadienis', 'short' => 'Pir', 'mobile' => 'P'],
+                ['full' => 'Antradienis', 'short' => 'Ant', 'mobile' => 'A'],
+                ['full' => 'Trečiadienis', 'short' => 'Tre', 'mobile' => 'T'],
+                ['full' => 'Ketvirtadienis', 'short' => 'Ket', 'mobile' => 'K'],
+                ['full' => 'Penktadienis', 'short' => 'Pen', 'mobile' => 'P'],
+                ['full' => 'Šeštadienis', 'short' => 'Šeš', 'mobile' => 'Š']
+            ] as $day)
                 <div class="py-2 text-center text-sm font-medium text-gray-500">
                     <!-- Full day name on larger screens -->
-                    <span class="hidden md:inline">{{ $dayName }}</span>
-                    <!-- First letter only on mobile -->
-                    <span class="md:hidden">{{ substr($dayName, 0, 1) }}</span>
+                    <span class="hidden md:inline">{{ $day['short'] }}</span>
+                    <!-- Safe mobile character -->
+                    <span class="md:hidden">{{ $day['mobile'] }}</span>
                 </div>
             @endforeach
         </div>
