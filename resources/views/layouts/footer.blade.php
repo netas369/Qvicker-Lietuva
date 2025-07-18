@@ -59,7 +59,7 @@
             <div>
                 <h4 class="text-lg font-semibold text-white mb-6">Paslaugos</h4>
                 <ul class="space-y-3">
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Visos Paslaugos</a></li>
+                    <li><a href="{{ route('allservices') }}" class="text-gray-300 hover:text-white transition-colors duration-300">Visos Paslaugos</a></li>
                 </ul>
             </div>
 

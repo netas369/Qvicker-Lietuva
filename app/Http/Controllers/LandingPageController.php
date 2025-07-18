@@ -28,13 +28,13 @@ class LandingPageController extends Controller
             'Perkraustymo ir pakavimo paslaugos',
             'Transporto paslaugos',
             'Sodininkystės ir lauko paslaugos',
-            'Fitnesas ir Sveikatingumus',
-            'Renginiu Pagalba',
+            'Fitnesas ir Sveikatingumas',
+            'Renginių Pagalba',
             'Turizmas',
             'IT Pagalba',
             'Ezoterija',
             'Statyba',
-            'Grozis'
+            'Grožio Paslaugos'
         ];
 
         // Fetch categories more efficiently using groupBy in database
@@ -75,13 +75,13 @@ class LandingPageController extends Controller
             'Perkraustymo ir pakavimo paslaugos' => 'kraustymas',
             'Transporto paslaugos' => 'transportas',
             'Sodininkystės ir lauko paslaugos' => 'sodininkyste',
-            'Fitnesas ir Sveikatingumus' => 'fitnesas',
-            'Renginiu Pagalba' => 'organizavimas',
+            'Fitnesas ir Sveikatingumas' => 'fitnesas',
+            'Renginių Pagalba' => 'organizavimas',
             'Turizmas' => 'turizmas',
             'IT Pagalba' => 'IT pagalba',
             'Ezoterija' => 'ezoterija',
             'Statyba' => 'statyba',
-            'Grozis' => 'grozis'
+            'Grožio Paslaugos' => 'grozis'
         ];
 
         return $slugMap[$categoryName] ?? str_slug($categoryName);

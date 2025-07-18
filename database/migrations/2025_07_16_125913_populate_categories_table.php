@@ -309,91 +309,91 @@ return new class extends Migration
 
         $fitnesas = [
             [
-                'category' => 'Fitnesas ir Sveikatingumus',
+                'category' => 'Fitnesas ir Sveikatingumas',
                 'subcategory' => 'Asmeninis treneris',
                 'url' => 'asmeninis-treneris',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Fitnesas ir Sveikatingumus',
+                'category' => 'Fitnesas ir Sveikatingumas',
                 'subcategory' => 'Jogos treneris',
                 'url' => 'jogos-treneris',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Fitnesas ir Sveikatingumus',
+                'category' => 'Fitnesas ir Sveikatingumas',
                 'subcategory' => 'Meditacija',
                 'url' => 'meditacija',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Fitnesas ir Sveikatingumus',
+                'category' => 'Fitnesas ir Sveikatingumas',
                 'subcategory' => 'Masažo terapija',
                 'url' => 'masažo-terapija',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Fitnesas ir Sveikatingumus',
+                'category' => 'Fitnesas ir Sveikatingumas',
                 'subcategory' => 'Sportinis masažas',
                 'url' => 'sportinis-masazas',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Fitnesas ir Sveikatingumus',
+                'category' => 'Fitnesas ir Sveikatingumas',
                 'subcategory' => 'Kaitavimo treneris',
                 'url' => 'kaitavimo-treneris',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Fitnesas ir Sveikatingumus',
+                'category' => 'Fitnesas ir Sveikatingumas',
                 'subcategory' => 'Burlenčių pamokos',
                 'url' => 'burlenciu-pamokos',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Fitnesas ir Sveikatingumus',
+                'category' => 'Fitnesas ir Sveikatingumas',
                 'subcategory' => 'Kovos menų mokymai',
                 'url' => 'kovos-menu-mokymai',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Fitnesas ir Sveikatingumus',
+                'category' => 'Fitnesas ir Sveikatingumas',
                 'subcategory' => 'Futbolo treneris',
                 'url' => 'futbolo-treneris',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Fitnesas ir Sveikatingumus',
+                'category' => 'Fitnesas ir Sveikatingumas',
                 'subcategory' => 'Krepšinio treneris',
                 'url' => 'krepsinio-treneris',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Fitnesas ir Sveikatingumus',
+                'category' => 'Fitnesas ir Sveikatingumas',
                 'subcategory' => 'Teniso treneris',
                 'url' => 'teniso-treneris',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Fitnesas ir Sveikatingumus',
+                'category' => 'Fitnesas ir Sveikatingumas',
                 'subcategory' => 'Padelio treneris',
                 'url' => 'padelio-treneris',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Fitnesas ir Sveikatingumus',
+                'category' => 'Fitnesas ir Sveikatingumas',
                 'subcategory' => 'Šokių treneris',
                 'url' => 'sokiu-treneris',
                 'created_at' => now(),
@@ -403,119 +403,119 @@ return new class extends Migration
 
         $renginiai = [
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'Pagalba renginiuose',
                 'url' => 'pagalba-renginiuose',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'Renginiu dizainas',
                 'url' => 'renginiu-dizainas',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'Laikinų konstrukcijų montavimas',
                 'url' => 'laikinu-konstrukciju-montavimas',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'Padavėjai renginiams',
                 'url' => 'padavėjai-renginiams',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'Baro asistentai',
                 'url' => 'baro-asistentai',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'Apsaugos paslaugos',
                 'url' => 'apsaugos-paslaugos',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'Virtuvės asistentai',
                 'url' => 'virtuves-asistentai',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'Barmenai',
                 'url' => 'barmenai',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'Someljė paslaugos',
                 'url' => 'somelje-paslaugos',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'Arbatos Someljė',
                 'url' => 'arbatos-somelje',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'DJ paslaugos',
                 'url' => 'dj-paslaugos',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'Burtininkai / Magai',
                 'url' => 'burtininkai-magai',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'Animatoriai',
                 'url' => 'animatoriai',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'VR Vedėjai',
                 'url' => 'vr-vedejai',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'Šviesų instaliacija',
                 'url' => 'sviesu-instaliacija',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'Garso aparatūros sujungimas',
                 'url' => 'garso-aparaturos-sujungimas',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Renginiu Pagalba',
+                'category' => 'Renginių Pagalba',
                 'subcategory' => 'Stilistas renginiams',
                 'url' => 'stilistas-renginiams',
                 'created_at' => now(),
@@ -820,49 +820,49 @@ return new class extends Migration
 
         $grozis = [
             [
-                'category' => 'Grozis',
+                'category' => 'Grožio Paslaugos',
                 'subcategory' => 'Makiažas renginiams',
                 'url' => 'makiazas-renginiams',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Grozis',
+                'category' => 'Grožio Paslaugos',
                 'subcategory' => 'Permanentinis makiažas',
                 'url' => 'permanentinis-makiazas',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Grozis',
+                'category' => 'Grožio Paslaugos',
                 'subcategory' => 'Blakstienų priauginimas',
                 'url' => 'blakstienu-priauginimas',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Grozis',
+                'category' => 'Grožio Paslaugos',
                 'subcategory' => 'Manikiūras ir pedikiūras',
                 'url' => 'manikiuras-ir-pedikiuras',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Grozis',
+                'category' => 'Grožio Paslaugos',
                 'subcategory' => 'Kosmetologija',
                 'url' => 'kosmetologija',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Grozis',
+                'category' => 'Grožio Paslaugos',
                 'subcategory' => 'Veido procedūros',
                 'url' => 'veido-proceduros',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'category' => 'Grozis',
+                'category' => 'Grožio Paslaugos',
                 'subcategory' => 'Depiliacija',
                 'url' => 'depiliacija',
                 'created_at' => now(),

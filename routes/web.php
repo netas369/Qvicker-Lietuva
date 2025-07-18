@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AllServicesController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
@@ -33,15 +34,12 @@ Route::get('/partners', [LandingPageController::class, 'partners'])->name('partn
 Route::get('/seekers', [LandingPageController::class, 'seekers'])->name('seekers');
 Route::get('/seeker/support', [SeekerController::class, 'support'])->name('seeker.support');
 Route::post('/seeker/support/send', [SeekerController::class, 'sendSeekerSupport'])->name('seeker.support.send');
+Route::get('/allservices', [AllServicesController::class, 'allservices'])->name('allservices');
 
 Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
     ->middleware(['signed', 'throttle:6,1'])
     ->name('verification.verify');
 
-
-//Route::get('/dashboard', function () {
-//    return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
     ->name('password.request');
