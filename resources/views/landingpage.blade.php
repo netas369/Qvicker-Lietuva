@@ -221,7 +221,7 @@
                                                 @endfor
                                             </div>
                                             <p class="text-gray-600 leading-relaxed min-h-[96px]">
-                                                Reikėjo greitos fotografės paslaugos, dėka myapp Lietuva, turėjau galimybė greitai rasti profesionalią fotografę.
+                                                Reikėjo greitos fotografės paslaugos, dėka Qvicker, turėjau galimybė greitai rasti profesionalią fotografę.
                                             </p>
                                         </div>
                                     </div>
@@ -277,7 +277,7 @@
                                                 @endfor
                                             </div>
                                             <p class="text-gray-600 leading-relaxed min-h-[96px]">
-                                                Reikejo papildomu ranku organizuojant rengini, myapp leido greitai surasti talentinga mergina pagalbai.
+                                                Reikejo papildomu ranku organizuojant rengini, Qvicker leido greitai surasti talentinga mergina pagalbai.
                                             </p>
                                         </div>
                                     </div>
@@ -309,7 +309,7 @@
                                         Skatiname Bendruomenes Dirbti Kartu
                                     </h2>
                                     <p class="text-gray-600 text-base md:text-lg font-normal leading-relaxed lg:text-start text-center">
-                                        MyAPP Lietuva sujungia žmones, kuriems reikia paslaugų, su patikimais specialistais jų mieste. Mūsų platforma pagrįsta pasitikėjimu ir bendradarbiavimu - nuo kasdienių darbų iki profesionalių paslaugų, padedame paprastai ir greitai rasti reikiamą pagalbą.
+                                        Qvicker sujungia žmones, kuriems reikia paslaugų, su patikimais specialistais jų mieste. Mūsų platforma pagrįsta pasitikėjimu ir bendradarbiavimu - nuo kasdienių darbų iki profesionalių paslaugų, padedame paprastai ir greitai rasti reikiamą pagalbą.
                                     </p>
                                 </div>
 

@@ -4,36 +4,87 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class LandingPageController extends Controller
 {
     public function index()
     {
-        // Fetch categories and subcategories using Eloquent
-        $categoriesData = Category::select('category as name', 'subcategory')
-            ->orderBy('category')
-            ->orderBy('subcategory')
-            ->get();
-
-        // Process data into the needed structure
-        $categories = [];
-        foreach ($categoriesData as $item) {
-            if (!isset($categories[$item->name])) {
-                $categories[$item->name] = [
-                    'name' => $item->name,
-                    'subcategories' => []
-                ];
-            }
-
-            $categories[$item->name]['subcategories'][] = [
-                'name' => $item->subcategory
-            ];
-        }
-
-        // Convert to indexed array for blade template
-        $categories = array_values($categories);
+        // Cache the categories for 1 hour since they don't change frequently
+        $categories = Cache::remember('landing_page_categories', 3600, function () {
+            return $this->getProcessedCategories();
+        });
 
         return view('landingpage', compact('categories'));
+    }
+
+    private function getProcessedCategories()
+    {
+        // Define which categories to show and their order
+        $displayCategories = [
+            'Namų priežiūra ir valymas',
+            'Kūrybinės Paslaugos',
+            'Meistrai ir remontas',
+            'Perkraustymo ir pakavimo paslaugos',
+            'Transporto paslaugos',
+            'Sodininkystės ir lauko paslaugos',
+            'Fitnesas ir Sveikatingumas',
+            'Renginių Pagalba',
+            'Turizmas',
+            'IT Pagalba',
+            'Ezoterija',
+            'Statyba',
+            'Grožio Paslaugos'
+        ];
+
+        // Fetch categories more efficiently using groupBy in database
+        $categoriesData = Category::select('category', 'subcategory', 'url')
+            ->whereIn('category', $displayCategories)
+            ->orderByRaw("FIELD(category, '" . implode("','", $displayCategories) . "')")
+            ->orderBy('subcategory')
+            ->get()
+            ->groupBy('category');
+
+        // Process into the structure needed by the view
+        $processedCategories = [];
+
+        foreach ($displayCategories as $categoryName) {
+            if (isset($categoriesData[$categoryName])) {
+                $processedCategories[] = [
+                    'name' => $categoryName,
+                    'slug' => $this->getCategorySlug($categoryName),
+                    'subcategories' => $categoriesData[$categoryName]->map(function ($item) {
+                        return [
+                            'name' => $item->subcategory,
+                            'url' => $item->url ?? str_slug($item->subcategory)
+                        ];
+                    })->toArray()
+                ];
+            }
+        }
+
+        return $processedCategories;
+    }
+
+    private function getCategorySlug($categoryName)
+    {
+        $slugMap = [
+            'Namų priežiūra ir valymas' => 'valymas',
+            'Kūrybinės Paslaugos' => 'kuryba',
+            'Meistrai ir remontas' => 'meistrai',
+            'Perkraustymo ir pakavimo paslaugos' => 'kraustymas',
+            'Transporto paslaugos' => 'transportas',
+            'Sodininkystės ir lauko paslaugos' => 'sodininkyste',
+            'Fitnesas ir Sveikatingumas' => 'fitnesas',
+            'Renginių Pagalba' => 'organizavimas',
+            'Turizmas' => 'turizmas',
+            'IT Pagalba' => 'IT pagalba',
+            'Ezoterija' => 'ezoterija',
+            'Statyba' => 'statyba',
+            'Grožio Paslaugos' => 'grozis'
+        ];
+
+        return $slugMap[$categoryName] ?? str_slug($categoryName);
     }
 
     public function partners()
