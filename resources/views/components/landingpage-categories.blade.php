@@ -1,7 +1,7 @@
 <!-- Categories Section -->
 <div class="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60">
     <div class="text-center mt-10">
-        <h1 class="text-3xl lg:text-4xl font-bold text-primary-light font-sans leading-7">Visos Kategorijos</h1>
+        <h1 class="text-3xl lg:text-4xl font-bold text-primary-light font-sans leading-7">Populiarios Kategorijos</h1>
     </div>
 </div>
 
