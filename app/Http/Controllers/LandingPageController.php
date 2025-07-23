@@ -56,7 +56,7 @@ class LandingPageController extends Controller
                     'subcategories' => $categoriesData[$categoryName]->map(function ($item) {
                         return [
                             'name' => $item->subcategory,
-                            'url' => $item->url ?? str_slug($item->subcategory)
+                            'url' => $item->subcategory
                         ];
                     })->toArray()
                 ];
