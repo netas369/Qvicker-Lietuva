@@ -26,13 +26,13 @@ class LandingPageController extends Controller
             'Kūrybinės Paslaugos',
             'Meistrai ir remontas',
             'Perkraustymo ir pakavimo paslaugos',
-            'Transporto paslaugos',
+//            'Transporto paslaugos',
             'Sodininkystės ir lauko paslaugos',
             'Fitnesas ir Sveikatingumas',
-            'Renginių Pagalba',
-            'Turizmas',
-            'IT Pagalba',
-            'Ezoterija',
+//            'Renginių Pagalba',
+//            'Turizmas',
+//            'IT Pagalba',
+//            'Ezoterija',
             'Statyba',
             'Grožio Paslaugos'
         ];
@@ -56,7 +56,7 @@ class LandingPageController extends Controller
                     'subcategories' => $categoriesData[$categoryName]->map(function ($item) {
                         return [
                             'name' => $item->subcategory,
-                            'url' => $item->url ?? str_slug($item->subcategory)
+                            'url' => $item->subcategory
                         ];
                     })->toArray()
                 ];

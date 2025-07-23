@@ -139,12 +139,12 @@ class MyProfile extends Component
             'selectedCategories.min' => 'Privaloma pasirinkti bent vieną kategoriją',
             'image.image' => 'Failas privalo būti nuotrauka.',
             'image.mimes' => 'Nuotraukos failas privalo būti: jpeg, png, jpg, gif.',
-            'image.max' => 'Nuotrauka negali viršyti 2mb dydžio.',
+            'image.max' => 'Nuotrauka negali viršyti 4mb dydžio.',
             'phone.required' => 'Telefono numeris yra privalomas.',
             'post_code.required' => 'Pašto kodas yra privalomas',
             'newPortfolioPhoto.image' => 'Failas privalo būti nuotrauka.',
             'newPortfolioPhoto.mimes' => 'Nuotraukos failas privalo būti: jpeg, png, jpg, gif.',
-            'newPortfolioPhoto.max' => 'Nuotrauka negali viršyti 2mb dydžio.',
+            'newPortfolioPhoto.max' => 'Nuotrauka negali viršyti 4mb dydžio.',
             'cities.required' => 'Pasirinkite bent vieną miestą.'
 
         ];
@@ -272,7 +272,7 @@ class MyProfile extends Component
     public function updatedImage()
     {
         $this->validate([
-            'image' => 'image|max:2048', // 1MB Max
+            'image' => 'image|max:4092', // 1MB Max
         ]);
 
         if ($this->user->image) {
