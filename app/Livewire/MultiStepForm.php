@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class MultiStepForm extends Component
 {
-    public $currentStep = 1;
+    public $currentStep = 2;
 
     public $totalSteps = 3;
 
