@@ -133,7 +133,7 @@ class SearchHandymanController extends Controller
                 $q->whereRaw('JSON_CONTAINS(cities, ?)', ['"'.$city.'"']);
 
                 // Method 2: LIKE search (catches both encoded and non-encoded)
-                $q->orWhere('cities', 'LIKE', '%'.addslashes($city).'%');
+                $q->orWhere('cities', 'LIKE', '%'.$city.'%');
 
                 // Method 3: Search for unicode-escaped version
                 $unicodeCity = json_encode($city);
@@ -299,7 +299,8 @@ class SearchHandymanController extends Controller
      */
     private function findClosestAvailableDate($provider, $targetDate, $maxDays)
     {
-        // Check days forward and backward from the target date, prioritizing closer dates
+        $today = now()->startOfDay();
+
         for ($i = 1; $i <= $maxDays; $i++) {
             // Check day ahead
             $dayAhead = $targetDate->copy()->addDays($i);
@@ -307,14 +308,14 @@ class SearchHandymanController extends Controller
                 return $dayAhead;
             }
 
-            // Check day behind
+            // Check day behind - but only if it's not in the past
             $dayBehind = $targetDate->copy()->subDays($i);
-            if ($this->isProviderAvailableOnDate($provider, $dayBehind)) {
+            if ($dayBehind->gte($today) && $this->isProviderAvailableOnDate($provider, $dayBehind)) {
                 return $dayBehind;
             }
         }
 
-        return null; // No available date found within range
+        return null;
     }
 
     public function showReservation(Request $request, $id)
