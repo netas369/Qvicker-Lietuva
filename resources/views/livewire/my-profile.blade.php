@@ -1,6 +1,6 @@
 <div>
-    <div class="container mx-auto px-4 py-6">
-        <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+    <div class="mx-auto px-4 py-6">
+        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-xl overflow-hidden">
             @if (session()->has('message'))
                 <div
                     id="session-message"
@@ -24,8 +24,8 @@
             @endif
 
             <!-- Header Section with Gradient -->
-            <div class="bg-gradient-to-r from-primary-light to-primary-verylight py-2 px-6 text-white">
-                <h1 class="text-2xl md:text-3xl font-bold mb-6 mt-4">Mano Profilis</h1>
+            <div class="py-2 px-6 text-primary-light border-b-2">
+                <h1 class="text-2xl md:text-3xl font-bold mb-4 mt-4">Mano Profilis</h1>
             </div>
 
             <!-- Main Content -->
