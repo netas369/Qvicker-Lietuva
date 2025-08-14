@@ -7,6 +7,7 @@
 
         <!-- Profile Column -->
         <div class="col-span-12 md:col-span-4 lg:col-span-4">
+            <!-- Existing Profile Block -->
             <div class="mb-4 mt-4 bg-white rounded-lg shadow p-4 sm:p-6">
                 <!-- Profile Picture and Name (Centered) -->
                 <div class="flex flex-col items-center">
@@ -28,6 +29,159 @@
                             class="text-primary-verylight italic">{{ $user->created_at->format('Y') }}</span>
                     </p>
                 </div>
+            </div>
+
+            <!-- New Additional Block -->
+            <div class="mb-4 bg-white rounded-lg shadow p-4 sm:p-6">
+                @if($user->role == 'provider')
+                    <!-- Content for Providers -->
+                    <div class="flex flex-col items-center">
+                        <h3 class="text-primary-light text-lg sm:text-xl font-semibold mb-4">Artimiausi užsakymai</h3>
+                        <div class="w-full">
+                            @if($upcomingReservations && $upcomingReservations->count() > 0)
+                                @foreach($upcomingReservations as $reservation)
+                                    <div class="mb-3 p-3 bg-gray-50 rounded-lg border-l-4 border-primary-light">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <div class="flex items-center mb-1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-light mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                    </svg>
+                                                    <span class="text-sm font-semibold text-gray-800">
+                                            {{ \Carbon\Carbon::parse($reservation->reservation_date)->format('M d, Y') }}
+                                        </span>
+                                                </div>
+                                                @if($reservation->seeker)
+                                                    <div class="flex items-center mb-1">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-light mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                                        </svg>
+                                                        <span class="text-sm text-gray-600">{{ $reservation->seeker->name }}</span>
+                                                    </div>
+                                                @endif
+                                                @if($reservation->subcategory)
+                                                    <div class="flex items-center">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-light mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                                        </svg>
+                                                        <span class="text-xs text-gray-500">{{ $reservation->subcategory }}</span>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="ml-4">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                        @if($reservation->status == 'accepted') bg-green-100 text-green-800
+                                        @elseif($reservation->status == 'pending') bg-yellow-100 text-yellow-800
+                                        @else bg-gray-100 text-gray-800
+                                        @endif">
+                                        {{ ucfirst($reservation->status) }}
+                                    </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                                @if(isset($totalProviderReservations) && $totalProviderReservations > 5)
+                                    <div class="text-center mt-3">
+                                        <a href="{{route('reservations.provider')}}" class="text-primary-light text-sm hover:underline">
+                                            Žiūrėti visus užsakymus ({{ $totalProviderReservations }})
+                                        </a>
+                                    </div>
+                                @endif
+                            @else
+                                <div class="text-center py-8">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    <p class="text-gray-500 text-center">Nėra ateinančių užsakymų</p>
+                                    <p class="text-gray-400 text-sm text-center mt-1">Nauji užsakymai atsiras čia</p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                @else
+                    <!-- Content for Seekers -->
+                    <div class="flex flex-col items-center">
+                        <h3 class="text-primary-light text-lg sm:text-xl font-semibold mb-4">Mano užsakymai</h3>
+                        <div class="w-full">
+                            @if($upcomingReservations && $upcomingReservations->count() > 0)
+                                @foreach($upcomingReservations as $reservation)
+                                    <div class="mb-3 p-3 bg-gray-50 rounded-lg border-l-4 border-primary-light">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <div class="flex items-center mb-1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-light mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                    </svg>
+                                                    <span class="text-sm font-semibold text-gray-800">
+    @php
+        $date = \Carbon\Carbon::parse($reservation->reservation_date);
+        $months = [
+            1 => 'Sausis', 2 => 'Vasaris', 3 => 'Kovas', 4 => 'Balandis',
+            5 => 'Gegužė', 6 => 'Birželis', 7 => 'Liepa', 8 => 'Rugpjūtis',
+            9 => 'Rugsėjis', 10 => 'Spalis', 11 => 'Lapkritis', 12 => 'Gruodis'
+        ];
+        $monthName = $months[$date->month];
+    @endphp
+                                                        {{ $monthName }} {{ $date->day }}, {{ $date->year }}
+</span>
+                                                </div>
+                                                @if($reservation->provider)
+                                                    <div class="flex items-center mb-1">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-light mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                                        </svg>
+                                                        <span class="text-sm text-gray-600">{{ $reservation->provider->name }}</span>
+                                                    </div>
+                                                @endif
+                                                @if($reservation->subcategory)
+                                                    <div class="flex items-center mb-1">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-light mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                                        </svg>
+                                                        <span class="text-xs text-gray-500">{{ $reservation->subcategory }}</span>
+                                                    </div>
+                                                @endif
+                                                @if($reservation->city)
+                                                    <div class="flex items-center">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-light mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        </svg>
+                                                        <span class="text-xs text-gray-500">{{ $reservation->city }}</span>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="ml-4">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                        bg-green-100 text-green-800
+                                        ">
+                                        Priimta
+                                    </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                                @if(isset($totalSeekerReservations) && $totalSeekerReservations > 5)
+                                    <div class="text-center mt-3">
+                                        <a href="{{route('reservations.seeker')}}}" class="text-blue-500 text-sm hover:underline">
+                                            Žiūrėti visus užsakymus ({{ $totalSeekerReservations }})
+                                        </a>
+                                    </div>
+                                @endif
+                            @else
+                                <div class="text-center py-8">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v6a2 2 0 002 2h2m0 0h10a2 2 0 002-2V7a2 2 0 00-2-2H9m0 0V3m0 2v2" />
+                                    </svg>
+                                    <p class="text-gray-500 text-center">Nėra aktyvių užsakymų</p>
+                                    <p class="text-gray-400 text-sm text-center mt-1">Padarykite naują užsakymą</p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
 
