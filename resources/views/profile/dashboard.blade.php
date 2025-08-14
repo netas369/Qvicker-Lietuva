@@ -48,8 +48,17 @@
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                     </svg>
                                                     <span class="text-sm font-semibold text-gray-800">
-                                            {{ \Carbon\Carbon::parse($reservation->reservation_date)->format('M d, Y') }}
-                                        </span>
+    @php
+        $date = \Carbon\Carbon::parse($reservation->reservation_date);
+        $months = [
+            1 => 'Sausis', 2 => 'Vasaris', 3 => 'Kovas', 4 => 'Balandis',
+            5 => 'Gegužė', 6 => 'Birželis', 7 => 'Liepa', 8 => 'Rugpjūtis',
+            9 => 'Rugsėjis', 10 => 'Spalis', 11 => 'Lapkritis', 12 => 'Gruodis'
+        ];
+        $monthName = $months[$date->month];
+    @endphp
+                                                        {{ $monthName }} {{ $date->day }}, {{ $date->year }}
+</span>
                                                 </div>
                                                 @if($reservation->seeker)
                                                     <div class="flex items-center mb-1">
