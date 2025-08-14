@@ -147,4 +147,31 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new ResetPasswordNotification($token));
     }
 
+    /**
+     * Get total reservations made by the seeker (all statuses)
+     */
+    public function getTotalReservationsMade()
+    {
+        return $this->seekerReservations()->count() ?: 0;
+    }
+
+    /**
+     * Get active reservations for seeker (accepted but not completed)
+     */
+    public function getActiveReservations()
+    {
+        return $this->seekerReservations()
+            ->whereIn('status', ['accepted', 'pending'])
+            ->where('reservation_date', '>=', now()->toDateString())
+            ->count() ?: 0;
+    }
+
+    /**
+     * Alternative: Get completed reservations for seekers
+     */
+    public function getCompletedReservationsAsSeeker()
+    {
+        return $this->seekerReservations()->where('status', 'completed')->count() ?: 0;
+    }
+
 }

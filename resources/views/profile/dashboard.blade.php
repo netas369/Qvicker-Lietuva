@@ -194,6 +194,7 @@
             </div>
         </div>
 
+
         <!-- Stats Column -->
         <div class="col-span-12 md:col-span-8 lg:col-span-8">
             <div class="bg-white mb-4 mt-4 rounded-lg shadow p-4 sm:p-6">
@@ -204,9 +205,9 @@
                         <!-- Rating Display -->
                         <div class="flex flex-col items-center w-full sm:w-auto mb-4 sm:mb-0">
                             <div class="flex items-center">
-                            <span class="text-2xl sm:text-3xl font-bold text-primary-verylight">
-                             {{ number_format($user->average_rating, 1) }}
-                              </span>
+                        <span class="text-2xl sm:text-3xl font-bold text-primary-verylight">
+                            {{ number_format($user->average_rating, 1) }}
+                        </span>
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                      class="h-5 w-5 sm:h-6 sm:w-6 ml-1 text-yellow-400"
                                      viewBox="0 0 20 20" fill="currentColor">
@@ -217,14 +218,12 @@
                             <span class="text-xs text-gray-500 mt-1">Jūsų Reitingas</span>
                         </div>
 
-
-                        <!-- Received Reviews - New Element -->
+                        <!-- Received Reviews -->
                         <div class="flex flex-col items-center w-full sm:w-auto mb-4 sm:mb-0">
-                            <!-- Review Count with Icon -->
                             <div class="flex items-center">
-                            <span class="text-2xl sm:text-3xl font-bold text-indigo-600">
-                             {{ $user->reviewsReceived()->count() }}
-                             </span>
+                        <span class="text-2xl sm:text-3xl font-bold text-indigo-600">
+                            {{ $user->reviewsReceived()->count() }}
+                        </span>
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                      class="h-5 w-5 sm:h-6 sm:w-6 ml-1 text-indigo-500"
                                      fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -233,16 +232,16 @@
                                 </svg>
                             </div>
                             <span class="text-xs text-gray-500 mt-1">
-                             {{ $user->reviewsReceived()->count() == 1 ? 'Atsiliepimas' : 'Atsiliepimai' }}
-                             </span>
+                        {{ $user->reviewsReceived()->count() == 1 ? 'Atsiliepimas' : 'Atsiliepimai' }}
+                    </span>
                         </div>
-                        <!-- Completed Orders - Styled like Rating -->
+
+                        <!-- Completed Orders -->
                         <div class="flex flex-col items-center w-full sm:w-auto">
-                            <!-- Order Count with Icon -->
                             <div class="flex items-center">
-                            <span class="text-2xl sm:text-3xl font-bold text-teal-600">
-                            {{$user->getTotalReservationsDone()}}
-                            </span>
+                        <span class="text-2xl sm:text-3xl font-bold text-teal-600">
+                            {{ $user->getTotalReservationsDone() }}
+                        </span>
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                      class="h-5 w-5 sm:h-6 sm:w-6 ml-1 text-primary-light"
                                      viewBox="0 0 20 20" fill="currentColor">
@@ -253,6 +252,60 @@
                                 </svg>
                             </div>
                             <span class="text-xs text-gray-500 mt-1">Įvykdyti Užsakymai</span>
+                        </div>
+                    @else
+                        <!-- Seeker Statistics -->
+
+                        <!-- Total Reservations Made -->
+                        <div class="flex flex-col items-center w-full sm:w-auto mb-4 sm:mb-0">
+                            <div class="flex items-center">
+                        <span class="text-2xl sm:text-3xl font-bold text-blue-600">
+                            {{ $user->getTotalReservationsMade() }}
+                        </span>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-5 w-5 sm:h-6 sm:w-6 ml-1 text-blue-500"
+                                     viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                                    <path fill-rule="evenodd"
+                                          d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <span class="text-xs text-gray-500 mt-1">Viso Užklausų</span>
+                        </div>
+
+                        <!-- Reviews Given -->
+                        <div class="flex flex-col items-center w-full sm:w-auto mb-4 sm:mb-0">
+                            <div class="flex items-center">
+                        <span class="text-2xl sm:text-3xl font-bold text-purple-600">
+                            {{ $user->reviewsGiven()->count() }}
+                        </span>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-5 w-5 sm:h-6 sm:w-6 ml-1 text-purple-500"
+                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                                </svg>
+                            </div>
+                            <span class="text-xs text-gray-500 mt-1">
+                        {{ $user->reviewsGiven()->count() == 1 ? 'Paliktas Atsiliepimas' : 'Palikti Atsiliepimai' }}
+                    </span>
+                        </div>
+
+                        <!-- Active Reservations -->
+                        <div class="flex flex-col items-center w-full sm:w-auto">
+                            <div class="flex items-center">
+                        <span class="text-2xl sm:text-3xl font-bold text-green-600">
+                            {{ $user->getActiveReservations() }}
+                        </span>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-5 w-5 sm:h-6 sm:w-6 ml-1 text-green-500"
+                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <span class="text-xs text-gray-500 mt-1">Aktyvūs Užsakymai</span>
                         </div>
                     @endif
                 </div>
