@@ -18,7 +18,7 @@ class DashboardController extends Controller
         {
             $upcomingReservations = $user->providerReservations()
                 ->where('reservation_date', '>=', now()->toDateString())
-                ->where('status', '=', 'accepted')
+                ->where('status', '!=', 'declined')
                 ->orderBy('reservation_date', 'asc')
                 ->take(5)
                 ->get();
@@ -32,7 +32,7 @@ class DashboardController extends Controller
         } elseif ($user->role === 'seeker') {
             $upcomingReservations = $user->seekerReservations()
                 ->where('reservation_date', '>=', now()->toDateString())
-                ->where('status', '=', 'accepted')
+                ->where('status', '!=', 'declined')
                 ->orderBy('reservation_date', 'asc')
                 ->take(5)
                 ->get();
