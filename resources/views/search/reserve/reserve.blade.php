@@ -60,8 +60,8 @@
                         <div class="flex items-center mt-1 md:mt-0 space-x-3">
                             <!-- Rating with star -->
                             <div class="flex items-center">
-                                <span
-                                    class="text-sm md:text-base font-medium text-gray-700">{{ number_format($provider->average_rating, 1) }}</span>
+                <span
+                    class="text-sm md:text-base font-medium text-gray-700">{{ number_format($provider->average_rating, 1) }}</span>
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                      class="h-4 w-4 md:h-5 md:w-5 text-yellow-400 ml-1" viewBox="0 0 20 20"
                                      fill="currentColor">
@@ -75,8 +75,8 @@
 
                             <!-- Reservation count -->
                             <div class="text-xs md:text-sm text-gray-600">
-                                <span
-                                    class="font-medium">{{ $provider->getTotalReservationsDone() ?? $provider->providerReservations->count() }}</span>
+                <span
+                    class="font-medium">{{ $provider->getTotalReservationsDone() ?? $provider->providerReservations->count() }}</span>
                                 užsakymai
                             </div>
                         </div>
@@ -86,6 +86,34 @@
                     <p class="text-xs md:text-base text-gray-600">
                         {{ \Carbon\Carbon::parse($provider->birthday)->age }} m.
                     </p>
+
+                    <!-- ADD PRICING INFORMATION HERE -->
+                    @if($provider->pricing_info)
+                        <div class="mt-2 md:mt-3">
+                            <div class="flex flex-col md:flex-row md:items-center md:space-x-6 space-y-2 md:space-y-0">
+                                <!-- Price -->
+                                @if($provider->pricing_info['price'])
+                                    <div class="flex items-center">
+                                        <span class="text-sm md:text-base font-medium text-gray-700 mr-2">Kaina:</span>
+                                        <span class="font-bold text-primary text-lg md:text-xl">{{ $provider->pricing_info['formatted_price'] }}€</span>
+                                        @if($provider->pricing_info['type'])
+                                            <span class="text-gray-600 ml-1">{{ $provider->pricing_info['type_label_full'] }}</span>
+                                        @endif
+                                    </div>
+                                @endif
+
+                                <!-- Experience -->
+                                @if($provider->pricing_info['experience'])
+                                    <div class="flex items-center text-gray-700">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 mr-2 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                        </svg>
+                                        <span class="text-sm md:text-base font-medium">{{ $provider->pricing_info['experience'] }} m. patirtis</span>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
 
                     <!-- About text -->
                     @if($provider->aboutme)

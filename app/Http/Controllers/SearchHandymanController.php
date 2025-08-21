@@ -382,10 +382,26 @@ class SearchHandymanController extends Controller
 
     public function showReservation(Request $request, $id)
     {
+        $subcategory = $request->query('subcategory');
+        $subcategoryId = null;
+
+        // Get subcategory ID from name if provided
+        if ($subcategory) {
+            $subcategoryRecord = Category::where('subcategory', $subcategory)->first();
+            if ($subcategoryRecord) {
+                $subcategoryId = $subcategoryRecord->id;
+            }
+        }
+
         // Load provider with reviews relationship and calculate average rating
         $provider = User::with([
             'reviewsReceived' => function($query) {
                 $query->with('seeker')->orderBy('created_at', 'desc');
+            },
+            'categories' => function($query) use ($subcategoryId) {
+                if ($subcategoryId) {
+                    $query->where('categories.id', $subcategoryId);
+                }
             }
         ])->findOrFail($id);
 
@@ -396,12 +412,15 @@ class SearchHandymanController extends Controller
         // Add the average rating as an attribute to the provider
         $provider->average_rating = $averageRating;
 
+        // Prepare pricing information
+        $this->preparePricingInfo($provider, $subcategoryId);
+
         $date = $request->query('date', now()->format('Y-m-d'));
         $taskSize = $request->query('task_size');
-        $subcategory = $request->query('subcategory');
         $city = $request->query('city');
         $portfolioPhotos = json_decode($provider->portfolio_photos ?? '[]', true);
 
         return view('search.reserve.reserve', compact('provider', 'date', 'taskSize', 'subcategory', 'city', 'portfolioPhotos'));
     }
+
 }
