@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('user_subcategory', function (Blueprint $table) {
-            $table->integer('price');
+            $table->decimal('price', 8, 2);
             $table->enum('type', ['hourly', 'fixed', 'meter']);
             $table->integer('experience')->nullable();
         });
