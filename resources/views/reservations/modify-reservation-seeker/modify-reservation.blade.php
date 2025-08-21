@@ -138,6 +138,39 @@
                         </div>
                     </div>
 
+                    <!-- ADD PRICING INFORMATION HERE -->
+                    @if(isset($reservation->provider->pricing_info) && $reservation->provider->pricing_info)
+                        <div class="mb-4 p-3 bg-gray-50 rounded-lg">
+                            <h3 class="text-gray-700 font-medium mb-2">Kainos informacija</h3>
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-2 sm:space-y-0">
+                                <!-- Price -->
+                                @if($reservation->provider->pricing_info['price'])
+                                    <div class="flex items-center">
+                                        <span class="text-sm font-medium text-gray-700 mr-2">Kaina:</span>
+                                        <span class="font-bold text-primary text-lg">{{ $reservation->provider->pricing_info['formatted_price'] }}€</span>
+                                        @if($reservation->provider->pricing_info['type'])
+                                            <span class="text-gray-600 ml-1">{{ $reservation->provider->pricing_info['type_label_full'] }}</span>
+                                        @endif
+                                    </div>
+                                @endif
+
+                                <!-- Experience -->
+                                @if($reservation->provider->pricing_info['experience'])
+                                    <div class="flex items-center text-gray-700">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                        </svg>
+                                        <span class="text-sm font-medium">{{ $reservation->provider->pricing_info['experience'] }} m. patirtis</span>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="mt-2 text-xs text-gray-500">
+                                * Galutinė kaina bus aptarta su meistru priklausomai nuo darbo specifikos
+                            </div>
+                        </div>
+                    @endif
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                         @if($reservation->status == 'accepted')
                             <div>

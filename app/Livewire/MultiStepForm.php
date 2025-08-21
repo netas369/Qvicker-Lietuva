@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class MultiStepForm extends Component
 {
-    public $currentStep = 2;
+    public $currentStep = 1;
 
     public $totalSteps = 3;
 
@@ -50,6 +50,10 @@ class MultiStepForm extends Component
     public $activeTab = 0;
 
     public $terms = false;
+
+    public $subcategoryPrices = [];
+    public $subcategoryPriceTypes = [];
+    public $subcategoryExperience = [];
 
     protected $rules = [
         'terms' => 'required|accepted',
@@ -150,9 +154,18 @@ class MultiStepForm extends Component
         }
 
         if ($this->currentStep === 2) {
-            return [
+            $rules = [
                 'selectedSubcategories' => 'required|array|min:1',
+                'subcategoryExperience.*' => 'nullable|integer|min:0|max:50',
             ];
+
+            // Add dynamic validation for each selected subcategory
+            foreach ($this->selectedSubcategories as $subcategoryId) {
+                $rules["subcategoryPrices.{$subcategoryId}"] = 'required|numeric|min:0|max:1000';
+                $rules["subcategoryPriceTypes.{$subcategoryId}"] = 'required|in:hourly,fixed,meter';
+            }
+
+            return $rules;
         }
 
         if ($this->currentStep === 3) {
@@ -208,6 +221,15 @@ class MultiStepForm extends Component
             'selectedSubcategories.min' => 'Privaloma pasirinkti bent vieną kategoriją',
             'terms.required' => 'Privalote sutikti su naudojimo sąlygomis.',
             'terms.accepted' => 'Privalote sutikti su naudojimo sąlygomis.',
+            'subcategoryPrices.*.numeric' => 'Kaina turi būti skaičius.', // Changed from integer to numeric
+            'subcategoryPrices.*.min' => 'Kaina negali būti neigiama.',
+            'subcategoryPrices.*.max' => 'Kaina negali būti daugiau nei 1000 eur.', // Added max message
+            'subcategoryPriceTypes.*.in' => 'Pasirinkite teisingą kainos tipą.',
+            'subcategoryPrices.*.required' => 'Kaina yra privaloma.',
+            'subcategoryPriceTypes.*.required' => 'Kainos tipas yra privalomas.',
+            'subcategoryExperience.*.integer' => 'Patirtis turi būti skaičius.',
+            'subcategoryExperience.*.min' => 'Patirtis negali būti neigiama.',
+            'subcategoryExperience.*.max' => 'Patirtis negali būti daugiau nei 50 metų.',
         ];
     }
 
@@ -269,8 +291,21 @@ class MultiStepForm extends Component
             'role' => $userRole,
         ]);
 
+
+
+        // **UPDATED: Modified to save price data in pivot table**
         if ($userRole === 'provider' && !empty($this->selectedSubcategories)) {
-            $user->categories()->attach($this->selectedSubcategories);
+            // Prepare pivot data with prices and price types
+            $pivotData = [];
+            foreach ($this->selectedSubcategories as $subcategoryId) {
+                $pivotData[$subcategoryId] = [
+                    'price' => $this->subcategoryPrices[$subcategoryId] ?? null,
+                    'type' => $this->subcategoryPriceTypes[$subcategoryId] ?? null,
+                    'experience' => $this->subcategoryExperience[$subcategoryId] ?? null,
+                ];
+            }
+
+            $user->categories()->attach($pivotData);
         }
         // Fire the Registered event - this triggers email verification
         event(new \Illuminate\Auth\Events\Registered($user));
@@ -313,5 +348,10 @@ class MultiStepForm extends Component
         $this->selectedSubcategories = array_values(array_filter($this->selectedSubcategories, function ($subcategoryId) use ($id) {
             return $subcategoryId != $id;
         }));
+
+        // Clean up the data
+        unset($this->subcategoryPrices[$id]);
+        unset($this->subcategoryPriceTypes[$id]);
+        unset($this->subcategoryExperience[$id]);
     }
 }

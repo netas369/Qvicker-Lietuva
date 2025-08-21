@@ -576,20 +576,71 @@
                 </div>
 
                 <div class="mt-6">
-                    <h3 class="text-lg font-medium text-gray-900">Pasirinktos paslaugos:</h3>
+                    <h3 class="text-xl font-medium text-gray-900">Pasirinktos paslaugos:</h3>
 
                     @if(count($selectedSubcategories) > 0)
-                        <div class="mt-3 flex flex-wrap gap-2">
+                        <div class="mt-3 space-y-3">
                             @foreach($categories as $category)
                                 @foreach($category['subcategories'] as $subcategory)
                                     @if(in_array($subcategory['id'], $selectedSubcategories))
-                                        <div class="bg-primary-light bg-opacity-10 text-primary-light px-3 py-1 rounded-full flex items-center">
-                                            <span>{{ $subcategory['name'] }}</span>
-                                            <button type="button" wire:click="removeSubcategory({{ $subcategory['id'] }})" class="ml-2 text-primary-light hover:text-primary">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                                </svg>
-                                            </button>
+                                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 ">
+                                            <div class="flex items-center justify-between mb-3">
+                                                <span class="font-medium text-lg text-gray-900">{{ $subcategory['name'] }}</span>
+                                                <button type="button" wire:click="removeSubcategory({{ $subcategory['id'] }})" class="text-red-500 hover:text-red-700">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+
+                                            <div class="flex flex-col md:flex-row gap-4">
+                                                <div class="md:w-[25%]">
+                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Kaina</label>
+                                                    <div class="relative">
+                                                        <input type="number"
+                                                               wire:model="subcategoryPrices.{{ $subcategory['id'] }}"
+                                                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                                               placeholder="Įveskite kainą"
+                                                               min="0"
+                                                               max="1000"
+                                                               step="0.01"
+                                                               required>
+                                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                            <span class="text-gray-500 text-sm">€</span>
+                                                        </div>
+                                                    </div>
+                                                    @error("subcategoryPrices.{$subcategory['id']}")
+                                                    <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="md:w-[50%]">
+                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Kainos tipas</label>
+                                                    <select wire:model="subcategoryPriceTypes.{{ $subcategory['id'] }}"
+                                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                                        <option value="">Pasirinkite kainos tipą</option>
+                                                        <option value="hourly">Valandinis</option>
+                                                        <option value="fixed">Fiksuotas</option>
+                                                        <option value="meter">Metrinis</option>
+                                                    </select>
+                                                    @error("subcategoryPriceTypes.{$subcategory['id']}")
+                                                    <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="md:w-[25%]">
+                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Patirtis (metais)</label>
+                                                    <input type="number"
+                                                           wire:model="subcategoryExperience.{{ $subcategory['id'] }}"
+                                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                                           placeholder="Pvz: 5"
+                                                           min="0"
+                                                           max="50">
+                                                    @error("subcategoryExperience.{$subcategory['id']}")
+                                                    <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
                                         </div>
                                     @endif
                                 @endforeach

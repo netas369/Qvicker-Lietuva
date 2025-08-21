@@ -53,6 +53,42 @@
                     </div>
                 @endif
 
+                @if(isset($provider->pricing_info) && $provider->pricing_info)
+                    <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                        <h3 class="text-gray-700 font-medium mb-2">Jūsų kainos šiai paslaugai</h3>
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-2 sm:space-y-0">
+                            <!-- Price -->
+                            @if($provider->pricing_info['price'])
+                                <div class="flex items-center">
+                                    <span class="text-sm font-medium text-gray-700 mr-2">Kaina:</span>
+                                    <span class="font-bold text-primary text-lg">{{ $provider->pricing_info['formatted_price'] }}€</span>
+                                    @if($provider->pricing_info['type'])
+                                        <span class="text-gray-600 ml-1">{{ $provider->pricing_info['type_label_full'] }}</span>
+                                    @endif
+                                </div>
+                            @endif
+
+                            <!-- Experience -->
+                            @if($provider->pricing_info['experience'])
+                                <div class="flex items-center text-gray-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                    </svg>
+                                    <span class="text-sm font-medium">{{ $provider->pricing_info['experience'] }} m. patirtis</span>
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="mt-2 text-xs text-blue-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Tai jūsų nustatyta bazinė kaina šiai paslaugai. Galutinę kainą aptarkite su klientu.
+                        </div>
+                    </div>
+                @endif
+
+                <!-- Continue with the existing date section -->
                 <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <h3 class="text-gray-700 font-medium mb-2">Darbo data</h3>
@@ -75,13 +111,37 @@
                     </div>
                 </div>
 
+                <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <h3 class="text-gray-700 font-medium mb-2">Darbo data</h3>
+                        <div class="flex items-center text-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-400" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            {{ \Carbon\Carbon::parse($reservation->reservation_date)->format('Y-m-d') }}
+                            @if(isset($reservation->time))
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-4 mr-2 text-gray-400"
+                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                {{ $reservation->time }}
+                            @endif
+
+                        </div>
+                    </div>
+
+                </div>
+
                 <div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4 mt-4">
                     @if($reservation->status == 'pending')
                         <form id="acceptForm" method="POST" action="{{ route('reservation.accept', $reservation->id) }}">
                             @csrf
                             <button type="button"
                                     onclick="showConfirmationModal('accept')"
-                                    class="w-full sm:w-auto inline-flex justify-center items-center px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 text-sm ">
+                                    class="w-full sm:w-auto inline-flex justify-center items-center px-3 py-2 bg-primary-light text-white rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary text-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20"
                                      fill="currentColor">
                                     <path fill-rule="evenodd"

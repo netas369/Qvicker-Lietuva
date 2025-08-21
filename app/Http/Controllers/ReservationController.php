@@ -278,8 +278,29 @@ class ReservationController extends Controller
             abort(403, 'Unauthorized action. This reservation does not belong to you.');
         }
 
-        return view('reservations.modify-reservation-providers.modify-reservation', compact('reservation', 'reviewIsLeft'));
+        // Get subcategory ID from reservation
+        $subcategoryId = null;
+        if ($reservation->subcategory) {
+            $subcategoryRecord = \App\Models\Category::where('subcategory', $reservation->subcategory)->first();
+            if ($subcategoryRecord) {
+                $subcategoryId = $subcategoryRecord->id;
+            }
+        }
+
+        // Load authenticated provider (current user) with pricing information
+        $provider = auth()->user();
+        if ($subcategoryId) {
+            $provider->load(['categories' => function($query) use ($subcategoryId) {
+                $query->where('categories.id', $subcategoryId);
+            }]);
+
+            // Prepare pricing information for the authenticated provider
+            $this->preparePricingInfo($provider, $subcategoryId);
+        }
+
+        return view('reservations.modify-reservation-providers.modify-reservation', compact('reservation', 'reviewIsLeft', 'provider'));
     }
+
 
     public function modifySeeker($id)
     {
@@ -291,7 +312,78 @@ class ReservationController extends Controller
             abort(403, 'Unauthorized action. This reservation does not belong to you.');
         }
 
+        // Get subcategory ID from reservation
+        $subcategoryId = null;
+        if ($reservation->subcategory) {
+            $subcategoryRecord = \App\Models\Category::where('subcategory', $reservation->subcategory)->first();
+            if ($subcategoryRecord) {
+                $subcategoryId = $subcategoryRecord->id;
+            }
+        }
+
+        // Load provider with pricing information if we have a provider and subcategory
+        if ($reservation->provider && $subcategoryId) {
+            $reservation->provider->load(['categories' => function($query) use ($subcategoryId) {
+                $query->where('categories.id', $subcategoryId);
+            }]);
+
+            // Prepare pricing information
+            $this->preparePricingInfo($reservation->provider, $subcategoryId);
+        }
+
         return view('reservations.modify-reservation-seeker.modify-reservation', compact('reservation', 'user'));
+    }
+
+    /**
+     * Prepare pricing information for a provider
+     */
+    private function preparePricingInfo($provider, $subcategoryId)
+    {
+        $provider->pricing_info = null;
+
+        if ($subcategoryId) {
+            $pivotData = $provider->categories->where('id', $subcategoryId)->first();
+            if ($pivotData && $pivotData->pivot) {
+                $provider->pricing_info = [
+                    'price' => $pivotData->pivot->price,
+                    'type' => $pivotData->pivot->type,
+                    'experience' => $pivotData->pivot->experience,
+                    'formatted_price' => number_format($pivotData->pivot->price, 2),
+                    'type_label_full' => $this->getPriceTypeLabel($pivotData->pivot->type, false),
+                    'type_label_short' => $this->getPriceTypeLabel($pivotData->pivot->type, true)
+                ];
+            }
+        }
+    }
+
+    /**
+     * Get price type label
+     */
+    private function getPriceTypeLabel($type, $short = false)
+    {
+        if ($short) {
+            switch ($type) {
+                case 'hourly':
+                    return '/val.';
+                case 'fixed':
+                    return '(fiks.)';
+                case 'meter':
+                    return '/m';
+                default:
+                    return '';
+            }
+        } else {
+            switch ($type) {
+                case 'hourly':
+                    return '/ val.';
+                case 'fixed':
+                    return '(fiksuotas)';
+                case 'meter':
+                    return '/ m';
+                default:
+                    return '';
+            }
+        }
     }
 
     public function editProvider($id, Request $request)

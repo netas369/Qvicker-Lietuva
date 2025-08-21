@@ -119,6 +119,14 @@ class SearchHandymanController extends Controller
         $subcategory = $request->query('subcategory');
         $date = $request->query('date');
 
+        // If no subcategory_id, try to find it from subcategory name
+        if (!$subcategoryId && $subcategory) {
+            $subcategoryRecord = Category::where('subcategory', $subcategory)->first();
+            if ($subcategoryRecord) {
+                $subcategoryId = $subcategoryRecord->id;
+            }
+        }
+
         // Pagination parameters
         $perPage = 5; // 5 providers per page
         $currentPage = $request->query('page', 1);
@@ -133,7 +141,7 @@ class SearchHandymanController extends Controller
                 $q->whereRaw('JSON_CONTAINS(cities, ?)', ['"'.$city.'"']);
 
                 // Method 2: LIKE search (catches both encoded and non-encoded)
-                $q->orWhere('cities', 'LIKE', '%'.addslashes($city).'%');
+                $q->orWhere('cities', 'LIKE', '%'.$city.'%');
 
                 // Method 3: Search for unicode-escaped version
                 $unicodeCity = json_encode($city);
@@ -142,21 +150,19 @@ class SearchHandymanController extends Controller
                     $unicodeCityClean = trim($unicodeCity, '"');
                     $q->orWhere('cities', 'LIKE', '%'.$unicodeCityClean.'%');
                 }
-            });
+            })
+            // EAGER LOAD the categories relationship with pivot data
+            ->with(['categories' => function($query) use ($subcategoryId) {
+                if ($subcategoryId) {
+                    $query->where('categories.id', $subcategoryId);
+                }
+            }]);
 
         // Filter by subcategory if specified
         if ($subcategoryId) {
-            $query->whereHas('subcategories', function($q) use ($subcategoryId) {
-                $q->where('subcategory_id', $subcategoryId);
+            $query->whereHas('categories', function($q) use ($subcategoryId) {
+                $q->where('categories.id', $subcategoryId);
             });
-        } elseif ($subcategory) {
-            // Try to find subcategory ID from name
-            $subcategoryRecord = Category::where('subcategory', $subcategory)->first();
-            if ($subcategoryRecord) {
-                $query->whereHas('subcategories', function($q) use ($subcategoryRecord) {
-                    $q->where('subcategory_id', $subcategoryRecord->id);
-                });
-            }
         }
 
         // Get all potential providers
@@ -168,6 +174,9 @@ class SearchHandymanController extends Controller
 
         // Loop through each provider to check availability
         foreach ($allProviders as $provider) {
+            // Prepare pricing information for this provider
+            $this->preparePricingInfo($provider, $subcategoryId);
+
             // Check if provider is available on the specific date
             if ($this->isProviderAvailableOnDate($provider, $specificDate)) {
                 // Add to exactly available providers
@@ -227,11 +236,64 @@ class SearchHandymanController extends Controller
             'totalExact' => $totalExact,
             'totalSoon' => $totalSoon,
             'subcategory' => $subcategory,
+            'subcategoryId' => $subcategoryId,
             'city' => $city,
             'taskSize' => $taskSize,
             'date' => $date,
             'specificDate' => $specificDate
         ]);
+    }
+
+    /**
+     * Prepare pricing information for a provider
+     */
+    private function preparePricingInfo($provider, $subcategoryId)
+    {
+        $provider->pricing_info = null;
+
+        if ($subcategoryId) {
+            $pivotData = $provider->categories->where('id', $subcategoryId)->first();
+            if ($pivotData && $pivotData->pivot) {
+                $provider->pricing_info = [
+                    'price' => $pivotData->pivot->price,
+                    'type' => $pivotData->pivot->type,
+                    'experience' => $pivotData->pivot->experience,
+                    'formatted_price' => number_format($pivotData->pivot->price, 2),
+                    'type_label_full' => $this->getPriceTypeLabel($pivotData->pivot->type, false),
+                    'type_label_short' => $this->getPriceTypeLabel($pivotData->pivot->type, true)
+                ];
+            }
+        }
+    }
+
+    /**
+     * Get price type label
+     */
+    private function getPriceTypeLabel($type, $short = false)
+    {
+        if ($short) {
+            switch ($type) {
+                case 'hourly':
+                    return '/val.';
+                case 'fixed':
+                    return '(fiks.)';
+                case 'meter':
+                    return '/m';
+                default:
+                    return '';
+            }
+        } else {
+            switch ($type) {
+                case 'hourly':
+                    return '/ val.';
+                case 'fixed':
+                    return '(fiksuotas)';
+                case 'meter':
+                    return '/ m';
+                default:
+                    return '';
+            }
+        }
     }
 
     /**
@@ -299,7 +361,8 @@ class SearchHandymanController extends Controller
      */
     private function findClosestAvailableDate($provider, $targetDate, $maxDays)
     {
-        // Check days forward and backward from the target date, prioritizing closer dates
+        $today = now()->startOfDay();
+
         for ($i = 1; $i <= $maxDays; $i++) {
             // Check day ahead
             $dayAhead = $targetDate->copy()->addDays($i);
@@ -307,22 +370,38 @@ class SearchHandymanController extends Controller
                 return $dayAhead;
             }
 
-            // Check day behind
+            // Check day behind - but only if it's not in the past
             $dayBehind = $targetDate->copy()->subDays($i);
-            if ($this->isProviderAvailableOnDate($provider, $dayBehind)) {
+            if ($dayBehind->gte($today) && $this->isProviderAvailableOnDate($provider, $dayBehind)) {
                 return $dayBehind;
             }
         }
 
-        return null; // No available date found within range
+        return null;
     }
 
     public function showReservation(Request $request, $id)
     {
+        $subcategory = $request->query('subcategory');
+        $subcategoryId = null;
+
+        // Get subcategory ID from name if provided
+        if ($subcategory) {
+            $subcategoryRecord = Category::where('subcategory', $subcategory)->first();
+            if ($subcategoryRecord) {
+                $subcategoryId = $subcategoryRecord->id;
+            }
+        }
+
         // Load provider with reviews relationship and calculate average rating
         $provider = User::with([
             'reviewsReceived' => function($query) {
                 $query->with('seeker')->orderBy('created_at', 'desc');
+            },
+            'categories' => function($query) use ($subcategoryId) {
+                if ($subcategoryId) {
+                    $query->where('categories.id', $subcategoryId);
+                }
             }
         ])->findOrFail($id);
 
@@ -333,12 +412,15 @@ class SearchHandymanController extends Controller
         // Add the average rating as an attribute to the provider
         $provider->average_rating = $averageRating;
 
+        // Prepare pricing information
+        $this->preparePricingInfo($provider, $subcategoryId);
+
         $date = $request->query('date', now()->format('Y-m-d'));
         $taskSize = $request->query('task_size');
-        $subcategory = $request->query('subcategory');
         $city = $request->query('city');
         $portfolioPhotos = json_decode($provider->portfolio_photos ?? '[]', true);
 
         return view('search.reserve.reserve', compact('provider', 'date', 'taskSize', 'subcategory', 'city', 'portfolioPhotos'));
     }
+
 }
