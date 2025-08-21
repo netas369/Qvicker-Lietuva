@@ -119,6 +119,14 @@ class SearchHandymanController extends Controller
         $subcategory = $request->query('subcategory');
         $date = $request->query('date');
 
+        // If no subcategory_id, try to find it from subcategory name
+        if (!$subcategoryId && $subcategory) {
+            $subcategoryRecord = Category::where('subcategory', $subcategory)->first();
+            if ($subcategoryRecord) {
+                $subcategoryId = $subcategoryRecord->id;
+            }
+        }
+
         // Pagination parameters
         $perPage = 5; // 5 providers per page
         $currentPage = $request->query('page', 1);
@@ -142,21 +150,19 @@ class SearchHandymanController extends Controller
                     $unicodeCityClean = trim($unicodeCity, '"');
                     $q->orWhere('cities', 'LIKE', '%'.$unicodeCityClean.'%');
                 }
-            });
+            })
+            // EAGER LOAD the categories relationship with pivot data
+            ->with(['categories' => function($query) use ($subcategoryId) {
+                if ($subcategoryId) {
+                    $query->where('categories.id', $subcategoryId);
+                }
+            }]);
 
         // Filter by subcategory if specified
         if ($subcategoryId) {
-            $query->whereHas('subcategories', function($q) use ($subcategoryId) {
-                $q->where('subcategory_id', $subcategoryId);
+            $query->whereHas('categories', function($q) use ($subcategoryId) {
+                $q->where('categories.id', $subcategoryId);
             });
-        } elseif ($subcategory) {
-            // Try to find subcategory ID from name
-            $subcategoryRecord = Category::where('subcategory', $subcategory)->first();
-            if ($subcategoryRecord) {
-                $query->whereHas('subcategories', function($q) use ($subcategoryRecord) {
-                    $q->where('subcategory_id', $subcategoryRecord->id);
-                });
-            }
         }
 
         // Get all potential providers
@@ -168,6 +174,9 @@ class SearchHandymanController extends Controller
 
         // Loop through each provider to check availability
         foreach ($allProviders as $provider) {
+            // Prepare pricing information for this provider
+            $this->preparePricingInfo($provider, $subcategoryId);
+
             // Check if provider is available on the specific date
             if ($this->isProviderAvailableOnDate($provider, $specificDate)) {
                 // Add to exactly available providers
@@ -227,11 +236,64 @@ class SearchHandymanController extends Controller
             'totalExact' => $totalExact,
             'totalSoon' => $totalSoon,
             'subcategory' => $subcategory,
+            'subcategoryId' => $subcategoryId,
             'city' => $city,
             'taskSize' => $taskSize,
             'date' => $date,
             'specificDate' => $specificDate
         ]);
+    }
+
+    /**
+     * Prepare pricing information for a provider
+     */
+    private function preparePricingInfo($provider, $subcategoryId)
+    {
+        $provider->pricing_info = null;
+
+        if ($subcategoryId) {
+            $pivotData = $provider->categories->where('id', $subcategoryId)->first();
+            if ($pivotData && $pivotData->pivot) {
+                $provider->pricing_info = [
+                    'price' => $pivotData->pivot->price,
+                    'type' => $pivotData->pivot->type,
+                    'experience' => $pivotData->pivot->experience,
+                    'formatted_price' => number_format($pivotData->pivot->price, 2),
+                    'type_label_full' => $this->getPriceTypeLabel($pivotData->pivot->type, false),
+                    'type_label_short' => $this->getPriceTypeLabel($pivotData->pivot->type, true)
+                ];
+            }
+        }
+    }
+
+    /**
+     * Get price type label
+     */
+    private function getPriceTypeLabel($type, $short = false)
+    {
+        if ($short) {
+            switch ($type) {
+                case 'hourly':
+                    return '/val.';
+                case 'fixed':
+                    return '(fiks.)';
+                case 'meter':
+                    return '/m';
+                default:
+                    return '';
+            }
+        } else {
+            switch ($type) {
+                case 'hourly':
+                    return '/ val.';
+                case 'fixed':
+                    return '(fiksuotas)';
+                case 'meter':
+                    return '/ m';
+                default:
+                    return '';
+            }
+        }
     }
 
     /**

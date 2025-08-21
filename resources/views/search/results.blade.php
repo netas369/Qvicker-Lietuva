@@ -2,8 +2,6 @@
 
 @section('content')
     <div class="w-full max-w-4xl mx-auto p-2 md:p-4">
-
-
         <div class="mb-4 md:mb-6">
             <h1 class="text-xl md:text-2xl font-bold text-primary mb-2">Rasti meistrai</h1>
 
@@ -55,7 +53,6 @@
             </div>
         </div>
 
-
         <!-- Check if there are any providers (exact or soon available) -->
         @if(empty($exactlyAvailableProviders) && empty($soonAvailableProviders))
             <div class="bg-yellow-50 p-3 rounded-lg border border-yellow-200 text-yellow-700 text-sm md:text-base">
@@ -90,7 +87,7 @@
                                     <div class="flex-grow">
                                         <div class="flex flex-col justify-between h-full">
                                             <div>
-                                                <!-- Desktop layout (hidden on mobile) -->
+                                                <!-- Desktop layout -->
                                                 <div class="hidden md:block">
                                                     <div class="flex items-center justify-between">
                                                         <!-- Provider name on the left -->
@@ -125,11 +122,36 @@
                                                     <p class="text-base text-gray-600 mt-1">
                                                         {{ \Carbon\Carbon::parse($provider->birthday)->age }} m.
                                                     </p>
+
+                                                    <!-- Pricing information for desktop -->
+                                                    @if($provider->pricing_info)
+                                                        <div class="mt-2 flex items-center space-x-4 text-sm">
+                                                            <!-- Price -->
+                                                            @if($provider->pricing_info['price'])
+                                                                <div class="flex items-center">
+                                                                    <span class="font-bold text-primary text-lg">{{ $provider->pricing_info['formatted_price'] }}€</span>
+                                                                    @if($provider->pricing_info['type'])
+                                                                        <span class="text-gray-600 ml-1">{{ $provider->pricing_info['type_label_full'] }}</span>
+                                                                    @endif
+                                                                </div>
+                                                            @endif
+
+                                                            <!-- Experience -->
+                                                            @if($provider->pricing_info['experience'])
+                                                                <div class="flex items-center text-gray-600">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                                                    </svg>
+                                                                    <span>{{ $provider->pricing_info['experience'] }} m. patirtis</span>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    @endif
                                                 </div>
 
-                                                <!-- Mobile layout (hidden on desktop) -->
+                                                <!-- Mobile layout -->
                                                 <div class="md:hidden">
-                                                    <!-- First row: Name and age -->
+                                                    <!-- First row: Name and availability badge -->
                                                     <div class="flex items-center justify-between">
                                                         <h2 class="text-base font-semibold text-primary">
                                                             {{ ucfirst($provider->name) }} {{ ucfirst($provider->lastname) }}
@@ -156,9 +178,34 @@
                                                             <span class="font-medium">{{ $provider->providerReservations->count() }}</span> užsakymai
                                                         </div>
                                                     </div>
+
+                                                    <!-- Pricing information for mobile -->
+                                                    @if($provider->pricing_info)
+                                                        <div class="mt-1.5 flex items-center space-x-3 text-xs">
+                                                            <!-- Price -->
+                                                            @if($provider->pricing_info['price'])
+                                                                <div class="flex items-center">
+                                                                    <span class="font-medium text-primary">{{ $provider->pricing_info['formatted_price'] }}€</span>
+                                                                    @if($provider->pricing_info['type'])
+                                                                        <span class="text-gray-600 ml-1">{{ $provider->pricing_info['type_label_short'] }}</span>
+                                                                    @endif
+                                                                </div>
+                                                            @endif
+
+                                                            <!-- Experience -->
+                                                            @if($provider->pricing_info['experience'])
+                                                                <div class="flex items-center text-gray-600">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                                                    </svg>
+                                                                    <span>{{ $provider->pricing_info['experience'] }}m. patirtis</span>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    @endif
                                                 </div>
 
-                                                <!-- Only show limited about text on mobile -->
+                                                <!-- About text -->
                                                 @if($provider->aboutme)
                                                     <div class="mt-1 md:mt-3">
                                                         <!-- Mobile: Shorter, 2-line limit -->
@@ -179,7 +226,7 @@
                                                                 <button
                                                                     onclick="toggleMoreText('{{ $provider->id }}')"
                                                                     id="read-more-btn-{{ $provider->id }}"
-                                                                    class="text-primary hover:underline focus:outline-none ml-1"
+                                                                    class="text-primary font-medium hover:underline focus:outline-none ml-1"
                                                                 >
                                                                     Skaityti daugiau
                                                                 </button>
@@ -189,7 +236,7 @@
                                                 @endif
                                             </div>
 
-                                            <!-- Mobile: Button at the bottom right corner -->
+                                            <!-- Button -->
                                             <div class="mt-2 md:mt-3 flex justify-end">
                                                 <a href="{{ route('provider.reserve', ['id' => $provider->id, 'date' => $date, 'task_size' => $taskSize, 'subcategory' => $subcategory, 'city' => $city]) }}"
                                                    class="inline-block rounded-md bg-gradient-to-tr from-primary to-primary-light py-1 px-3 md:py-2 md:px-4 border border-transparent
@@ -201,7 +248,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Only show specializations if desktop or if we have them -->
+                                <!-- Specializations -->
                                 @if($provider->specializations && count($provider->specializations) > 0)
                                     <div class="px-2 pb-2 md:px-4 md:pb-3 hidden md:block">
                                         <div class="flex flex-wrap gap-1 md:gap-2">
@@ -233,7 +280,7 @@
                             @endphp
                             <div class="border rounded-lg shadow-sm overflow-hidden bg-white">
                                 <div class="p-2 md:p-4 flex flex-row gap-2 md:gap-4">
-                                    <!-- Provider Image - Much smaller on mobile -->
+                                    <!-- Provider Image -->
                                     <div class="w-20 h-20 md:w-36 md:h-36 flex-shrink-0">
                                         @if($provider->image)
                                             <img src="{{ asset('storage/' . $provider->image) }}"
@@ -252,7 +299,7 @@
                                     <div class="flex-grow">
                                         <div class="flex flex-col justify-between h-full">
                                             <div>
-                                                <!-- Desktop layout (hidden on mobile) -->
+                                                <!-- Desktop layout -->
                                                 <div class="hidden md:block">
                                                     <div class="flex items-center justify-between">
                                                         <!-- Provider name on the left -->
@@ -292,9 +339,34 @@
                                                     <p class="text-sm text-gray-600 mt-1">
                                                         <span class="font-medium">Laisvas:</span> {{ $availableDate->format('Y-m-d') }}
                                                     </p>
+
+                                                    <!-- Pricing information for desktop -->
+                                                    @if($provider->pricing_info)
+                                                        <div class="mt-2 flex items-center space-x-4 text-sm">
+                                                            <!-- Price -->
+                                                            @if($provider->pricing_info['price'])
+                                                                <div class="flex items-center">
+                                                                    <span class="font-bold text-primary text-lg">{{ $provider->pricing_info['formatted_price'] }}€</span>
+                                                                    @if($provider->pricing_info['type'])
+                                                                        <span class="text-gray-600 ml-1">{{ $provider->pricing_info['type_label_full'] }}</span>
+                                                                    @endif
+                                                                </div>
+                                                            @endif
+
+                                                            <!-- Experience -->
+                                                            @if($provider->pricing_info['experience'])
+                                                                <div class="flex items-center text-gray-600">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                                                    </svg>
+                                                                    <span>{{ $provider->pricing_info['experience'] }} m. patirtis</span>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    @endif
                                                 </div>
 
-                                                <!-- Mobile layout (hidden on desktop) -->
+                                                <!-- Mobile layout -->
                                                 <div class="md:hidden">
                                                     <!-- First row: Name and badge -->
                                                     <div class="flex items-center justify-between">
@@ -328,9 +400,34 @@
                                                             <span class="font-medium">{{ $provider->providerReservations->count() }}</span> užsakymai
                                                         </div>
                                                     </div>
+
+                                                    <!-- Pricing information for mobile -->
+                                                    @if($provider->pricing_info)
+                                                        <div class="mt-1.5 flex items-center space-x-3 text-xs">
+                                                            <!-- Price -->
+                                                            @if($provider->pricing_info['price'])
+                                                                <div class="flex items-center">
+                                                                    <span class="font-medium text-primary">{{ $provider->pricing_info['formatted_price'] }}€</span>
+                                                                    @if($provider->pricing_info['type'])
+                                                                        <span class="text-gray-600 ml-1">{{ $provider->pricing_info['type_label_short'] }}</span>
+                                                                    @endif
+                                                                </div>
+                                                            @endif
+
+                                                            <!-- Experience -->
+                                                            @if($provider->pricing_info['experience'])
+                                                                <div class="flex items-center text-gray-600">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                                                    </svg>
+                                                                    <span>{{ $provider->pricing_info['experience'] }}m. patirtis</span>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    @endif
                                                 </div>
 
-                                                <!-- Only show limited about text on mobile -->
+                                                <!-- About text -->
                                                 @if($provider->aboutme)
                                                     <div class="mt-1 md:mt-3">
                                                         <!-- Mobile: Shorter, 2-line limit -->
@@ -351,7 +448,7 @@
                                                                 <button
                                                                     onclick="toggleMoreText('{{ $provider->id }}-soon')"
                                                                     id="read-more-btn-{{ $provider->id }}-soon"
-                                                                    class="text-primary hover:underline focus:outline-none ml-1"
+                                                                    class="text-primary font-medium hover:underline focus:outline-none ml-1"
                                                                 >
                                                                     Skaityti daugiau
                                                                 </button>
@@ -361,7 +458,7 @@
                                                 @endif
                                             </div>
 
-                                            <!-- Mobile: Button at the bottom right corner -->
+                                            <!-- Button -->
                                             <div class="mt-2 md:mt-3 flex justify-end">
                                                 <a href="{{ route('provider.reserve', ['id' => $provider->id, 'date' => $availableDate->format('Y-m-d'), 'task_size' => $taskSize, 'subcategory' => $subcategory, 'city' => $city]) }}"
                                                    class="inline-block rounded-md bg-gradient-to-tr from-primary to-primary-light py-1 px-3 md:py-2 md:px-4 border border-transparent
@@ -373,7 +470,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Only show specializations if desktop or if we have them -->
+                                <!-- Specializations -->
                                 @if($provider->specializations && count($provider->specializations) > 0)
                                     <div class="px-2 pb-2 md:px-4 md:pb-3 hidden md:block">
                                         <div class="flex flex-wrap gap-1 md:gap-2">
@@ -392,7 +489,6 @@
             @endif
         @endif
 
-        <!-- Add this right before the "Grįžti į paiešką" link (around line 350) -->
         <!-- Pagination Links -->
         @if(isset($paginatedResults) && $paginatedResults->hasPages())
             <div class="mt-6 mb-4 flex justify-center">
@@ -401,7 +497,6 @@
                 </div>
             </div>
         @endif
-
 
         <!-- Results count -->
         @if(isset($paginatedResults) && ($totalExact > 0 || $totalSoon > 0))
@@ -422,8 +517,6 @@
     </div>
 @endsection
 
-
-<!-- Add this CSS to make pagination mobile-friendly (in @push('styles') section) -->
 @push('styles')
     <style>
         .pagination-wrapper .pagination {
