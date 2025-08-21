@@ -62,7 +62,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'user_subcategory', 'user_id', 'subcategory_id');
+        return $this->belongsToMany(Category::class, 'user_subcategory', 'user_id', 'subcategory_id')
+            ->withPivot('price', 'type', 'experience');  // Add these pivot columns
     }
 
     public function unavailabilities()
@@ -82,7 +83,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function subcategories()
     {
-        return $this->belongsToMany(Category::class, 'user_subcategory', 'user_id', 'subcategory_id');
+        return $this->belongsToMany(Category::class, 'user_subcategory', 'user_id', 'subcategory_id')
+            ->withPivot('price', 'type', 'experience');
     }
 
     /**
