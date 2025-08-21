@@ -596,11 +596,19 @@
                                             <div class="flex flex-col md:flex-row gap-4">
                                                 <div class="md:w-[25%]">
                                                     <label class="block text-sm font-medium text-gray-700 mb-1">Kaina</label>
-                                                    <input type="number"
-                                                           wire:model="subcategoryPrices.{{ $subcategory['id'] }}"
-                                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                                           placeholder="Įveskite kainą"
-                                                           min="0">
+                                                    <div class="relative">
+                                                        <input type="number"
+                                                               wire:model="subcategoryPrices.{{ $subcategory['id'] }}"
+                                                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                                               placeholder="Įveskite kainą"
+                                                               min="0"
+                                                               max="1000"
+                                                               step="0.01"
+                                                               required>
+                                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                            <span class="text-gray-500 text-sm">€</span>
+                                                        </div>
+                                                    </div>
                                                     @error("subcategoryPrices.{$subcategory['id']}")
                                                     <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                                                     @enderror

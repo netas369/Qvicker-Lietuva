@@ -161,7 +161,7 @@ class MultiStepForm extends Component
 
             // Add dynamic validation for each selected subcategory
             foreach ($this->selectedSubcategories as $subcategoryId) {
-                $rules["subcategoryPrices.{$subcategoryId}"] = 'required|integer|min:0';
+                $rules["subcategoryPrices.{$subcategoryId}"] = 'required|numeric|min:0|max:1000';
                 $rules["subcategoryPriceTypes.{$subcategoryId}"] = 'required|in:hourly,fixed,meter';
             }
 
@@ -221,8 +221,9 @@ class MultiStepForm extends Component
             'selectedSubcategories.min' => 'Privaloma pasirinkti bent vieną kategoriją',
             'terms.required' => 'Privalote sutikti su naudojimo sąlygomis.',
             'terms.accepted' => 'Privalote sutikti su naudojimo sąlygomis.',
-            'subcategoryPrices.*.integer' => 'Kaina turi būti skaičius.',
+            'subcategoryPrices.*.numeric' => 'Kaina turi būti skaičius.', // Changed from integer to numeric
             'subcategoryPrices.*.min' => 'Kaina negali būti neigiama.',
+            'subcategoryPrices.*.max' => 'Kaina negali būti daugiau nei 1000 eur.', // Added max message
             'subcategoryPriceTypes.*.in' => 'Pasirinkite teisingą kainos tipą.',
             'subcategoryPrices.*.required' => 'Kaina yra privaloma.',
             'subcategoryPriceTypes.*.required' => 'Kainos tipas yra privalomas.',
