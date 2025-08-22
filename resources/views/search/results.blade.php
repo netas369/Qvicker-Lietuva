@@ -573,7 +573,8 @@
                 minDate: "today",
                 defaultDate: "{{ $date }}",
                 onChange: function(selectedDates, dateStr, instance) {
-                    document.querySelector('form').submit();
+                    // Target the specific form instead of just any form
+                    document.getElementById('date-filter').closest('form').submit();
                 }
             });
         });
