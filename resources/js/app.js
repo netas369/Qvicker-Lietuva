@@ -1,8 +1,9 @@
 import './bootstrap';
 
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.min.css";
+import { Lithuanian } from "flatpickr/dist/l10n/lt.js";
 
-// import Alpine from 'alpinejs';
-//
-// window.Alpine = Alpine;
-//
-// Alpine.start();
+// Make it available globally
+window.flatpickr = flatpickr;
+window.flatpickrLithuanian = Lithuanian;
