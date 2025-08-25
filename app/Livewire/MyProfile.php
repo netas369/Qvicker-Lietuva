@@ -220,7 +220,7 @@ class MyProfile extends Component
     public function updatedNewPortfolioPhoto()
     {
         $this->validate([
-            'newPortfolioPhoto' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'newPortfolioPhoto' => 'image|mimes:jpeg,png,jpg,gif|max:4092',
         ]);
 
         // Check if we already have maximum photos
