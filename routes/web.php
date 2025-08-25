@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AllServicesController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -35,8 +36,7 @@ Route::get('/seekers', [LandingPageController::class, 'seekers'])->name('seekers
 Route::get('/seeker/support', [SeekerController::class, 'support'])->name('seeker.support');
 Route::post('/seeker/support/send', [SeekerController::class, 'sendSeekerSupport'])->name('seeker.support.send');
 Route::get('/allservices', [AllServicesController::class, 'allservices'])->name('allservices');
-Route::get('/{service}', [AllServicesController::class, 'showService'])->name('service.show')
-    ->where('service', '.*');
+
 
 Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
     ->middleware(['signed', 'throttle:6,1'])
@@ -124,3 +124,16 @@ Route::middleware(['auth', 'verified', 'seeker'])->group(function () {
 
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('/service-pages', [AdminController::class, 'servicePages'])->name('service-pages.index');
+        Route::get('/service-pages/{slug}/edit', [AdminController::class, 'editServicePage'])->name('service-pages.edit');
+        Route::put('/service-pages/{slug}', [AdminController::class, 'updateServicePage'])->name('service-pages.update');
+        Route::delete('/service-pages/{slug}', [AdminController::class, 'deleteServicePage'])->name('service-pages.delete');
+        Route::post('/service-pages/bulk-create', [AdminController::class, 'bulkCreateSeoPages'])->name('service-pages.bulk-create');
+    });
+});
+
+// CATCH ALL ROUTE
+Route::get('/{service}', [AllServicesController::class, 'showService'])->name('service.show')
+    ->where('service', '.*');

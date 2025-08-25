@@ -53,7 +53,7 @@
 
                 <!-- CTA Buttons -->
                 <div class="mt-8 flex flex-wrap gap-4">
-                    <a href="/search?service={{ $serviceData->url }}" class="bg-primary-light text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-verylight transition">
+                    <a href="/search?subcategory={{ urlencode($serviceData->subcategory) }}" class="bg-primary-light text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-verylight transition">
                         Rasti specialistą
                     </a>
                     <a href="/register/provider" class="bg-white text-primary-light border-2 border-primary-light px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition">
@@ -126,26 +126,30 @@
                         </div>
                     @endif
 
-                    <!-- FAQ Section -->
+                    <!-- Dynamic FAQ Section -->
                     <section class="mt-12">
                         <h2 class="text-2xl font-bold text-gray-900 mb-6">Dažnai užduodami klausimai</h2>
                         <div class="space-y-4">
-                            <div class="bg-gray-50 rounded-lg p-6">
-                                <h3 class="font-semibold text-gray-900 mb-2">
-                                    Kaip greitai galiu gauti {{ $serviceData->subcategory }} specialistą?
-                                </h3>
-                                <p class="text-gray-600">
-                                    Dauguma specialistų gali atvykti per 24-48 valandas nuo užsakymo.
-                                </p>
-                            </div>
-                            <div class="bg-gray-50 rounded-lg p-6">
-                                <h3 class="font-semibold text-gray-900 mb-2">
-                                    Ar {{ $serviceData->subcategory }} specialistai turi draudimą?
-                                </h3>
-                                <p class="text-gray-600">
-                                    Rekomenduojame klausti konkretaus specialisto apie draudimą prieš užsakant paslaugą.
-                                </p>
-                            </div>
+                            @if($seoData && $seoData->faq)
+                                @php
+                                    $faqData = json_decode($seoData->faq, true);
+                                @endphp
+
+                                @if($faqData && is_array($faqData))
+                                    @foreach($faqData as $faq)
+                                        @if(!empty($faq['question']) && !empty($faq['answer']))
+                                            <div class="bg-gray-50 rounded-lg p-6">
+                                                <h3 class="font-semibold text-gray-900 mb-2">
+                                                    {{ $faq['question'] }}
+                                                </h3>
+                                                <p class="text-gray-600">
+                                                    {{ $faq['answer'] }}
+                                                </p>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
+                            @endif
                         </div>
                     </section>
                 </div>
@@ -156,7 +160,7 @@
                     <div class="bg-gradient-to-br from-primary-light to-primary-verylight rounded-xl p-6 text-white mb-8">
                         <h3 class="text-xl font-bold mb-4">Užsakyti paslaugą</h3>
                         <p class="mb-6">Raskite geriausią specialistą jūsų rajone</p>
-                        <a href="/search?service={{ $serviceData->url }}" class="block w-full bg-white text-primary-light text-center py-3 rounded-lg font-semibold hover:bg-gray-50 transition">
+                        <a href="/search?subcategory={{ urlencode($serviceData->subcategory) }}" class="block w-full bg-white text-primary-light text-center py-3 rounded-lg font-semibold hover:bg-gray-50 transition">
                             Ieškoti specialisto
                         </a>
                     </div>
