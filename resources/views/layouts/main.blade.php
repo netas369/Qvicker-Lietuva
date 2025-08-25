@@ -3,9 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>@yield('title')</title>
+    <title>@yield('title', 'Qvicker - Paslaugų platforma')</title>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
+    <meta name="description" content="@yield('description', 'Raskite specialistus bet kokiai užduočiai')">
+    <meta name="keywords" content="@yield('keywords', 'paslaugos, specialistai, meistrai')">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="@yield('title', 'Qvicker')">
+    <meta property="og:description" content="@yield('description')">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+
+    <!-- Structured Data -->
+    @yield('structured-data')
 
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])

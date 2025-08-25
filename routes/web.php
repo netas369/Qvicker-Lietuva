@@ -35,6 +35,8 @@ Route::get('/seekers', [LandingPageController::class, 'seekers'])->name('seekers
 Route::get('/seeker/support', [SeekerController::class, 'support'])->name('seeker.support');
 Route::post('/seeker/support/send', [SeekerController::class, 'sendSeekerSupport'])->name('seeker.support.send');
 Route::get('/allservices', [AllServicesController::class, 'allservices'])->name('allservices');
+Route::get('/{service}', [AllServicesController::class, 'showService'])->name('service.show')
+    ->where('service', '.*');
 
 Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
     ->middleware(['signed', 'throttle:6,1'])
