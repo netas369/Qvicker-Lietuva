@@ -12,6 +12,7 @@ use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
 {
@@ -46,6 +47,14 @@ class ReservationController extends Controller
             'city.required' => 'Miestas yra privalomas.',
         ]);
 
+
+        $subcategoryPricing = DB::table('user_subcategory')
+            ->join('categories', 'user_subcategory.subcategory_id', '=', 'categories.id')
+            ->where('user_subcategory.user_id', $validated['provider_id'])
+            ->where('categories.subcategory', $validated['subcategory'])
+            ->select('user_subcategory.price', 'user_subcategory.type')
+            ->first();
+
         // Create the reservation
         $reservation = new Reservation();
         $reservation->seeker_id = Auth::id(); // Current logged in user (seeker)
@@ -58,9 +67,11 @@ class ReservationController extends Controller
         $reservation->subcategory = $validated['subcategory'] ?? null;
         $reservation->city = $validated['city'];
         $reservation->status = 'pending';
+        $reservation->price = $subcategoryPricing->price;
+        $reservation->type = $subcategoryPricing->type;
+
         $reservation->save();
 
-        $provider = User::find($validated['provider_id']);
         $seeker = Auth::user();
         $this->notificationService->notifyNewReservation($reservation->provider, $reservation->seeker, $reservation);
 
