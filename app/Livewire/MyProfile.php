@@ -340,15 +340,33 @@ class MyProfile extends Component
     public function addLanguage()
     {
         if (!empty($this->selectedLanguage) && !in_array($this->selectedLanguage, $this->languages)) {
+            // Add to local array
             $this->languages[] = $this->selectedLanguage;
-            $this->selectedLanguage = ''; // Reset selection
+
+            // Immediately update in database
+            $this->user->update([
+                'languages' => json_encode($this->languages)
+            ]);
+
+            // Reset selection
+            $this->selectedLanguage = '';
+
+            session()->flash('message', 'Kalba sėkmingai pridėta');
         }
     }
 
     public function removeLanguage($language)
     {
+        // Remove from local array
         $this->languages = array_values(array_filter($this->languages, function($lang) use ($language) {
             return $lang !== $language;
         }));
+
+        // Immediately update in database
+        $this->user->update([
+            'languages' => json_encode($this->languages)
+        ]);
+
+        session()->flash('message', 'Kalba sėkmingai pašalinta');
     }
 }

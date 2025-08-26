@@ -276,6 +276,7 @@
                     @endif
 
                     <!-- About Me Section - Enhanced styling -->
+                    <!-- About Me Section - Enhanced styling -->
                     <div class="space-y-4">
                         <div class="flex items-center">
                             <div class="bg-primary-light/10 p-2 rounded-lg mr-3">
@@ -298,6 +299,17 @@
                         @error('aboutMe')
                         <p class="text-red-500 text-xs mt-1 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
                         @enderror
+
+                        <!-- Quick Save Button -->
+                        <div class="flex justify-end pt-2">
+                            <button type="submit"
+                                    class="inline-flex items-center px-4 py-2 bg-primary-light border border-transparent rounded-lg font-medium text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-light transition-all duration-200 shadow-md hover:shadow-lg text-sm">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                                </svg>
+                                Išsaugoti
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Personal Information Section -->
