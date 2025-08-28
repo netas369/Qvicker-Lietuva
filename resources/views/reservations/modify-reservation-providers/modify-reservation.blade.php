@@ -62,8 +62,22 @@
                                 <div class="flex items-center">
                                     <span class="text-sm font-medium text-gray-700 mr-2">Kaina:</span>
                                     <span class="font-bold text-primary text-lg">{{ $reservation->price }}€</span>
-                                    @if($provider->pricing_info['type'])
-                                        <span class="text-gray-600 ml-1">{{ $provider->pricing_info['type_label_full'] }}</span>
+                                    @if($reservation->type)
+                                        <span class="text-gray-600 ml-1">
+        @switch($reservation->type)
+                                                @case('hourly')
+                                                    / val.
+                                                    @break
+                                                @case('fixed')
+                                                    (fiksuotas)
+                                                    @break
+                                                @case('meter')
+                                                    / m
+                                                    @break
+                                                @default
+
+                                            @endswitch
+    </span>
                                     @endif
                                 </div>
                             @endif

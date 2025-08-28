@@ -281,6 +281,38 @@ class NotificationService
         );
     }
 
+    public function notifyReservationPriceChanged(Reservation $reservation): Notification
+    {
+        $seeker = User::find($reservation->seeker_id);
+        $provider = User::find($reservation->provider_id);
+
+        // Get the type label
+        $typeLabel = '';
+        switch($reservation->type) {
+            case 'hourly':
+                $typeLabel = ' / val.';
+                break;
+            case 'fixed':
+                $typeLabel = ' (fiksuotas)';
+                break;
+            case 'meter':
+                $typeLabel = ' / m';
+                break;
+        }
+
+        $notification_text = 'Rezervacijos Nr. ' . $reservation->id . ' kaina buvo pakeista į ' .
+            number_format($reservation->price, 2) . '€' . $typeLabel . '.';
+
+        return $this->createNotification(
+            $seeker->id,
+            NotificationType::RESERVATION_PRICE_CHANGED, // You'll need to add this to your enum
+            $reservation,
+            $provider,
+            $seeker,
+            $notification_text
+        );
+    }
+
 
     /**
      * Mark a notification as read

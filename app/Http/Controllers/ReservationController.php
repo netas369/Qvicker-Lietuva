@@ -411,13 +411,33 @@ class ReservationController extends Controller
             'price' => 'required|numeric|min:0|max:1000'
         ]);
 
+        // old reservation date is to check if the day is not changed don't send notification about the day change as the modal is the same for both
         $oldReservationDate = $reservation->reservation_date;
+        $oldPrice = $reservation->price;
 
         $reservation->price = $validated['price'];
         $reservation->reservation_date = $validated['date'];
 
 
         $reservation->save();
+
+        if($oldPrice !== $reservation->price){
+            // Get the formatted price with type label
+            $typeLabel = $this->getPriceTypeLabel($reservation->type, false); // false = full label
+
+            $changePriceMessage = 'Rezervacijos kaina buvo pakeista į ' .
+                number_format($reservation->price, 2) . '€' . $typeLabel . '.';
+
+            $message = new Message([
+                'reservation_id' => $reservation->id,
+                'sender_id' => Auth::id(),
+                'sender_type' => 'provider',
+                'message' => $changePriceMessage,
+            ]);
+            $message->save();
+
+             $this->notificationService->notifyReservationPriceChanged($reservation);
+        }
 
         if($oldReservationDate !== $reservation->reservation_date){
             $this->notificationService->notifyReservationDayChanged($reservation);
