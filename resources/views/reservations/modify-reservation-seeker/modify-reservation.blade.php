@@ -344,7 +344,7 @@
         <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
             <!-- Modal Header -->
             <div class="flex items-center justify-between pb-4 border-b">
-                <h3 class="text-lg font-medium text-gray-900">Meistro Profilis</h3>
+                <h3 class="text-xl font-bold text-primary">Meistro Profilis</h3>
                 <button onclick="closeProfileModal()" class="text-gray-400 hover:text-gray-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -356,7 +356,7 @@
             <div class="mt-4 max-h-96 overflow-y-auto">
                 <!-- Profile Photo -->
                 <div class="flex justify-center mb-6">
-                    <div class="w-24 h-24 rounded-full bg-gray-300 overflow-hidden">
+                    <div class="w-40 h-40 rounded-full bg-gray-300 overflow-hidden shadow-lg">
                         @if($reservation->provider->image)
                             <img src="{{ asset('storage/' . $reservation->provider->image) }}"
                                  alt="{{ $reservation->provider->name }}"
@@ -400,6 +400,40 @@
                                 Nenurodyta
                             @endif
                         </p>
+                    </div>
+                </div>
+
+                <!-- Statistics Section -->
+                <div class="mb-6 p-4 rounded-lg shadow-sm">
+                    <label class="block text-sm font-medium text-gray-700 mb-3">Statistika</label>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="text-center">
+                            <div class="flex items-center justify-center mb-2">
+                                <span class="text-2xl font-bold text-gray-900">{{ $reservation->provider->getTotalReservationsDone() }}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 text-teal-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <span class="text-xs font-medium text-gray-600">Užbaigti darbai</span>
+                        </div>
+                        <div class="text-center">
+                            <div class="flex items-center justify-center mb-2">
+                                <span class="text-2xl font-bold text-gray-900">{{ number_format($reservation->provider->average_rating, 1) }}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                            </div>
+                            <span class="text-xs font-medium text-gray-600">Reitingas</span>
+                        </div>
+                        <div class="text-center">
+                            <div class="flex items-center justify-center mb-2">
+                                <span class="text-2xl font-bold text-gray-900">{{ $reservation->provider->reviewsReceived()->count() }}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                                </svg>
+                            </div>
+                            <span class="text-xs font-medium text-gray-600">Atsiliepimai</span>
+                        </div>
                     </div>
                 </div>
 
