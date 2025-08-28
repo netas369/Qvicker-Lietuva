@@ -124,7 +124,7 @@
                                 {{ substr($reservation->provider->name, 0, 1) }}{{ substr($reservation->provider->lastname, 0, 1) }}
                             @endif
                         </div>
-                        <div>
+                        <div class="flex-1">
                             <h3 class="font-medium text-gray-800">{{ ucfirst($reservation->provider->name) }} {{ ucfirst($reservation->provider->lastname) }}</h3>
                             @if($reservation->status == 'accepted')
                                 <p class="text-gray-600 text-sm">
@@ -136,6 +136,17 @@
                                 </p>
                             @endif
                         </div>
+                    </div>
+
+                    <!-- Profile View Button -->
+                    <div class="mb-4">
+                        <button onclick="openProfileModal()"
+                                class="w-full inline-flex justify-center items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            Peržiūrėti Profilį
+                        </button>
                     </div>
 
                     <!-- ADD PRICING INFORMATION HERE -->
@@ -327,4 +338,235 @@
             </div>
         </div>
     </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 hidden">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between pb-4 border-b">
+                <h3 class="text-lg font-medium text-gray-900">Meistro Profilis</h3>
+                <button onclick="closeProfileModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="mt-4 max-h-96 overflow-y-auto">
+                <!-- Profile Photo -->
+                <div class="flex justify-center mb-6">
+                    <div class="w-24 h-24 rounded-full bg-gray-300 overflow-hidden">
+                        @if($reservation->provider->image)
+                            <img src="{{ asset('storage/' . $reservation->provider->image) }}"
+                                 alt="{{ $reservation->provider->name }}"
+                                 class="w-full h-full object-cover">
+                        @else
+                            <div class="w-full h-full flex items-center justify-center text-2xl font-bold text-white">
+                                {{ substr($reservation->provider->name, 0, 1) }}{{ substr($reservation->provider->lastname, 0, 1) }}
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Basic Information -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Vardas</label>
+                        <p class="text-gray-900">{{ ucfirst($reservation->provider->name) }}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Pavardė</label>
+                        <p class="text-gray-900">{{ ucfirst($reservation->provider->lastname) }}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Amžius</label>
+                        <p class="text-gray-900">
+                            @if($reservation->provider->birthday)
+                                {{ \Carbon\Carbon::parse($reservation->provider->birthday)->age }} metai
+                            @else
+                                Nenurodyta
+                            @endif
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Lytis</label>
+                        <p class="text-gray-900">
+                            @if($reservation->provider->gender == 'male')
+                                Vyras
+                            @elseif($reservation->provider->gender == 'female')
+                                Moteris
+                            @else
+                                Nenurodyta
+                            @endif
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Languages -->
+                @if($reservation->provider->languages)
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Kalbos</label>
+                        <div class="flex flex-wrap gap-2">
+                            @php
+                                $languages = is_string($reservation->provider->languages)
+                                    ? json_decode($reservation->provider->languages, true)
+                                    : $reservation->provider->languages;
+                            @endphp
+                            @if($languages)
+                                @foreach($languages as $language)
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        {{ $language }}
+                                    </span>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+                @endif
+
+                <!-- About Me -->
+                @if($reservation->provider->aboutme)
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Apie mane</label>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <p class="text-gray-700">{{ $reservation->provider->aboutme }}</p>
+                        </div>
+                    </div>
+                @endif
+
+                <!-- Portfolio Photos -->
+                @if($reservation->provider->portfolio_photos)
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Darbų pavyzdžiai</label>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            @php
+                                $portfolioPhotos = is_string($reservation->provider->portfolio_photos)
+                                    ? json_decode($reservation->provider->portfolio_photos, true)
+                                    : $reservation->provider->portfolio_photos;
+                            @endphp
+                            @if($portfolioPhotos)
+                                @foreach($portfolioPhotos as $photo)
+                                    <div class="relative group">
+                                        <img src="{{ asset('storage/' . $photo['path']) }}"
+                                             alt="Darbų pavyzdys"
+                                             class="w-full h-24 object-cover rounded-lg cursor-pointer hover:opacity-75 transition-opacity"
+                                             onclick="openImageModal('{{ asset('storage/' . $photo['path']) }}')">
+                                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+                @endif
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex justify-end pt-4 border-t">
+                <button onclick="closeProfileModal()"
+                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                    Uždaryti
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal for Portfolio Photos -->
+    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center h-full w-full hidden" style="z-index: 9999;">
+        <div class="relative max-w-4xl max-h-full p-4">
+            <!-- Close button -->
+            <button onclick="closeImageModal()"
+                    class="absolute -top-10 right-0 text-white hover:text-gray-300 z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <!-- Image -->
+            <img id="modalImage"
+                 src=""
+                 alt="Portfolio Image"
+                 class="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+                 style="max-height: 90vh;">
+        </div>
+    </div>
+
+    <style>
+        .z-60 {
+            z-index: 60;
+        }
+    </style>
+
+    <script>
+        function openProfileModal() {
+            const modal = document.getElementById('profileModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeProfileModal() {
+            const modal = document.getElementById('profileModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function openImageModal(imageSrc) {
+            console.log('Opening image modal with:', imageSrc); // Debug log
+            const modal = document.getElementById('imageModal');
+            const image = document.getElementById('modalImage');
+
+            if (modal && image) {
+                image.src = imageSrc;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                console.error('Modal elements not found'); // Debug log
+            }
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Close profile modal when clicking outside
+            const profileModal = document.getElementById('profileModal');
+            if (profileModal) {
+                profileModal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeProfileModal();
+                    }
+                });
+            }
+
+            // Close image modal when clicking outside
+            const imageModal = document.getElementById('imageModal');
+            if (imageModal) {
+                imageModal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeImageModal();
+                    }
+                });
+            }
+
+            // Close modals on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeProfileModal();
+                    closeImageModal();
+                }
+            });
+        });
+    </script>
 @endsection
