@@ -399,60 +399,41 @@ class ReservationController extends Controller
 
     public function editProvider($id, Request $request)
     {
-        $reservation = Reservation::findOrFail($id);
+        // Eager load relationships to avoid N+1 queries
+        $reservation = Reservation::with(['seeker', 'provider'])->findOrFail($id);
 
         if(Auth::id() !== $reservation->provider_id){
             abort(403, 'Unauthorized action. This reservation does not belong to you.');
         }
-
 
         $validated = $request->validate([
             'date' => 'required|date',
             'price' => 'required|numeric|min:0|max:1000'
         ]);
 
-        // old reservation date is to check if the day is not changed don't send notification about the day change as the modal is the same for both
+        // Store old values for comparison
         $oldReservationDate = $reservation->reservation_date;
         $oldPrice = $reservation->price;
 
+        // Update reservation
         $reservation->price = $validated['price'];
         $reservation->reservation_date = $validated['date'];
-
-
         $reservation->save();
 
-        if($oldPrice !== $reservation->price){
-            // Get the formatted price with type label
-            $typeLabel = $this->getPriceTypeLabel($reservation->type, false); // false = full label
-
-            $changePriceMessage = 'Rezervacijos kaina buvo pakeista į ' .
-                number_format($reservation->price, 2) . '€' . $typeLabel . '.';
-
-            $message = new Message([
-                'reservation_id' => $reservation->id,
-                'sender_id' => Auth::id(),
-                'sender_type' => 'provider',
-                'message' => $changePriceMessage,
-            ]);
-            $message->save();
-
-             $this->notificationService->notifyReservationPriceChanged($reservation);
+        // Prepare changes array for event
+        $changes = [];
+        if($oldPrice != $reservation->price) {
+            $changes['price'] = ['old' => $oldPrice, 'new' => $reservation->price];
+        }
+        if($oldReservationDate != $reservation->reservation_date) {
+            $changes['date'] = ['old' => $oldReservationDate, 'new' => $reservation->reservation_date];
         }
 
-        if($oldReservationDate !== $reservation->reservation_date){
-            $this->notificationService->notifyReservationDayChanged($reservation);
-
-            $changeDayMessage = 'Rezervacijos data pakeista į ' . $reservation->reservation_date . '.';
-            $message = new Message([
-                'reservation_id' => $reservation->id,
-                'sender_id' => Auth::id(),
-                'sender_type' => 'provider',
-                'message' => $changeDayMessage,
-            ]);
-            $message->save();
+        // Dispatch single event if there are changes
+        if (!empty($changes)) {
+            event(new \App\Events\ReservationUpdated($reservation, $changes));
         }
 
-
-        return redirect()->back()->with('success', 'Rezervacijos data sėkmingai atnaujinta.');
+        return redirect()->back()->with('success', 'Rezervacijos duomenys sėkmingai atnaujinti.');
     }
 }
