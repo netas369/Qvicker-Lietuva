@@ -7,8 +7,7 @@
 
             <!-- Search filters with date change functionality -->
             <div class="mb-3">
-                <form action="{{ route('search.results') }}" method="POST" class="flex flex-wrap items-end gap-2">
-                    @csrf
+                <form action="{{ route('search.results.show') }}" method="GET" class="flex flex-wrap items-end gap-2">
                     <!-- Hidden fields to preserve current search parameters -->
                     <input type="hidden" name="subcategory" value="{{ $subcategory ?? '' }}">
                     @if(isset($subcategoryId))
@@ -36,23 +35,20 @@
 
                     <!-- Date filter input -->
                     <div class="flex items-center gap-2 ml-auto mt-2 md:mt-0">
-                        <label for="date-filter" class="text-xs md:text-sm text-gray-600">Data:</label>
+                        <label for="date-filter" class="text-xs md:text-sm text-gray-600">Pasirinkite datą:</label>
                         <input
-                            type="date"
+                            type="text"
                             id="date-filter"
                             name="date"
                             value="{{ $date }}"
-                            min="{{ date('Y-m-d') }}"
-                            class="text-xs md:text-sm border border-gray-300 rounded px-2 py-1 md:px-3 md:py-1.5"
+                            readonly
+                            placeholder="Pasirinkite datą"
+                            class="text-xs md:text-sm border border-gray-300 rounded px-2 py-1 md:px-3 md:py-1.5 cursor-pointer"
                         >
-                        <button type="submit" class="bg-primary text-white text-xs md:text-sm rounded px-2 py-1 md:px-3 md:py-1.5 hover:bg-primary-dark transition">
-                            Atnaujinti
-                        </button>
                     </div>
                 </form>
             </div>
         </div>
-
         <!-- Check if there are any providers (exact or soon available) -->
         @if(empty($exactlyAvailableProviders) && empty($soonAvailableProviders))
             <div class="bg-yellow-50 p-3 rounded-lg border border-yellow-200 text-yellow-700 text-sm md:text-base">
@@ -566,3 +562,21 @@
         </script>
     @endpush
 @endonce
+
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            flatpickr("#date-filter", {
+                locale: window.flatpickrLithuanian,
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                defaultDate: "{{ $date }}",
+                onChange: function(selectedDates, dateStr, instance) {
+                    // Target the specific form instead of just any form
+                    document.getElementById('date-filter').closest('form').submit();
+                }
+            });
+        });
+    </script>
+@endpush

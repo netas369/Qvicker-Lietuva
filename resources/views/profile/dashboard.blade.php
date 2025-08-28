@@ -37,9 +37,9 @@
                 @if($user->role == 'provider')
                     <!-- Provider Content -->
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-xl font-bold text-primary-light">Mano užsakymai</h3>
+                        <h3 class="text-xl font-bold text-primary-light">Artimiausi</h3>
                         <span class="bg-primary-light/10 text-primary-light text-xs font-semibold px-3 py-1 rounded-full">
-                            {{ $upcomingReservations ? $upcomingReservations->count() : 0 }} aktyvūs
+                            {{ $activeReservationsCount }} aktyvūs
                         </span>
                     </div>
 
@@ -107,11 +107,11 @@
                                 </a>
                             @endforeach
 
-                            @if(isset($totalProviderReservations) && $totalProviderReservations > 5)
+                            @if($activeReservationsCount > 5)
                                 <div class="text-center pt-4 border-t border-gray-100">
                                     <a href="{{route('reservations.provider')}}"
                                        class="inline-flex items-center gap-2 text-sm font-medium text-primary-light hover:text-primary transition-colors duration-200">
-                                        <span>Žiūrėti visus užsakymus ({{ $totalProviderReservations }})</span>
+                                        <span>Visi Užsakymai</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                         </svg>
@@ -133,9 +133,9 @@
                 @else
                     <!-- Seeker Content -->
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-xl font-bold text-primary-light">Mano užsakymai</h3>
+                        <h3 class="text-xl font-bold text-primary-light">Artimiausi</h3>
                         <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">
-                            {{ $upcomingReservations ? $upcomingReservations->count() : 0 }} aktyvūs
+                            {{ $activeReservationsCount }} aktyvūs
                         </span>
                     </div>
 
@@ -213,11 +213,11 @@
                                 </a>
                             @endforeach
 
-                            @if(isset($totalSeekerReservations) && $totalSeekerReservations > 5)
+                            @if($activeReservationsCount > 5)
                                 <div class="text-center pt-4 border-t border-gray-100">
                                     <a href="{{route('reservations.seeker')}}"
                                        class="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors duration-200">
-                                        <span>Žiūrėti visus užsakymus ({{ $totalSeekerReservations }})</span>
+                                        <span>Visi Užsakymai</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                         </svg>

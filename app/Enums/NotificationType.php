@@ -16,5 +16,6 @@ class NotificationType
     public const RESERVATION_CANCELLED_BY_PROVIDER = 'reservation_cancelled_by_provider';
     public const RESERVATION_DAY_CHANGED = 'reservation_day_changed';
     public const RESERVATION_AUTOMATICALLY_COMPLETED = 'reservation_automatically_completed';
+    public const RESERVATION_PRICE_CHANGED = 'reservation_price_changed';
 
 }

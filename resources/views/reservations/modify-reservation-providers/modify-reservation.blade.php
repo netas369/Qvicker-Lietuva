@@ -61,9 +61,23 @@
                             @if($provider->pricing_info['price'])
                                 <div class="flex items-center">
                                     <span class="text-sm font-medium text-gray-700 mr-2">Kaina:</span>
-                                    <span class="font-bold text-primary text-lg">{{ $provider->pricing_info['formatted_price'] }}€</span>
-                                    @if($provider->pricing_info['type'])
-                                        <span class="text-gray-600 ml-1">{{ $provider->pricing_info['type_label_full'] }}</span>
+                                    <span class="font-bold text-primary text-lg">{{ $reservation->price }}€</span>
+                                    @if($reservation->type)
+                                        <span class="text-gray-600 ml-1">
+        @switch($reservation->type)
+                                                @case('hourly')
+                                                    / val.
+                                                    @break
+                                                @case('fixed')
+                                                    (fiksuotas)
+                                                    @break
+                                                @case('meter')
+                                                    / m
+                                                    @break
+                                                @default
+
+                                            @endswitch
+    </span>
                                     @endif
                                 </div>
                             @endif
@@ -109,30 +123,6 @@
                             @endif
                         </div>
                     </div>
-                </div>
-
-                <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <h3 class="text-gray-700 font-medium mb-2">Darbo data</h3>
-                        <div class="flex items-center text-gray-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-400" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                            {{ \Carbon\Carbon::parse($reservation->reservation_date)->format('Y-m-d') }}
-                            @if(isset($reservation->time))
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-4 mr-2 text-gray-400"
-                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                                {{ $reservation->time }}
-                            @endif
-
-                        </div>
-                    </div>
-
                 </div>
 
                 <div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4 mt-4">
@@ -207,7 +197,7 @@
                                 {{ substr($reservation->seeker->name, 0, 1) }}{{ substr($reservation->seeker->lastname, 0, 1) }}
                             @endif
                         </div>
-                        <div>
+                        <div class="flex-1">
                             <h3 class="font-medium text-gray-800">
                                 {{ ucfirst($reservation->seeker->name) }}
                                 @if($reservation->status !== 'pending')
@@ -220,6 +210,17 @@
                                 </p>
                             @endif
                         </div>
+                    </div>
+
+                    <!-- Profile View Button -->
+                    <div class="mb-4">
+                        <button onclick="openSeekerProfileModal()"
+                                class="w-full inline-flex justify-center items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            Peržiūrėti Profilį
+                        </button>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
@@ -368,12 +369,12 @@
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900">
-                                Keisti rezervacijos datą
-                            </h3>
-                            <p class="text-red-500 mt-3">Turėkite omenyje, kad prieš keičiant datą privalote susitarti su klientu. Tam naudokite susirašinėjimo funkciją.</p>
-                            <div class="mt-4">
-                                <form id="dateChangeForm" method="POST" action="{{ route('reservations.editProvider', $reservation->id) }}">
+                            <form id="dateChangeForm" method="POST" action="{{ route('reservations.editProvider', $reservation->id) }}">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                    Keisti rezervacijos datą
+                                </h3>
+                                <p class="text-red-500 mt-3">Turėkite omenyje, kad prieš keičiant datą ar kainą privalote susitarti su klientu. Tam naudokite susirašinėjimo funkciją.</p>
+                                <div class="mt-4">
                                     @csrf
                                     @method('PUT')
 
@@ -387,8 +388,22 @@
                                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                         @enderror
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                    Keisti kainą
+                                </h3>
+                                <div class="mt-4">
+                                    <label for="price" class="block text-sm font-medium text-gray-700">Nauja kaina</label>
+                                    <input type="number" id="price" name="price"
+                                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                           value="{{ old('price', $reservation->price) }}"
+                                           required>
+                                    @error('price')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -448,6 +463,112 @@
         </div>
     </div>
 
+    <!-- Seeker Profile Modal -->
+    <div id="seekerProfileModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 hidden">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between pb-4 border-b">
+                <h3 class="text-lg font-medium text-gray-900">Kliento Profilis</h3>
+                <button onclick="closeSeekerProfileModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="mt-4 max-h-96 overflow-y-auto">
+                <!-- Profile Photo -->
+                <div class="flex justify-center mb-6">
+                    <div class="w-40 h-40 rounded-full bg-gray-300 overflow-hidden shadow-lg">
+                        @if($reservation->seeker->image)
+                            <img src="{{ asset('storage/' . $reservation->seeker->image) }}"
+                                 alt="{{ $reservation->seeker->name }}"
+                                 class="w-full h-full object-cover">
+                        @else
+                            <div class="w-full h-full flex items-center justify-center text-2xl font-bold text-white">
+                                {{ substr($reservation->seeker->name, 0, 1) }}{{ substr($reservation->seeker->lastname, 0, 1) }}
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Basic Information -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Vardas</label>
+                        <p class="text-gray-900">{{ ucfirst($reservation->seeker->name) }}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Pavardė</label>
+                        <p class="text-gray-900">{{ ucfirst($reservation->seeker->lastname) }}</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Amžius</label>
+                        <p class="text-gray-900">
+                            @if($reservation->seeker->birthday)
+                                {{ \Carbon\Carbon::parse($reservation->seeker->birthday)->age }} metai
+                            @else
+                                Nenurodyta
+                            @endif
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Lytis</label>
+                        <p class="text-gray-900">
+                            @if($reservation->seeker->gender == 'male')
+                                Vyras
+                            @elseif($reservation->seeker->gender == 'female')
+                                Moteris
+                            @else
+                                Nenurodyta
+                            @endif
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Languages -->
+                @if($reservation->seeker->languages)
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Kalbos</label>
+                        <div class="flex flex-wrap gap-2">
+                            @php
+                                $languages = is_string($reservation->seeker->languages)
+                                    ? json_decode($reservation->seeker->languages, true)
+                                    : $reservation->seeker->languages;
+                            @endphp
+                            @if($languages)
+                                @foreach($languages as $language)
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        {{ $language }}
+                                    </span>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+                @endif
+
+                <!-- About Me -->
+                @if($reservation->seeker->aboutme)
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Apie mane</label>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <p class="text-gray-700">{{ $reservation->seeker->aboutme }}</p>
+                        </div>
+                    </div>
+                @endif
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex justify-end pt-4 border-t">
+                <button onclick="closeSeekerProfileModal()"
+                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                    Uždaryti
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function openDateChangeModal() {
             document.getElementById('dateChangeModal').classList.remove('hidden');
@@ -457,10 +578,29 @@
             document.getElementById('dateChangeModal').classList.add('hidden');
         }
 
+        // Seeker Profile Modal Functions
+        function openSeekerProfileModal() {
+            const modal = document.getElementById('seekerProfileModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeSeekerProfileModal() {
+            const modal = document.getElementById('seekerProfileModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
         // Uždaryti modalinį langą paspaudus Escape klavišą
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeDateChangeModal();
+                closeConfirmationModal();
+                closeSeekerProfileModal();
             }
         });
 
@@ -533,19 +673,26 @@
             closeConfirmationModal();
         }
 
-        // Close modal on Escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeConfirmationModal();
-            }
-        });
-
         // Prevent modal from closing when clicking inside the modal content
         document.addEventListener('DOMContentLoaded', function() {
-            const modalContent = document.querySelector('#confirmationModal .inline-block');
-            if (modalContent) {
-                modalContent.addEventListener('click', function(event) {
-                    event.stopPropagation();
+            // Confirmation modal click outside handler
+            const confirmationModal = document.getElementById('confirmationModal');
+            if (confirmationModal) {
+                const modalContent = confirmationModal.querySelector('.inline-block');
+                if (modalContent) {
+                    modalContent.addEventListener('click', function(event) {
+                        event.stopPropagation();
+                    });
+                }
+            }
+
+            // Seeker profile modal click outside handler
+            const seekerProfileModal = document.getElementById('seekerProfileModal');
+            if (seekerProfileModal) {
+                seekerProfileModal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeSeekerProfileModal();
+                    }
                 });
             }
         });

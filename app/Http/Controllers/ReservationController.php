@@ -12,6 +12,7 @@ use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
 {
@@ -46,6 +47,14 @@ class ReservationController extends Controller
             'city.required' => 'Miestas yra privalomas.',
         ]);
 
+
+        $subcategoryPricing = DB::table('user_subcategory')
+            ->join('categories', 'user_subcategory.subcategory_id', '=', 'categories.id')
+            ->where('user_subcategory.user_id', $validated['provider_id'])
+            ->where('categories.subcategory', $validated['subcategory'])
+            ->select('user_subcategory.price', 'user_subcategory.type')
+            ->first();
+
         // Create the reservation
         $reservation = new Reservation();
         $reservation->seeker_id = Auth::id(); // Current logged in user (seeker)
@@ -58,9 +67,11 @@ class ReservationController extends Controller
         $reservation->subcategory = $validated['subcategory'] ?? null;
         $reservation->city = $validated['city'];
         $reservation->status = 'pending';
+        $reservation->price = $subcategoryPricing->price;
+        $reservation->type = $subcategoryPricing->type;
+
         $reservation->save();
 
-        $provider = User::find($validated['provider_id']);
         $seeker = Auth::user();
         $this->notificationService->notifyNewReservation($reservation->provider, $reservation->seeker, $reservation);
 
@@ -388,47 +399,41 @@ class ReservationController extends Controller
 
     public function editProvider($id, Request $request)
     {
-        $reservation = Reservation::findOrFail($id);
+        // Eager load relationships to avoid N+1 queries
+        $reservation = Reservation::with(['seeker', 'provider'])->findOrFail($id);
 
         if(Auth::id() !== $reservation->provider_id){
             abort(403, 'Unauthorized action. This reservation does not belong to you.');
         }
 
-
         $validated = $request->validate([
             'date' => 'required|date',
+            'price' => 'required|numeric|min:0|max:1000'
         ]);
 
-//        $unavailabilities = Unavailability::where('provider_id', $reservation->provider_id)->get();
-//
-//        foreach($unavailabilities as $unavailability) {
-//            $unavailabilityDate = Carbon::parse($unavailability->date)->format('Y-m-d');
-//            $requestDate = Carbon::parse($validated['date'])->format('Y-m-d');
-//
-//            if($unavailabilityDate === $requestDate) {
-//                return redirect()->back()->withErrors(['date' => 'Ši data yra užimta jūsų kalendoryje. Prašome pasirinkti kitą datą.'])->withInput();
-//            }
-//        }
+        // Store old values for comparison
+        $oldReservationDate = $reservation->reservation_date;
+        $oldPrice = $reservation->price;
 
-
+        // Update reservation
+        $reservation->price = $validated['price'];
         $reservation->reservation_date = $validated['date'];
-
-        $this->notificationService->notifyReservationDayChanged($reservation);
-
         $reservation->save();
 
+        // Prepare changes array for event
+        $changes = [];
+        if($oldPrice != $reservation->price) {
+            $changes['price'] = ['old' => $oldPrice, 'new' => $reservation->price];
+        }
+        if($oldReservationDate != $reservation->reservation_date) {
+            $changes['date'] = ['old' => $oldReservationDate, 'new' => $reservation->reservation_date];
+        }
 
+        // Dispatch single event if there are changes
+        if (!empty($changes)) {
+            event(new \App\Events\ReservationUpdated($reservation, $changes));
+        }
 
-
-        $changeDayMessage = 'Rezervacijos data pakeista į ' . $reservation->reservation_date . '.';
-        $message = new Message([
-            'reservation_id' => $reservation->id,
-            'sender_id' => Auth::id(),
-            'sender_type' => 'provider',
-            'message' => $changeDayMessage,
-        ]);
-        $message->save();
-
-        return redirect()->back()->with('success', 'Rezervacijos data sėkmingai atnaujinta.');
+        return redirect()->back()->with('success', 'Rezervacijos duomenys sėkmingai atnaujinti.');
     }
 }

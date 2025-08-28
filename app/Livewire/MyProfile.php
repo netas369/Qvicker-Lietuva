@@ -5,6 +5,8 @@ namespace App\Livewire;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;  // <- ADD THIS LINE
+use Intervention\Image\Drivers\Gd\Driver; // or use Imagick\Driver if you have ImageMagick
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -139,12 +141,12 @@ class MyProfile extends Component
             'selectedCategories.min' => 'Privaloma pasirinkti bent vieną kategoriją',
             'image.image' => 'Failas privalo būti nuotrauka.',
             'image.mimes' => 'Nuotraukos failas privalo būti: jpeg, png, jpg, gif.',
-            'image.max' => 'Nuotrauka negali viršyti 4mb dydžio.',
+            'image.max' => 'Nuotrauka negali viršyti 8mb dydžio.',
             'phone.required' => 'Telefono numeris yra privalomas.',
             'post_code.required' => 'Pašto kodas yra privalomas',
             'newPortfolioPhoto.image' => 'Failas privalo būti nuotrauka.',
             'newPortfolioPhoto.mimes' => 'Nuotraukos failas privalo būti: jpeg, png, jpg, gif.',
-            'newPortfolioPhoto.max' => 'Nuotrauka negali viršyti 4mb dydžio.',
+            'newPortfolioPhoto.max' => 'Nuotrauka negali viršyti 8mb dydžio.',
             'cities.required' => 'Pasirinkite bent vieną miestą.'
 
         ];
@@ -220,7 +222,7 @@ class MyProfile extends Component
     public function updatedNewPortfolioPhoto()
     {
         $this->validate([
-            'newPortfolioPhoto' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'newPortfolioPhoto' => 'image|mimes:jpeg,png,jpg,gif|max:8192', // Allow larger uploads
         ]);
 
         // Check if we already have maximum photos
@@ -230,14 +232,39 @@ class MyProfile extends Component
             return;
         }
 
-        // Store the new photo
-        $filename = $this->newPortfolioPhoto->store('portfolio-photos', 'public');
+        // Generate unique filename
+        $filename = 'portfolio-photos/' . uniqid() . '.jpg';
+        $fullPath = storage_path('app/public/' . $filename);
+
+        // Create directory if it doesn't exist
+        $directory = dirname($fullPath);
+        if (!file_exists($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        // Create ImageManager instance
+        $manager = new ImageManager(new Driver());
+
+        // Process and compress the image
+        $image = $manager->read($this->newPortfolioPhoto->getRealPath());
+
+        // Resize if too large (maintain aspect ratio)
+        if ($image->width() > 1200 || $image->height() > 1200) {
+            $image->scale(width: 1200, height: 1200);
+        }
+
+        // Save as JPEG with 85% quality
+        $image->toJpeg(85)->save($fullPath);
+
+        // Get file size after compression
+        $compressedSize = filesize($fullPath);
         $photoUrl = Storage::url($filename);
 
         // Add to the photos array
         $this->portfolioPhotos[] = [
             'path' => $filename,
             'url' => $photoUrl,
+            'size' => $compressedSize, // Optional: track file size
         ];
 
         // Save to the user model
@@ -272,38 +299,74 @@ class MyProfile extends Component
     public function updatedImage()
     {
         $this->validate([
-            'image' => 'image|max:4092', // 1MB Max
+            'image' => 'image|max:8192', // Allow larger uploads
         ]);
 
         if ($this->user->image) {
             Storage::disk('public')->delete($this->user->image);
         }
 
-        // Process and save the image immediately
-        $filename = $this->image->store('profile-photos', 'public');
+        // Generate filename and process image
+        $filename = 'profile-photos/' . uniqid() . '.jpg';
+        $fullPath = storage_path('app/public/' . $filename);
+
+        // Create directory if it doesn't exist
+        $directory = dirname($fullPath);
+        if (!file_exists($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        // Create ImageManager instance
+        $manager = new ImageManager(new Driver());
+
+        // Process and compress
+        $image = $manager->read($this->image->getRealPath());
+
+        // Resize to reasonable profile photo size
+        if ($image->width() > 800 || $image->height() > 800) {
+            $image->scale(width: 800, height: 800);
+        }
+
+        $image->toJpeg(90)->save($fullPath);
 
         // Update user's profile image in the database
         $this->user->image = $filename;
         $this->user->save();
 
-        // Show success message
-        session()->flash('message', 'Nuotrauka sėkmingai atnaujinta!');
-
+        session()->flash('message', '    Nuotrauka sėkmingai atnaujinta!');
         return redirect(request()->header('Referer'));
     }
 
     public function addLanguage()
     {
         if (!empty($this->selectedLanguage) && !in_array($this->selectedLanguage, $this->languages)) {
+            // Add to local array
             $this->languages[] = $this->selectedLanguage;
-            $this->selectedLanguage = ''; // Reset selection
+
+            // Immediately update in database
+            $this->user->update([
+                'languages' => json_encode($this->languages)
+            ]);
+
+            // Reset selection
+            $this->selectedLanguage = '';
+
+            session()->flash('message', 'Kalba sėkmingai pridėta');
         }
     }
 
     public function removeLanguage($language)
     {
+        // Remove from local array
         $this->languages = array_values(array_filter($this->languages, function($lang) use ($language) {
             return $lang !== $language;
         }));
+
+        // Immediately update in database
+        $this->user->update([
+            'languages' => json_encode($this->languages)
+        ]);
+
+        session()->flash('message', 'Kalba sėkmingai pašalinta');
     }
 }

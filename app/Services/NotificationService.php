@@ -107,8 +107,8 @@ class NotificationService
 
     public function notifyReviewIsReceived(Reservation $reservation): Notification
     {
-        $seeker = User::find($reservation->seeker_id);
-        $provider = User::find($reservation->provider_id);
+        $seeker = $reservation->seeker;
+        $provider = $reservation->provider;
 
         $notification_text = 'Gavote Atsiliepimą nuo ' . $seeker->name . '! Rezervacijos Nr. ' . $reservation->id . '. Paspauskite, kad peržiūrėti.';
 
@@ -124,8 +124,8 @@ class NotificationService
 
     public function notifyReservationAutoCompleted(Reservation $reservation): Notification
     {
-        $seeker = User::find($reservation->seeker_id);
-        $provider = User::find($reservation->provider_id);
+        $seeker = $reservation->seeker;
+        $provider = $reservation->provider;
 
         $notification_text = 'Rezervacijos Nr. ' . $reservation->id . ' statusas buvo automatiškai pakeistas į UŽBAIGTA. Kadangi
         nebuvo pažymėta kaip užbaigta per 72 val.';
@@ -142,8 +142,8 @@ class NotificationService
 
     public function notifyReservationCompleted(Reservation $reservation): Notification
     {
-        $seeker = User::find($reservation->seeker_id);
-        $provider = User::find($reservation->provider_id);
+        $seeker = $reservation->seeker;
+        $provider = $reservation->provider;
 
         $notification_text = 'Rezervacijos Nr. ' . $reservation->id . ' statusas buvo pakeistas į UŽBAIGTA. Nepamirškite palikti atsiliepimą apie ' .
         $provider->name . '.';
@@ -160,8 +160,8 @@ class NotificationService
 
     public function notifyReservationDayChanged(Reservation $reservation): Notification
     {
-        $seeker = User::find($reservation->seeker_id);
-        $provider = User::find($reservation->provider_id);
+        $seeker = $reservation->seeker;
+        $provider = $reservation->provider;
 
         $notification_text = 'Rezervacijos Nr. ' . $reservation->id . ' diena buvo pakeista į  ' . $reservation->reservation_date . '.';
 
@@ -179,8 +179,8 @@ class NotificationService
 
     public function notifySeekerReservationAccepted(Reservation $reservation): Notification
     {
-        $seeker = User::find($reservation->seeker_id);
-        $provider = User::find($reservation->provider_id);
+        $seeker = $reservation->seeker;
+        $provider = $reservation->provider;
 
         $notification_text = 'Rezervacija Nr. ' . $reservation->id . ' buvo priimta paslaugos tiekėjo ' . $provider->name . '.';
 
@@ -197,8 +197,8 @@ class NotificationService
 
     public function notifyProviderCanceledReservation(Reservation $reservation): Notification
     {
-        $seeker = User::find($reservation->seeker_id);
-        $provider = User::find($reservation->provider_id);
+        $seeker = $reservation->seeker;
+        $provider = $reservation->provider;
 
         $notification_text = 'Rezervacija Nr. ' . $reservation->id . ' mieste ' . $reservation->city . ' buvo atšaukta paslaugos tiekėjo.';
 
@@ -215,8 +215,8 @@ class NotificationService
 
     public function notifySeekerCanceledReservation(Reservation $reservation): Notification
     {
-        $seeker = User::find($reservation->seeker_id);
-        $provider = User::find($reservation->provider_id);
+        $seeker = $reservation->seeker;
+        $provider = $reservation->provider;
 
         $notification_text = 'Rezervacija Nr. ' . $reservation->id . ' mieste ' . $reservation->city . ' buvo atšaukta paslaugos ieškotojo.';
 
@@ -233,7 +233,7 @@ class NotificationService
 
     public function notifyNewReservationSeeker(User $seeker, Reservation $reservation): Notification
     {
-        $provider = User::find($reservation->provider_id);
+        $provider = $reservation->provider;
 
         $notification_text = 'Išsiuntėte naują užklausą darbui mieste ' . $reservation->city . '. Laukite patvirtinimo iš ' . $provider->name . '.';
 
@@ -249,8 +249,8 @@ class NotificationService
 
     public function notifyReservationCancelledSeeker(Reservation $reservation): Notification
     {
-        $seeker = User::find($reservation->seeker_id);
-        $provider = User::find($reservation->provider_id);
+        $seeker = $reservation->seeker;
+        $provider = $reservation->provider;
 
         $notification_text = 'Rezervacija Nr. ' . $reservation->id . ' buvo atšaukta.';
 
@@ -266,8 +266,8 @@ class NotificationService
 
     public function notifyReservationCancelledProvider(Reservation $reservation): Notification
     {
-        $provider = User::find($reservation->provider_id);
-        $seeker = User::find($reservation->seeker_id);
+        $seeker = $reservation->seeker;
+        $provider = $reservation->provider;
 
         $notification_text = 'Rezervacija Nr. ' . $reservation->id . ' buvo atšaukta.';
 
@@ -307,5 +307,43 @@ class NotificationService
         if (class_exists('\Livewire\Facades\Livewire')) {
             \Livewire\Facades\Livewire::dispatch('refreshNotifications');
         }
+    }
+
+
+
+
+    //REFACTORING
+
+    // Add these methods to your NotificationService class:
+
+    public function notifyReservationPriceChanged(Reservation $reservation): Notification
+    {
+        $seeker = $reservation->seeker;
+        $provider = $reservation->provider;
+
+        $typeLabel = $this->getPriceTypeLabel($reservation->type);
+
+        $notification_text = 'Rezervacijos Nr. ' . $reservation->id . ' kaina buvo pakeista į ' .
+            number_format($reservation->price, 2) . '€' . $typeLabel . '.';
+
+        return $this->createNotification(
+            $seeker->id,
+            NotificationType::RESERVATION_PRICE_CHANGED,
+            $reservation,
+            $provider,
+            $seeker,
+            $notification_text
+        );
+    }
+
+// Add this helper method to your NotificationService class
+    private function getPriceTypeLabel($type): string
+    {
+        return match($type) {
+            'hourly' => ' / val.',
+            'fixed' => ' (fiksuotas)',
+            'meter' => ' / m',
+            default => ''
+        };
     }
 }
