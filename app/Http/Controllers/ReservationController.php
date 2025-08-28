@@ -408,37 +408,30 @@ class ReservationController extends Controller
 
         $validated = $request->validate([
             'date' => 'required|date',
+            'price' => 'required|numeric|min:0|max:1000'
         ]);
 
-//        $unavailabilities = Unavailability::where('provider_id', $reservation->provider_id)->get();
-//
-//        foreach($unavailabilities as $unavailability) {
-//            $unavailabilityDate = Carbon::parse($unavailability->date)->format('Y-m-d');
-//            $requestDate = Carbon::parse($validated['date'])->format('Y-m-d');
-//
-//            if($unavailabilityDate === $requestDate) {
-//                return redirect()->back()->withErrors(['date' => 'Ši data yra užimta jūsų kalendoryje. Prašome pasirinkti kitą datą.'])->withInput();
-//            }
-//        }
+        $oldReservationDate = $reservation->reservation_date;
 
-
+        $reservation->price = $validated['price'];
         $reservation->reservation_date = $validated['date'];
 
-        $this->notificationService->notifyReservationDayChanged($reservation);
 
         $reservation->save();
 
+        if($oldReservationDate !== $reservation->reservation_date){
+            $this->notificationService->notifyReservationDayChanged($reservation);
 
+            $changeDayMessage = 'Rezervacijos data pakeista į ' . $reservation->reservation_date . '.';
+            $message = new Message([
+                'reservation_id' => $reservation->id,
+                'sender_id' => Auth::id(),
+                'sender_type' => 'provider',
+                'message' => $changeDayMessage,
+            ]);
+            $message->save();
+        }
 
-
-        $changeDayMessage = 'Rezervacijos data pakeista į ' . $reservation->reservation_date . '.';
-        $message = new Message([
-            'reservation_id' => $reservation->id,
-            'sender_id' => Auth::id(),
-            'sender_type' => 'provider',
-            'message' => $changeDayMessage,
-        ]);
-        $message->save();
 
         return redirect()->back()->with('success', 'Rezervacijos data sėkmingai atnaujinta.');
     }

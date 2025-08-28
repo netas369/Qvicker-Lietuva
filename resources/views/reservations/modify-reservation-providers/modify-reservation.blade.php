@@ -61,7 +61,7 @@
                             @if($provider->pricing_info['price'])
                                 <div class="flex items-center">
                                     <span class="text-sm font-medium text-gray-700 mr-2">Kaina:</span>
-                                    <span class="font-bold text-primary text-lg">{{ $provider->pricing_info['formatted_price'] }}€</span>
+                                    <span class="font-bold text-primary text-lg">{{ $reservation->price }}€</span>
                                     @if($provider->pricing_info['type'])
                                         <span class="text-gray-600 ml-1">{{ $provider->pricing_info['type_label_full'] }}</span>
                                     @endif
@@ -368,12 +368,12 @@
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <form id="dateChangeForm" method="POST" action="{{ route('reservations.editProvider', $reservation->id) }}">
                             <h3 class="text-lg leading-6 font-medium text-gray-900">
                                 Keisti rezervacijos datą
                             </h3>
-                            <p class="text-red-500 mt-3">Turėkite omenyje, kad prieš keičiant datą privalote susitarti su klientu. Tam naudokite susirašinėjimo funkciją.</p>
+                            <p class="text-red-500 mt-3">Turėkite omenyje, kad prieš keičiant datą ar kainą privalote susitarti su klientu. Tam naudokite susirašinėjimo funkciją.</p>
                             <div class="mt-4">
-                                <form id="dateChangeForm" method="POST" action="{{ route('reservations.editProvider', $reservation->id) }}">
                                     @csrf
                                     @method('PUT')
 
@@ -387,8 +387,22 @@
                                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                         @enderror
                                     </div>
-                                </form>
                             </div>
+                            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                Keisti kainą
+                            </h3>
+                            <div class="mt-4">
+                                <label for="price" class="block text-sm font-medium text-gray-700">Nauja kaina</label>
+                                <input type="number" id="price" name="price"
+                                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                       value="{{ old('price', $reservation->price) }}"
+                                       required>
+                                @error('price')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            </form>
+
                         </div>
                     </div>
                 </div>

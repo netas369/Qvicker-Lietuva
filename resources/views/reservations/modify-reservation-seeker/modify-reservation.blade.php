@@ -147,7 +147,7 @@
                                 @if($reservation->provider->pricing_info['price'])
                                     <div class="flex items-center">
                                         <span class="text-sm font-medium text-gray-700 mr-2">Kaina:</span>
-                                        <span class="font-bold text-primary text-lg">{{ $reservation->provider->pricing_info['formatted_price'] }}€</span>
+                                        <span class="font-bold text-primary text-lg">{{ $reservation->price }}€</span>
                                         @if($reservation->provider->pricing_info['type'])
                                             <span class="text-gray-600 ml-1">{{ $reservation->provider->pricing_info['type_label_full'] }}</span>
                                         @endif
