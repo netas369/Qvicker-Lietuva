@@ -1,5 +1,11 @@
 @extends('layouts.main')
 
+@section('title', 'Rezervuoti ' . ucfirst($provider->name) . ' ' . ucfirst($provider->lastname) . ' | Qvicker Užsakymas')
+
+@section('description', 'Rezervuokite paslaugas pas ' . ucfirst($provider->name) . ' ' . ucfirst($provider->lastname) . ' - ' . ($subcategory ?? 'specialistas') . ' su ' . number_format($provider->average_rating, 1) . ' įvertinimu. Greitas užsakymas Qvicker platformoje.')
+
+@section('keywords', 'rezervuoti ' . strtolower($provider->name) . ', ' . ($subcategory ? strtolower($subcategory) . ' specialistas, ' : '') . 'užsakyti paslaugas, qvicker užsakymas, paslaugų rezervavimas ' . strtolower($city))
+
 @section('content')
     <div class="w-full max-w-4xl mx-auto p-2 md:p-4">
         <div class="mb-4 md:mb-6">

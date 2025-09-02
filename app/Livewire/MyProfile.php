@@ -140,12 +140,12 @@ class MyProfile extends Component
             'selectedCategories.required' => 'Privaloma pasirinkti bent vieną kategoriją',
             'selectedCategories.min' => 'Privaloma pasirinkti bent vieną kategoriją',
             'image.image' => 'Failas privalo būti nuotrauka.',
-            'image.mimes' => 'Nuotraukos failas privalo būti: jpeg, png, jpg, gif.',
+            'image.mimes' => 'Nuotraukos failas privalo būti: jpeg, png, jpg, gif., webp.',
             'image.max' => 'Nuotrauka negali viršyti 8mb dydžio.',
             'phone.required' => 'Telefono numeris yra privalomas.',
             'post_code.required' => 'Pašto kodas yra privalomas',
             'newPortfolioPhoto.image' => 'Failas privalo būti nuotrauka.',
-            'newPortfolioPhoto.mimes' => 'Nuotraukos failas privalo būti: jpeg, png, jpg, gif.',
+            'newPortfolioPhoto.mimes' => 'Nuotraukos failas privalo būti: jpeg, png, jpg, gif., webp.',
             'newPortfolioPhoto.max' => 'Nuotrauka negali viršyti 8mb dydžio.',
             'cities.required' => 'Pasirinkite bent vieną miestą.'
 
@@ -222,7 +222,7 @@ class MyProfile extends Component
     public function updatedNewPortfolioPhoto()
     {
         $this->validate([
-            'newPortfolioPhoto' => 'image|mimes:jpeg,png,jpg,gif|max:8192', // Allow larger uploads
+            'newPortfolioPhoto' => 'image|mimes:jpeg,png,jpg,gif,webp|max:8192', // Allow larger uploads
         ]);
 
         // Check if we already have maximum photos
@@ -299,7 +299,7 @@ class MyProfile extends Component
     public function updatedImage()
     {
         $this->validate([
-            'image' => 'image|max:8192', // Allow larger uploads
+            'image' => 'image|mimes:jpeg,png,jpg,gif,webp|max:8192',
         ]);
 
         if ($this->user->image) {

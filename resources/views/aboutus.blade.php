@@ -1,5 +1,11 @@
 @extends('layouts.main')
 
+@section('title', 'Apie Qvicker | Paslaugų Platforma Lietuvoje - Mūsų Istorija')
+
+@section('description', 'Sužinokite apie Qvicker - paslaugų platformą, jungiančią specialistus su klientais Lietuvoje. Mūsų misija, vizija, vertybės ir komanda. 500+ partnerių, 10k+ užsakymų.')
+
+@section('keywords', 'apie qvicker, qvicker istorija, paslaugų platforma lietuva, qvicker misija, qvicker komanda, specialistų platforma, qvicker vertybės, paslaugų teikėjai lietuvoje')
+
 @section('content')
 
     <!-- Hero Section -->

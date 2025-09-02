@@ -1,5 +1,11 @@
 @extends('layouts.main')
 
+@section('title', 'Raskite Specialistus Pagal Miestą ir Kategoriją | Qvicker')
+
+@section('description', 'Raskite tinkamą specialistą pagal kategoriją, miestą ir datą. 50+ paslaugų kategorijų Vilniuje, Kaune, Klaipėdoje. Patikrinti specialistai Qvicker.')
+
+@section('keywords', 'specialistai vilniuje, paslaugų paieška lietuvoje, rasti specialistą pagal miestą, paslaugų filtrai, specialistai kaune, klaipėdos specialistai, qvicker paieška, patikrinti specialistai lietuvoje')
+
 @section('content')
     <!-- Hero Section with Background -->
     <div class="relative min-h-screen ">

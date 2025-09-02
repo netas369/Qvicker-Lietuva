@@ -1,5 +1,11 @@
 @extends('layouts.main')
 
+@section('title', 'Paslaugų Kategorijos | Raskite Specialistus Lietuvoje - Qvicker')
+
+@section('description', 'Raskite patikimus specialistus 8 paslaugų kategorijose: namų remontas, valymas, sodų priežiūra, IT paslaugos ir daugiau. Nemokama registracija Qvicker.')
+
+@section('keywords', 'paslaugų kategorijos lietuvoje, specialistai vilniuje, namų remontas, valymo paslaugos, IT paslaugos, sodų priežiūra, grožio paslaugos, elektrikai, santechnikai, valytojai, meistrai lietuvoje, qvicker paslaugos')
+
 @section('content')
 
     <!-- Hero Section -->

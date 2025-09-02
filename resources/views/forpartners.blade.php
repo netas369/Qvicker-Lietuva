@@ -1,5 +1,11 @@
 @extends('layouts.main')
 
+@section('title', 'Tapk Qvicker Partneriu | Papildomos Pajamos Freelanceriu')
+
+@section('description', 'Tapk Qvicker partneriu ir uždirbk papildomai iš savo įgūdžių. Lankstus grafikas, 500+ partnerių, nauji klientai. Nemokama registracija specialistams.')
+
+@section('keywords', 'papildomos pajamos lietuvoje, freelancer darbas, paslaugų teikėjas, darbo iš namų, lankstus grafikas, monetizuoti įgūdžius, qvicker partnerystė, specialistas lietuvoje, nepriklausomas darbuotojas, freelance lietuva')
+
 @section('content')
 
     <!-- Hero Section -->

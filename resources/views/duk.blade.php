@@ -1,5 +1,11 @@
 @extends('layouts.main')
 
+@section('title', 'Dažnai Užduodami Klausimai | Qvicker Pagalba ir Atsakymai')
+
+@section('description', 'Raskite atsakymus į dažniausiai užduodamus klausimus apie Qvicker platformą. Pagalba klientams ir paslaugų teikėjams, mokėjimų info, saugos patarimai.')
+
+@section('keywords', 'qvicker duk, dažnai užduodami klausimai, qvicker pagalba, kaip veikia qvicker, qvicker mokėjimai, qvicker sauga, specialistų paieška, tapti partneriu qvicker, qvicker palaikymas')
+
 @section('content')
 
     <!-- Hero Section -->
