@@ -1,5 +1,11 @@
 @extends('layouts.main')
 
+@section('title', ($subcategory ? $subcategory . ' Specialistai ' : 'Specialistai ') . $city . ' | Qvicker Paieškos Rezultatai')
+
+@section('description', 'Raskite ' . ($subcategory ? $subcategory . ' specialistus ' : 'specialistus ') . $city . ' mieste. Patikrinti meistrai su įvertinimais, konkurencingomis kainomis. Greitas rezervavimas Qvicker platformoje.')
+
+@section('keywords', ($subcategory ? $subcategory . ' specialistai, ' : '') . $city . ' meistrai, ' . ($subcategory ? $subcategory . ' ' : '') . strtolower($city) . ', paslaugų teikėjai ' . strtolower($city) . ', qvicker ' . strtolower($city))
+
 @section('content')
     <div class="w-full max-w-4xl mx-auto p-2 md:p-4">
         <div class="mb-4 md:mb-6">
