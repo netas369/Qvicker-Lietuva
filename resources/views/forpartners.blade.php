@@ -547,11 +547,11 @@
                         <div class="text-gray-600">Aktyvių partnerių</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-3xl md:text-4xl font-bold text-primary-light mb-2">10k+</div>
+                        <div class="text-3xl md:text-4xl font-bold text-primary-light mb-2">1k+</div>
                         <div class="text-gray-600">Atliktų užsakymų</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-3xl md:text-4xl font-bold text-primary-light mb-2">4.9★</div>
+                        <div class="text-3xl md:text-4xl font-bold text-primary-light mb-2">4.8★</div>
                         <div class="text-gray-600">Įvertinimas</div>
                     </div>
                     <div class="text-center">

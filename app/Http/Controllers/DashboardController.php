@@ -13,7 +13,9 @@ class DashboardController extends Controller
         $upcomingReservations = null;
         $totalProviderReservations = 0;
         $totalSeekerReservations = 0;
-        $activeReservationsCount = 0; // Add this
+        $activeReservationsCount = 0;
+
+        $userReviews = $user->reviewsReceived()->with('seeker')->get();
 
         if($user->role == 'provider')
         {
@@ -57,8 +59,9 @@ class DashboardController extends Controller
                 ->where('reservation_date', '>=', now()->toDateString())
                 ->where('status', '=', 'accepted')
                 ->count();
+
         }
 
-        return view('profile.dashboard', compact('user', 'upcomingReservations', 'totalProviderReservations', 'totalSeekerReservations', 'activeReservationsCount'));
+        return view('profile.dashboard', compact('user', 'upcomingReservations', 'totalProviderReservations', 'totalSeekerReservations', 'activeReservationsCount', 'userReviews'));
     }
 }
