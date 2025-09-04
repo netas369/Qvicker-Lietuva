@@ -222,8 +222,8 @@
                                 </svg>
                             </div>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-2">Gyvūnų Priežiūra</h3>
-                        <p class="text-gray-600 text-sm">Vedžiojimas, priežiūra, veterinarija</p>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Ezoterija</h3>
+                        <p class="text-gray-600 text-sm">Burimas, karjeros analizė</p>
                     </div>
                 </div>
 

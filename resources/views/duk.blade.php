@@ -464,7 +464,7 @@
                                 </svg>
                             </div>
                             <h3 class="font-semibold text-gray-800 mb-2">Telefonas</h3>
-                            <a href="tel:+37060000000" class="text-primary-light hover:text-primary-dark transition-colors">+370 600 00000</a>
+                            <a href="tel:+37061065015" class="text-primary-light hover:text-primary-dark transition-colors">+37061065015</a>
                         </div>
                     </div>
 

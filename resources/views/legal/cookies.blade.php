@@ -149,7 +149,7 @@
                         <strong>El. paštas:</strong> <a href="mailto:info@qvicker.lt" class="text-primary hover:text-primary-dark">info@qvicker.lt</a>
                     </p>
                     <p class="text-gray-700 mb-2">
-                        <strong>Telefonas:</strong> <a href="tel:+37060000000" class="text-primary hover:text-primary-dark">+370 600 00000</a>
+                        <strong>Telefonas:</strong> <a href="tel:+37061065015" class="text-primary hover:text-primary-dark">+37061065015</a>
                     </p>
 
                 </div>
