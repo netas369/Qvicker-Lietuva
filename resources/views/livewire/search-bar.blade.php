@@ -46,8 +46,8 @@
                     class="px-3 py-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center"
                 >
                     <div>
-                        <span class="text-md font-medium text-gray-900">{{ $result['category'] }}</span>
-                        <small class="block text-sm text-gray-500">{{ $result['subcategory'] ?? 'No subcategory' }}</small>
+                        <span class="text-md font-medium text-gray-900">{{ $result['subcategory'] ?? 'No subcategory' }}</span>
+                        <small class="block text-sm text-gray-500">{{ $result['category'] ?? 'No category' }}</small>
                     </div>
                 </a>
             @endforeach
