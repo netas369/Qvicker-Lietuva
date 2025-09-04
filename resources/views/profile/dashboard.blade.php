@@ -367,10 +367,15 @@
                 @livewire('notifications-component')
             </div>
 
+            <div class="w-full mb-6">
+                @include('components.reviews-in-dashboard')
+            </div>
+
             <!-- Last Messages Component -->
             <div class="w-full mb-6">
                 @livewire('last-messages-component')
             </div>
+
         </div>
     </div>
 @endsection
