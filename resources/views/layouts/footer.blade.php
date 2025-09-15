@@ -67,7 +67,11 @@
             <div>
                 <h4 class="text-lg font-semibold text-white mb-6">Kontaktai ir Pagalba</h4>
                 <ul class="space-y-3 mb-6">
-                    <li><a href="{{ route('seeker.support') }}" class="text-gray-300 hover:text-white transition-colors duration-300">Pagalba</a></li>
+                    @if(auth()->user()->role == 'provider')
+                        <li><a href="{{ route('provider.support') }}" class="text-gray-300 hover:text-white transition-colors duration-300">Pagalba</a></li>
+                    @elseif(auth()->user()-> role == 'seeker')
+                        <li><a href="{{ route('seeker.support') }}" class="text-gray-300 hover:text-white transition-colors duration-300">Pagalba</a></li>
+                    @endif
                     <li><a href="{{ route('duk') }}" class="text-gray-300 hover:text-white transition-colors duration-300">DUK</a></li>
                 </ul>
 

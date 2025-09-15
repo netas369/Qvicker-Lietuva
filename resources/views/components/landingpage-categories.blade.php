@@ -153,10 +153,11 @@
     @foreach($categories as $index => $category)
         <div class="{{ $index === 0 ? '' : 'hidden' }}" id="styled-{{ $category['slug'] }}" role="tabpanel" aria-labelledby="{{ $category['slug'] }}-tab">
             <h3 class="text-xl font-semibold text-gray-800 mb-6">{{ $category['name'] }}</h3>
-            <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                @foreach($category['subcategories'] as $subcategory)
+            <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="subcategories-{{ $category['slug'] }}">
+                @foreach($category['subcategories'] as $subIndex => $subcategory)
                     <a href="{{ route('search', ['subcategory' => $subcategory['url']]) }}"
-                       class="flex items-center p-4 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-light/50 transition-all duration-200 group">
+                       class="flex items-center p-4 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-primary-light/50 transition-all duration-200 group {{ $subIndex >= 9 ? 'hidden' : '' }}"
+                       data-category="{{ $category['slug'] }}">
                         <div class="flex-shrink-0 w-10 h-10 bg-primary-light/10 rounded-full flex items-center justify-center mr-4 group-hover:bg-primary-light/20">
                             @switch($category['name'])
                                 @case('Namų priežiūra ir valymas')
@@ -238,6 +239,13 @@
                         </div>
                     </a>
                 @endforeach
+                    @if(count($category['subcategories']) > 9)
+                        <button onclick="showAllSubcategories('{{ $category['slug'] }}')"
+                                id="show-more-{{ $category['slug'] }}"
+                                class="flex items-center justify-center p-4 rounded-lg border border-gray-200 bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-primary transition-colors cursor-pointer w-full">
+                            <span class="text-sm">+{{ count($category['subcategories']) - 9 }} daugiau</span>
+                        </button>
+                    @endif
             </div>
         </div>
     @endforeach
@@ -247,3 +255,35 @@
         </div>
 </section>
 
+<script>
+    function showAllSubcategories(categorySlug) {
+        const showMoreBtn = document.getElementById(`show-more-${categorySlug}`);
+        const hiddenItems = document.querySelectorAll(`[data-category="${categorySlug}"].hidden`);
+
+        if (showMoreBtn) {
+            // Fade out the button
+            showMoreBtn.style.transition = 'opacity 0.2s ease';
+            showMoreBtn.style.opacity = '0';
+
+            setTimeout(() => {
+                showMoreBtn.style.display = 'none';
+            }, 200);
+        }
+
+        // Show hidden items with staggered animation
+        hiddenItems.forEach((item, index) => {
+            setTimeout(() => {
+                item.classList.remove('hidden');
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+
+                // Animate in
+                requestAnimationFrame(() => {
+                    item.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                });
+            }, index * 100); // Stagger the animation by 100ms for each item
+        });
+    }
+</script>
