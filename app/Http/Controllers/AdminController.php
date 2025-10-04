@@ -1,10 +1,11 @@
 <?php
-// app/Http/Controllers/AdminController.php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -63,6 +64,14 @@ class AdminController extends Controller
     {
         $this->checkAdminAccess();
 
+        // Decode FAQ JSON string to array before validation
+        if ($request->has('faq') && is_string($request->faq)) {
+            $decodedFaq = json_decode($request->faq, true);
+            if (json_last_error() === JSON_ERROR_NONE) {
+                $request->merge(['faq' => $decodedFaq]);
+            }
+        }
+
         $request->validate([
             'title' => 'required|string|max:255',
             'meta_title' => 'nullable|string|max:255',
@@ -70,18 +79,29 @@ class AdminController extends Controller
             'meta_keywords' => 'nullable|string|max:1000',
             'h1_heading' => 'nullable|string|max:255',
             'content' => 'nullable|string',
+            'featured_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:10240',
+            'remove_image' => 'nullable|boolean',
             'faq' => 'nullable|array',
             'faq.*.question' => 'required_with:faq|string|max:500',
             'faq.*.answer' => 'required_with:faq|string|max:1000',
         ]);
 
-        // Prepare FAQ data
+        // Prepare FAQ data - only save question and answer
         $faqData = null;
-        if ($request->faq) {
+        if ($request->faq && is_array($request->faq)) {
             $faqData = array_filter($request->faq, function($item) {
                 return !empty($item['question']) && !empty($item['answer']);
             });
-            $faqData = !empty($faqData) ? array_values($faqData) : null;
+
+            // Re-index array and keep only question/answer
+            $faqData = array_values(array_map(function($item) {
+                return [
+                    'question' => trim($item['question']),
+                    'answer' => trim($item['answer'])
+                ];
+            }, $faqData));
+
+            $faqData = !empty($faqData) ? $faqData : null;
         }
 
         $data = [
@@ -91,13 +111,39 @@ class AdminController extends Controller
             'meta_description' => $request->meta_description,
             'meta_keywords' => $request->meta_keywords,
             'h1_heading' => $request->h1_heading,
-            'content' => $request->content,
+            'content' => $request->input('content'),
             'faq' => $faqData ? json_encode($faqData) : null,
             'updated_at' => now(),
         ];
 
         // Check if record exists
         $existing = DB::table('service_pages')->where('slug', $slug)->first();
+
+        // Handle image removal
+        if ($request->input('remove_image') == '1' && $existing && isset($existing->image_path) && $existing->image_path) {
+            // Delete old image from storage
+            if (Storage::disk('public')->exists($existing->image_path)) {
+                Storage::disk('public')->delete($existing->image_path);
+            }
+            $data['image_path'] = null;
+        }
+
+        // Handle new image upload
+        if ($request->hasFile('featured_image')) {
+            // Delete old image if exists
+            if ($existing && isset($existing->image_path) && $existing->image_path) {
+                if (Storage::disk('public')->exists($existing->image_path)) {
+                    Storage::disk('public')->delete($existing->image_path);
+                }
+            }
+
+            // Store new image
+            $image = $request->file('featured_image');
+            $imageName = 'service_' . $slug . '_' . time() . '.' . $image->getClientOriginalExtension();
+            $imagePath = $image->storeAs('service-images', $imageName, 'public');
+
+            $data['image_path'] = $imagePath;
+        }
 
         if ($existing) {
             DB::table('service_pages')->where('slug', $slug)->update($data);
@@ -115,6 +161,16 @@ class AdminController extends Controller
     public function deleteServicePage($slug)
     {
         $this->checkAdminAccess();
+
+        // Get the service page to delete associated image
+        $servicePage = DB::table('service_pages')->where('slug', $slug)->first();
+
+        if ($servicePage && $servicePage->image_path) {
+            // Delete image from storage
+            if (Storage::disk('public')->exists($servicePage->image_path)) {
+                Storage::disk('public')->delete($servicePage->image_path);
+            }
+        }
 
         DB::table('service_pages')->where('slug', $slug)->delete();
         return redirect()->route('admin.service-pages.index')->with('success', 'Service page deleted successfully!');
