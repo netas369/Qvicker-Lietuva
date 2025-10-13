@@ -21,8 +21,8 @@
 
     <ul class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
         <li><a class="text-md text-primary {{ request()->is('/') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/">Pagrindinis</a></li>
-        <li><a class="text-md text-primary {{ request()->is('partners') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/partners">Partneriams</a></li>
-        <li><a class="text-md text-primary {{ request()->is('seekers') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/seekers">Naudotojams</a></li>
+        <li><a class="text-md text-primary {{ request()->is('partneriams') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="{{route('partners')}}">Partneriams</a></li>
+        <li><a class="text-md text-primary {{ request()->is('naudotojams') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="{{route('seekers')}}">Naudotojams</a></li>
         @if(auth()->check() && auth()->user()->role == 'provider')
         <li><a class="text-md text-primary {{ request()->is('provider/support') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/provider/support">Pagalba</a></li>
             @elseif(auth()->check() && auth()->user()->role == 'seeker')
@@ -33,14 +33,14 @@
 
     @guest
         <div class="hidden lg:flex lg:items-center lg:gap-4">
-            <a href="/login" class="flex items-center px-4 py-1 space-x-2 font-semibold transition-all duration-150 ease-out border-2 rounded-lg text-primary border-primary/20 hover:border-primary/40 hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-primary/10">
+            <a href="{{route('login')}}" class="flex items-center px-4 py-1 space-x-2 font-semibold transition-all duration-150 ease-out border-2 rounded-lg text-primary border-primary/20 hover:border-primary/40 hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-primary/10">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
                 </svg>
                 <span>Prisijungti</span>
             </a>
 
-            <a href="/register/" class="flex items-center px-4 py-1 space-x-2 font-semibold text-white transition-all duration-150 ease-out rounded-lg bg-gradient-to-br from-primary to-primary-dark hover:to-primary/90 hover:shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-primary/30">
+            <a href="{{route('register')}}" class="flex items-center px-4 py-1 space-x-2 font-semibold text-white transition-all duration-150 ease-out rounded-lg bg-gradient-to-br from-primary to-primary-dark hover:to-primary/90 hover:shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-primary/30">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
                 </svg>
