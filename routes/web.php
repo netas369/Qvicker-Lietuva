@@ -86,7 +86,7 @@ Route::middleware(['auth', 'verified', 'role:provider,seeker'])->group(function 
 // Routes for guests
 Route::middleware('guest')->group(function () {
     Route::get('/prisijungti', [AuthenticatedSessionController::class, 'create'])->name('login');
-    Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+    Route::post('/prisijungti', [AuthenticatedSessionController::class, 'store']);
 
     Route::get('/registruotis/partneriui', [RegisteredUserController::class, 'createProviderStep1'])->name('register.provider'); // step 1 personal details form
     Route::get('/registruotis', [RegisteredUserController::class, 'providerOrSeeker'])->name('register');
