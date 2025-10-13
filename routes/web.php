@@ -31,11 +31,11 @@ Route::get('/termsofuse', [LegalController::class, 'termsOfUse'])->name('termsof
 Route::get('/privacy/policy', [LegalController::class, 'privacyPolicy'])->name('privacy.policy');
 Route::get('/duk', [LandingPageController::class, 'duk'])->name('duk');
 Route::get('/apiemus', [LandingPageController::class, 'aboutus'])->name('aboutus');
-Route::get('/partners', [LandingPageController::class, 'partners'])->name('partners');
-Route::get('/seekers', [LandingPageController::class, 'seekers'])->name('seekers');
+Route::get('/partneriams', [LandingPageController::class, 'partners'])->name('partners');
+Route::get('/naudotojams', [LandingPageController::class, 'seekers'])->name('seekers');
 Route::get('/seeker/support', [SeekerController::class, 'support'])->name('seeker.support');
 Route::post('/seeker/support/send', [SeekerController::class, 'sendSeekerSupport'])->name('seeker.support.send');
-Route::get('/allservices', [AllServicesController::class, 'allservices'])->name('allservices');
+Route::get('/visos-paslaugos', [AllServicesController::class, 'allservices'])->name('allservices');
 
 
 Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
@@ -43,7 +43,7 @@ Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
     ->name('verification.verify');
 
 
-Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
+Route::get('/pamirsau-slaptazodi', [PasswordResetLinkController::class, 'create'])
     ->name('password.request');
 
 // Send password reset link
@@ -85,13 +85,13 @@ Route::middleware(['auth', 'verified', 'role:provider,seeker'])->group(function 
 
 // Routes for guests
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
-    Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+    Route::get('/prisijungti', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('/prisijungti', [AuthenticatedSessionController::class, 'store']);
 
-    Route::get('/register/provider', [RegisteredUserController::class, 'createProviderStep1'])->name('register.provider'); // step 1 personal details form
-    Route::get('/register', [RegisteredUserController::class, 'providerOrSeeker']);
+    Route::get('/registruotis/partneriui', [RegisteredUserController::class, 'createProviderStep1'])->name('register.provider'); // step 1 personal details form
+    Route::get('/registruotis', [RegisteredUserController::class, 'providerOrSeeker'])->name('register');
 
-    Route::get('/register/seeker', [RegisteredUserController::class, 'createSeeker'])->name('register.seeker');
+    Route::get('/registruotis/naudotojui', [RegisteredUserController::class, 'createSeeker'])->name('register.seeker');
     Route::post('/register/seeker', [RegisteredUserController::class, 'storeSeeker'])->name('register.seeker.store');
 
 });
