@@ -75,6 +75,7 @@ class AdminController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'meta_title' => 'nullable|string|max:255',
+            'slug' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
             'meta_keywords' => 'nullable|string|max:1000',
             'h1_heading' => 'nullable|string|max:255',
@@ -105,7 +106,7 @@ class AdminController extends Controller
         }
 
         $data = [
-            'slug' => $slug,
+            'slug' => $request->slug,
             'title' => $request->title,
             'meta_title' => $request->meta_title,
             'meta_description' => $request->meta_description,
@@ -118,6 +119,11 @@ class AdminController extends Controller
 
         // Check if record exists
         $existing = DB::table('service_pages')->where('slug', $slug)->first();
+
+        DB::table('service_pages')->where('slug', $slug)->update(['slug' => $request->slug]);
+        DB::table('categories')->where('url', $slug)->update(['url' => $request->slug]);
+
+        $slug = $request->slug;
 
         // Handle image removal
         if ($request->input('remove_image') == '1' && $existing && isset($existing->image_path) && $existing->image_path) {

@@ -221,9 +221,13 @@ class MyProfile extends Component
     // New method to handle portfolio photo uploads
     public function updatedNewPortfolioPhoto()
     {
-        $this->validate([
-            'newPortfolioPhoto' => 'image|mimes:jpeg,png,jpg,gif,webp|max:8192', // Allow larger uploads
-        ]);
+        // Override Livewire's default error message
+        $this->resetErrorBag('newPortfolioPhoto');
+
+        $this->validate(
+            ['newPortfolioPhoto' => 'image|mimes:jpeg,png,jpg,gif,webp|max:8192'],
+            $this->messages()
+        );
 
         // Check if we already have maximum photos
         if (count($this->portfolioPhotos) >= $this->maxPortfolioPhotos) {
