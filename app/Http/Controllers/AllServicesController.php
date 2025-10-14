@@ -25,6 +25,7 @@ class AllServicesController extends Controller
             ->where('url', $service)
             ->first();
 
+
         if (!$serviceData) {
             abort(404);
         }

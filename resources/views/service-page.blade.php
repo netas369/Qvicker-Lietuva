@@ -37,7 +37,7 @@
         @if(isset($seoData) && !empty($seoData->image_path))
             <div class="absolute inset-0 z-0">
                 <img src="{{ asset('storage/' . $seoData->image_path) }}"
-                     alt="{{ $serviceData->subcategory }}"
+                     alt="{{ $seoData->alt_text }}"
                      class="w-full h-full object-cover">
                 <!-- Dark overlay for better text readability -->
                 <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30"></div>
