@@ -85,6 +85,7 @@ class AdminController extends Controller
             'faq' => 'nullable|array',
             'faq.*.question' => 'required_with:faq|string|max:500',
             'faq.*.answer' => 'required_with:faq|string|max:1000',
+            'alt-text' => 'nullable|string',
         ]);
 
         // Prepare FAQ data - only save question and answer
@@ -115,6 +116,7 @@ class AdminController extends Controller
             'content' => $request->input('content'),
             'faq' => $faqData ? json_encode($faqData) : null,
             'updated_at' => now(),
+            'alt_text' => $request->alt_text,
         ];
 
         // Check if record exists
@@ -122,6 +124,7 @@ class AdminController extends Controller
 
         DB::table('service_pages')->where('slug', $slug)->update(['slug' => $request->slug]);
         DB::table('categories')->where('url', $slug)->update(['url' => $request->slug]);
+        DB::table('service_pages')->where('slug', $slug)->update(['alt_text' => $data['alt_text']]);
 
         $slug = $request->slug;
 
