@@ -50,7 +50,7 @@
                         <!-- Glow effect -->
                         <div class="absolute -inset-1 bg-gradient-to-r from-primary-light to-primary-verylight rounded-xl blur-md opacity-30 group-hover:opacity-50 transition duration-300"></div>
 
-                        <a href="/register/provider" class="relative block">
+                        <a href="{{route('register.provider')}}" class="relative block">
                             <button class="relative bg-gradient-to-r from-primary-light to-primary-verylight hover:from-primary-verylight hover:to-primary-light text-white font-semibold py-4 px-8 sm:py-5 sm:px-10 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center space-x-3 text-lg">
                                 <span>Tapti Partneriu</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
@@ -528,7 +528,7 @@
                     Prisijunk prie augančios profesionalų bendruomenės ir pradėk uždirbti iš savo įgūdžių
                 </p>
 
-                <a href="/register/provider" class="group inline-block relative">
+                <a href="{{route('register.provider')}}" class="group inline-block relative">
                     <!-- Button shadow/glow -->
                     <div class="absolute -inset-1 bg-gradient-to-r from-primary-light to-primary-verylight rounded-xl blur-md opacity-30 group-hover:opacity-50 transition duration-300"></div>
 
