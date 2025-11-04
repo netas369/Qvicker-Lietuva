@@ -32,9 +32,9 @@
                     <p class="text-gray-700 mb-2">
                         <strong>Telefonas:</strong> +37061065015
                     </p>
-                    <p class="text-gray-700">
-                        <strong>Adresas:</strong> [Jūsų įmonės adresas], Lietuva
-                    </p>
+{{--                    <p class="text-gray-700">--}}
+{{--                        <strong>Adresas:</strong> [Jūsų įmonės adresas], Lietuva--}}
+{{--                    </p>--}}
                 </div>
 
                 <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">3. Kokius duomenis renkame</h2>
