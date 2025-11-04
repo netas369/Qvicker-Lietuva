@@ -15,7 +15,7 @@
                             <p class="text-primary text-3xl font-extrabold">Sveiki Sugrįžę
                             <p/>
                             <p class="text-sm mt-4 text-primary-dark">Dar neturite paskyros?
-                                <a href="/register/"
+                                <a href="/registruotis/"
                                    class="text-primary-light font-semibold hover:underline ml-1 whitespace-nowrap">Registruokites
                                     čia</a></p>
                         </div>

@@ -74,7 +74,7 @@
                            class="@if(isset($seoData) && !empty($seoData->image_path)) bg-white text-primary-light hover:bg-gray-100 @else bg-primary-light text-white hover:bg-primary-verylight @endif px-6 py-3 rounded-lg font-semibold transition shadow-lg">
                             Rasti specialistą
                         </a>
-                        <a href="/register/provider"
+                        <a href="{{route('register.provider')}}"
                            class="@if(isset($seoData) && !empty($seoData->image_path)) bg-white/10 text-white border-2 border-white backdrop-blur-sm hover:bg-white/20 @else bg-white text-primary-light border-2 border-primary-light hover:bg-gray-50 @endif px-6 py-3 rounded-lg font-semibold transition">
                             Tapti specialistu
                         </a>

@@ -50,7 +50,7 @@
                         <!-- Glow effect -->
                         <div class="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl blur-md opacity-30 group-hover:opacity-50 transition duration-300"></div>
 
-                        <a href="/register/seeker" class="relative block">
+                        <a href="{{route('register.seeker')}}" class="relative block">
                             <button class="relative bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-cyan-500 hover:to-emerald-500 text-white font-semibold py-4 px-8 sm:py-5 sm:px-10 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center space-x-3 text-lg">
                                 <span>Pradėti Paiešką</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
@@ -562,7 +562,7 @@
                     <!-- Button glow -->
                     <div class="absolute -inset-1 bg-white rounded-xl blur-md opacity-25 group-hover:opacity-50 transition duration-300"></div>
 
-                    <a href="/register/seeker" class="relative block">
+                    <a href="{{route('register.seeker')}}" class="relative block">
                         <button class="relative bg-white text-emerald-600 font-bold py-5 px-10 rounded-xl hover:bg-gray-50 transform hover:scale-105 transition-all duration-300 text-lg shadow-2xl">
                             Pradėti Paiešką Dabar
                         </button>
@@ -696,7 +696,7 @@
                     Prisijunk prie tūkstančių patenkintu klientų ir rask patikimą specialistą bet kokiam darbui
                 </p>
 
-                <a href="/register/seeker" class="group inline-block relative">
+                <a href="{{route('register.seeker')}}" class="group inline-block relative">
                     <!-- Button shadow/glow -->
                     <div class="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl blur-md opacity-30 group-hover:opacity-50 transition duration-300"></div>
 

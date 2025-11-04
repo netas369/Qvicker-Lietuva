@@ -31,18 +31,6 @@
                     <div>
                         <h2 class="text-xl font-semibold text-gray-800">{{ $reservation->subcategory ?? 'Bendra paslauga' }}</h2>
                         <p class="text-gray-600">{{ $reservation->city ?? 'Valencia' }}</p>
-
-                        @if(isset($reservation->task_size))
-                            <div class="mt-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                @if($reservation->task_size == 'small')
-                                    Maža (1-2 val.)
-                                @elseif($reservation->task_size == 'medium')
-                                    Vidutinė (2-4 val.)
-                                @else
-                                    Didelė (4-8 val.)
-                                @endif
-                            </div>
-                        @endif
                     </div>
                 </div>
 
@@ -189,7 +177,7 @@
                 <div class="bg-white rounded-lg shadow-sm p-6">
                     <h2 class="text-lg font-semibold text-gray-800 mb-4">Klientas</h2>
                     <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center text-xl font-bold text-white overflow-hidden mr-4">
+                        <div class="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center text-xl font-bold text-white overflow-hidden mr-4">
                             @if($reservation->seeker->image)
                                 <img src="{{ asset('storage/' . $reservation->seeker->image) }}"
                                      alt="{{ ucfirst($reservation->seeker->name) }}" class="w-full h-full object-cover">

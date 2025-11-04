@@ -292,7 +292,7 @@
 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <!-- Client CTA -->
-                    <a href="/register/seeker" class="group relative inline-block">
+                    <a href="{{route('register.seeker')}}" class="group relative inline-block">
                         <div class="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl blur-md opacity-30 group-hover:opacity-50 transition duration-300"></div>
                         <button class="relative bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-bold py-4 px-8 rounded-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center">
                             <span>Ieškau paslaugų</span>
@@ -303,7 +303,7 @@
                     </a>
 
                     <!-- Provider CTA -->
-                    <a href="/register/provider" class="group relative inline-block">
+                    <a href="{{route('register.provider')}}" class="group relative inline-block">
                         <div class="absolute -inset-1 bg-gradient-to-r from-primary-light to-primary-verylight rounded-xl blur-md opacity-30 group-hover:opacity-50 transition duration-300"></div>
                         <button class="relative bg-gradient-to-r from-primary-light to-primary-verylight text-white font-bold py-4 px-8 rounded-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center">
                             <span>Tapti partneriu</span>
