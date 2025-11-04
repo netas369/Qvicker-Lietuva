@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
-use App\Models\Category; // Your Category model
+use Illuminate\Support\Facades\DB;
 
 class GenerateSitemap extends Command
 {
@@ -22,10 +22,15 @@ class GenerateSitemap extends Command
         $sitemap->writeToFile(public_path('sitemap.xml'));
 
         $this->info('Sitemap generated successfully!');
+        $this->info('Base URL: ' . config('app.url'));
+
+        return Command::SUCCESS;
     }
 
     private function addStaticPages($sitemap)
     {
+        $baseUrl = config('app.url');
+
         $staticRoutes = [
             ['url' => '/', 'priority' => 1.0, 'frequency' => 'daily'],
             ['url' => '/search', 'priority' => 0.9, 'frequency' => 'daily'],
@@ -46,26 +51,35 @@ class GenerateSitemap extends Command
 
         foreach ($staticRoutes as $route) {
             $sitemap->add(
-                Url::create($route['url'])
+                Url::create($baseUrl . $route['url'])
                     ->setPriority($route['priority'])
                     ->setChangeFrequency($route['frequency'])
             );
         }
+
+        $this->info("Added " . count($staticRoutes) . " static pages");
     }
 
     private function addServicePages($sitemap)
     {
-        $categories = Category::select('url', 'updated_at')->get();
+        $baseUrl = config('app.url');
+
+        $categories = DB::table('categories')
+            ->select('url', 'updated_at')
+            ->get();
 
         foreach ($categories as $category) {
-            $sitemap->add(
-                Url::create("/{$category->url}")
-                    ->setLastModificationDate($category->updated_at)
-                    ->setPriority(0.8)
-                    ->setChangeFrequency('weekly')
-            );
+            $url = Url::create($baseUrl . '/' . $category->url)
+                ->setPriority(0.8)
+                ->setChangeFrequency('weekly');
+
+            if ($category->updated_at) {
+                $url->setLastModificationDate(new \DateTime($category->updated_at));
+            }
+
+            $sitemap->add($url);
         }
 
-        $this->info("Added {$categories->count()} service pages to sitemap");
+        $this->info("Added {$categories->count()} service pages");
     }
 }
