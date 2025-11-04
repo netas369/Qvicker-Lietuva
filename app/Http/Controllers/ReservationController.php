@@ -34,7 +34,6 @@ class ReservationController extends Controller
             'address' => 'required|string',
             'phone' => 'required|string',
             'date' => 'required|date|after_or_equal:today',
-            'task_size' => 'required|string|in:small,medium,big',
             'subcategory' => 'nullable|string',
             'city' => 'required|string',
             ], [
@@ -63,7 +62,6 @@ class ReservationController extends Controller
         $reservation->description = $validated['description'];
         $reservation->address = $validated['address'];
         $reservation->phone = $validated['phone'];
-        $reservation->task_size = $validated['task_size'];
         $reservation->subcategory = $validated['subcategory'] ?? null;
         $reservation->city = $validated['city'];
         $reservation->status = 'pending';

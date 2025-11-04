@@ -410,7 +410,7 @@
                     <!-- Button glow -->
                     <div class="absolute -inset-1 bg-white rounded-xl blur-md opacity-25 group-hover:opacity-50 transition duration-300"></div>
 
-                    <a href="/register/provider" class="relative block">
+                    <a href="{{route('register.provider')}}" class="relative block">
                         <button class="relative bg-white text-primary-light p-20 font-bold py-5 px-10 rounded-xl hover:bg-gray-50 transform hover:scale-105 transition-all duration-300 text-lg shadow-2xl">
                             Tapti Partneriu Dabar
                         </button>

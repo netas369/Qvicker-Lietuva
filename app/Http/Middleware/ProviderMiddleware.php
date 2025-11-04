@@ -18,7 +18,7 @@ class ProviderMiddleware
     {
         // Check if the user is authenticated
         if (!Auth::check() || Auth::user()->role !== 'provider') {
-            return redirect('/login'); // or any other route you want to redirect to
+            return redirect('/prisijungti'); // or any other route you want to redirect to
         }
 
         return $next($request);

@@ -18,15 +18,15 @@
                         <span class="bg-gray-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full">{{ $subcategory }}</span>
                     @endif
                     <span class="bg-gray-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full">{{ $city }}</span>
-                    <span class="bg-gray-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full">
-                    @if($taskSize == 'small')
-                            Maža (1-2 val.)
-                        @elseif($taskSize == 'medium')
-                            Vidutinė (2-4 val.)
-                        @else
-                            Didelė (4-8 val.)
-                        @endif
-                </span>
+{{--                    <span class="bg-gray-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full">--}}
+{{--                    @if($taskSize == 'small')--}}
+{{--                            Maža (1-2 val.)--}}
+{{--                        @elseif($taskSize == 'medium')--}}
+{{--                            Vidutinė (2-4 val.)--}}
+{{--                        @else--}}
+{{--                            Didelė (4-8 val.)--}}
+{{--                        @endif--}}
+{{--                </span>--}}
                     <span class="bg-gray-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full">
                     Data: {{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}
                 </span>
@@ -38,7 +38,7 @@
         <div class="border rounded-lg shadow-sm overflow-hidden bg-white mb-4 md:mb-6">
             <div class="p-2 md:p-4 flex flex-row gap-2 md:gap-4">
                 <!-- Provider Image -->
-                <div class="w-20 h-20 md:w-36 md:h-36 flex-shrink-0">
+                <div class="w-36 h-36 md:w-48 md:h-48 flex-shrink-0 mr-4">
                     @if($provider->image)
                         <img src="{{ asset('storage/' . $provider->image) }}"
                              alt="{{ $provider->name }}"
@@ -58,7 +58,7 @@
                 <div class="flex-grow">
                     <!-- Name with Rating -->
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-1">
-                        <h2 class="text-base md:text-xl font-semibold text-primary-dark">
+                        <h2 class="text-base md:text-3xl font-semibold text-primary mb-2">
                             {{ ucfirst($provider->name) }} {{ ucfirst($provider->lastname) }}
                         </h2>
 
@@ -89,13 +89,13 @@
                     </div>
 
                     <!-- Age -->
-                    <p class="text-xs md:text-base text-gray-600">
-                        {{ \Carbon\Carbon::parse($provider->birthday)->age }} m.
+                    <p class="text-xs md:text-lg text-gray-600 md:font-medium">
+                        {{ \Carbon\Carbon::parse($provider->birthday)->age }} Metai
                     </p>
 
                     <!-- ADD PRICING INFORMATION HERE -->
                     @if($provider->pricing_info)
-                        <div class="mt-2 md:mt-3">
+                        <div class="mt-2 md:mt-6">
                             <div class="flex flex-col md:flex-row md:items-center md:space-x-6 space-y-2 md:space-y-0">
                                 <!-- Price -->
                                 @if($provider->pricing_info['price'])
@@ -123,13 +123,38 @@
 
                     <!-- About text -->
                     @if($provider->aboutme)
-                        <div class="mt-1 md:mt-4">
+                        <div class="mt-1 md:mt-4" x-data="{ expanded: false }">
                             <p class="text-xs md:text-base text-gray-600">
-                                {{ $provider->aboutme }}
+            <span x-show="!expanded">
+                {{ Str::limit($provider->aboutme, 100) }}
+                @if(strlen($provider->aboutme) > 100)
+                    <button
+                        @click="expanded = true"
+                        class="text-primary-light hover:text-primary font-medium ml-1 focus:outline-none"
+                        type="button"
+                    >
+                        Skaityti daugiau
+                    </button>
+                @endif
+            </span>
+                                <span x-show="expanded" x-cloak>
+                {{ $provider->aboutme }}
+                <button
+                    @click="expanded = false"
+                    class="text-primary-light hover:text-primary font-medium ml-1 focus:outline-none"
+                    type="button"
+                >
+                    Skaityti mažiau
+                </button>
+            </span>
                             </p>
                         </div>
                     @endif
                 </div>
+            </div>
+
+            <div>
+
             </div>
 
             <!-- Portfolio Photos Grid -->
@@ -288,7 +313,6 @@
                     @csrf
                     <input type="hidden" name="provider_id" value="{{ $provider->id }}">
                     <input type="hidden" name="date" value="{{ $date }}">
-                    <input type="hidden" name="task_size" value="{{ $taskSize }}">
                     <input type="hidden" name="subcategory" value="{{ $subcategory }}">
                     <input type="hidden" name="city" value="{{ $city }}">
 
