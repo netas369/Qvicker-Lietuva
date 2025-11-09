@@ -4,9 +4,10 @@ namespace App\Livewire;
 
 use App\Models\User;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManager;  // <- ADD THIS LINE
-use Intervention\Image\Drivers\Gd\Driver; // or use Imagick\Driver if you have ImageMagick
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -37,6 +38,11 @@ class MyProfile extends Component
     public $cities = [];
     public $selectedCity = '';
     public $currentSeekerCity;
+
+    // Password change properties
+    public $current_password;
+    public $new_password;
+    public $new_password_confirmation;
 
 
     public function render()
@@ -96,7 +102,7 @@ class MyProfile extends Component
     {
         $minBirthDate = Carbon::now()->subYears(14)->format('Y-m-d');
 
-        return [
+        $rules = [
             'name' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'birthday' => ['required', 'date', 'before_or_equal:' . $minBirthDate],
@@ -105,7 +111,20 @@ class MyProfile extends Component
             'phone' => 'required|string|regex:/^6[0-9]{7}$/',
             'aboutMe' => 'nullable|string|max:500',
             'gender' => 'required',
+        ];
+
+        // Add password validation rules if any password field is filled
+        if ($this->current_password || $this->new_password || $this->new_password_confirmation) {
+            $rules['current_password'] = ['required', 'current_password'];
+            $rules['new_password'] = [
+                'required',
+                'min:8',
+                'confirmed',
+                'regex:/^(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*#?&]).*$/'
             ];
+        }
+
+        return $rules;
     }
 
 
@@ -124,10 +143,20 @@ class MyProfile extends Component
             'unique' => 'Toks :attribute jau užregistruotas.',
             'regex' => 'Laukas :attribute neatitinka reikalaujamo formato.',
             'size' => 'Laukas :attribute turi būti :size simbolių ilgio.',
+
             // Custom rules
             'gimimo_data.before_or_equal' => 'Jūs turite būti bent 14 metų.',
             'phone.regex' => 'Telefono numeris turi prasidėti skaitmeniu 6 ir būti 8 skaitmenų ilgio.',
             'phone.size' => 'Telefono numeris turi būti 8 skaitmenų ilgio.',
+
+            // Password-specific rules
+            'current_password.required' => 'Dabartinis slaptažodis yra privalomas.',
+            'current_password.current_password' => 'Dabartinis slaptažodis neteisingas.',
+            'new_password.required' => 'Naujas slaptažodis yra privalomas.',
+            'new_password.min' => 'Naujas slaptažodis turi būti bent :min simbolių ilgio.',
+            'new_password.confirmed' => 'Naujo slaptažodžio patvirtinimas nesutampa.',
+            'new_password.regex' => 'Naujas slaptažodis turi turėti bent vieną didžiąją raidę, vieną skaičių ir vieną specialųjį simbolą (@$!%*#?&).',
+
             // Field-specific overrides
             'vardas.required' => 'Vardas yra privalomas.',
             'pavarde.required' => 'Pavardė yra privaloma.',
@@ -165,8 +194,15 @@ class MyProfile extends Component
         $this->user->postal_code = $this->post_code;
         $this->user->phone = '+370' . $this->phone;
 
-        $this->user->save();
+        // Handle password update if provided
+        if ($this->new_password) {
+            $this->user->password = Hash::make($this->new_password);
 
+            // Clear password fields after successful update
+            $this->reset(['current_password', 'new_password', 'new_password_confirmation']);
+        }
+
+        $this->user->save();
 
         // Optionally, you can redirect or show a success message
         session()->flash('message', 'Informacija sėkmingai atnaujinta');
