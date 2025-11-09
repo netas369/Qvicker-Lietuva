@@ -4,20 +4,58 @@
             @if (session()->has('message'))
                 <div
                     id="session-message"
-                    class="bg-green-50 border border-green-200 text-green-800 p-4 rounded-xl shadow-sm mb-6 font-medium flex items-center space-x-3"
+                    class="fixed top-4 right-4 z-50 max-w-md animate-slide-in"
                 >
-                    <div class="bg-green-500 rounded-full p-1">
-                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
+                    <div class="bg-white rounded-xl shadow-2xl border-l-4 border-green-500 p-4">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-3 flex-1">
+                                <p class="text-sm font-semibold text-gray-900">Sėkmingai atnaujinta!</p>
+                                <p class="mt-1 text-sm text-gray-600">{{ session('message') }}</p>
+                            </div>
+                            <button
+                                onclick="document.getElementById('session-message').remove()"
+                                class="ml-4 flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors"
+                            >
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-                    {{ session('message') }}
                 </div>
+
+                <style>
+                    @keyframes slide-in {
+                        from {
+                            transform: translateX(100%);
+                            opacity: 0;
+                        }
+                        to {
+                            transform: translateX(0);
+                            opacity: 1;
+                        }
+                    }
+
+                    .animate-slide-in {
+                        animation: slide-in 0.3s ease-out;
+                    }
+                </style>
+
                 <script>
                     setTimeout(() => {
                         const msg = document.getElementById('session-message');
                         if (msg) {
-                            msg.remove(); // Hides after 3 seconds
+                            msg.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
+                            msg.style.opacity = '0';
+                            msg.style.transform = 'translateX(100%)';
+                            setTimeout(() => msg.remove(), 300);
                         }
                     }, 5000);
                 </script>
