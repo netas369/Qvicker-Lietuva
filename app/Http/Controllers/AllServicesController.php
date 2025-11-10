@@ -15,6 +15,11 @@ class AllServicesController extends Controller
             ->get()
             ->groupBy('category');
 
+        // Sort categories by number of subcategories (descending)
+        $categories = $categories->sortByDesc(function ($subcategories) {
+            return $subcategories->count();
+        });
+
         return view('allservices', compact('categories'));
     }
 
@@ -24,7 +29,6 @@ class AllServicesController extends Controller
         $serviceData = DB::table('categories')
             ->where('url', $service)
             ->first();
-
 
         if (!$serviceData) {
             abort(404);
