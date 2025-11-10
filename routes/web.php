@@ -134,6 +134,8 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/service-pages/{slug}', [AdminController::class, 'updateServicePage'])->name('service-pages.update');
         Route::delete('/service-pages/{slug}', [AdminController::class, 'deleteServicePage'])->name('service-pages.delete');
         Route::post('/service-pages/bulk-create', [AdminController::class, 'bulkCreateSeoPages'])->name('service-pages.bulk-create');
+        Route::get('/categories', [AdminController::class, 'index'])->name('categories.index');
+        Route::post('/categories', [AdminController::class, 'storeCategory'])->name('categories.store');
     });
 });
 
