@@ -4,20 +4,58 @@
             @if (session()->has('message'))
                 <div
                     id="session-message"
-                    class="bg-green-50 border border-green-200 text-green-800 p-4 rounded-xl shadow-sm mb-6 font-medium flex items-center space-x-3"
+                    class="fixed top-4 right-4 z-50 max-w-md animate-slide-in"
                 >
-                    <div class="bg-green-500 rounded-full p-1">
-                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
+                    <div class="bg-white rounded-xl shadow-2xl border-l-4 border-green-500 p-4">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-3 flex-1">
+                                <p class="text-sm font-semibold text-gray-900">Sėkmingai atnaujinta!</p>
+                                <p class="mt-1 text-sm text-gray-600">{{ session('message') }}</p>
+                            </div>
+                            <button
+                                onclick="document.getElementById('session-message').remove()"
+                                class="ml-4 flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors"
+                            >
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-                    {{ session('message') }}
                 </div>
+
+                <style>
+                    @keyframes slide-in {
+                        from {
+                            transform: translateX(100%);
+                            opacity: 0;
+                        }
+                        to {
+                            transform: translateX(0);
+                            opacity: 1;
+                        }
+                    }
+
+                    .animate-slide-in {
+                        animation: slide-in 0.3s ease-out;
+                    }
+                </style>
+
                 <script>
                     setTimeout(() => {
                         const msg = document.getElementById('session-message');
                         if (msg) {
-                            msg.remove(); // Hides after 3 seconds
+                            msg.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
+                            msg.style.opacity = '0';
+                            msg.style.transform = 'translateX(100%)';
+                            setTimeout(() => msg.remove(), 300);
                         }
                     }, 5000);
                 </script>
@@ -455,7 +493,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                             </svg>
                                         </div>
-                                        <label for="city-select" class="block text-sm font-semibold text-gray-700">Miestai</label>
+                                        <label for="city-select" class="text-sm font-semibold text-gray-700">Miestai</label>
                                     </div>
                                     <!-- Selected cities display as tags -->
                                     <div class="flex flex-wrap gap-2 mb-3">
@@ -576,6 +614,99 @@
                         </div>
                     </div>
 
+                    <!-- Password Change Section -->
+                    <div class="space-y-6">
+                        <div class="flex items-center">
+                            <div class="bg-primary-light/10 p-2 rounded-lg mr-3">
+                                <svg class="w-6 h-6 text-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-xl font-bold text-gray-800">Slaptažodžio Keitimas</h2>
+                        </div>
+
+                        <!-- Password fields in grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Current Password -->
+                            <div class="md:col-span-2 md:w-1/2">
+                                <label for="current_password" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Dabartinis Slaptažodis
+                                </label>
+                                <div class="relative">
+                                    <input type="password" id="current_password" wire:model="current_password"
+                                           class="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 @error('current_password') border-red-500 @enderror"
+                                           placeholder="Įveskite dabartinį slaptažodį">
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                @error('current_password')
+                                <p class="text-red-500 text-xs mt-1 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- New Password -->
+                            <div>
+                                <label for="new_password" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Naujas Slaptažodis
+                                </label>
+                                <div class="relative">
+                                    <input type="password" id="new_password" wire:model="new_password"
+                                           class="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 @error('new_password') border-red-500 @enderror"
+                                           placeholder="Įveskite naują slaptažodį">
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                @error('new_password')
+                                <p class="text-red-500 text-xs mt-1 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
+                                @enderror
+                                <small class="text-gray-500 mt-1 block">Mažiausiai 8 simboliai</small>
+                            </div>
+
+                            <!-- Confirm New Password -->
+                            <div>
+                                <label for="new_password_confirmation" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Patvirtinkite Naują Slaptažodį
+                                </label>
+                                <div class="relative">
+                                    <input type="password" id="new_password_confirmation" wire:model="new_password_confirmation"
+                                           class="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 @error('new_password_confirmation') border-red-500 @enderror"
+                                           placeholder="Pakartokite naują slaptažodį">
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                @error('new_password_confirmation')
+                                <p class="text-red-500 text-xs mt-1 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Password change info box -->
+                        <div class="bg-gray-50 border border-primary-light rounded-xl p-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-5 w-5 text-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-primary-light">
+                                        <strong class="text-primary-dark">Svarbu:</strong> Užpildykite visus tris laukus tik tuo atveju, jei norite pakeisti savo slaptažodį. Jei nenorite keisti slaptažodžio, palikite šiuos laukus tuščius.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     @if($this->user->role === 'provider')
                         <!-- Work Categories Section -->
                         <div class="space-y-6">
@@ -604,9 +735,7 @@
                                         class="bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow">
                                         <div class="flex items-center mb-3">
                                             <div class="bg-primary-light/10 p-2 rounded-lg mr-3">
-                                                <svg class="w-5 h-5 text-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                                                </svg>
+
                                             </div>
                                             <h4 class="font-bold text-gray-800">{{ $category }}</h4>
                                         </div>

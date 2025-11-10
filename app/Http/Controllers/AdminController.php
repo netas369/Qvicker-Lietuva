@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,45 @@ class AdminController extends Controller
         if (!Auth::check() || Auth::user()->role !== 'admin') {
             abort(403, 'Access denied. Admin role required.');
         }
+    }
+
+    /**
+     * Display the category management page
+     */
+    public function index()
+    {
+        $categories = Category::orderBy('category')
+            ->orderBy('subcategory')
+            ->paginate(20);
+
+        return view('admin.categories.index', compact('categories'));
+    }
+
+    /**
+     * Store a new category
+     */
+    public function storeCategory(Request $request)
+    {
+        $validated = $request->validate([
+            'category' => 'required|string|in:Ezoterija,Fitnesas ir Sveikatingumas,Grožio Paslaugos,IT Pagalba,Kūrybinės Paslaugos,Meistrai ir remontas,Namų priežiūra ir valymas,Perkraustymo ir pakavimo paslaugos,Remontas,Renginių Pagalba,Sodininkystės ir lauko paslaugos,Statyba,Transporto paslaugos,Turizmas',
+            'subcategory' => 'required|string|max:255',
+            'url' => 'required|string|max:255|unique:categories,url',
+        ], [
+            'category.required' => 'Please select a category.',
+            'category.in' => 'Invalid category selected.',
+            'subcategory.required' => 'Subcategory is required.',
+            'url.required' => 'URL is required.',
+            'url.unique' => 'This URL already exists. Please choose a different one.',
+        ]);
+
+        Category::create([
+            'category' => $validated['category'],
+            'subcategory' => $validated['subcategory'],
+            'url' => $validated['url'],
+        ]);
+
+        return redirect()->route('admin.categories.index')
+            ->with('success', 'Subcategory added successfully!');
     }
 
     // Show all service pages for admin management
