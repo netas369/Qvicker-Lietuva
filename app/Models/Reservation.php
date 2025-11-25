@@ -16,7 +16,6 @@ class Reservation extends Model
         'description',
         'address',
         'phone',
-        'task_size',
         'subcategory',
         'city',
         'status',

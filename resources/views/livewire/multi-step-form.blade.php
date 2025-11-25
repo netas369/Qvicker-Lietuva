@@ -366,25 +366,40 @@
             </div>
         @endif
 
-        @if($currentStep === 2)
-            <div class="space-y-8">
-                <div class="text-center">
-                    <h2 class="mt-14 text-2xl md:text-3xl font-bold text-primary-light">Pasirinkite teikiamas paslaugas</h2>
-                    <p class="mt-2 text-sm text-gray-600">Pažymėkite visas paslaugas, kurias galite teikti</p>
-                </div>
+                @if($currentStep === 2)
+                    <div class="space-y-8">
+                        <div class="text-center">
+                            <h2 class="mt-14 text-2xl md:text-3xl font-bold text-primary-light">Pasirinkite teikiamas paslaugas</h2>
+                            <p class="mt-2 text-sm text-gray-600">Pažymėkite visas paslaugas, kurias galite teikti</p>
+                        </div>
 
-                @error('selectedSubcategories')
-                <span class="block text-red-500 text-sm text-center mb-4">{{ $message }}</span>
-                @enderror
+                        @error('selectedSubcategories')
+                        <span class="block text-red-500 text-sm text-center mb-4">{{ $message }}</span>
+                        @enderror
 
-                <div class="flex flex-nowrap overflow-x-auto border-b-2 border-primary-light border-opacity-50 pb-2">
-                    <ul class="flex flex-nowrap gap-4 -mb-px text-sm font-medium text-center" role="tablist">
-                        @foreach($categories as $index => $category)
-                            <li class="flex-shrink-0">
-                                <div class="flex-none w-28 snap-always snap-center">
-                                    <button wire:click="setActiveTab({{ $index }})" type="button" role="tab"
-                                            class="inline-block p-4 rounded-t-lg transition-colors {{ $activeTab === $index ? 'text-primary-light border-b-2 border-primary' : 'text-gray-500 hover:text-gray-600' }}">
-                                        @switch($category['name'])
+                        <div class="relative">
+                            <!-- Left scroll arrow -->
+                            <button id="scrollLeftReg" type="button" class="hidden absolute left-2 top-1/2 -translate-y-1/2 z-10 lg:flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg border border-gray-200 hover:bg-gray-50 transition-all duration-200">
+                                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                </svg>
+                            </button>
+
+                            <!-- Right scroll arrow -->
+                            <button id="scrollRightReg" type="button" class="hidden absolute right-2 top-1/2 -translate-y-1/2 z-10 lg:flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg border border-gray-200 hover:bg-gray-50 transition-all duration-200">
+                                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </button>
+
+                            <div id="regCategoryScroller" class="flex flex-nowrap overflow-x-auto border-b-2 border-primary-light border-opacity-50 pb-2 scrollbar-hide">
+                                <ul class="flex flex-nowrap gap-4 -mb-px text-sm font-medium text-center" role="tablist">
+                                    @foreach($categories as $index => $category)
+                                        <li class="flex-shrink-0">
+                                            <div class="flex-none w-28 snap-always snap-center">
+                                                <button wire:click="setActiveTab({{ $index }})" type="button" role="tab"
+                                                        class="inline-block p-4 rounded-t-lg transition-colors {{ $activeTab === $index ? 'text-primary-light border-b-2 border-primary' : 'text-gray-500 hover:text-gray-600' }}">
+                                                    @switch($category['name'])
                                             {{-- Valymas --}}
                                             @case('Namų priežiūra ir valymas')
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 40" class="w-16 h-16 mx-auto" aria-hidden="true" fill="currentColor">
@@ -548,15 +563,16 @@
                                                 </svg>
                                                 @break
 
-                                        @endswitch
+                                                    @endswitch
 
-                                        <span class="block mt-2 text-primary">{{ $category['name'] }}</span>
-                                    </button>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+                                                    <span class="block mt-2 text-primary">{{ $category['name'] }}</span>
+                                                </button>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                     @foreach($categories as $index => $category)
@@ -792,3 +808,79 @@
         @endif
     </form>
 </div>
+
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const scroller = document.getElementById('regCategoryScroller');
+            const scrollLeftBtn = document.getElementById('scrollLeftReg');
+            const scrollRightBtn = document.getElementById('scrollRightReg');
+
+            if (!scroller || !scrollLeftBtn || !scrollRightBtn) return;
+
+            // Check if scrolling is needed and show/hide arrows accordingly
+            function updateArrowVisibility() {
+                // Check if content is scrollable
+                const isScrollable = scroller.scrollWidth > scroller.clientWidth;
+
+                if (!isScrollable) {
+                    // If not scrollable, hide both arrows
+                    scrollLeftBtn.style.display = 'none';
+                    scrollRightBtn.style.display = 'none';
+                    return;
+                }
+
+                // If scrollable, check position
+                const isAtStart = scroller.scrollLeft <= 10;
+                const isAtEnd = scroller.scrollLeft >= scroller.scrollWidth - scroller.clientWidth - 10;
+
+                // Show/hide arrows based on position
+                if (isAtStart) {
+                    scrollLeftBtn.style.display = 'none';
+                    scrollRightBtn.style.display = 'flex';
+                } else if (isAtEnd) {
+                    scrollLeftBtn.style.display = 'flex';
+                    scrollRightBtn.style.display = 'none';
+                } else {
+                    scrollLeftBtn.style.display = 'flex';
+                    scrollRightBtn.style.display = 'flex';
+                }
+            }
+
+            // Scroll left
+            scrollLeftBtn.addEventListener('click', () => {
+                scroller.scrollBy({
+                    left: -220,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Scroll right
+            scrollRightBtn.addEventListener('click', () => {
+                scroller.scrollBy({
+                    left: 220,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Update arrow visibility on scroll
+            scroller.addEventListener('scroll', updateArrowVisibility);
+
+            // Update arrow visibility on window resize
+            window.addEventListener('resize', updateArrowVisibility);
+
+            // Initial check
+            setTimeout(updateArrowVisibility, 100);
+
+            // Additional check after content load
+            window.addEventListener('load', updateArrowVisibility);
+
+            // Listen for Livewire updates (in case categories are loaded dynamically)
+            document.addEventListener('livewire:load', updateArrowVisibility);
+            Livewire.hook('message.processed', () => {
+                setTimeout(updateArrowVisibility, 100);
+            });
+        });
+    </script>
+@endpush

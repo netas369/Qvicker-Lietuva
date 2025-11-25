@@ -36,6 +36,9 @@ Route::get('/naudotojams', [LandingPageController::class, 'seekers'])->name('see
 Route::get('/seeker/support', [SeekerController::class, 'support'])->name('seeker.support');
 Route::post('/seeker/support/send', [SeekerController::class, 'sendSeekerSupport'])->name('seeker.support.send');
 Route::get('/visos-paslaugos', [AllServicesController::class, 'allservices'])->name('allservices');
+Route::get('/sitemap.xml', function () {
+    return response()->file(public_path('sitemap.xml'));
+});
 
 
 Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
@@ -131,6 +134,8 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/service-pages/{slug}', [AdminController::class, 'updateServicePage'])->name('service-pages.update');
         Route::delete('/service-pages/{slug}', [AdminController::class, 'deleteServicePage'])->name('service-pages.delete');
         Route::post('/service-pages/bulk-create', [AdminController::class, 'bulkCreateSeoPages'])->name('service-pages.bulk-create');
+        Route::get('/categories', [AdminController::class, 'index'])->name('categories.index');
+        Route::post('/categories', [AdminController::class, 'storeCategory'])->name('categories.store');
     });
 });
 

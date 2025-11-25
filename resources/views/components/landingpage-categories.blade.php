@@ -118,15 +118,14 @@
 @endphp
 
 <section class="relative">
-    <!-- Left scroll arrow -->
-    <button id="scrollLeft" class="absolute left-2 top-1/2 -translate-y-1/2 z-10 hidden lg:flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg border border-gray-200 hover:bg-gray-50 transition-all duration-200">
+    <!-- Update the arrow button classes to include lg:hidden by default -->
+    <button id="scrollLeft" class="hidden absolute left-2 top-1/2 -translate-y-1/2 z-10 lg:flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg border border-gray-200 hover:bg-gray-50 transition-all duration-200">
         <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
         </svg>
     </button>
 
-    <!-- Right scroll arrow -->
-    <button id="scrollRight" class="absolute right-2 top-1/2 -translate-y-1/2 z-10 hidden lg:flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg border border-gray-200 hover:bg-gray-50 transition-all duration-200">
+    <button id="scrollRight" class="hidden absolute right-2 top-1/2 -translate-y-1/2 z-10 lg:flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg border border-gray-200 hover:bg-gray-50 transition-all duration-200">
         <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
         </svg>
@@ -298,7 +297,7 @@
                     item.style.opacity = '1';
                     item.style.transform = 'translateY(0)';
                 });
-            }, index * 100); // Stagger the animation by 100ms for each item
+            }, index * 100);
         });
     }
 
@@ -309,23 +308,37 @@
 
         // Check if scrolling is needed and show/hide arrows accordingly
         function updateArrowVisibility() {
+            // Check if content is scrollable
             const isScrollable = scroller.scrollWidth > scroller.clientWidth;
-            const isAtStart = scroller.scrollLeft <= 10; // Small buffer for precision
+
+            if (!isScrollable) {
+                // If not scrollable, hide both arrows
+                scrollLeftBtn.style.display = 'none';
+                scrollRightBtn.style.display = 'none';
+                return;
+            }
+
+            // If scrollable, check position
+            const isAtStart = scroller.scrollLeft <= 10;
             const isAtEnd = scroller.scrollLeft >= scroller.scrollWidth - scroller.clientWidth - 10;
 
-            if (isScrollable) {
-                scrollLeftBtn.classList.toggle('hidden', isAtStart);
-                scrollRightBtn.classList.toggle('hidden', isAtEnd);
+            // Show/hide arrows based on position
+            if (isAtStart) {
+                scrollLeftBtn.style.display = 'none';
+                scrollRightBtn.style.display = 'flex';
+            } else if (isAtEnd) {
+                scrollLeftBtn.style.display = 'flex';
+                scrollRightBtn.style.display = 'none';
             } else {
-                scrollLeftBtn.classList.add('hidden');
-                scrollRightBtn.classList.add('hidden');
+                scrollLeftBtn.style.display = 'flex';
+                scrollRightBtn.style.display = 'flex';
             }
         }
 
         // Scroll left
         scrollLeftBtn.addEventListener('click', () => {
             scroller.scrollBy({
-                left: -220, // Slightly more than category width (110px)
+                left: -220,
                 behavior: 'smooth'
             });
         });
@@ -346,6 +359,9 @@
 
         // Initial check after a small delay to ensure everything is rendered
         setTimeout(updateArrowVisibility, 100);
+
+        // Additional check after images/content load
+        window.addEventListener('load', updateArrowVisibility);
     });
 </script>
 <style>

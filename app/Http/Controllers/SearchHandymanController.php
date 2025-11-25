@@ -64,14 +64,12 @@ class SearchHandymanController extends Controller
             'subcategory' => 'required|string|exists:categories,subcategory',
             'date' => 'required|after_or_equal:today',
             'city' => 'required',
-            'task_size' => 'required'
         ], [
             'category.required' => 'Pasirinkite kategoriją',
             'subcategory.required' => 'Pasirinkite sub-kategoriją',
             'date.required' => 'Pasirinkite datą',
             'date.after_or_equal' => 'Data negali būti praeityje',
             'city.required' => 'Pasirinkite miestą kurioje reikia paslaugos',
-            'task_size.required' => 'Pasirinkite užduoties dydį'
         ]);
 
         // Get the subcategory from the original request
@@ -82,7 +80,6 @@ class SearchHandymanController extends Controller
         $category = $validated['category'];
         $subcategory = $validated['subcategory'];
         $city = $validated['city'];
-        $taskSize = $validated['task_size'];
         $date = $validated['date']; // Use validated date instead of overriding
 
         $perPage = 10;
@@ -92,7 +89,6 @@ class SearchHandymanController extends Controller
         return redirect()->route('search.results.show', [
             'category' => $category,
             'city' => $city,
-            'task_size' => $taskSize,
             'subcategory_id' => $subcategoryId,
             'subcategory' => $subcategory,
             'date' => $date
@@ -114,7 +110,6 @@ class SearchHandymanController extends Controller
     {
         // Get parameters from URL
         $city = $request->query('city');
-        $taskSize = $request->query('task_size');
         $subcategoryId = $request->query('subcategory_id');
         $subcategory = $request->query('subcategory');
         $date = $request->query('date');
@@ -238,7 +233,6 @@ class SearchHandymanController extends Controller
             'subcategory' => $subcategory,
             'subcategoryId' => $subcategoryId,
             'city' => $city,
-            'taskSize' => $taskSize,
             'date' => $date,
             'specificDate' => $specificDate
         ]);
@@ -416,11 +410,10 @@ class SearchHandymanController extends Controller
         $this->preparePricingInfo($provider, $subcategoryId);
 
         $date = $request->query('date', now()->format('Y-m-d'));
-        $taskSize = $request->query('task_size');
         $city = $request->query('city');
         $portfolioPhotos = json_decode($provider->portfolio_photos ?? '[]', true);
 
-        return view('search.reserve.reserve', compact('provider', 'date', 'taskSize', 'subcategory', 'city', 'portfolioPhotos'));
+        return view('search.reserve.reserve', compact('provider', 'date', 'subcategory', 'city', 'portfolioPhotos'));
     }
 
 }

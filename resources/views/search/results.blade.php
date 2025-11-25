@@ -20,7 +20,6 @@
                         <input type="hidden" name="subcategory_id" value="{{ $subcategoryId }}">
                     @endif
                     <input type="hidden" name="city" value="{{ $city }}">
-                    <input type="hidden" name="task_size" value="{{ $taskSize }}">
 
                     <!-- Current filters display -->
                     <div class="flex flex-wrap gap-1 md:gap-2 text-xs md:text-sm text-gray-600">
@@ -28,15 +27,15 @@
                             <span class="bg-gray-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full">{{ $subcategory }}</span>
                         @endif
                         <span class="bg-gray-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full">{{ $city }}</span>
-                        <span class="bg-gray-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full">
-                            @if($taskSize == 'small')
-                                Maža (1-2 val.)
-                            @elseif($taskSize == 'medium')
-                                Vidutinė (2-4 val.)
-                            @else
-                                Didelė (4-8 val.)
-                            @endif
-                        </span>
+{{--                        <span class="bg-gray-100 px-2 py-0.5 md:px-3 md:py-1 rounded-full">--}}
+{{--                            @if($taskSize == 'small')--}}
+{{--                                Maža (1-2 val.)--}}
+{{--                            @elseif($taskSize == 'medium')--}}
+{{--                                Vidutinė (2-4 val.)--}}
+{{--                            @else--}}
+{{--                                Didelė (4-8 val.)--}}
+{{--                            @endif--}}
+{{--                        </span>--}}
                     </div>
 
                     <!-- Date filter input -->
@@ -71,7 +70,7 @@
                             <div class="border rounded-lg shadow-sm overflow-hidden bg-white">
                                 <div class="p-2 md:p-4 flex flex-row gap-2 md:gap-4">
                                     <!-- Provider Image - Much smaller on mobile -->
-                                    <div class="w-20 h-20 md:w-36 md:h-36 flex-shrink-0">
+                                    <div class="w-28 h-28 md:w-40 md:h-40 flex-shrink-0 mr-2">
                                         @if($provider->image)
                                             <img src="{{ asset('storage/' . $provider->image) }}"
                                                  alt="{{ $provider->name }}"
@@ -240,7 +239,7 @@
 
                                             <!-- Button -->
                                             <div class="mt-2 md:mt-3 flex justify-end">
-                                                <a href="{{ route('provider.reserve', ['id' => $provider->id, 'date' => $date, 'task_size' => $taskSize, 'subcategory' => $subcategory, 'city' => $city]) }}"
+                                                <a href="{{ route('provider.reserve', ['id' => $provider->id, 'date' => $date, 'subcategory' => $subcategory, 'city' => $city]) }}"
                                                    class="inline-block rounded-md bg-gradient-to-tr from-primary to-primary-light py-1 px-3 md:py-2 md:px-4 border border-transparent
                                                     text-center text-xs md:text-base text-white font-sans hover:from-primary-dark hover:to-primary-light transition">
                                                     Plačiau..
@@ -462,7 +461,7 @@
 
                                             <!-- Button -->
                                             <div class="mt-2 md:mt-3 flex justify-end">
-                                                <a href="{{ route('provider.reserve', ['id' => $provider->id, 'date' => $availableDate->format('Y-m-d'), 'task_size' => $taskSize, 'subcategory' => $subcategory, 'city' => $city]) }}"
+                                                <a href="{{ route('provider.reserve', ['id' => $provider->id, 'date' => $availableDate->format('Y-m-d'), 'subcategory' => $subcategory, 'city' => $city]) }}"
                                                    class="inline-block rounded-md bg-gradient-to-tr from-primary to-primary-light py-1 px-3 md:py-2 md:px-4 border border-transparent
                                                     text-center text-xs md:text-base text-white font-sans hover:from-primary-dark hover:to-primary-light transition">
                                                     Plačiau..
