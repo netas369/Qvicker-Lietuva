@@ -9,6 +9,8 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './resources/views/layouts/*.blade.php',
+        './resources/js/**/*.vue',    // Scan all Vue files
+        './resources/js/**/*.js',     // Scan all JS files
     ],
 
     theme: {
