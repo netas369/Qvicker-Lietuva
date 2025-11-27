@@ -416,4 +416,39 @@ class SearchHandymanController extends Controller
         return view('search.reserve.reserve', compact('provider', 'date', 'subcategory', 'city', 'portfolioPhotos'));
     }
 
+    /**
+     * Search categories by subcategory name - for Vue live search
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function searchCategories(Request $request)
+    {
+        $query = $request->input('q', '');
+
+        // Return empty results if query is too short
+        if (strlen($query) < 1) {
+            return response()->json([
+                'results' => []
+            ]);
+        }
+
+        // Search categories - reuse the same logic from your Livewire component
+        $results = Category::where('subcategory', 'like', '%' . $query . '%')
+            ->limit(7)
+            ->get()
+            ->map(function ($category) {
+                return [
+                    'subcategory' => $category->subcategory ?? 'No subcategory',
+                    'category' => $category->category ?? 'No category',
+                    'id' => $category->id
+                ];
+            });
+
+        return response()->json([
+            'results' => $results
+        ]);
+    }
+
+
 }
