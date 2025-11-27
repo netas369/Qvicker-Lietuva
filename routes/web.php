@@ -36,6 +36,9 @@ Route::get('/naudotojams', [LandingPageController::class, 'seekers'])->name('see
 Route::get('/seeker/support', [SeekerController::class, 'support'])->name('seeker.support');
 Route::post('/seeker/support/send', [SeekerController::class, 'sendSeekerSupport'])->name('seeker.support.send');
 Route::get('/visos-paslaugos', [AllServicesController::class, 'allservices'])->name('allservices');
+Route::prefix('api')->group(function () {
+    Route::get('/search-categories', [SearchHandymanController::class, 'searchCategories']);
+});
 Route::get('/sitemap.xml', function () {
     return response()->file(public_path('sitemap.xml'));
 });

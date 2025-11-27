@@ -49,15 +49,6 @@
         <div class="relative z-10 px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60 pt-32 pb-12">
             <!-- Hero Section with Staggered Animation -->
             <div class="text-center">
-                <div class="inline-block">
-          <span
-              class="inline-block px-4 py-2 mb-6 text-sm font-semibold text-primary-light bg-primary-light/10 rounded-full backdrop-blur-sm border border-primary-light/20"
-              :class="{ 'animate-fade-in-down': isVisible }"
-          >
-            🎉 Prisijunkite prie 1000+ patenkintų vartotojų
-          </span>
-                </div>
-
                 <h1
                     class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
                     :class="{ 'animate-fade-in-up': isVisible }"
@@ -111,7 +102,7 @@
                 </div>
             </div>
 
-            <!-- Enhanced Search Bar with Glow Effect -->
+            <!-- Enhanced Search Bar with Live Search -->
             <div
                 class="mt-16 relative"
                 :class="{ 'animate-fade-in-up': isVisible }"
@@ -125,55 +116,84 @@
           }"
                 ></div>
 
-                <div class="relative bg-white rounded-2xl shadow-2xl p-4 backdrop-blur-sm border border-gray-100">
-                    <div class="flex items-center gap-4">
-                        <div class="relative flex-1">
-                            <input
-                                type="text"
-                                v-model="searchQuery"
-                                @focus="searchFocused = true"
-                                @blur="searchFocused = false"
-                                placeholder="Kokios paslaugos jums reikia?"
-                                class="w-full px-6 py-4 text-lg rounded-xl border-2 border-transparent focus:border-primary-light focus:outline-none transition-all duration-300"
-                            />
-                            <div
-                                v-if="searchQuery.length > 0"
-                                class="absolute right-4 top-1/2 -translate-y-1/2"
-                            >
-                                <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                    </svg>
-                                </div>
-                            </div>
+                <div class="relative bg-white rounded-2xl shadow-2xl backdrop-blur-sm border border-gray-100">
+                    <div class="relative p-4">
+                        <!-- Search Icon -->
+                        <div class="absolute left-10 top-1/2 -translate-y-1/2 pointer-events-none z-10">
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 20 20">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
                         </div>
 
+                        <!-- Search Input -->
+                        <input
+                            type="text"
+                            v-model="searchQuery"
+                            @focus="handleSearchFocus"
+                            @blur="handleSearchBlur"
+                            placeholder="Ieškoti paslaugos..."
+                            class="w-full pl-16 pr-12 py-4 text-lg rounded-xl border-2 border-transparent focus:border-primary-light focus:outline-none transition-all duration-300"
+                        />
+
+                        <!-- Clear Button -->
                         <button
-                            class="group relative px-8 py-4 bg-gradient-to-r from-primary-light to-blue-600 text-white rounded-xl font-semibold overflow-hidden transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-                            @click="handleSearch"
+                            v-if="searchQuery.length > 0 && !isSearching"
+                            @mousedown.prevent="clearSearch"
+                            type="button"
+                            class="absolute right-8 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors z-10"
                         >
-              <span class="relative z-10 flex items-center gap-2">
-                <span>Ieškoti</span>
-                <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                </svg>
-              </span>
-                            <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-primary-light opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                            </svg>
                         </button>
+
+                        <!-- Loading Indicator -->
+                        <div
+                            v-if="isSearching"
+                            class="absolute right-8 top-1/2 -translate-y-1/2 z-10"
+                        >
+                            <div class="w-5 h-5 border-2 border-primary-light border-t-transparent rounded-full animate-spin"></div>
+                        </div>
                     </div>
 
-                    <!-- Quick Suggestions -->
-                    <div v-if="searchFocused || searchQuery.length > 0" class="mt-4 flex flex-wrap gap-2">
-                        <span class="text-sm text-gray-500 mr-2">Populiaru:</span>
-                        <button
-                            v-for="(suggestion, index) in suggestions"
-                            :key="index"
-                            @click="searchQuery = suggestion"
-                            class="px-3 py-1 text-sm bg-gray-100 hover:bg-primary-light hover:text-white rounded-full transition-all duration-300 transform hover:scale-105"
+                    <!-- Search Results Dropdown -->
+                    <transition name="dropdown">
+                        <div
+                            v-if="showDropdown && searchQuery.length >= 1"
+                            class="border-t border-gray-200"
                         >
-                            {{ suggestion }}
-                        </button>
-                    </div>
+                            <div v-if="searchResults.length > 0" class="max-h-96 overflow-y-auto">
+                                <a
+                                    v-for="(result, index) in searchResults"
+                                    :key="index"
+                                    :href="`/search?subcategory=${encodeURIComponent(result.subcategory)}`"
+                                    class="block px-6 py-4 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0"
+                                    @mousedown.prevent="navigateToResult(result)"
+                                >
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <div class="text-base font-semibold text-gray-900">
+                                                {{ result.subcategory }}
+                                            </div>
+                                            <div class="text-sm text-gray-500 mt-1">
+                                                {{ result.category }}
+                                            </div>
+                                        </div>
+                                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </div>
+                                </a>
+                            </div>
+                            <div v-else class="px-6 py-8 text-center">
+                                <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <p class="text-gray-500">Rezultatų nerasta</p>
+                            </div>
+                        </div>
+                    </transition>
+
                 </div>
             </div>
 
@@ -231,29 +251,6 @@
                 </div>
             </div>
         </transition>
-
-<!--        &lt;!&ndash; Activity Ticker &ndash;&gt;-->
-<!--        <transition name="slide-left">-->
-<!--            <div-->
-<!--                v-if="showActivity"-->
-<!--                class="fixed top-24 right-8 z-40 max-w-sm"-->
-<!--            >-->
-<!--                <div class="bg-white rounded-2xl shadow-2xl p-4 border-l-4 border-green-500 backdrop-blur-sm">-->
-<!--                    <div class="flex items-start gap-3">-->
-<!--                        <div class="flex-shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center animate-pulse">-->
-<!--                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">-->
-<!--                                <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>-->
-<!--                            </svg>-->
-<!--                        </div>-->
-<!--                        <div class="flex-1 min-w-0">-->
-<!--                            <p class="text-sm font-semibold text-gray-900">{{ currentActivity.name }}</p>-->
-<!--                            <p class="text-xs text-gray-600">{{ currentActivity.text }}</p>-->
-<!--                            <p class="text-xs text-gray-400 mt-1">Ką tik</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </transition>-->
     </div>
 </template>
 
@@ -272,8 +269,14 @@ export default {
             showScrollIndicator: true,
             showActivity: false,
             currentActivityIndex: 0,
+            searchResults: [],
+            showDropdown: false,
+            isSearching: false,
+            searchDebounceTimer: null,
 
             heroWords: ['Rasti', 'profesionalią', 'pagalbą', '-', 'dabar', 'lengva.'],
+
+            features: [],
 
             orbs: [
                 { x: 10, y: 20, size: 400, color: 'bg-blue-200', speed: 0.02, delay: 0 },
@@ -283,7 +286,6 @@ export default {
 
             particles: [],
 
-
             suggestions: [
                 'Santechnikas',
                 'Elektrikas',
@@ -292,8 +294,7 @@ export default {
                 'Remonto darbai'
             ],
 
-            trustBadges: [
-            ],
+            trustBadges: [],
 
             activities: [
                 { name: 'Jonas K.', text: 'užsakė santechniką Vilniuje' },
@@ -302,6 +303,27 @@ export default {
                 { name: 'Greta P.', text: 'rado elektriką Šiauliuose' },
                 { name: 'Mindaugas R.', text: 'užsakė kraustymą Panevėžyje' }
             ]
+        }
+    },
+
+    watch: {
+        searchQuery(newValue) {
+            // Clear previous timer
+            if (this.searchDebounceTimer) {
+                clearTimeout(this.searchDebounceTimer);
+            }
+
+            // If search is empty, hide dropdown
+            if (!newValue || newValue.length < 1) {
+                this.showDropdown = false;
+                this.searchResults = [];
+                return;
+            }
+
+            // Debounce search by 300ms
+            this.searchDebounceTimer = setTimeout(() => {
+                this.performSearch();
+            }, 300);
         }
     },
 
@@ -334,6 +356,9 @@ export default {
     beforeUnmount() {
         document.removeEventListener('mousemove', this.handleMouseMove);
         window.removeEventListener('scroll', this.handleScroll);
+        if (this.searchDebounceTimer) {
+            clearTimeout(this.searchDebounceTimer);
+        }
     },
 
     methods: {
@@ -359,10 +384,67 @@ export default {
             this.showScrollIndicator = scrollY < 100;
         },
 
-        handleSearch() {
-            if (this.searchQuery.trim()) {
-                window.location.href = `/search?q=${encodeURIComponent(this.searchQuery)}`;
+        handleSearchFocus() {
+            this.searchFocused = true;
+            // Show dropdown immediately if there are results
+            if (this.searchQuery.length >= 1 && this.searchResults.length > 0) {
+                this.showDropdown = true;
             }
+        },
+
+        async performSearch() {
+            if (!this.searchQuery || this.searchQuery.length < 1) {
+                this.showDropdown = false;
+                return;
+            }
+
+            this.isSearching = true;
+
+            try {
+                // Make API call to search endpoint
+                const response = await fetch(`/api/search-categories?q=${encodeURIComponent(this.searchQuery)}`);
+
+                if (!response.ok) {
+                    throw new Error('Search failed');
+                }
+
+                const data = await response.json();
+                this.searchResults = data.results || [];
+
+                // Show dropdown if focused and has query
+                if (this.searchFocused && this.searchQuery.length >= 1) {
+                    this.showDropdown = true;
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+                this.searchResults = [];
+                this.showDropdown = false;
+            } finally {
+                this.isSearching = false;
+            }
+        },
+
+        handleSearchBlur() {
+            // Delay to allow click on dropdown items
+            setTimeout(() => {
+                this.searchFocused = false;
+                this.showDropdown = false;
+            }, 300);
+        },
+
+        clearSearch() {
+            this.searchQuery = '';
+            this.searchResults = [];
+            this.showDropdown = false;
+        },
+
+        navigateToResult(result) {
+            window.location.href = `/search?subcategory=${encodeURIComponent(result.subcategory)}`;
+        },
+
+        applySuggestion(suggestion) {
+            this.searchQuery = suggestion;
+            // Focus will trigger the search automatically via watcher
         },
 
         showActivityTicker() {
@@ -458,7 +540,22 @@ export default {
     background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23266867' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v6h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
-/* Transitions */
+/* Dropdown Transition */
+.dropdown-enter-active, .dropdown-leave-active {
+    transition: all 0.3s ease;
+}
+
+.dropdown-enter-from {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.dropdown-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+/* FAB Transition */
 .fab-enter-active, .fab-leave-active {
     transition: all 0.3s ease;
 }
