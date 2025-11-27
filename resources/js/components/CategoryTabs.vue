@@ -134,18 +134,26 @@
                         :key="currentCategory.slug"
                         class="relative bg-white rounded-3xl shadow-xl overflow-hidden"
                     >
-                        <!-- Background Image for Namų priežiūra ir valymas -->
-                        <div
-                            v-if="currentCategory.name === 'Namų priežiūra ir valymas'"
-                            class="absolute inset-0 z-0"
-                        >
-                            <img
-                                src="https://cdn.mos.cms.futurecdn.net/CRSQiBvET2uwKdQK97E4Ad-1024-80.jpg.webp"
-                                alt="Cleaning services background"
-                                class="w-full h-full object-cover"
-                            />
-                            <!-- Gradient overlay for better readability -->
-                            <div class="absolute inset-0 bg-gradient-to-b from-white/0 via-white/0 to-white/0"></div>
+                        <!-- Winter Gradient Background with Snowflakes -->
+                        <div class="absolute inset-0 z-0">
+                            <!-- Gradient Background -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50"></div>
+
+                            <!-- Animated Snowflakes -->
+                            <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                                <div
+                                    v-for="i in 30"
+                                    :key="`snowflake-${i}`"
+                                    class="snowflake absolute text-white/40"
+                                    :style="getSnowflakeStyle(i)"
+                                >
+                                    ❄
+                                </div>
+                            </div>
+
+                            <!-- Decorative Circles -->
+                            <div class="absolute top-10 right-10 w-64 h-64 bg-primary-light/5 rounded-full blur-3xl"></div>
+                            <div class="absolute bottom-10 left-10 w-80 h-80 bg-blue-400/5 rounded-full blur-3xl"></div>
                         </div>
 
                         <!-- Content wrapper with relative positioning -->
@@ -153,7 +161,7 @@
                             <!-- Header -->
                             <div class="flex items-center justify-between mb-8">
                                 <div>
-                                    <h3 class="text-2xl md:text-3xl font-bold text-black mb-2">
+                                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
                                         {{ currentCategory.name }}
                                     </h3>
                                     <p class="text-gray-600">
@@ -168,13 +176,7 @@
                                     v-for="subcategory in visibleSubcategories"
                                     :key="subcategory.url"
                                     :href="`/search?subcategory=${subcategory.url}`"
-                                    :class="[
-                                        'group relative flex items-center p-4 rounded-xl border-2 border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300',
-                                        currentCategory.name === 'Namų priežiūra ir valymas'
-                                            ? 'bg-white/80 backdrop-blur-sm hover:bg-white/90'
-                                            : 'bg-white hover:bg-gradient-to-br hover:from-primary-light/5 hover:to-blue-50',
-                                        'hover:border-primary-light/30'
-                                    ]"
+                                    class="group relative flex items-center p-4 rounded-xl border-2 border-gray-100 bg-white/80 backdrop-blur-sm hover:bg-white/95 shadow-sm hover:shadow-lg transition-all duration-300 hover:border-primary-light/30"
                                 >
                                     <div class="flex-1 min-w-0">
                                         <h4 class="text-base font-semibold text-gray-900 group-hover:text-primary-light transition-colors">
@@ -190,12 +192,7 @@
                                 <button
                                     v-if="hasMoreSubcategories"
                                     @click="expandCurrentCategory"
-                                    :class="[
-                                        'group flex items-center justify-center p-4 rounded-xl border-2 border-dashed border-gray-300 hover:border-primary-light transition-all',
-                                        currentCategory.name === 'Namų priežiūra ir valymas'
-                                            ? 'bg-white/80 backdrop-blur-sm hover:bg-white/90'
-                                            : 'bg-gray-50/50 hover:bg-primary-light/5'
-                                    ]"
+                                    class="group flex items-center justify-center p-4 rounded-xl border-2 border-dashed border-gray-300 hover:border-primary-light transition-all bg-white/80 backdrop-blur-sm hover:bg-white/95"
                                 >
                                     <div class="text-center">
                                         <div class="w-10 h-10 mx-auto mb-2 bg-white rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
@@ -295,6 +292,23 @@ const categoryIcons = {
     'Ezoterines Paslaugos': 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z',
     'Statyba': 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
     'Grožio Paslaugos': 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z'
+};
+
+// Snowflake animation helper
+const getSnowflakeStyle = (index) => {
+    const delay = (index * 0.5) % 10;
+    const duration = 8 + (index % 5);
+    const startPos = (index * 3.33) % 100;
+    const endPos = startPos + (Math.random() * 20 - 10);
+    const size = 0.8 + (Math.random() * 0.6);
+
+    return {
+        left: `${startPos}%`,
+        fontSize: `${size}rem`,
+        animationDelay: `${delay}s`,
+        animationDuration: `${duration}s`,
+        '--end-pos': `${endPos}%`
+    };
 };
 
 // COMPUTED
@@ -453,5 +467,28 @@ watch(needsScroll, (needs) => { if (needs && !animationId.value) startAnimation(
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
+}
+
+/* Snowflake animation */
+@keyframes snowfall {
+    0% {
+        transform: translateY(-10px) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) translateX(var(--end-pos, 0)) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.snowflake {
+    animation: snowfall linear infinite;
+    will-change: transform, opacity;
 }
 </style>
