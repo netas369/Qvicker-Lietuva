@@ -46,7 +46,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="relative z-10 px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60 pt-32 pb-12">
+        <div class="relative z-10 px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60 pt-16 md:pt-32 pb-6 md:pb-12">
             <!-- Hero Section with Staggered Animation -->
             <div class="text-center">
                 <h1
@@ -105,8 +105,6 @@
             <!-- Enhanced Search Bar with Live Search -->
             <div
                 class="mt-16 relative"
-                :class="{ 'animate-fade-in-up': isVisible }"
-                style="animation-delay: 0.8s"
             >
                 <div
                     class="absolute inset-0 bg-gradient-to-r from-primary-light/30 to-blue-600/30 blur-3xl transition-all duration-500"
@@ -242,6 +240,7 @@
                     <div class="absolute -inset-2 bg-gradient-to-r from-primary-light to-blue-600 rounded-full blur-lg opacity-75 group-hover:opacity-100 transition duration-300 animate-pulse"></div>
                     <button
                         class="relative flex items-center gap-3 bg-gradient-to-r from-primary-light to-blue-600 text-white px-6 py-4 rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 font-semibold"
+                        @click="scrollToTop"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -376,6 +375,13 @@ export default {
         handleMouseMove(e) {
             this.mouseX = (e.clientX / window.innerWidth - 0.5) * 20;
             this.mouseY = (e.clientY / window.innerHeight - 0.5) * 20;
+        },
+
+        scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         },
 
         handleScroll() {

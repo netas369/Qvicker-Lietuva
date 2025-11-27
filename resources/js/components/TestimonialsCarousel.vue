@@ -4,12 +4,8 @@
             <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="flex flex-col items-center">
                     <div class="text-center">
-                        <p class="text-lg font-medium text-gray-600 font-pj">2,157 people have said how good Rareblocks</p>
-                        <h2 class="mt-4 text-3xl font-bold text-gray-900 sm:text-4xl xl:text-5xl font-pj">Our happy clients say about us</h2>
-                    </div>
-
-                    <div class="mt-8 text-center md:mt-16 md:order-3">
-                        <a href="#" title="" class="pb-2 text-base font-bold leading-7 text-gray-900 transition-all duration-200 border-b-2 border-gray-900 hover:border-gray-600 font-pj focus:outline-none focus:ring-1 focus:ring-gray-900 focus:ring-offset-2 hover:text-gray-600"> Check all 2,157 reviews </a>
+                        <p class="text-lg font-medium text-gray-600 font-pj">Žmonių atsiliepimai mum rūpi</p>
+                        <h2 class="mt-4 text-3xl font-bold text-primary-light sm:text-4xl xl:text-5xl font-pj">Štai ka sako naudotojai apie Qvicker</h2>
                     </div>
 
                     <div class="relative mt-10 md:mt-24 md:order-2">
@@ -50,15 +46,15 @@
                                         </div>
 
                                         <blockquote class="flex-1 mt-8">
-                                            <p class="text-lg leading-relaxed text-gray-900 font-pj">“You made it so simple. My new site is so much faster and easier to work with than my old site. I just choose the page, make the change.”</p>
+                                            <p class="text-lg leading-relaxed text-gray-900 font-pj">“Labai patogi platforma! Greitai radau žmogų, kuris padėjo surinkti baldus. Viskas vyko sklandžiai – meistras atvyko laiku, dirbo tvarkingai ir profesionaliai. Tikrai naudosiuosi dar kartą.”</p>
                                         </blockquote>
                                     </div>
 
                                     <div class="flex items-center mt-8">
-                                        <img class="flex-shrink-0 object-cover rounded-full w-11 h-11" src="https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-male-1.png" alt="" />
+                                        <img class="flex-shrink-0 object-cover rounded-full w-11 h-11" src="/images/landingpage/men_testimonial.webp" alt="Photo of man from Kaunas" />
                                         <div class="ml-4">
-                                            <p class="text-base font-bold text-gray-900 font-pj">Leslie Alexander</p>
-                                            <p class="mt-0.5 text-sm font-pj text-gray-600">Freelance React Developer</p>
+                                            <p class="text-base font-bold text-gray-900 font-pj">Domantas M.</p>
+                                            <p class="mt-0.5 text-sm font-pj text-gray-600">Kaunas</p>
                                         </div>
                                     </div>
                                 </div>
@@ -96,15 +92,15 @@
                                         </div>
 
                                         <blockquote class="flex-1 mt-8">
-                                            <p class="text-lg leading-relaxed text-gray-900 font-pj">“Simply the best. Better than all the rest. I’d recommend this product to beginners and advanced users.”</p>
+                                            <p class="text-lg leading-relaxed text-gray-900 font-pj">“Užsakiau smulkų remonto darbą bute. Procesas buvo paprastas, o kainos – aiškios ir sąžiningos. Paslaugos teikėjas buvo malonus, nors šiek tiek vėlavo. Bendrai – gera patirtis.”</p>
                                         </blockquote>
                                     </div>
 
                                     <div class="flex items-center mt-8">
-                                        <img class="flex-shrink-0 object-cover rounded-full w-11 h-11" src="https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-male-2.png" alt="" />
+                                        <img class="flex-shrink-0 object-cover rounded-full w-11 h-11" src="images/landingpage/men_testimonial2.webp" alt="" />
                                         <div class="ml-4">
-                                            <p class="text-base font-bold text-gray-900 font-pj">Jacob Jones</p>
-                                            <p class="mt-0.5 text-sm font-pj text-gray-600">Digital Marketer</p>
+                                            <p class="text-base font-bold text-gray-900 font-pj">Tomas K.</p>
+                                            <p class="mt-0.5 text-sm font-pj text-gray-600">Vilnius</p>
                                         </div>
                                     </div>
                                 </div>
@@ -142,15 +138,15 @@
                                         </div>
 
                                         <blockquote class="flex-1 mt-8">
-                                            <p class="text-lg leading-relaxed text-gray-900 font-pj">“I cannot believe that I have got a brand new landing page after getting Omega. It was super easy to edit and publish.”</p>
+                                            <p class="text-lg leading-relaxed text-gray-900 font-pj">“Puiki alternatyva brangioms įmonėms. Radau pagalbą perkraustymui tą pačią dieną. Bendravimas per programėlę labai patogus, o darbus atliko greitai ir atsakingai. Rekomenduoju!”</p>
                                         </blockquote>
                                     </div>
 
                                     <div class="flex items-center mt-8">
-                                        <img class="flex-shrink-0 object-cover rounded-full w-11 h-11" src="https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-female.png" alt="" />
+                                        <img class="flex-shrink-0 object-cover rounded-full w-11 h-11" src="images/landingpage/women_testimonial1.webp" alt="" />
                                         <div class="ml-4">
-                                            <p class="text-base font-bold text-gray-900 font-pj">Jenny Wilson</p>
-                                            <p class="mt-0.5 text-sm font-pj text-gray-600">Graphic Designer</p>
+                                            <p class="text-base font-bold text-gray-900 font-pj">Urte N.</p>
+                                            <p class="mt-0.5 text-sm font-pj text-gray-600">Vilnius</p>
                                         </div>
                                     </div>
                                 </div>

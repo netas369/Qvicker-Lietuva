@@ -23,10 +23,6 @@
                 class="w-full max-w-2xl mx-auto text-center mb-16 transition-all duration-700"
                 :class="{ 'opacity-100 translate-y-0': isVisible, 'opacity-0 translate-y-10': !isVisible }"
             >
-                <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary-light/10 rounded-full mb-6">
-                    <span class="w-2 h-2 bg-primary-light rounded-full animate-ping"></span>
-                    <span class="text-primary-light font-semibold text-sm">PROCESAS</span>
-                </div>
 
                 <h2 class="text-primary-light text-5xl font-bold mb-6 bg-gradient-to-r from-primary-light to-blue-600 bg-clip-text text-transparent">
                     Kaip viskas veikia
@@ -262,6 +258,7 @@
             >
                 <button
                     class="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary-light to-blue-600 text-white rounded-xl font-semibold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 overflow-hidden"
+                    @click="scrollToTop"
                 >
                     <span class="relative z-10">Pradėti Dabar</span>
                     <svg class="relative z-10 w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -321,6 +318,13 @@ export default {
             }, { threshold: 0.2 });
 
             observer.observe(this.$el);
+        },
+
+        scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         },
 
         animateSteps() {

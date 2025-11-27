@@ -92,7 +92,9 @@
                                 class="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transform hover:rotate-12 transition-transform duration-300"
                                 :class="feature.iconBg"
                             >
-                                <component :is="feature.icon" :class="feature.iconColor" />
+                                <svg class="w-6 h-6" :class="feature.iconColor" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="feature.iconPath"/>
+                                </svg>
                             </div>
                             <div>
                                 <h4 class="font-semibold text-gray-800 mb-1">{{ feature.title }}</h4>
@@ -102,15 +104,18 @@
                     </div>
 
                     <!-- CTA Button -->
-                    <button
-                        class="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary-light to-blue-600 text-white rounded-xl font-semibold shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 overflow-hidden"
-                    >
-                        <span class="relative z-10">Sužinoti Daugiau</span>
-                        <svg class="relative z-10 w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                        </svg>
-                        <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-primary-light opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </button>
+                    <a href="/apiemus">
+                        <button
+                            class="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary-light to-blue-600 text-white rounded-xl font-semibold shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 overflow-hidden"
+                        >
+                            <span class="relative z-10">Sužinoti Daugiau</span>
+                            <svg class="relative z-10 w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                            </svg>
+                            <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-primary-light opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </button>
+                    </a>
+
                 </div>
 
                 <!-- Images Side -->
@@ -130,7 +135,7 @@
                             <!-- Image Container -->
                             <div class="relative overflow-hidden rounded-2xl shadow-2xl">
                                 <img
-                                    class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-700"
+                                    class="w-full h-80 lg:h-96 object-cover transform group-hover:scale-110 transition-transform duration-700"
                                     src="/images/landingpage/delivery-man.webp"
                                     alt="Delivery service professional"
                                 />
@@ -155,7 +160,7 @@
 
                             <div class="relative overflow-hidden rounded-2xl shadow-2xl">
                                 <img
-                                    class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-700"
+                                    class="w-full h-80 lg:h-96 object-cover transform group-hover:scale-110 transition-transform duration-700"
                                     src="/images/landingpage/wedding-planner1.webp"
                                     alt="Wedding planning service"
                                 />
@@ -241,14 +246,14 @@ export default {
             ],
             features: [
                 {
-                    icon: 'CheckCircleIcon',
+                    iconPath: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
                     iconBg: 'bg-green-100',
                     iconColor: 'text-green-600',
                     title: 'Patikrinti Specialistai',
                     description: 'Visi mūsų partneriai yra kruopščiai patikrinti ir patvirtinti'
                 },
                 {
-                    icon: 'ClockIcon',
+                    iconPath: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
                     iconBg: 'bg-purple-100',
                     iconColor: 'text-purple-600',
                     title: 'Greitas Atsakymas',
@@ -333,30 +338,6 @@ export default {
             if (rect.top < windowHeight && rect.bottom > 0) {
                 this.scrollOffset = (windowHeight - rect.top) * 0.1;
             }
-        }
-    },
-
-    components: {
-        CheckCircleIcon: {
-            template: `
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-        </svg>
-      `
-        },
-        ShieldIcon: {
-            template: `
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-        </svg>
-      `
-        },
-        ClockIcon: {
-            template: `
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-        </svg>
-      `
         }
     }
 }
