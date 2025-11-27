@@ -1,5 +1,5 @@
 <template>
-    <section class="relative py-12">
+    <section class="relative pb-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Header -->
             <div class="text-center mb-10">
@@ -16,64 +16,71 @@
 
             <!-- Category Tabs Navigation -->
             <div class="relative mb-8">
-                <!-- Scroll arrows -->
+                <!-- Left Arrow -->
                 <button
-                    v-show="showLeftArrow"
-                    @click="scrollLeft"
-                    class="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 z-20 items-center justify-center w-12 h-12 bg-white rounded-full shadow-lg border border-gray-200 hover:bg-gray-50 hover:shadow-xl transition-all duration-300 hover:scale-110"
+                    v-if="canScrollLeft"
+                    @click="manualScrollLeft"
+                    class="absolute -left-2 sm:-left-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-8 h-8 bg-white rounded-full shadow-md border border-gray-200 hover:bg-gray-50 hover:shadow-lg transition-all duration-200"
                     aria-label="Scroll left"
                 >
-                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                     </svg>
                 </button>
 
+                <!-- Right Arrow -->
                 <button
-                    v-show="showRightArrow"
-                    @click="scrollRight"
-                    class="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 z-20 items-center justify-center w-12 h-12 bg-white rounded-full shadow-lg border border-gray-200 hover:bg-gray-50 hover:shadow-xl transition-all duration-300 hover:scale-110"
+                    v-if="canScrollRight"
+                    @click="manualScrollRight"
+                    class="absolute -right-2 sm:-right-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-8 h-8 bg-white rounded-full shadow-md border border-gray-200 hover:bg-gray-50 hover:shadow-lg transition-all duration-200"
                     aria-label="Scroll right"
                 >
-                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                     </svg>
                 </button>
 
-                <!-- Category scroller -->
+                <!-- Scroller Container -->
                 <div
-                    ref="categoryScroller"
-                    @scroll="updateArrowVisibility"
-                    class="flex snap-x snap-mandatory overflow-x-auto overflow-y-hidden scrollbar-hide scroll-smooth lg:px-12"
-                    style="scrollbar-width: none; -ms-overflow-style: none;"
+                    ref="scrollerRef"
+                    class="overflow-hidden"
+                    @mouseenter="handleMouseEnter"
+                    @mouseleave="handleMouseLeave"
+                    @touchstart="handleTouchStart"
+                    @touchend="handleTouchEnd"
                 >
-                    <div class="flex gap-3 pb-2 min-w-full justify-start lg:justify-center">
+                    <!-- Scrollable Track -->
+                    <div
+                        ref="trackRef"
+                        class="flex gap-2 pb-2 transition-transform duration-100 ease-linear"
+                        :style="{ transform: `translateX(${-currentOffset}px)` }"
+                        :class="{ 'justify-center': !needsScroll }"
+                    >
                         <button
                             v-for="category in categories"
                             :key="category.slug"
                             @click="selectCategory(category.slug)"
                             :class="[
-                                'group relative flex flex-col items-center justify-center min-w-[120px] p-4 rounded-2xl transition-all duration-300 snap-center',
+                                'group relative flex flex-col items-center justify-center min-w-[90px] sm:min-w-[100px] p-3 rounded-xl transition-all duration-300 flex-shrink-0',
                                 activeCategory === category.slug
                                     ? 'bg-primary-light text-white shadow-lg scale-105'
                                     : 'bg-white text-gray-700 hover:bg-gray-50 hover:shadow-md border border-gray-200 hover:border-primary-light/30'
                             ]"
                             role="tab"
-                            :aria-controls="`panel-${category.slug}`"
                             :aria-selected="activeCategory === category.slug"
                         >
-                            <!-- Icon container -->
+                            <!-- Icon -->
                             <div
                                 :class="[
-                                    'w-14 h-14 mb-3 rounded-xl flex items-center justify-center transition-all duration-300',
+                                    'w-10 h-10 sm:w-11 sm:h-11 mb-2 rounded-lg flex items-center justify-center transition-all duration-300',
                                     activeCategory === category.slug
                                         ? 'bg-white/20'
                                         : 'bg-primary-light/10 group-hover:bg-primary-light/20'
                                 ]"
                             >
-                                <!-- Dynamic SVG icon -->
                                 <svg
                                     :class="[
-                                        'w-8 h-8 transition-transform duration-300 group-hover:scale-110',
+                                        'w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:scale-110',
                                         activeCategory === category.slug ? 'text-white' : 'text-primary-light'
                                     ]"
                                     fill="none"
@@ -89,17 +96,17 @@
                                 </svg>
                             </div>
 
-                            <!-- Category name -->
+                            <!-- Name -->
                             <span
                                 :class="[
-                                    'text-sm font-semibold text-center leading-tight transition-colors duration-300',
+                                    'text-xs font-semibold text-center leading-tight whitespace-nowrap',
                                     activeCategory === category.slug ? 'text-white' : 'text-gray-800 group-hover:text-primary-light'
                                 ]"
                             >
                                 {{ getCategoryDisplayName(category.name) }}
                             </span>
 
-                            <!-- Active indicator -->
+                            <!-- Active dot -->
                             <div
                                 v-if="activeCategory === category.slug"
                                 class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white rounded-full shadow-md"
@@ -107,119 +114,114 @@
                         </button>
                     </div>
                 </div>
-            </div>
 
-            <!-- Category content panels -->
-            <div class="relative">
-                <div
-                    v-for="category in categories"
-                    :key="category.slug"
-                    :id="`panel-${category.slug}`"
-                    role="tabpanel"
-                >
-                    <Transition
-                        name="fade"
-                        mode="out-in"
-                    >
+                <!-- Progress Bar -->
+                <div v-if="needsScroll" class="flex justify-center mt-3">
+                    <div class="h-1 w-16 rounded-full bg-gray-200 overflow-hidden">
                         <div
-                            v-if="activeCategory === category.slug"
-                            class="bg-white rounded-3xl shadow-xl p-6 md:p-10"
-                        >
-                            <!-- Category header -->
-                            <div class="flex items-center justify-between mb-8">
-                                <div>
-                                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-                                        {{ category.name }}
-                                    </h3>
-                                    <p class="text-gray-600">
-                                        {{ category.subcategories.length }} paslaug{{ category.subcategories.length === 1 ? 'a' : 'os' }}
-                                    </p>
-                                </div>
-
-                                <!-- Quick stats badge -->
-                                <div class="hidden md:flex items-center gap-2 px-4 py-2 bg-green-50 rounded-full border border-green-200">
-                                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                                    <span class="text-sm font-medium text-green-700">Aktyvūs specialistai</span>
-                                </div>
-                            </div>
-
-                            <!-- Subcategories grid -->
-                            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                                <a
-                                    v-for="subcategory in getVisibleSubcategories(category)"
-                                    :key="subcategory.url"
-                                    :href="`/search?subcategory=${subcategory.url}`"
-                                    class="group relative flex items-center gap-4 p-5 rounded-xl border-2 border-gray-100 bg-white hover:bg-gradient-to-br hover:from-primary-light/5 hover:to-blue-50 hover:border-primary-light/30 shadow-sm hover:shadow-lg transition-all duration-300"
-                                >
-                                    <!-- Subcategory icon -->
-                                    <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-primary-light/10 to-blue-100/50 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                                        <svg class="w-6 h-6 text-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                        </svg>
-                                    </div>
-
-                                    <!-- Subcategory info -->
-                                    <div class="flex-1 min-w-0">
-                                        <h4 class="text-sm font-semibold text-gray-900 group-hover:text-primary-light transition-colors duration-300 line-clamp-2">
-                                            {{ subcategory.name }}
-                                        </h4>
-                                    </div>
-
-                                    <!-- Arrow icon -->
-                                    <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-light group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                    </svg>
-
-                                    <!-- Hover effect overlay -->
-                                    <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-primary-light/0 via-primary-light/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                                </a>
-
-                                <!-- Show More button -->
-                                <button
-                                    v-if="category.subcategories.length > 8 && !expandedCategories[category.slug]"
-                                    @click="expandCategory(category.slug)"
-                                    class="group relative flex items-center justify-center gap-3 p-5 rounded-xl border-2 border-dashed border-gray-300 bg-gray-50/50 hover:bg-primary-light/5 hover:border-primary-light transition-all duration-300"
-                                >
-                                    <div class="text-center">
-                                        <div class="w-12 h-12 mx-auto mb-2 bg-white rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm">
-                                            <svg class="w-6 h-6 text-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                            </svg>
-                                        </div>
-                                        <span class="text-sm font-semibold text-gray-700 group-hover:text-primary-light transition-colors">
-                                        +{{ category.subcategories.length - 8 }} daugiau
-                                    </span>
-                                    </div>
-                                </button>
-                            </div>
-
-                            <!-- Popular services badge -->
-                            <div class="mt-8 p-4 bg-gradient-to-r from-blue-50 to-primary-light/5 rounded-2xl border border-blue-100">
-                                <div class="flex items-center gap-3">
-                                    <div class="flex-shrink-0 w-10 h-10 bg-primary-light rounded-full flex items-center justify-center">
-                                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-semibold text-gray-900">Populiariausia kategorija šį mėnesį</p>
-                                        <p class="text-xs text-gray-600">Vidutinis įvertinimas: 4.9/5 ⭐</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </Transition>
+                            class="h-full bg-primary-light/60 rounded-full transition-all duration-150"
+                            :style="{ width: `${scrollPercent}%` }"
+                        />
+                    </div>
                 </div>
             </div>
 
-            <!-- View all categories CTA -->
+            <!-- Category Panels -->
+            <div class="relative">
+                <Transition name="fade" mode="out-in">
+                    <div
+                        v-if="currentCategory"
+                        :key="currentCategory.slug"
+                        class="relative bg-white rounded-3xl shadow-xl overflow-hidden"
+                    >
+                        <!-- Background Image for Namų priežiūra ir valymas -->
+                        <div
+                            v-if="currentCategory.name === 'Namų priežiūra ir valymas'"
+                            class="absolute inset-0 z-0"
+                        >
+                            <img
+                                src="https://cdn.mos.cms.futurecdn.net/CRSQiBvET2uwKdQK97E4Ad-1024-80.jpg.webp"
+                                alt="Cleaning services background"
+                                class="w-full h-full object-cover"
+                            />
+                            <!-- Gradient overlay for better readability -->
+                            <div class="absolute inset-0 bg-gradient-to-b from-white/0 via-white/0 to-white/0"></div>
+                        </div>
+
+                        <!-- Content wrapper with relative positioning -->
+                        <div class="relative z-10 p-6 md:p-10">
+                            <!-- Header -->
+                            <div class="flex items-center justify-between mb-8">
+                                <div>
+                                    <h3 class="text-2xl md:text-3xl font-bold text-black mb-2">
+                                        {{ currentCategory.name }}
+                                    </h3>
+                                    <p class="text-gray-600">
+                                        {{ currentCategory.subcategories.length }} paslaug{{ currentCategory.subcategories.length === 1 ? 'a' : 'os' }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Subcategories Grid -->
+                            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                                <a
+                                    v-for="subcategory in visibleSubcategories"
+                                    :key="subcategory.url"
+                                    :href="`/search?subcategory=${subcategory.url}`"
+                                    :class="[
+                                        'group relative flex items-center p-4 rounded-xl border-2 border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300',
+                                        currentCategory.name === 'Namų priežiūra ir valymas'
+                                            ? 'bg-white/80 backdrop-blur-sm hover:bg-white/90'
+                                            : 'bg-white hover:bg-gradient-to-br hover:from-primary-light/5 hover:to-blue-50',
+                                        'hover:border-primary-light/30'
+                                    ]"
+                                >
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="text-base font-semibold text-gray-900 group-hover:text-primary-light transition-colors">
+                                            {{ subcategory.name }}
+                                        </h4>
+                                    </div>
+                                    <svg class="flex-shrink-0 ml-3 w-5 h-5 text-gray-400 group-hover:text-primary-light group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </a>
+
+                                <!-- Show More -->
+                                <button
+                                    v-if="hasMoreSubcategories"
+                                    @click="expandCurrentCategory"
+                                    :class="[
+                                        'group flex items-center justify-center p-4 rounded-xl border-2 border-dashed border-gray-300 hover:border-primary-light transition-all',
+                                        currentCategory.name === 'Namų priežiūra ir valymas'
+                                            ? 'bg-white/80 backdrop-blur-sm hover:bg-white/90'
+                                            : 'bg-gray-50/50 hover:bg-primary-light/5'
+                                    ]"
+                                >
+                                    <div class="text-center">
+                                        <div class="w-10 h-10 mx-auto mb-2 bg-white rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+                                            <svg class="w-5 h-5 text-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                            </svg>
+                                        </div>
+                                        <span class="text-sm font-semibold text-gray-700 group-hover:text-primary-light">
+                                            +{{ currentCategory.subcategories.length - 8 }} daugiau
+                                        </span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </Transition>
+            </div>
+
+            <!-- CTA -->
             <div class="text-center mt-12">
                 <a
-                    href="/allservices"
+                    href="/visos-paslaugos"
                     class="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary-light to-blue-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
                 >
                     <span>Peržiūrėti visas kategorijas</span>
-                    <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                 </a>
@@ -229,7 +231,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, nextTick, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
 
 const props = defineProps({
     categories: {
@@ -239,12 +241,30 @@ const props = defineProps({
     }
 });
 
-const categoryScroller = ref(null);
+// REFS
+const scrollerRef = ref(null);
+const trackRef = ref(null);
 const activeCategory = ref('');
-const showLeftArrow = ref(false);
-const showRightArrow = ref(false);
 const expandedCategories = ref({});
 
+// Scroll state
+const currentOffset = ref(0);
+const maxOffset = ref(0);
+const containerWidth = ref(0);
+const trackWidth = ref(0);
+
+// Auto-scroll state
+const isPaused = ref(false);
+const direction = ref(1);
+const lastTimestamp = ref(0);
+const animationId = ref(null);
+
+// Constants
+const SCROLL_SPEED = 25;
+const PAUSE_AT_EDGE = 1000;
+const edgePauseTimeout = ref(null);
+
+// CATEGORY DATA
 const categoryDisplayNames = {
     'Namų priežiūra ir valymas': 'Valymas',
     'Kūrybinės Paslaugos': 'Kūryba',
@@ -277,87 +297,154 @@ const categoryIcons = {
     'Grožio Paslaugos': 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z'
 };
 
-const getCategoryDisplayName = (name) => {
-    return categoryDisplayNames[name] || name;
-};
+// COMPUTED
+const needsScroll = computed(() => maxOffset.value > 0);
+const canScrollLeft = computed(() => needsScroll.value && currentOffset.value > 5);
+const canScrollRight = computed(() => needsScroll.value && currentOffset.value < maxOffset.value - 5);
+const scrollPercent = computed(() => {
+    if (maxOffset.value <= 0) return 0;
+    return Math.round((currentOffset.value / maxOffset.value) * 100);
+});
 
-const getCategoryIcon = (name) => {
-    return categoryIcons[name] || 'M12 6v6m0 0v6m0-6h6m-6 0H6';
-};
+const currentCategory = computed(() => {
+    return props.categories.find(c => c.slug === activeCategory.value) || null;
+});
 
-const selectCategory = (slug) => {
-    activeCategory.value = slug;
-};
-
-const getVisibleSubcategories = (category) => {
-    if (expandedCategories.value[category.slug]) {
-        return category.subcategories;
+const visibleSubcategories = computed(() => {
+    if (!currentCategory.value) return [];
+    if (expandedCategories.value[currentCategory.value.slug]) {
+        return currentCategory.value.subcategories;
     }
-    return category.subcategories.slice(0, 8);
-};
+    return currentCategory.value.subcategories.slice(0, 8);
+});
 
-const expandCategory = (categorySlug) => {
-    expandedCategories.value[categorySlug] = true;
-};
+const hasMoreSubcategories = computed(() => {
+    if (!currentCategory.value) return false;
+    return currentCategory.value.subcategories.length > 8 &&
+        !expandedCategories.value[currentCategory.value.slug];
+});
 
-const scrollLeft = () => {
-    if (categoryScroller.value) {
-        categoryScroller.value.scrollBy({ left: -250, behavior: 'smooth' });
+// HELPERS
+const getCategoryDisplayName = (name) => categoryDisplayNames[name] || name;
+const getCategoryIcon = (name) => categoryIcons[name] || 'M12 6v6m0 0v6m0-6h6m-6 0H6';
+const selectCategory = (slug) => { activeCategory.value = slug; };
+const expandCurrentCategory = () => {
+    if (currentCategory.value) {
+        expandedCategories.value[currentCategory.value.slug] = true;
     }
 };
 
-const scrollRight = () => {
-    if (categoryScroller.value) {
-        categoryScroller.value.scrollBy({ left: 250, behavior: 'smooth' });
+// DIMENSION CALCULATION
+const calculateDimensions = () => {
+    if (!scrollerRef.value || !trackRef.value) return;
+    containerWidth.value = scrollerRef.value.offsetWidth;
+    trackWidth.value = trackRef.value.scrollWidth;
+    maxOffset.value = Math.max(0, trackWidth.value - containerWidth.value);
+    if (currentOffset.value > maxOffset.value) {
+        currentOffset.value = maxOffset.value;
     }
 };
 
-const updateArrowVisibility = () => {
-    if (!categoryScroller.value) return;
+// MANUAL SCROLL
+const manualScrollLeft = () => {
+    const step = containerWidth.value * 0.6;
+    currentOffset.value = Math.max(0, currentOffset.value - step);
+};
 
-    const scroller = categoryScroller.value;
-    const isScrollable = scroller.scrollWidth > scroller.clientWidth;
+const manualScrollRight = () => {
+    const step = containerWidth.value * 0.6;
+    currentOffset.value = Math.min(maxOffset.value, currentOffset.value + step);
+};
 
-    if (!isScrollable) {
-        showLeftArrow.value = false;
-        showRightArrow.value = false;
+// AUTO-SCROLL
+const animate = (timestamp) => {
+    if (!needsScroll.value) {
+        animationId.value = requestAnimationFrame(animate);
         return;
     }
 
-    const isAtStart = scroller.scrollLeft <= 10;
-    const isAtEnd = scroller.scrollLeft >= scroller.scrollWidth - scroller.clientWidth - 10;
+    if (lastTimestamp.value === 0) lastTimestamp.value = timestamp;
+    const deltaTime = (timestamp - lastTimestamp.value) / 1000;
+    lastTimestamp.value = timestamp;
 
-    showLeftArrow.value = !isAtStart;
-    showRightArrow.value = !isAtEnd;
+    if (!isPaused.value) {
+        const movement = SCROLL_SPEED * deltaTime * direction.value;
+        let newOffset = currentOffset.value + movement;
+
+        if (newOffset >= maxOffset.value) {
+            newOffset = maxOffset.value;
+            if (direction.value === 1) pauseAtEdge(-1);
+        } else if (newOffset <= 0) {
+            newOffset = 0;
+            if (direction.value === -1) pauseAtEdge(1);
+        }
+
+        currentOffset.value = newOffset;
+    }
+
+    animationId.value = requestAnimationFrame(animate);
 };
 
+const pauseAtEdge = (newDirection) => {
+    isPaused.value = true;
+    if (edgePauseTimeout.value) clearTimeout(edgePauseTimeout.value);
+    edgePauseTimeout.value = setTimeout(() => {
+        direction.value = newDirection;
+        isPaused.value = false;
+    }, PAUSE_AT_EDGE);
+};
+
+const startAnimation = () => {
+    if (animationId.value) return;
+    lastTimestamp.value = 0;
+    animationId.value = requestAnimationFrame(animate);
+};
+
+const stopAnimation = () => {
+    if (animationId.value) {
+        cancelAnimationFrame(animationId.value);
+        animationId.value = null;
+    }
+    if (edgePauseTimeout.value) {
+        clearTimeout(edgePauseTimeout.value);
+        edgePauseTimeout.value = null;
+    }
+};
+
+// EVENT HANDLERS
+const handleMouseEnter = () => { isPaused.value = true; };
+const handleMouseLeave = () => { isPaused.value = false; };
+const handleTouchStart = () => { isPaused.value = true; };
+const handleTouchEnd = () => { setTimeout(() => { isPaused.value = false; }, 300); };
+
+// LIFECYCLE
 onMounted(() => {
     if (props.categories.length > 0) {
         activeCategory.value = props.categories[0].slug;
     }
 
     nextTick(() => {
-        updateArrowVisibility();
-        setTimeout(updateArrowVisibility, 100);
-        window.addEventListener('resize', updateArrowVisibility);
+        calculateDimensions();
+        setTimeout(calculateDimensions, 100);
+        setTimeout(calculateDimensions, 500);
+        setTimeout(() => {
+            if (needsScroll.value) startAnimation();
+        }, 1000);
     });
+
+    window.addEventListener('resize', calculateDimensions);
 });
 
-watch(activeCategory, () => {
-    nextTick(updateArrowVisibility);
+onUnmounted(() => {
+    stopAnimation();
+    window.removeEventListener('resize', calculateDimensions);
 });
+
+watch(() => props.categories, () => { nextTick(calculateDimensions); }, { deep: true });
+watch(needsScroll, (needs) => { if (needs && !animationId.value) startAnimation(); });
 </script>
 
 <style scoped>
-.scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
-}
-
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.3s ease;
@@ -366,12 +453,5 @@ watch(activeCategory, () => {
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
-}
-
-.line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
 }
 </style>
