@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 class RegistrationWizard extends Component
 {
     public $userType = 'provider'; // 'provider' or 'seeker'
-    public $currentStep = 2;
+    public $currentStep = 1;
     public $totalSteps = 3;
 
     public $personalData = [];
@@ -56,20 +56,24 @@ class RegistrationWizard extends Component
     public function handlePersonalInfoValidated($personalData)
     {
         $this->personalData = $personalData;
-        $this->nextStep();
+        $this->currentStep++;
     }
 
-    #[On('categories-validated')]
-    public function handleCategoriesValidated($categoryData)
+    #[On('category-data-validated')]
+    public function handleCategoryDataValidated($categoryData)
     {
         $this->categoryData = $categoryData;
-        $this->nextStep();
+        $this->currentStep++;
     }
 
     public function nextStep()
     {
-        if ($this->currentStep < $this->totalSteps) {
-            $this->currentStep++;
+        if ($this->currentStep === 1) {
+            // Trigger validation on personal info step
+            $this->dispatch('trigger-personal-info-submit');
+        } elseif ($this->currentStep === 2) {
+            // Trigger validation on category selection step
+            $this->dispatch('trigger-category-submit');
         }
     }
 
@@ -124,7 +128,7 @@ class RegistrationWizard extends Component
             'phone' => '+370' . $this->personalData['phone'],
             'cities' => [$this->personalData['miestas']],
             'address' => $this->personalData['adresas'],
-            'postal_code' => 'LT-' . $this->personalData['post_code'],
+            'postal_code' => $this->personalData['post_code'],
             'languages' => $this->personalData['languages'],
             'role' => $this->userType,
         ]);
@@ -132,7 +136,7 @@ class RegistrationWizard extends Component
         // Attach categories for providers using the correct pivot table structure
         if ($this->userType === 'provider' && !empty($this->categoryData['selectedSubcategories'])) {
             foreach ($this->categoryData['selectedSubcategories'] as $subcategoryId) {
-                \DB::table('user_subcategory')->insert([
+                DB::table('user_subcategory')->insert([
                     'user_id' => $user->id,
                     'subcategory_id' => $subcategoryId,
                     'price' => $this->categoryData['subcategoryPrices'][$subcategoryId] ?? 0,

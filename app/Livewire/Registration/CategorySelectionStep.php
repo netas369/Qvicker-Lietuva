@@ -8,12 +8,14 @@ use Livewire\Attributes\On;
 
 class CategorySelectionStep extends Component
 {
+    public $categories = [];
+    public $activeTab = 0;
     public $selectedSubcategories = [];
     public $subcategoryPrices = [];
     public $subcategoryPriceTypes = [];
     public $subcategoryExperience = [];
-    public $activeTab = 0;
-    public $categories;
+    public $searchTerm = '';
+    public $filteredSubcategories = [];
 
     public function mount()
     {
@@ -22,43 +24,47 @@ class CategorySelectionStep extends Component
 
     public function loadCategories()
     {
-        $this->categories = Category::all()
+        $this->categories = Category::select('category', 'subcategory', 'id')
+            ->get()
             ->groupBy('category')
-            ->map(function ($group) {
+            ->map(function ($group, $categoryName) {
                 return [
-                    'name' => $group->first()->category,
-                    'subcategories' => $group->map(fn($item) => [
-                        'id' => $item->id,
-                        'name' => $item->subcategory,
-                    ])->toArray(),
+                    'name' => $categoryName,
+                    'icon' => '',
+                    'subcategories' => $group->map(function ($item) {
+                        return [
+                            'id' => $item->id,
+                            'name' => $item->subcategory,
+                        ];
+                    })->toArray(),
                 ];
-            })->values();
+            })
+            ->values()
+            ->toArray();
     }
 
-    protected function rules()
+    public function updatedSearchTerm()
     {
-        $rules = [
-            'selectedSubcategories' => 'required|array|min:1',
-            'subcategoryExperience.*' => 'nullable|integer|min:0|max:50',
-        ];
-
-        foreach ($this->selectedSubcategories as $subcategoryId) {
-            $rules["subcategoryPrices.{$subcategoryId}"] = 'required|numeric|min:0|max:1000';
-            $rules["subcategoryPriceTypes.{$subcategoryId}"] = 'required|in:hourly,fixed,meter';
+        if (empty($this->searchTerm)) {
+            $this->filteredSubcategories = [];
+            return;
         }
 
-        return $rules;
-    }
+        // Search across all categories and subcategories
+        $allSubcategories = Category::select('id', 'category', 'subcategory')
+            ->where('subcategory', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('category', 'like', '%' . $this->searchTerm . '%')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'name' => $item->subcategory,
+                    'category' => $item->category,
+                ];
+            })
+            ->toArray();
 
-    public function messages()
-    {
-        return [
-            'selectedSubcategories.required' => 'Privaloma pasirinkti bent vieną kategoriją',
-            'selectedSubcategories.min' => 'Privaloma pasirinkti bent vieną kategoriją',
-            'subcategoryPrices.*.numeric' => 'Kaina turi būti skaičius.',
-            'subcategoryPrices.*.required' => 'Kaina yra privaloma.',
-            'subcategoryPriceTypes.*.required' => 'Kainos tipas yra privalomas.',
-        ];
+        $this->filteredSubcategories = $allSubcategories;
     }
 
     public function setActiveTab($index)
@@ -66,15 +72,69 @@ class CategorySelectionStep extends Component
         $this->activeTab = $index;
     }
 
-    public function removeSubcategory($id)
+    public function removeSubcategory($subcategoryId)
     {
-        $this->selectedSubcategories = array_values(
-            array_filter($this->selectedSubcategories, fn($subcategoryId) => $subcategoryId != $id)
+        $this->selectedSubcategories = array_filter(
+            $this->selectedSubcategories,
+            fn($id) => $id != $subcategoryId
         );
 
-        unset($this->subcategoryPrices[$id]);
-        unset($this->subcategoryPriceTypes[$id]);
-        unset($this->subcategoryExperience[$id]);
+        // Remove associated data
+        unset($this->subcategoryPrices[$subcategoryId]);
+        unset($this->subcategoryPriceTypes[$subcategoryId]);
+        unset($this->subcategoryExperience[$subcategoryId]);
+    }
+
+    public function clearAllSubcategories()
+    {
+        $this->selectedSubcategories = [];
+        $this->subcategoryPrices = [];
+        $this->subcategoryPriceTypes = [];
+        $this->subcategoryExperience = [];
+    }
+
+    protected function rules()
+    {
+        $rules = [
+            'selectedSubcategories' => 'required|array|min:1',
+        ];
+
+        // Add validation for each selected subcategory
+        foreach ($this->selectedSubcategories as $subcategoryId) {
+            $rules["subcategoryPrices.{$subcategoryId}"] = 'required|numeric|min:0|max:1000';
+            $rules["subcategoryPriceTypes.{$subcategoryId}"] = 'required|in:hourly,fixed,meter';
+            $rules["subcategoryExperience.{$subcategoryId}"] = 'nullable|integer|min:0|max:50';
+        }
+
+        return $rules;
+    }
+
+    protected function messages()
+    {
+        return [
+            'selectedSubcategories.required' => 'Privalote pasirinkti bent vieną paslaugą.',
+            'selectedSubcategories.min' => 'Privalote pasirinkti bent vieną paslaugą.',
+            'subcategoryPrices.*.required' => 'Kaina yra privaloma.',
+            'subcategoryPrices.*.numeric' => 'Kaina turi būti skaičius.',
+            'subcategoryPrices.*.min' => 'Kaina negali būti neigiama.',
+            'subcategoryPrices.*.max' => 'Kaina negali viršyti 1000€.',
+            'subcategoryPriceTypes.*.required' => 'Kainos tipas yra privalomas.',
+            'subcategoryPriceTypes.*.in' => 'Pasirinkite tinkamą kainos tipą.',
+            'subcategoryExperience.*.integer' => 'Patirtis turi būti sveikasis skaičius.',
+            'subcategoryExperience.*.min' => 'Patirtis negali būti neigiama.',
+            'subcategoryExperience.*.max' => 'Patirtis negali viršyti 50 metų.',
+        ];
+    }
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
+    #[On('restore-category-data')]
+    public function restoreData($categoryData)
+    {
+        $this->fill($categoryData);
     }
 
     #[On('trigger-category-submit')]
@@ -83,20 +143,11 @@ class CategorySelectionStep extends Component
         $this->submit();
     }
 
-    #[On('restore-category-data')]
-    public function restoreData($categoryData)
-    {
-        $this->selectedSubcategories = $categoryData['selectedSubcategories'] ?? [];
-        $this->subcategoryPrices = $categoryData['subcategoryPrices'] ?? [];
-        $this->subcategoryPriceTypes = $categoryData['subcategoryPriceTypes'] ?? [];
-        $this->subcategoryExperience = $categoryData['subcategoryExperience'] ?? [];
-    }
-
     public function submit()
     {
-        $this->validate();
+        $validatedData = $this->validate();
 
-        $this->dispatch('categories-validated', categoryData: [
+        $this->dispatch('category-data-validated', categoryData: [
             'selectedSubcategories' => $this->selectedSubcategories,
             'subcategoryPrices' => $this->subcategoryPrices,
             'subcategoryPriceTypes' => $this->subcategoryPriceTypes,
