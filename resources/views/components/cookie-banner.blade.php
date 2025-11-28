@@ -6,7 +6,7 @@
                 <p class="text-sm text-gray-700">
                     <strong>Slapukai ir privatumas</strong><br>
                     Naudojame būtinus slapukus svetainės veikimui. Papildomi slapukai padės mums gerinti paslaugas ir suprasti, kaip naudojate svetainę.
-                    <a href="{{ route('cookies.policy') }}" class="text-primary hover:text-primary-dark underline">Sužinokite daugiau</a>
+                    <a href="{{ route('legal.cookies') }}" class="text-primary hover:text-primary-dark underline">Sužinokite daugiau</a>
                 </p>
             </div>
             <div class="flex flex-col sm:flex-row gap-3 sm:gap-2">

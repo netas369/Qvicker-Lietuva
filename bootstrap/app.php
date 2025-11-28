@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'seeker' => \App\Http\Middleware\SeekerMiddleware::class,
             'role' => \App\Http\Middleware\RoleMiddleware::class,
             'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+            'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
 
 
         ]);
