@@ -70,11 +70,12 @@
                             <div class="flex-none w-28 snap-always snap-center">
                                 <button wire:click="setActiveTab({{ $index }})" type="button" role="tab"
                                         class="inline-block p-4 rounded-t-lg transition-colors {{ $activeTab === $index ? 'text-primary-light border-b-2 border-primary' : 'text-gray-500 hover:text-gray-600' }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-                                    </svg>
+                                    <div class="w-16 h-16 mx-auto">
+                                        {!! $category['icon'] !!}
+                                    </div>
                                     <span class="block mt-2 text-primary">{{ $category['name'] }}</span>
                                 </button>
+
                             </div>
                         </li>
                     @endforeach

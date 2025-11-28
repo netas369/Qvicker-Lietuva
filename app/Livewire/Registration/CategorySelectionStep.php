@@ -5,6 +5,8 @@ namespace App\Livewire\Registration;
 use App\Models\Category;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use App\Services\CategoryIconService;
+
 
 class CategorySelectionStep extends Component
 {
@@ -30,7 +32,7 @@ class CategorySelectionStep extends Component
             ->map(function ($group, $categoryName) {
                 return [
                     'name' => $categoryName,
-                    'icon' => '',
+                    'icon' => CategoryIconService::getIcon($categoryName),
                     'subcategories' => $group->map(function ($item) {
                         return [
                             'id' => $item->id,
