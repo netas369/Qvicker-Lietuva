@@ -314,7 +314,6 @@
                     @endif
 
                     <!-- About Me Section - Enhanced styling -->
-                    <!-- About Me Section - Enhanced styling -->
                     <div class="space-y-4">
                         <div class="flex items-center">
                             <div class="bg-primary-light/10 p-2 rounded-lg mr-3">
@@ -324,6 +323,43 @@
                             </div>
                             <h2 class="text-xl font-bold text-gray-800">Apie Mane</h2>
                         </div>
+
+                        <!-- Important Information Box -->
+                        <div class="bg-primary-dark/20 border-l-4 border-primary-dark rounded-xl p-4 shadow-sm">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-6 w-6 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-bold text-primary mb-2">
+                                        @if($this->user->role === 'provider')
+                                            ⚠️ Labai svarbu!
+                                        @else
+                                            Patarimas
+                                        @endif
+                                    </h3>
+                                    <div class="text-sm text-primary space-y-2">
+                                        @if($this->user->role === 'provider')
+                                            <p class="leading-relaxed">
+                                                <strong>Qvicker</strong> yra tarpusavio paslaugų platforma (P2P), kur klientai renka meistrus pagal jūsų aprašymą ir patirtį.
+                                                Išsamiai apibūdinkite savo darbo istoriją, įgūdžius ir patirtį - tai padidins pasitikėjimą ir padės pritraukti daugiau užsakymų.
+                                            </p>
+                                            <p class="text-xs text-primary mt-2">
+                                                <strong>Pavyzdžiui:</strong> Kiek metų dirbate šioje srityje, kokių projektų esate įgyvendinę, kokie jūsų stipriausi įgūdžiai.
+                                            </p>
+                                        @else
+                                            <p class="leading-relaxed">
+                                                Apibūdinkite save - tai padės meistrams geriau suprasti jūsų poreikius ir užtikrinti kokybišką paslaugą.
+                                                Galite nurodyti savo pomėgius, pageidavimus ar bet kokią kitą informaciją, kuri galėtų būti naudinga.
+                                            </p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         @if($this->user->role === 'provider')
                             <textarea wire:model="aboutMe" rows="4"
                                       class="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 resize-none @error('aboutMe') border-red-500 @enderror"

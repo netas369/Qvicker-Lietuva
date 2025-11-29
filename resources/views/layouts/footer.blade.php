@@ -107,9 +107,9 @@
                 </div>
                 <div class="mt-4 md:mt-0">
                     <ul class="flex flex-wrap items-center space-x-6 text-sm text-gray-300">
-                        <li><a href="{{ route('termsofuse') }}" class="hover:text-white transition-colors duration-300">Naudojimo sąlygos</a></li>
-                        <li><a href="{{ route('cookies.policy') }}" class="hover:text-white transition-colors duration-300">Slapukų politika</a></li>
-                        <li><a href="{{ route('privacy.policy') }}" class="hover:text-white transition-colors duration-300">Privatumo Politika</a></li>
+                        <li><a href="{{ route('legal.terms') }}" class="hover:text-white transition-colors duration-300">Naudojimo sąlygos</a></li>
+                        <li><a href="{{ route('legal.cookies') }}" class="hover:text-white transition-colors duration-300">Slapukų politika</a></li>
+                        <li><a href="{{ route('legal.privacy') }}" class="hover:text-white transition-colors duration-300">Privatumo Politika</a></li>
                     </ul>
                 </div>
             </div>

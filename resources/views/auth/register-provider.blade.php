@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-
-    <livewire:multi-step-form user-type="provider" />
-
+    <div class="container mx-auto py-8">
+        <livewire:registration.registration-wizard user-type="provider" />
+    </div>
 @endsection

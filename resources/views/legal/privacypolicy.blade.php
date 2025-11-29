@@ -283,7 +283,7 @@
                 <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">10. Slapukai</h2>
                 <p class="text-gray-700 mb-6">
                     Informacijos apie slapukų naudojimą rasite mūsų
-                    <a href="{{ route('cookies.policy') }}" class="text-primary hover:text-primary-dark underline">slapukų politikoje</a>.
+                    <a href="{{ route('legal.cookies') }}" class="text-primary hover:text-primary-dark underline">slapukų politikoje</a>.
                 </p>
 
                 <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">11. Nepilnamečių duomenys</h2>

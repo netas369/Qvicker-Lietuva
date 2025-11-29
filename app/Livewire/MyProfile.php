@@ -60,41 +60,43 @@ class MyProfile extends Component
         $this->address = $this->user->address;
         $this->aboutMe = $this->user->aboutme;
         $this->post_code = $this->user->postal_code;
-        $this->phone = substr($this->user->phone, 4);
+        $this->phone = $this->user->phone ? substr($this->user->phone, 4) : '';
+
         // Retrieve the associated categories for the user
         $this->userCategories = $this->user->categories;
         $this->gender = $this->user->gender;
 
+        // Handle languages - check if already array or JSON string
         if ($this->user->languages) {
-            $this->languages = json_decode($this->user->languages, true) ?? [];
-        }
-
-        if ($this->user->portfolio_photos) {
-            $this->portfolioPhotos = json_decode($this->user->portfolio_photos, true) ?? [];
-        }
-
-        // Get the cities from user
-        $rawCities = auth()->user()->cities;
-
-        // Check if it's already an array or a JSON string
-        if (is_string($rawCities)) {
-            // It's still a JSON string, so decode it
-            $this->cities = json_decode($rawCities, true) ?? [];
+            $this->languages = is_array($this->user->languages)
+                ? $this->user->languages
+                : (json_decode($this->user->languages, true) ?? []);
         } else {
-            // It's already an array
-            $this->cities = $rawCities;
+            $this->languages = [];
         }
 
-        // If it's still not an array or is null, initialize as empty array
-        if (!is_array($this->cities)) {
+        // Handle portfolio photos - check if already array or JSON string
+        if ($this->user->portfolio_photos) {
+            $this->portfolioPhotos = is_array($this->user->portfolio_photos)
+                ? $this->user->portfolio_photos
+                : (json_decode($this->user->portfolio_photos, true) ?? []);
+        } else {
+            $this->portfolioPhotos = [];
+        }
+
+        // Handle cities - check if already array or JSON string
+        if ($this->user->cities) {
+            $this->cities = is_array($this->user->cities)
+                ? $this->user->cities
+                : (json_decode($this->user->cities, true) ?? []);
+        } else {
             $this->cities = [];
         }
 
-        // Add this to your existing mount method or create if it doesn't exist
+        // Set current seeker city if applicable
         if ($this->user->role == 'seeker' && !empty($this->cities) && count($this->cities) > 0) {
             $this->currentSeekerCity = $this->cities[0];
         }
-
     }
 
 
@@ -186,7 +188,7 @@ class MyProfile extends Component
         $this->validate($this->getValidationRules());
 
         $this->user->name = $this->name;
-        $this->user->lastname = $this->lastname;
+        $this->user->lastname = $this->user->lastname;
         $this->user->birthday = $this->birthday;
         $this->user->email = $this->email;
         $this->user->address = $this->address;

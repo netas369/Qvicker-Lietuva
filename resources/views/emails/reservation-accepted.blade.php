@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="lt" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
-    <title>Naujas užsakymas - Qvicker</title>
+    <title>Užklausa Patvirtinta - Qvicker</title>
     <!--[if !mso]><!-- -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!--<![endif]-->
@@ -80,7 +80,7 @@
 
 <body style="background-color:#f8fafc;">
 <div style="display:none;font-size:1px;color:#f8fafc;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
-    Naujas užsakymas nuo {{ $reservation->seeker->name }} - Qvicker
+    Jūsų užklausa patvirtinta - {{ $provider->name }} - Qvicker
 </div>
 
 <div style="background-color:#f8fafc;">
@@ -143,7 +143,7 @@
                                 <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                     <div style="font-family:Helvetica, Arial, sans-serif;font-size:24px;font-weight:600;line-height:30px;text-align:center;color:#1A4645;">
                                         <h1 style="margin: 0; font-size: 24px; line-height: normal; font-weight: 600;">
-                                            Naujas užsakymas, {{ ucfirst($notifiable->name) }}!
+                                            🎉 Užklausa Patvirtinta, {{ ucfirst($seeker->name) }}!
                                         </h1>
                                     </div>
                                 </td>
@@ -151,7 +151,7 @@
                             <tr>
                                 <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                     <div style="font-family:Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;color:#6b7280;">
-                                        <p style="margin: 0;">Gavote naują užsakymą nuo kliento <strong style="color: #266867;">{{ $reservation->seeker->name }}</strong></p>
+                                        <p style="margin: 0;">Puikios naujienos! Paslaugos tiekėjas <strong style="color: #266867;">{{ $provider->name }}</strong> patvirtino jūsų užklausą</p>
                                     </div>
                                 </td>
                             </tr>
@@ -169,7 +169,7 @@
         </table>
     </div>
 
-    <!-- Order Details -->
+    <!-- Reservation Details -->
     <div style="margin:0px auto;max-width:600px;">
         <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
             <tbody>
@@ -186,7 +186,14 @@
                             <tr>
                                 <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                     <div style="font-family:Helvetica, Arial, sans-serif;font-size:16px;font-weight:600;line-height:24px;text-align:left;color:#1A4645;border-bottom:1px solid #e5e7eb;padding-bottom:8px;margin-bottom:16px;">
-                                        Užsakymo informacija
+                                        Užklausos informacija
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" style="font-size:0px;padding:5px 25px;word-break:break-word;">
+                                    <div style="font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:24px;text-align:left;color:#374151;">
+                                        <p style="margin: 0;"><strong style="font-size: 14px; color: #6b7280; line-height: 18px">Užklausos Nr.:</strong><br />#{{ $reservation->id }}</p>
                                     </div>
                                 </td>
                             </tr>
@@ -200,11 +207,34 @@
                             <tr>
                                 <td align="left" style="font-size:0px;padding:5px 25px;word-break:break-word;">
                                     <div style="font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:24px;text-align:left;color:#374151;">
-                                        <p style="margin: 0;"><strong style="font-size: 14px; color: #6b7280; line-height: 18px">Data:</strong><br />{{ $reservation->reservation_date }}</p>
+                                        <p style="margin: 0;"><strong style="font-size: 14px; color: #6b7280; line-height: 18px">Data:</strong><br />{{ \Carbon\Carbon::parse($reservation->reservation_date)->format('Y-m-d') }}</p>
                                     </div>
                                 </td>
                             </tr>
+                            @if($reservation->reservation_time)
+                                <tr>
+                                    <td align="left" style="font-size:0px;padding:5px 25px;word-break:break-word;">
+                                        <div style="font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:24px;text-align:left;color:#374151;">
+                                            <p style="margin: 0;"><strong style="font-size: 14px; color: #6b7280; line-height: 18px">Laikas:</strong><br />{{ \Carbon\Carbon::parse($reservation->reservation_time)->format('H:i') }}</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endif
                             <tr>
+                                <td align="left" style="font-size:0px;padding:5px 25px;word-break:break-word;">
+                                    <div style="font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:24px;text-align:left;color:#374151;">
+                                        <p style="margin: 0;"><strong style="font-size: 14px; color: #6b7280; line-height: 18px">Kaina:</strong><br />
+                                            {{ number_format($reservation->price, 2) }}€
+                                            @if($reservation->type === 'hourly')
+                                                / val.
+                                            @elseif($reservation->type === 'meter')
+                                                / m
+                                            @elseif($reservation->type === 'fixed')
+                                                (fiksuotas)
+                                            @endif
+                                        </p>
+                                    </div>
+                                </td>
                             </tr>
                             @if($reservation->subcategory)
                                 <tr>
@@ -229,7 +259,7 @@
         </table>
     </div>
 
-    <!-- Contact Information -->
+    <!-- Provider Information -->
     <div style="margin:0px auto;max-width:600px;">
         <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
             <tbody>
@@ -246,28 +276,14 @@
                             <tr>
                                 <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                     <div style="font-family:Helvetica, Arial, sans-serif;font-size:16px;font-weight:600;line-height:24px;text-align:left;color:#1A4645;border-bottom:1px solid #e5e7eb;padding-bottom:8px;margin-bottom:16px;">
-                                        Kontaktinė informacija
+                                        Paslaugos tiekėjas
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td align="left" style="font-size:0px;padding:5px 25px;word-break:break-word;">
                                     <div style="font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:24px;text-align:left;color:#374151;">
-                                        <p style="margin: 0;"><strong style="font-size: 14px; color: #6b7280; line-height: 18px">Vardas:</strong><br />{{ $reservation->seeker->name }}</p>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align="left" style="font-size:0px;padding:5px 25px;word-break:break-word;">
-                                    <div style="font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:24px;text-align:left;color:#374151;">
-                                        <p style="margin: 0;"><strong style="font-size: 14px; color: #6b7280; line-height: 18px">Telefonas:</strong><br />Matoma patvirtinus rezervaciją</p>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align="left" style="font-size:0px;padding:5px 25px;word-break:break-word;">
-                                    <div style="font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:24px;text-align:left;color:#374151;">
-                                        <p style="margin: 0;"><strong style="font-size: 14px; color: #6b7280; line-height: 18px">Adresas:</strong><br />Matoma patvirtinus rezervaciją</p>
+                                        <p style="margin: 0;"><strong style="font-size: 14px; color: #6b7280; line-height: 18px">Vardas:</strong><br />{{ $provider->name }}</p>
                                     </div>
                                 </td>
                             </tr>
@@ -286,46 +302,48 @@
     </div>
 
     <!-- Description -->
-    <div style="margin:0px auto;max-width:600px;">
-        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
-            <tbody>
-            <tr>
-                <td style="direction:ltr;font-size:0px;padding:20px 0;padding-top:0px;text-align:center;background-color:#ffffff;">
-                    <!--[if mso | IE]>
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td class="" style="vertical-align:top;width:600px;">
-                    <![endif]-->
-                    <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                            <tbody>
+    @if($reservation->description)
+        <div style="margin:0px auto;max-width:600px;">
+            <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+                <tbody>
+                <tr>
+                    <td style="direction:ltr;font-size:0px;padding:20px 0;padding-top:0px;text-align:center;background-color:#ffffff;">
+                        <!--[if mso | IE]>
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                             <tr>
-                                <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                    <div style="font-family:Helvetica, Arial, sans-serif;font-size:16px;font-weight:600;line-height:24px;text-align:left;color:#1A4645;border-bottom:1px solid #e5e7eb;padding-bottom:8px;margin-bottom:16px;">
-                                        Užduoties aprašymas
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                    <div style="font-family:Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:left;color:#374151;">
-                                        {{ $reservation->description }}
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
+                                <td class="" style="vertical-align:top;width:600px;">
+                        <![endif]-->
+                        <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                                <tbody>
+                                <tr>
+                                    <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                                        <div style="font-family:Helvetica, Arial, sans-serif;font-size:16px;font-weight:600;line-height:24px;text-align:left;color:#1A4645;border-bottom:1px solid #e5e7eb;padding-bottom:8px;margin-bottom:16px;">
+                                            Užduoties aprašymas
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                                        <div style="font-family:Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:left;color:#374151;">
+                                            {{ $reservation->description }}
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--[if mso | IE]>
+                        </td>
+                        </tr>
                         </table>
-                    </div>
-                    <!--[if mso | IE]>
+                        <![endif]-->
                     </td>
-                    </tr>
-                    </table>
-                    <![endif]-->
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    @endif
 
     <!-- CTA Button -->
     <div style="margin:0px auto;max-width:600px;">
@@ -347,8 +365,8 @@
                                         <tbody>
                                         <tr>
                                             <td align="center" bgcolor="#1A4645" role="presentation" style="border:none;border-radius:6px;cursor:auto;mso-padding-alt:16px 32px;background:#1A4645;" valign="middle">
-                                                <a href="{{ route('reservation.modify', $reservation->id) }}" style="display: inline-block; background: #1A4645; color: #ffffff; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 600; line-height: 24px; margin: 0; text-decoration: none; padding: 16px 32px; mso-padding-alt: 0px; border-radius: 6px;" target="_blank">
-                                                    Peržiūrėti ir valdyti užsakymą
+                                                <a href="{{ url('/my-reservations/' . $reservation->id) }}" style="display: inline-block; background: #1A4645; color: #ffffff; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 600; line-height: 24px; margin: 0; text-decoration: none; padding: 16px 32px; mso-padding-alt: 0px; border-radius: 6px;" target="_blank">
+                                                    Peržiūrėti užklausą
                                                 </a>
                                             </td>
                                         </tr>
@@ -370,7 +388,7 @@
         </table>
     </div>
 
-    <!-- Urgency Notice -->
+    <!-- Info Notice -->
     <div style="margin:0px auto;max-width:600px;">
         <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
             <tbody>
@@ -387,14 +405,14 @@
                             <tr>
                                 <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                     <div style="font-family:Helvetica, Arial, sans-serif;font-size:16px;font-weight:600;line-height:24px;text-align:left;color:#1A4645;background-color:#f8fafc;border-left:3px solid #266867;padding:16px;border-radius:4px;">
-                                        <strong>Prašome kuo greičiau atsakyti į šią užklausą</strong>
+                                        <strong>💡 Patarimas</strong>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td align="left" style="font-size:0px;padding:5px 25px;word-break:break-word;">
                                     <div style="font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:24px;text-align:left;color:#6b7280;">
-                                        Klientas laukia jūsų atsakymo. Greitas atsakymas pagerina jūsų reputaciją platformoje.
+                                        Jei turite klausimų, susisiekite su paslaugos tiekėju per platformos žinučių sistemą rezervacijos puslapyje. Galite pradėti ruoštis darbams!
                                     </div>
                                 </td>
                             </tr>
@@ -431,7 +449,7 @@
                                     <div style="font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:24px;text-align:left;color:#6b7280;background-color:#f8fafc;padding:16px;border-radius:4px;">
                                         <strong style="color: #374151;">Negalite paspausti mygtuko?</strong><br>
                                         Nukopijuokite ir įklijuokite šią nuorodą į savo naršyklę:<br>
-                                        <span style="color: #266867; word-break: break-all;">{{ route('reservation.modify', $reservation->id) }}</span>
+                                        <span style="color: #266867; word-break: break-all;">{{ url('/my-reservations/' . $reservation->id) }}</span>
                                     </div>
                                 </td>
                             </tr>

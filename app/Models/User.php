@@ -56,7 +56,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'cities' => 'array',
+            'birthday' => 'date',
+            'cities' => 'array',      // Cast to JSON array
+            'languages' => 'array',    // Cast to JSON array
+            'verified' => 'boolean',
+            'rating' => 'float',
         ];
     }
 

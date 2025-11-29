@@ -3,7 +3,7 @@
 @section('title', 'Register as a Seeker')
 
 @section('content')
-
-    <livewire:multi-step-form user-type="seeker" />
-
+    <div class="container mx-auto py-8">
+        <livewire:registration.registration-wizard user-type="seeker" />
+    </div>
 @endsection

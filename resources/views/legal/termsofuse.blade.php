@@ -132,7 +132,7 @@
                 <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">9. Duomenų apsauga</h2>
                 <p class="text-gray-700 mb-6">
                     Mes rūpinamės jūsų duomenų apsauga. Detalią informaciją apie duomenų tvarkymą rasite mūsų
-                    <a href="{{ route('privacy.policy') }}" class="text-primary hover:text-primary-dark underline">privatumo politikoje</a>.
+                    <a href="{{ route('legal.privacy') }}" class="text-primary hover:text-primary-dark underline">privatumo politikoje</a>.
                 </p>
 
                 <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">10. Atsakomybės apribojimas</h2>
