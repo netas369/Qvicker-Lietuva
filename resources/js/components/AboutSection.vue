@@ -7,11 +7,6 @@
                     class="w-full flex-col justify-center lg:items-start items-center gap-10 inline-flex transition-all duration-700"
                     :class="{ 'opacity-100 translate-x-0': isVisible, 'opacity-0 -translate-x-10': !isVisible }"
                 >
-                    <!-- Badge -->
-                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary-light/10 rounded-full">
-                        <span class="w-2 h-2 bg-primary-light rounded-full animate-ping"></span>
-                        <span class="text-primary-light font-semibold text-sm">APIE MUS</span>
-                    </div>
 
                     <!-- Title -->
                     <div class="w-full flex-col gap-6 flex">
