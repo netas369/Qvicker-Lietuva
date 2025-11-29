@@ -81,7 +81,7 @@
                                 bg-blue-100
                             @elseif(in_array($type, ['NewBookingNotification', 'reservation_requested']))
                                 bg-green-100
-                            @elseif(in_array($type, ['reservation_accepted', 'reservation_completed', 'reservation_automatically_completed']))
+                            @elseif(in_array($type, ['ReservationAcceptedNotification', 'reservation_completed', 'reservation_automatically_completed']))
                                 bg-emerald-100
                             @elseif($type === 'reservation_declined')
                                 bg-red-100
@@ -104,7 +104,7 @@
                                 <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                                 </svg>
-                            @elseif(in_array($type, ['reservation_accepted', 'reservation_completed', 'reservation_automatically_completed']))
+                            @elseif(in_array($type, ['ReservationAcceptedNotification', 'reservation_completed', 'reservation_automatically_completed']))
                                 <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                 </svg>

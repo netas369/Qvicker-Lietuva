@@ -61,11 +61,11 @@ class ReservationAcceptedNotification extends Notification
             'provider_id' => $this->reservation->provider_id,
             'provider_name' => $this->reservation->provider->name,
             'city' => $this->reservation->city,
-            'date' => $this->reservation->reservation_date,
+            'reservation_date' => $this->reservation->reservation_date,
             'time' => $this->reservation->reservation_time,
             'price' => $this->reservation->price,
             'type' => $this->reservation->type,
-            'message' => 'Jūsų rezervacija Nr. ' . $this->reservation->id . ' buvo patvirtinta paslaugos tiekėjo ' . $this->reservation->provider->name . '.',
+            'notification_text' => 'Jūsų rezervacija Nr. ' . $this->reservation->id . ' buvo patvirtinta paslaugos tiekėjo ' . $this->reservation->provider->name . '.',
         ];
     }
 
