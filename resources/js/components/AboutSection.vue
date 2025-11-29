@@ -1,5 +1,5 @@
 <template>
-    <section class="py-20 relative overflow-hidden">
+    <section class="pb-20 relative overflow-hidden">
         <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
             <div class="w-full grid lg:grid-cols-2 grid-cols-1 gap-12 items-center">
                 <!-- Content Side -->
@@ -9,7 +9,7 @@
                 >
 
                     <!-- Title -->
-                    <div class="w-full flex-col gap-6 flex">
+                    <div class="w-full flex-col gap-6 flex mt-16 sm:mt-0">
                         <h2 class="text-primary text-5xl font-bold leading-tight lg:text-start text-center">
               <span class="bg-gradient-to-r from-primary-light to-blue-600 bg-clip-text text-transparent">
                 Skatiname Bendruomenes

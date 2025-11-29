@@ -337,7 +337,7 @@
                                         @if($this->user->role === 'provider')
                                             ⚠️ Labai svarbu!
                                         @else
-                                            💡 Patarimas
+                                            Patarimas
                                         @endif
                                     </h3>
                                     <div class="text-sm text-primary space-y-2">

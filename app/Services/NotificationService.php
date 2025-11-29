@@ -11,6 +11,7 @@ use App\Models\Review;
 use App\Notifications\MessageReceivedProvider;
 use App\Notifications\MessageReceivedSeeker;
 use App\Notifications\NewBookingNotification;
+use App\Notifications\ReservationAcceptedNotification;
 use Illuminate\Support\Facades\Log;
 
 class NotificationService
@@ -177,22 +178,12 @@ class NotificationService
     }
 
 
-    public function notifySeekerReservationAccepted(Reservation $reservation): Notification
+    public function notifySeekerReservationAccepted(Reservation $reservation): void
     {
         $seeker = $reservation->seeker;
-        $provider = $reservation->provider;
 
-        $notification_text = 'Rezervacija Nr. ' . $reservation->id . ' buvo priimta paslaugos tiekėjo ' . $provider->name . '.';
-
-        return $this->createNotification(
-            $seeker->id,
-            NotificationType::RESERVATION_ACCEPTED,
-            $reservation,
-            $provider,
-            $seeker,
-            $notification_text
-        );
-
+        // Sends BOTH email AND database notification
+        $this->sendNotification($seeker, new ReservationAcceptedNotification($reservation));
     }
 
     public function notifyProviderCanceledReservation(Reservation $reservation): Notification
