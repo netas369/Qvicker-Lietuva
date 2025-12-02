@@ -399,7 +399,7 @@
                         @enderror
 
                         <p class="text-xs text-gray-500">
-                            {{ strlen($aboutMe ?? '') }}/500 simbolių
+                            {{ strlen($aboutMe ?? '') }}/2000 simbolių
                         </p>
                     </div>
 

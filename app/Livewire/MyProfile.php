@@ -106,7 +106,7 @@ class MyProfile extends Component
     public function updatedAboutMe()
     {
         $this->validate([
-            'aboutMe' => 'nullable|string|max:500'
+            'aboutMe' => 'nullable|string|max:2000'
         ]);
 
         $this->user->aboutme = $this->aboutMe;
@@ -186,7 +186,7 @@ class MyProfile extends Component
             'newPortfolioPhoto.mimes' => 'Nuotraukos failas privalo būti: jpeg, png, jpg, gif., webp.',
             'newPortfolioPhoto.max' => 'Nuotrauka negali viršyti 8mb dydžio.',
             'cities.required' => 'Pasirinkite bent vieną miestą.',
-            'aboutMe.max' => 'Aprašymas negali viršyti 500 simbolių.'
+            'aboutMe.max' => 'Aprašymas negali viršyti 2000 simbolių.'
         ];
     }
 
