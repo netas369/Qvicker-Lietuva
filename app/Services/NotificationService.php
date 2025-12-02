@@ -12,6 +12,8 @@ use App\Notifications\MessageReceivedProvider;
 use App\Notifications\MessageReceivedSeeker;
 use App\Notifications\NewBookingNotification;
 use App\Notifications\ReservationAcceptedNotification;
+use App\Notifications\ReservationCompletedNotification;
+use App\Notifications\ReviewReceivedForProviderNotification;
 use Illuminate\Support\Facades\Log;
 
 class NotificationService
@@ -106,21 +108,11 @@ class NotificationService
         $this->emitLivewireEvent();
     }
 
-    public function notifyReviewIsReceived(Reservation $reservation): Notification
+    public function notifyReviewIsReceived(Reservation $reservation): void
     {
-        $seeker = $reservation->seeker;
         $provider = $reservation->provider;
 
-        $notification_text = 'Gavote Atsiliepimą nuo ' . $seeker->name . '! Rezervacijos Nr. ' . $reservation->id . '. Paspauskite, kad peržiūrėti.';
-
-        return $this->createNotification(
-            $provider->id,
-            NotificationType::REVIEW_RECEIVED,
-            $reservation,
-            $provider,
-            $seeker,
-            $notification_text
-        );
+        $this->sendNotification($provider, new ReviewReceivedForProviderNotification($reservation));
     }
 
     public function notifyReservationAutoCompleted(Reservation $reservation): Notification
@@ -141,22 +133,11 @@ class NotificationService
         );
     }
 
-    public function notifyReservationCompleted(Reservation $reservation): Notification
+    public function notifyReservationCompleted(Reservation $reservation): void
     {
         $seeker = $reservation->seeker;
-        $provider = $reservation->provider;
 
-        $notification_text = 'Rezervacijos Nr. ' . $reservation->id . ' statusas buvo pakeistas į UŽBAIGTA. Nepamirškite palikti atsiliepimą apie ' .
-        $provider->name . '.';
-
-        return $this->createNotification(
-            $seeker->id,
-            NotificationType::RESERVATION_COMPLETED,
-            $reservation,
-            $provider,
-            $seeker,
-            $notification_text
-        );
+        $this->sendNotification($seeker, new ReservationCompletedNotification($reservation));
     }
 
     public function notifyReservationDayChanged(Reservation $reservation): Notification

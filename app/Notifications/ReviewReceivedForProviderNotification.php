@@ -4,14 +4,13 @@ namespace App\Notifications;
 
 use App\Models\Reservation;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ReservationAcceptedNotification extends Notification
+class ReviewReceivedForProviderNotification extends Notification
 {
     use Queueable;
-
-    protected Reservation $reservation;
 
     /**
      * Create a new notification instance.
@@ -36,17 +35,18 @@ class ReservationAcceptedNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $provider = $this->reservation->provider;
-        $seeker = $notifiable;
+        $provider = $notifiable;
+        $provider_name = $this->reservation->provider;
+        $seeker = $this->reservation->seeker;
         $reservation = $this->reservation;
 
         return (new MailMessage)
-            ->subject('🎉 Jūsų Užklausa Patvirtinta - Qvicker')
-            ->view('emails.reservation-accepted', [
-                'seeker' => $seeker,
-                'provider' => $provider,
-                'reservation' => $reservation
-            ]);
+                    ->subject('Gavote atsiliepimą - Qvicker')
+                    ->view('emails.review-received-for-provider', [
+                        'provider_name' => $provider_name,
+                        'reservation' => $reservation,
+                        'seeker' => $seeker,
+                    ]);
     }
 
     /**
@@ -65,20 +65,7 @@ class ReservationAcceptedNotification extends Notification
             'time' => $this->reservation->reservation_time,
             'price' => $this->reservation->price,
             'type' => $this->reservation->type,
-            'notification_text' => 'Jūsų rezervacija Nr. ' . $this->reservation->id . ' buvo patvirtinta paslaugos tiekėjo ' . $this->reservation->provider->name . '.',
+            'notification_text' => 'Gavote atsiliepimą nuo ' . $this->reservation->seeker->name . '. Rezervacijos Nr. ' . $this->reservation->id . '.',
         ];
-    }
-
-    /**
-     * Get price type label in Lithuanian
-     */
-    private function getPriceTypeLabel(string $type): string
-    {
-        return match($type) {
-            'hourly' => ' / val.',
-            'fixed' => ' (fiksuotas)',
-            'meter' => ' / m',
-            default => ''
-        };
     }
 }

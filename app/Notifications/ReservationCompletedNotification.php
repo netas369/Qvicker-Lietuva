@@ -4,10 +4,11 @@ namespace App\Notifications;
 
 use App\Models\Reservation;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ReservationAcceptedNotification extends Notification
+class ReservationCompletedNotification extends Notification
 {
     use Queueable;
 
@@ -36,17 +37,18 @@ class ReservationAcceptedNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $seeker_name = $this->reservation->seeker;
         $provider = $this->reservation->provider;
         $seeker = $notifiable;
         $reservation = $this->reservation;
 
         return (new MailMessage)
-            ->subject('🎉 Jūsų Užklausa Patvirtinta - Qvicker')
-            ->view('emails.reservation-accepted', [
-                'seeker' => $seeker,
-                'provider' => $provider,
-                'reservation' => $reservation
-            ]);
+                    ->subject('Jūsų Užklausos Statusas Pakeistas Į Užbaigtą, Palikite Atsiliepimą - Qvicker')
+                    ->view('emails.reservation-completed', [
+                        'seeker_name' => $seeker_name,
+                        'provider' => $provider,
+                        'reservation' => $reservation,
+                    ]);
     }
 
     /**
@@ -65,20 +67,7 @@ class ReservationAcceptedNotification extends Notification
             'time' => $this->reservation->reservation_time,
             'price' => $this->reservation->price,
             'type' => $this->reservation->type,
-            'notification_text' => 'Jūsų rezervacija Nr. ' . $this->reservation->id . ' buvo patvirtinta paslaugos tiekėjo ' . $this->reservation->provider->name . '.',
+            'notification_text' => 'Jūsų rezervacija Nr. ' . $this->reservation->id . ' buvo užbaigta paslaugos tiekėjo ' . $this->reservation->provider->name . '.',
         ];
-    }
-
-    /**
-     * Get price type label in Lithuanian
-     */
-    private function getPriceTypeLabel(string $type): string
-    {
-        return match($type) {
-            'hourly' => ' / val.',
-            'fixed' => ' (fiksuotas)',
-            'meter' => ' / m',
-            default => ''
-        };
     }
 }
