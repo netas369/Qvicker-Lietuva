@@ -25,8 +25,6 @@ class MyProfile extends Component
     public $post_code;
     public $phone;
     public $userCategories = [];
-    public $slaptazodis;
-    public $slaptazodis_confirmation;
     public $aboutMe;
     public $image;
     public $gender;
@@ -39,11 +37,16 @@ class MyProfile extends Component
     public $selectedCity = '';
     public $currentSeekerCity;
 
-    // Password change properties
+    // Password change properties - separate from main form
+    public $showPasswordForm = false;
     public $current_password;
     public $new_password;
     public $new_password_confirmation;
 
+    // Auto-save state
+    public $aboutMeSaved = false;
+
+    protected $listeners = ['refreshComponent' => '$refresh'];
 
     public function render()
     {
@@ -66,7 +69,7 @@ class MyProfile extends Component
         $this->userCategories = $this->user->categories;
         $this->gender = $this->user->gender;
 
-        // Handle languages - check if already array or JSON string
+        // Handle languages
         if ($this->user->languages) {
             $this->languages = is_array($this->user->languages)
                 ? $this->user->languages
@@ -75,7 +78,7 @@ class MyProfile extends Component
             $this->languages = [];
         }
 
-        // Handle portfolio photos - check if already array or JSON string
+        // Handle portfolio photos
         if ($this->user->portfolio_photos) {
             $this->portfolioPhotos = is_array($this->user->portfolio_photos)
                 ? $this->user->portfolio_photos
@@ -84,7 +87,7 @@ class MyProfile extends Component
             $this->portfolioPhotos = [];
         }
 
-        // Handle cities - check if already array or JSON string
+        // Handle cities
         if ($this->user->cities) {
             $this->cities = is_array($this->user->cities)
                 ? $this->user->cities
@@ -99,6 +102,21 @@ class MyProfile extends Component
         }
     }
 
+    // Auto-save "About Me" with debounce
+    public function updatedAboutMe()
+    {
+        $this->validate([
+            'aboutMe' => 'nullable|string|max:2000'
+        ]);
+
+        $this->user->aboutme = $this->aboutMe;
+        $this->user->save();
+
+        $this->aboutMeSaved = true;
+
+        // Reset the saved indicator after 2 seconds
+        $this->dispatch('aboutMeSaved');
+    }
 
     public function getValidationRules()
     {
@@ -110,26 +128,29 @@ class MyProfile extends Component
             'birthday' => ['required', 'date', 'before_or_equal:' . $minBirthDate],
             'address' => 'required|string|max:255',
             'post_code' => 'required|string|max:5',
-            'phone' => 'required|string|regex:/^6[0-9]{7}$/',
-            'aboutMe' => 'nullable|string|max:500',
             'gender' => 'required',
         ];
 
-        // Add password validation rules if any password field is filled
-        if ($this->current_password || $this->new_password || $this->new_password_confirmation) {
-            $rules['current_password'] = ['required', 'current_password'];
-            $rules['new_password'] = [
-                'required',
-                'min:8',
-                'confirmed',
-                'regex:/^(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*#?&]).*$/'
-            ];
+        // Only add phone validation for providers
+        if ($this->user->role === 'provider') {
+            $rules['phone'] = 'required|string|regex:/^6[0-9]{7}$/';
         }
 
         return $rules;
     }
 
-
+    public function getPasswordValidationRules()
+    {
+        return [
+            'current_password' => ['required', 'current_password'],
+            'new_password' => [
+                'required',
+                'min:8',
+                'confirmed',
+                'regex:/^(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*#?&]).*$/'
+            ],
+        ];
+    }
 
     public function messages()
     {
@@ -142,14 +163,11 @@ class MyProfile extends Component
             'date' => 'Laukas :attribute turi būti teisingos datos formato.',
             'min' => 'Laukas :attribute turi būti bent :min simbolių ilgio.',
             'confirmed' => 'Laukas :attribute patvirtinimas nesutampa.',
-            'unique' => 'Toks :attribute jau užregistruotas.',
             'regex' => 'Laukas :attribute neatitinka reikalaujamo formato.',
-            'size' => 'Laukas :attribute turi būti :size simbolių ilgio.',
 
             // Custom rules
-            'gimimo_data.before_or_equal' => 'Jūs turite būti bent 14 metų.',
+            'birthday.before_or_equal' => 'Jūs turite būti bent 14 metų.',
             'phone.regex' => 'Telefono numeris turi prasidėti skaitmeniu 6 ir būti 8 skaitmenų ilgio.',
-            'phone.size' => 'Telefono numeris turi būti 8 skaitmenų ilgio.',
 
             // Password-specific rules
             'current_password.required' => 'Dabartinis slaptažodis yra privalomas.',
@@ -159,17 +177,6 @@ class MyProfile extends Component
             'new_password.confirmed' => 'Naujo slaptažodžio patvirtinimas nesutampa.',
             'new_password.regex' => 'Naujas slaptažodis turi turėti bent vieną didžiąją raidę, vieną skaičių ir vieną specialųjį simbolą (@$!%*#?&).',
 
-            // Field-specific overrides
-            'vardas.required' => 'Vardas yra privalomas.',
-            'pavarde.required' => 'Pavardė yra privaloma.',
-            'gimimo_data.required' => 'Gimimo data yra privaloma.',
-            'email.required' => 'El. paštas yra privalomas.',
-            'miestas.required' => 'Miestas yra privalomas.',
-            'adresas.required' => 'Adresas yra privalomas.',
-            'slaptazodis.required' => 'Slaptažodis yra privalomas.',
-            'slaptazodis_confirmation.required' => 'Slaptažodžio patvirtinimas yra privalomas.',
-            'selectedCategories.required' => 'Privaloma pasirinkti bent vieną kategoriją',
-            'selectedCategories.min' => 'Privaloma pasirinkti bent vieną kategoriją',
             'image.image' => 'Failas privalo būti nuotrauka.',
             'image.mimes' => 'Nuotraukos failas privalo būti: jpeg, png, jpg, gif., webp.',
             'image.max' => 'Nuotrauka negali viršyti 8mb dydžio.',
@@ -178,88 +185,84 @@ class MyProfile extends Component
             'newPortfolioPhoto.image' => 'Failas privalo būti nuotrauka.',
             'newPortfolioPhoto.mimes' => 'Nuotraukos failas privalo būti: jpeg, png, jpg, gif., webp.',
             'newPortfolioPhoto.max' => 'Nuotrauka negali viršyti 8mb dydžio.',
-            'cities.required' => 'Pasirinkite bent vieną miestą.'
-
+            'cities.required' => 'Pasirinkite bent vieną miestą.',
+            'aboutMe.max' => 'Aprašymas negali viršyti 2000 simbolių.'
         ];
     }
 
-    public function update()
+    public function updateProfile()
     {
         $this->validate($this->getValidationRules());
 
         $this->user->name = $this->name;
-        $this->user->lastname = $this->user->lastname;
+        $this->user->lastname = $this->lastname;
         $this->user->birthday = $this->birthday;
         $this->user->email = $this->email;
         $this->user->address = $this->address;
-        $this->user->aboutme = $this->aboutMe;
         $this->user->postal_code = $this->post_code;
-        $this->user->phone = '+370' . $this->phone;
 
-        // Handle password update if provided
-        if ($this->new_password) {
-            $this->user->password = Hash::make($this->new_password);
-
-            // Clear password fields after successful update
-            $this->reset(['current_password', 'new_password', 'new_password_confirmation']);
+        if ($this->user->role === 'provider') {
+            $this->user->phone = '+370' . $this->phone;
         }
 
         $this->user->save();
 
-        // Optionally, you can redirect or show a success message
         session()->flash('message', 'Informacija sėkmingai atnaujinta');
-        return redirect()->route('myprofile'); // Adjust the route as necessary
+        return redirect()->route('myprofile');
+    }
 
+    public function togglePasswordForm()
+    {
+        $this->showPasswordForm = !$this->showPasswordForm;
+
+        // Clear password fields when hiding the form
+        if (!$this->showPasswordForm) {
+            $this->reset(['current_password', 'new_password', 'new_password_confirmation']);
+            $this->resetErrorBag();
+        }
+    }
+
+    public function updatePassword()
+    {
+        $this->validate($this->getPasswordValidationRules(), $this->messages());
+
+        $this->user->password = Hash::make($this->new_password);
+        $this->user->save();
+
+        // Clear password fields and hide form
+        $this->reset(['current_password', 'new_password', 'new_password_confirmation']);
+        $this->showPasswordForm = false;
+
+        session()->flash('message', 'Slaptažodis sėkmingai pakeistas');
     }
 
     public function addCity()
     {
         if (!empty($this->selectedCity) && !in_array($this->selectedCity, $this->cities)) {
-            // Add to local array
             $this->cities[] = $this->selectedCity;
-
-            // Immediately update in database
-            $this->user->update([
-                'cities' => $this->cities
-            ]);
-
-            // Reset selection
+            $this->user->update(['cities' => $this->cities]);
             $this->selectedCity = '';
-
         }
     }
 
     public function addSingleCitySeeker()
     {
         if (!empty($this->currentSeekerCity)) {
-            // Override any existing city (only one allowed for seekers)
             $this->cities = [$this->currentSeekerCity];
-
-            // Immediately update in database
-            $this->user->update([
-                'cities' => $this->cities
-            ]);
+            $this->user->update(['cities' => $this->cities]);
         }
     }
 
     public function removeCity($city)
     {
-        // Remove from local array
         $this->cities = array_values(array_filter($this->cities, function($c) use ($city) {
             return $c !== $city;
         }));
-
-        // Immediately update in database
-        $this->user->update([
-            'cities' => $this->cities
-        ]);
-
+        $this->user->update(['cities' => $this->cities]);
     }
 
-    // New method to handle portfolio photo uploads
     public function updatedNewPortfolioPhoto()
     {
-        // Override Livewire's default error message
         $this->resetErrorBag('newPortfolioPhoto');
 
         $this->validate(
@@ -267,70 +270,54 @@ class MyProfile extends Component
             $this->messages()
         );
 
-        // Check if we already have maximum photos
         if (count($this->portfolioPhotos) >= $this->maxPortfolioPhotos) {
             session()->flash('error', 'Jūs jau turite maksimalų nuotraukų skaičių (' . $this->maxPortfolioPhotos . ')');
             $this->newPortfolioPhoto = null;
             return;
         }
 
-        // Generate unique filename
         $filename = 'portfolio-photos/' . uniqid() . '.jpg';
         $fullPath = storage_path('app/public/' . $filename);
 
-        // Create directory if it doesn't exist
         $directory = dirname($fullPath);
         if (!file_exists($directory)) {
             mkdir($directory, 0755, true);
         }
 
-        // Create ImageManager instance
         $manager = new ImageManager(new Driver());
-
-        // Process and compress the image
         $image = $manager->read($this->newPortfolioPhoto->getRealPath());
 
-        // Resize if too large (maintain aspect ratio)
         if ($image->width() > 1200 || $image->height() > 1200) {
             $image->scale(width: 1200, height: 1200);
         }
 
-        // Save as JPEG with 85% quality
         $image->toJpeg(85)->save($fullPath);
 
-        // Get file size after compression
         $compressedSize = filesize($fullPath);
         $photoUrl = Storage::url($filename);
 
-        // Add to the photos array
         $this->portfolioPhotos[] = [
             'path' => $filename,
             'url' => $photoUrl,
-            'size' => $compressedSize, // Optional: track file size
+            'size' => $compressedSize,
         ];
 
-        // Save to the user model
         $this->user->portfolio_photos = json_encode($this->portfolioPhotos);
         $this->user->save();
 
-        // Reset the upload field
         $this->newPortfolioPhoto = null;
 
         session()->flash('message', 'Nuotrauka sėkmingai pridėta');
     }
 
-    // Method to remove a portfolio photo
     public function removePortfolioPhoto($index)
     {
         if (isset($this->portfolioPhotos[$index])) {
-            // Delete the file from storage
             Storage::disk('public')->delete($this->portfolioPhotos[$index]['path']);
 
-            // Remove from array
             unset($this->portfolioPhotos[$index]);
-            $this->portfolioPhotos = array_values($this->portfolioPhotos); // Re-index
+            $this->portfolioPhotos = array_values($this->portfolioPhotos);
 
-            // Update user record
             $this->user->portfolio_photos = json_encode($this->portfolioPhotos);
             $this->user->save();
 
@@ -348,67 +335,46 @@ class MyProfile extends Component
             Storage::disk('public')->delete($this->user->image);
         }
 
-        // Generate filename and process image
         $filename = 'profile-photos/' . uniqid() . '.jpg';
         $fullPath = storage_path('app/public/' . $filename);
 
-        // Create directory if it doesn't exist
         $directory = dirname($fullPath);
         if (!file_exists($directory)) {
             mkdir($directory, 0755, true);
         }
 
-        // Create ImageManager instance
         $manager = new ImageManager(new Driver());
-
-        // Process and compress
         $image = $manager->read($this->image->getRealPath());
 
-        // Resize to reasonable profile photo size
         if ($image->width() > 800 || $image->height() > 800) {
             $image->scale(width: 800, height: 800);
         }
 
         $image->toJpeg(90)->save($fullPath);
 
-        // Update user's profile image in the database
         $this->user->image = $filename;
         $this->user->save();
 
-        session()->flash('message', '    Nuotrauka sėkmingai atnaujinta!');
+        session()->flash('message', 'Nuotrauka sėkmingai atnaujinta!');
         return redirect(request()->header('Referer'));
     }
 
     public function addLanguage()
     {
         if (!empty($this->selectedLanguage) && !in_array($this->selectedLanguage, $this->languages)) {
-            // Add to local array
             $this->languages[] = $this->selectedLanguage;
-
-            // Immediately update in database
-            $this->user->update([
-                'languages' => json_encode($this->languages)
-            ]);
-
-            // Reset selection
+            $this->user->update(['languages' => json_encode($this->languages)]);
             $this->selectedLanguage = '';
-
             session()->flash('message', 'Kalba sėkmingai pridėta');
         }
     }
 
     public function removeLanguage($language)
     {
-        // Remove from local array
         $this->languages = array_values(array_filter($this->languages, function($lang) use ($language) {
             return $lang !== $language;
         }));
-
-        // Immediately update in database
-        $this->user->update([
-            'languages' => json_encode($this->languages)
-        ]);
-
+        $this->user->update(['languages' => json_encode($this->languages)]);
         session()->flash('message', 'Kalba sėkmingai pašalinta');
     }
 }
