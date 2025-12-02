@@ -68,7 +68,8 @@
 
             <!-- Main Content -->
             <div class="p-6 md:p-8">
-                <form wire:submit.prevent="update" class="space-y-8">
+                <!-- Main Profile Form (without password) -->
+                <form wire:submit.prevent="updateProfile" autocomplete="off" class="space-y-8">
                     <div class="w-full grid grid-cols-12 gap-6">
                         <div class="col-span-12 md:col-span-4">
                             <!-- Profile Picture Upload - Enhanced styling -->
@@ -313,15 +314,41 @@
                         </div>
                     @endif
 
-                    <!-- About Me Section - Enhanced styling -->
+                    <!-- About Me Section with Auto-Save -->
                     <div class="space-y-4">
-                        <div class="flex items-center">
-                            <div class="bg-primary-light/10 p-2 rounded-lg mr-3">
-                                <svg class="w-6 h-6 text-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                </svg>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="bg-primary-light/10 p-2 rounded-lg mr-3">
+                                    <svg class="w-6 h-6 text-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                    </svg>
+                                </div>
+                                <h2 class="text-xl font-bold text-gray-800">Apie Mane</h2>
                             </div>
-                            <h2 class="text-xl font-bold text-gray-800">Apie Mane</h2>
+
+                            <!-- Auto-Save Indicator -->
+                            <div class="flex items-center text-sm">
+                                <div wire:loading wire:target="aboutMe" class="flex items-center text-blue-600">
+                                    <svg class="animate-spin h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Saugoma...
+                                </div>
+                                <div
+                                    x-data="{ show: false }"
+                                    x-show="show"
+                                    x-transition
+                                    @about-me-saved.window="show = true; setTimeout(() => show = false, 2000)"
+                                    class="flex items-center text-green-600"
+                                    style="display: none;"
+                                >
+                                    <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    Išsaugota
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Important Information Box -->
@@ -360,30 +387,20 @@
                             </div>
                         </div>
 
-                        @if($this->user->role === 'provider')
-                            <textarea wire:model="aboutMe" rows="4"
-                                      class="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 resize-none @error('aboutMe') border-red-500 @enderror"
-                                      placeholder="Apibūdinkite savo darbo įgūdžius..."></textarea>
-                        @endif
-                        @if($this->user->role === 'seeker')
-                            <textarea wire:model="aboutMe" rows="4"
-                                      class="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 resize-none @error('aboutMe') border-red-500 @enderror"
-                                      placeholder="Apibūdinkite save..."></textarea>
-                        @endif
+                        <textarea
+                            wire:model.live.debounce.1000ms="aboutMe"
+                            rows="4"
+                            class="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 resize-none @error('aboutMe') border-red-500 @enderror"
+                            placeholder="{{ $this->user->role === 'provider' ? 'Apibūdinkite savo darbo įgūdžius...' : 'Apibūdinkite save...' }}"
+                        ></textarea>
+
                         @error('aboutMe')
                         <p class="text-red-500 text-xs mt-1 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
                         @enderror
 
-                        <!-- Quick Save Button -->
-                        <div class="flex justify-end pt-2">
-                            <button type="submit"
-                                    class="inline-flex items-center px-4 py-2 bg-primary-light border border-transparent rounded-lg font-medium text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-light transition-all duration-200 shadow-md hover:shadow-lg text-sm">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
-                                </svg>
-                                Išsaugoti
-                            </button>
-                        </div>
+                        <p class="text-xs text-gray-500">
+                            {{ strlen($aboutMe ?? '') }}/500 simbolių
+                        </p>
                     </div>
 
                     <!-- Personal Information Section -->
@@ -650,99 +667,6 @@
                         </div>
                     </div>
 
-                    <!-- Password Change Section -->
-                    <div class="space-y-6">
-                        <div class="flex items-center">
-                            <div class="bg-primary-light/10 p-2 rounded-lg mr-3">
-                                <svg class="w-6 h-6 text-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                                </svg>
-                            </div>
-                            <h2 class="text-xl font-bold text-gray-800">Slaptažodžio Keitimas</h2>
-                        </div>
-
-                        <!-- Password fields in grid -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Current Password -->
-                            <div class="md:col-span-2 md:w-1/2">
-                                <label for="current_password" class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Dabartinis Slaptažodis
-                                </label>
-                                <div class="relative">
-                                    <input type="password" id="current_password" wire:model="current_password"
-                                           class="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 @error('current_password') border-red-500 @enderror"
-                                           placeholder="Įveskite dabartinį slaptažodį">
-                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                @error('current_password')
-                                <p class="text-red-500 text-xs mt-1 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <!-- New Password -->
-                            <div>
-                                <label for="new_password" class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Naujas Slaptažodis
-                                </label>
-                                <div class="relative">
-                                    <input type="password" id="new_password" wire:model="new_password"
-                                           class="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 @error('new_password') border-red-500 @enderror"
-                                           placeholder="Įveskite naują slaptažodį">
-                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                @error('new_password')
-                                <p class="text-red-500 text-xs mt-1 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
-                                @enderror
-                                <small class="text-gray-500 mt-1 block">Mažiausiai 8 simboliai</small>
-                            </div>
-
-                            <!-- Confirm New Password -->
-                            <div>
-                                <label for="new_password_confirmation" class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Patvirtinkite Naują Slaptažodį
-                                </label>
-                                <div class="relative">
-                                    <input type="password" id="new_password_confirmation" wire:model="new_password_confirmation"
-                                           class="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 @error('new_password_confirmation') border-red-500 @enderror"
-                                           placeholder="Pakartokite naują slaptažodį">
-                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                @error('new_password_confirmation')
-                                <p class="text-red-500 text-xs mt-1 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <!-- Password change info box -->
-                        <div class="bg-gray-50 border border-primary-light rounded-xl p-4">
-                            <div class="flex">
-                                <div class="flex-shrink-0">
-                                    <svg class="h-5 w-5 text-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                </div>
-                                <div class="ml-3">
-                                    <p class="text-sm text-primary-light">
-                                        <strong class="text-primary-dark">Svarbu:</strong> Užpildykite visus tris laukus tik tuo atveju, jei norite pakeisti savo slaptažodį. Jei nenorite keisti slaptažodžio, palikite šiuos laukus tuščius.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     @if($this->user->role === 'provider')
                         <!-- Work Categories Section -->
                         <div class="space-y-6">
@@ -811,18 +735,216 @@
                         </div>
                     @endif
 
-                    <!-- Submit Button -->
+                    <!-- Submit Button for Main Form -->
                     <div class="flex justify-end pt-6 border-t border-gray-200">
                         <button type="submit"
                                 class="inline-flex items-center px-6 py-3 bg-primary-light border border-transparent rounded-xl font-semibold text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-light transition-all duration-200 shadow-lg hover:shadow-xl">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
                             </svg>
-                            Atnaujinti Profili
+                            Atnaujinti Profilį
                         </button>
                     </div>
                 </form>
+
+                <!-- Separate Password Change Section -->
+                <div class="mt-8 pt-8 border-t-2 border-gray-200">
+                    <div class="flex items-center justify-between mb-6 mt-8">
+                        <div class="flex items-center">
+                            <div class="bg-primary-light/10 p-2 rounded-lg mr-3">
+                                <svg class="w-6 h-6 text-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-xl font-bold text-gray-800">Slaptažodžio Keitimas</h2>
+                        </div>
+
+                        <button
+                            wire:click="togglePasswordForm"
+                            type="button"
+                            class="inline-flex items-center px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200 text-sm">
+                            @if($showPasswordForm)
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                Atšaukti
+                            @else
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                                </svg>
+                                Keisti Slaptažodį
+                            @endif
+                        </button>
+                    </div>
+
+                    @if($showPasswordForm)
+                        <form wire:submit.prevent="updatePassword" autocomplete="off" class="space-y-6">
+                            <!-- Password change info box -->
+                            <div class="bg-blue-50 border-l-4 border-blue-500 rounded-xl p-4">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-5 w-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-blue-700">
+                                            Slaptažodis turi turėti bent 8 simbolius, vieną didžiąją raidę, vieną skaičių ir vieną specialųjį simbolą (@$!%*#?&).
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-6">
+                                <!-- Current Password -->
+                                <div>
+                                    <label for="current_password" class="block text-sm font-semibold text-gray-700 mb-2">
+                                        Dabartinis Slaptažodis
+                                    </label>
+                                    <div class="relative">
+                                        <input
+                                            type="password"
+                                            id="current_password"
+                                            wire:model="current_password"
+                                            autocomplete="new-password"
+                                            readonly
+                                            onfocus="this.removeAttribute('readonly');"
+                                            class="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 pr-10 @error('current_password') border-red-500 @enderror"
+                                            placeholder="Įveskite dabartinį slaptažodį">
+                                        <button
+                                            type="button"
+                                            onclick="togglePasswordVisibility('current_password')"
+                                            class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer hover:text-primary-light transition-colors">
+                                            <!-- Eye Icon (Show) -->
+                                            <svg id="current_password_eye_show" class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                            </svg>
+                                            <!-- Eye Slash Icon (Hide) -->
+                                            <svg id="current_password_eye_hide" class="h-5 w-5 text-gray-400 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    @error('current_password')
+                                    <p class="text-red-500 text-xs mt-1 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- New Password -->
+                                <div>
+                                    <label for="new_password" class="block text-sm font-semibold text-gray-700 mb-2">
+                                        Naujas Slaptažodis
+                                    </label>
+                                    <div class="relative">
+                                        <input
+                                            type="password"
+                                            id="new_password"
+                                            wire:model="new_password"
+                                            autocomplete="new-password"
+                                            readonly
+                                            onfocus="this.removeAttribute('readonly');"
+                                            class="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 pr-10 @error('new_password') border-red-500 @enderror"
+                                            placeholder="Įveskite naują slaptažodį">
+                                        <button
+                                            type="button"
+                                            onclick="togglePasswordVisibility('new_password')"
+                                            class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer hover:text-primary-light transition-colors">
+                                            <!-- Eye Icon (Show) -->
+                                            <svg id="new_password_eye_show" class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                            </svg>
+                                            <!-- Eye Slash Icon (Hide) -->
+                                            <svg id="new_password_eye_hide" class="h-5 w-5 text-gray-400 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    @error('new_password')
+                                    <p class="text-red-500 text-xs mt-1 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- Confirm New Password -->
+                                <div>
+                                    <label for="new_password_confirmation" class="block text-sm font-semibold text-gray-700 mb-2">
+                                        Patvirtinkite Naują Slaptažodį
+                                    </label>
+                                    <div class="relative">
+                                        <input
+                                            type="password"
+                                            id="new_password_confirmation"
+                                            wire:model="new_password_confirmation"
+                                            autocomplete="new-password"
+                                            readonly
+                                            onfocus="this.removeAttribute('readonly');"
+                                            class="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 pr-10 @error('new_password_confirmation') border-red-500 @enderror"
+                                            placeholder="Pakartokite naują slaptažodį">
+                                        <button
+                                            type="button"
+                                            onclick="togglePasswordVisibility('new_password_confirmation')"
+                                            class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer hover:text-primary-light transition-colors">
+                                            <!-- Eye Icon (Show) -->
+                                            <svg id="new_password_confirmation_eye_show" class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                            </svg>
+                                            <!-- Eye Slash Icon (Hide) -->
+                                            <svg id="new_password_confirmation_eye_hide" class="h-5 w-5 text-gray-400 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    @error('new_password_confirmation')
+                                    <p class="text-red-500 text-xs mt-1 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Submit Button for Password Form -->
+                            <div class="flex justify-end pt-4">
+                                <button type="submit"
+                                        class="inline-flex items-center px-6 py-3 bg-primary-light border border-transparent rounded-xl font-semibold text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-light transition-all duration-200 shadow-lg hover:shadow-xl">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                    </svg>
+                                    Pakeisti Slaptažodį
+                                </button>
+                            </div>
+                        </form>
+                    @else
+                        <p class="text-gray-600 text-sm">
+                            Norėdami pakeisti slaptažodį, paspauskite mygtuką "Keisti Slaptažodį" viršuje.
+                        </p>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('livewire:init', () => {
+        Livewire.on('aboutMeSaved', () => {
+            window.dispatchEvent(new CustomEvent('about-me-saved'));
+        });
+    });
+
+    // Password visibility toggle function
+    function togglePasswordVisibility(fieldId) {
+        const input = document.getElementById(fieldId);
+        const eyeShow = document.getElementById(fieldId + '_eye_show');
+        const eyeHide = document.getElementById(fieldId + '_eye_hide');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            eyeShow.classList.add('hidden');
+            eyeHide.classList.remove('hidden');
+        } else {
+            input.type = 'password';
+            eyeShow.classList.remove('hidden');
+            eyeHide.classList.add('hidden');
+        }
+    }
+</script>
