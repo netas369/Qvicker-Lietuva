@@ -297,7 +297,7 @@ const categoryIcons = {
 
 // Snowflake animation helper
 const getSnowflakeStyle = (index) => {
-    const delay = (index * 0.5) % 10;
+    const delay = -(index * 0.5) % 10; // NEGATIVE delay
     const duration = 8 + (index % 5);
     const startPos = (index * 3.33) % 100;
     const endPos = startPos + (Math.random() * 20 - 10);
@@ -306,7 +306,7 @@ const getSnowflakeStyle = (index) => {
     return {
         left: `${startPos}%`,
         fontSize: `${size}rem`,
-        animationDelay: `${delay}s`,
+        animationDelay: `${delay}s`, // Negative delay makes them start mid-animation
         animationDuration: `${duration}s`,
         '--end-pos': `${endPos}%`
     };
@@ -531,17 +531,17 @@ watch(needsScroll, (needs) => { if (needs && !animationId.value) startAnimation(
 /* Snowflake animation */
 @keyframes snowfall {
     0% {
-        transform: translateY(-10px) translateX(0) rotate(0deg);
+        transform: translateY(-10vh) translateX(0) rotate(0deg);
         opacity: 0;
     }
-    10% {
+    5% {
         opacity: 1;
     }
-    90% {
+    95% {
         opacity: 1;
     }
     100% {
-        transform: translateY(100vh) translateX(var(--end-pos, 0)) rotate(360deg);
+        transform: translateY(110vh) translateX(var(--end-pos, 0)) rotate(360deg);
         opacity: 0;
     }
 }

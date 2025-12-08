@@ -207,72 +207,72 @@
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div class="text-center group">
-                    <div class="text-4xl md:text-5xl font-bold text-white mb-2 transform group-hover:scale-110 transition-transform duration-300">500+</div>
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2 transform group-hover:scale-110 transition-transform duration-300">100+</div>
                     <div class="text-white/80">Paslaugų teikėjų</div>
                 </div>
                 <div class="text-center group">
-                    <div class="text-4xl md:text-5xl font-bold text-white mb-2 transform group-hover:scale-110 transition-transform duration-300">10k+</div>
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2 transform group-hover:scale-110 transition-transform duration-300">1k+</div>
                     <div class="text-white/80">Atliktų užsakymų</div>
                 </div>
                 <div class="text-center group">
-                    <div class="text-4xl md:text-5xl font-bold text-white mb-2 transform group-hover:scale-110 transition-transform duration-300">4.9</div>
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2 transform group-hover:scale-110 transition-transform duration-300">4.8</div>
                     <div class="text-white/80">Vidutinis įvertinimas</div>
                 </div>
                 <div class="text-center group">
-                    <div class="text-4xl md:text-5xl font-bold text-white mb-2 transform group-hover:scale-110 transition-transform duration-300">50+</div>
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2 transform group-hover:scale-110 transition-transform duration-300">100+</div>
                     <div class="text-white/80">Paslaugų kategorijų</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Team Section -->
-    <div class="py-20 bg-white">
-        <div class="container mx-auto px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Mūsų Komanda</h2>
-                <p class="text-gray-600 text-lg max-w-2xl mx-auto">Susipažinkite su žmonėmis, kurie kiekvieną dieną dirba, kad jūsų patirtis būtų geriausia</p>
-            </div>
+{{--    <!-- Team Section -->--}}
+{{--    <div class="py-20 bg-white">--}}
+{{--        <div class="container mx-auto px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 2xl:px-60">--}}
+{{--            <div class="text-center mb-16">--}}
+{{--                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Mūsų Komanda</h2>--}}
+{{--                <p class="text-gray-600 text-lg max-w-2xl mx-auto">Susipažinkite su žmonėmis, kurie kiekvieną dieną dirba, kad jūsų patirtis būtų geriausia</p>--}}
+{{--            </div>--}}
 
-            <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-                <!-- Team Member 1 -->
-                <div class="group">
-                    <div class="relative overflow-hidden rounded-2xl">
-                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent z-10"></div>
-                        <img src="https://i.ibb.co/vCkGt51t/Chat-GPT-Image-Jul-9-2025-02-56-52-PM.png" alt="CEO" class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-300">
-                        <div class="absolute bottom-0 left-0 right-0 p-6 z-20">
-                            <h3 class="text-xl font-bold text-white mb-1">Netas Neverauskas</h3>
-                            <p class="text-white/80">Įkūrėjas</p>
-                        </div>
-                    </div>
-                </div>
+{{--            <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">--}}
+{{--                <!-- Team Member 1 -->--}}
+{{--                <div class="group">--}}
+{{--                    <div class="relative overflow-hidden rounded-2xl">--}}
+{{--                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent z-10"></div>--}}
+{{--                        <img src="https://i.ibb.co/vCkGt51t/Chat-GPT-Image-Jul-9-2025-02-56-52-PM.png" alt="CEO" class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-300">--}}
+{{--                        <div class="absolute bottom-0 left-0 right-0 p-6 z-20">--}}
+{{--                            <h3 class="text-xl font-bold text-white mb-1">Netas Neverauskas</h3>--}}
+{{--                            <p class="text-white/80">Įkūrėjas</p>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                <!-- Team Member 2 -->
-                <div class="group">
-                    <div class="relative overflow-hidden rounded-2xl">
-                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent z-10"></div>
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop" alt="CTO" class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-300">
-                        <div class="absolute bottom-0 left-0 right-0 p-6 z-20">
-                            <h3 class="text-xl font-bold text-white mb-1">Anastasija Miltaitė</h3>
-                            <p class="text-white/80">Sekretorė</p>
-                        </div>
-                    </div>
-                </div>
+{{--                <!-- Team Member 2 -->--}}
+{{--                <div class="group">--}}
+{{--                    <div class="relative overflow-hidden rounded-2xl">--}}
+{{--                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent z-10"></div>--}}
+{{--                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop" alt="CTO" class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-300">--}}
+{{--                        <div class="absolute bottom-0 left-0 right-0 p-6 z-20">--}}
+{{--                            <h3 class="text-xl font-bold text-white mb-1">Anastasija Miltaitė</h3>--}}
+{{--                            <p class="text-white/80">Sekretorė</p>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                <!-- Team Member 3 -->
-                <div class="group">
-                    <div class="relative overflow-hidden rounded-2xl">
-                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent z-10"></div>
-                        <img src="https://i.ibb.co/bjRk1qJp/Chat-GPT-Image-Jul-10-2025-11-16-27-AM.png" alt="COO" class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-300">
-                        <div class="absolute bottom-0 left-0 right-0 p-6 z-20">
-                            <h3 class="text-xl font-bold text-white mb-1">Domantas Vitkus</h3>
-                            <p class="text-white/80">Įkūrėjas</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{{--                <!-- Team Member 3 -->--}}
+{{--                <div class="group">--}}
+{{--                    <div class="relative overflow-hidden rounded-2xl">--}}
+{{--                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent z-10"></div>--}}
+{{--                        <img src="https://i.ibb.co/bjRk1qJp/Chat-GPT-Image-Jul-10-2025-11-16-27-AM.png" alt="COO" class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-300">--}}
+{{--                        <div class="absolute bottom-0 left-0 right-0 p-6 z-20">--}}
+{{--                            <h3 class="text-xl font-bold text-white mb-1">Domantas Vitkus</h3>--}}
+{{--                            <p class="text-white/80">Įkūrėjas</p>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
     <!-- CTA Section -->
     <div class="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
