@@ -22,7 +22,7 @@
                 <!-- Badge with glass effect - fixed -->
                 <div class="inline-block">
                     <div class="flex items-center space-x-3 bg-white/80 backdrop-blur-sm px-5 py-2.5 rounded-full shadow-md border border-gray-100 hover:shadow-lg hover:scale-105 transform transition-all duration-300">
-                        <span class="text-sm font-semibold text-gray-700">500+ partnerių</span>
+                        <span class="text-sm font-semibold text-gray-700">100+ partnerių</span>
                         <span class="relative flex h-2.5 w-2.5">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                             <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
@@ -430,7 +430,7 @@
                             <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
                             <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
                         </svg>
-                        <span>500+ aktyvių partnerių</span>
+                        <span>100+ aktyvių partnerių</span>
                     </div>
                 </div>
             </div>
@@ -543,7 +543,7 @@
                 <!-- Success metrics -->
                 <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
                     <div class="text-center">
-                        <div class="text-3xl md:text-4xl font-bold text-primary-light mb-2">500+</div>
+                        <div class="text-3xl md:text-4xl font-bold text-primary-light mb-2">100+</div>
                         <div class="text-gray-600">Aktyvių partnerių</div>
                     </div>
                     <div class="text-center">
