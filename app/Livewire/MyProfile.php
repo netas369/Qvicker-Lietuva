@@ -59,7 +59,9 @@ class MyProfile extends Component
         $this->name = $this->user->name;
         $this->lastname = $this->user->lastname;
         $this->email = $this->user->email;
-        $this->birthday = $this->user->birthday;
+        $this->birthday = $this->user->birthday
+            ? Carbon::parse($this->user->birthday)->format('Y-m-d')
+            : null;
         $this->address = $this->user->address;
         $this->aboutMe = $this->user->aboutme;
         $this->post_code = $this->user->postal_code;
