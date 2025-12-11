@@ -75,8 +75,8 @@
                         <li class="flex-shrink-0" wire:key="category-tab-{{ $index }}">
                             <div class="flex-none w-28 snap-always snap-center">
                                 <button wire:click="setActiveTab({{ $index }})" type="button" role="tab"
-                                        class="inline-block p-4 rounded-t-lg transition-colors {{ $activeTab === $index ? 'text-primary-light border-b-2 border-primary' : 'text-gray-500 hover:text-gray-600' }}">
-                                    <div class="w-16 h-16 mx-auto">
+                                        class="inline-block p-4 rounded-t-lg transition-colors {{ $activeTab === $index ? 'text-primary-light border-b-2 border-primary' : 'text-gray-900 hover:text-gray-600' }}">
+                                    <div class="w-12 h-12 mx-auto ">
                                         {!! $category['icon'] !!}
                                     </div>
                                     <span class="block mt-2 text-primary">{{ $category['name'] }}</span>
