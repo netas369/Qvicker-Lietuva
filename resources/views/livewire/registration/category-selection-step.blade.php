@@ -46,27 +46,33 @@
 
     <!-- Category Tabs (hidden when searching) -->
     @if(!$searchTerm)
-        <div class="relative">
+        <div class="relative" x-data="categoryScroller()" x-init="init()">
             <!-- Left scroll arrow -->
-            <button id="scrollLeftReg" type="button"
-                    class="hidden absolute left-2 top-1/2 -translate-y-1/2 z-10 lg:flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg border border-gray-200 hover:bg-gray-50 transition-all duration-200">
+            <button type="button"
+                    x-show="showLeftArrow"
+                    x-cloak
+                    @click="scrollLeft()"
+                    class="absolute left-2 top-1/2 -translate-y-1/2 z-10 hidden lg:flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg border border-gray-200 hover:bg-gray-50 transition-all duration-200">
                 <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                 </svg>
             </button>
 
             <!-- Right scroll arrow -->
-            <button id="scrollRightReg" type="button"
-                    class="hidden absolute right-2 top-1/2 -translate-y-1/2 z-10 lg:flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg border border-gray-200 hover:bg-gray-50 transition-all duration-200">
+            <button type="button"
+                    x-show="showRightArrow"
+                    x-cloak
+                    @click="scrollRight()"
+                    class="absolute right-2 top-1/2 -translate-y-1/2 z-10 hidden lg:flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg border border-gray-200 hover:bg-gray-50 transition-all duration-200">
                 <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                 </svg>
             </button>
 
-            <div id="regCategoryScroller" class="flex flex-nowrap overflow-x-auto border-b-2 border-primary-light border-opacity-50 pb-2 scrollbar-hide">
+            <div x-ref="scroller" @scroll="updateArrows()" class="flex flex-nowrap overflow-x-auto border-b-2 border-primary-light border-opacity-50 pb-2 category-scrollbar">
                 <ul class="flex flex-nowrap gap-4 -mb-px text-sm font-medium text-center" role="tablist">
                     @foreach($categories as $index => $category)
-                        <li class="flex-shrink-0">
+                        <li class="flex-shrink-0" wire:key="category-tab-{{ $index }}">
                             <div class="flex-none w-28 snap-always snap-center">
                                 <button wire:click="setActiveTab({{ $index }})" type="button" role="tab"
                                         class="inline-block p-4 rounded-t-lg transition-colors {{ $activeTab === $index ? 'text-primary-light border-b-2 border-primary' : 'text-gray-500 hover:text-gray-600' }}">
@@ -75,7 +81,6 @@
                                     </div>
                                     <span class="block mt-2 text-primary">{{ $category['name'] }}</span>
                                 </button>
-
                             </div>
                         </li>
                     @endforeach
@@ -89,8 +94,9 @@
         @if($searchTerm)
             <!-- Show filtered results when searching -->
             @foreach($filteredSubcategories as $subcategory)
-                <label class="relative flex items-start p-4 space-x-3 border-2 rounded-lg transition-all duration-200 cursor-pointer
-                    {{ in_array($subcategory['id'], $selectedSubcategories) ? 'border-primary-light bg-blue-50' : 'border-gray-200 hover:border-primary-light hover:bg-gray-50' }}">
+                <label wire:key="search-subcategory-{{ $subcategory['id'] }}"
+                       class="relative flex items-start p-4 space-x-3 border-2 rounded-lg transition-all duration-200 cursor-pointer
+                    {{ in_array((int)$subcategory['id'], array_map('intval', $selectedSubcategories)) ? 'border-primary-light bg-blue-50' : 'border-gray-200 hover:border-primary-light hover:bg-gray-50' }}">
                     <input type="checkbox"
                            wire:model.live="selectedSubcategories"
                            value="{{ $subcategory['id'] }}"
@@ -99,7 +105,7 @@
                         <span class="block text-sm font-medium text-gray-900">{{ $subcategory['name'] }}</span>
                         <span class="block text-xs text-gray-500 mt-0.5">{{ $subcategory['category'] }}</span>
                     </div>
-                    @if(in_array($subcategory['id'], $selectedSubcategories))
+                    @if(in_array((int)$subcategory['id'], array_map('intval', $selectedSubcategories)))
                         <svg class="absolute top-2 right-2 w-5 h-5 text-primary-light" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                         </svg>
@@ -111,14 +117,15 @@
             @foreach($categories as $index => $category)
                 @if($activeTab === $index)
                     @foreach($category['subcategories'] as $subcategory)
-                        <label class="relative flex items-center p-4 space-x-3 border-2 rounded-lg transition-all duration-200 cursor-pointer
-                            {{ in_array($subcategory['id'], $selectedSubcategories) ? 'border-primary-light bg-blue-50' : 'border-gray-200 hover:border-primary-light hover:bg-gray-50' }}">
+                        <label wire:key="subcategory-{{ $category['name'] }}-{{ $subcategory['id'] }}"
+                               class="relative flex items-center p-4 space-x-3 border-2 rounded-lg transition-all duration-200 cursor-pointer
+                            {{ in_array((int)$subcategory['id'], array_map('intval', $selectedSubcategories)) ? 'border-primary-light bg-blue-50' : 'border-gray-200 hover:border-primary-light hover:bg-gray-50' }}">
                             <input type="checkbox"
                                    wire:model.live="selectedSubcategories"
                                    value="{{ $subcategory['id'] }}"
                                    class="flex-shrink-0 rounded border-gray-300 text-primary-light focus:ring-primary-light">
                             <span class="text-sm font-medium text-gray-900 break-words">{{ $subcategory['name'] }}</span>
-                            @if(in_array($subcategory['id'], $selectedSubcategories))
+                            @if(in_array((int)$subcategory['id'], array_map('intval', $selectedSubcategories)))
                                 <svg class="absolute top-2 right-2 w-5 h-5 text-primary-light" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                                 </svg>
@@ -158,8 +165,8 @@
             <div class="space-y-4">
                 @foreach($categories as $category)
                     @foreach($category['subcategories'] as $subcategory)
-                        @if(in_array($subcategory['id'], $selectedSubcategories))
-                            <div class="bg-white border-2 border-gray-200 rounded-lg p-5 hover:shadow-md transition-shadow duration-200">
+                        @if(in_array((int)$subcategory['id'], array_map('intval', $selectedSubcategories)))
+                            <div wire:key="selected-service-{{ $subcategory['id'] }}" class="bg-white border-2 border-gray-200 rounded-lg p-5 hover:shadow-md transition-shadow duration-200">
                                 <div class="flex items-center justify-between mb-4">
                                     <div>
                                         <span class="font-semibold text-lg text-gray-900">{{ $subcategory['name'] }}</span>
@@ -176,7 +183,7 @@
 
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <!-- Price -->
-                                    <div>
+                                    <div wire:key="price-field-{{ $subcategory['id'] }}">
                                         <label class="block text-sm font-medium text-gray-700 mb-2">
                                             Kaina <span class="text-red-500">*</span>
                                         </label>
@@ -199,7 +206,7 @@
                                     </div>
 
                                     <!-- Price Type -->
-                                    <div>
+                                    <div wire:key="price-type-field-{{ $subcategory['id'] }}">
                                         <label class="block text-sm font-medium text-gray-700 mb-2">
                                             Kainos tipas <span class="text-red-500">*</span>
                                         </label>
@@ -217,7 +224,7 @@
                                     </div>
 
                                     <!-- Experience -->
-                                    <div>
+                                    <div wire:key="experience-field-{{ $subcategory['id'] }}">
                                         <label class="block text-sm font-medium text-gray-700 mb-2">
                                             Patirtis (metais)
                                         </label>
@@ -248,7 +255,7 @@
         @endif
     </div>
 
-    <!-- Bottom Error Message (duplicate of top error) -->
+    <!-- Bottom Error Message -->
     @error('selectedSubcategories')
     <div class="max-w-2xl mx-auto mt-6">
         <div class="bg-red-50 border-2 border-red-300 rounded-lg p-4 shadow-sm">
@@ -297,55 +304,97 @@
 
 @push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const scroller = document.getElementById('regCategoryScroller');
-            const scrollLeftBtn = document.getElementById('scrollLeftReg');
-            const scrollRightBtn = document.getElementById('scrollRightReg');
+        function categoryScroller() {
+            return {
+                showLeftArrow: false,
+                showRightArrow: false,
 
-            if (!scroller || !scrollLeftBtn || !scrollRightBtn) return;
+                init() {
+                    this.$nextTick(() => {
+                        this.updateArrows();
+                    });
 
-            function updateArrowVisibility() {
-                const isScrollable = scroller.scrollWidth > scroller.clientWidth;
+                    // Also update on window resize
+                    window.addEventListener('resize', () => this.updateArrows());
 
-                if (!isScrollable) {
-                    scrollLeftBtn.style.display = 'none';
-                    scrollRightBtn.style.display = 'none';
-                    return;
-                }
+                    // Update after Livewire updates
+                    document.addEventListener('livewire:navigated', () => {
+                        this.$nextTick(() => this.updateArrows());
+                    });
+                },
 
-                const isAtStart = scroller.scrollLeft <= 10;
-                const isAtEnd = scroller.scrollLeft >= scroller.scrollWidth - scroller.clientWidth - 10;
+                updateArrows() {
+                    const scroller = this.$refs.scroller;
+                    if (!scroller) return;
 
-                if (isAtStart) {
-                    scrollLeftBtn.style.display = 'none';
-                    scrollRightBtn.style.display = 'flex';
-                } else if (isAtEnd) {
-                    scrollLeftBtn.style.display = 'flex';
-                    scrollRightBtn.style.display = 'none';
-                } else {
-                    scrollLeftBtn.style.display = 'flex';
-                    scrollRightBtn.style.display = 'flex';
+                    const isScrollable = scroller.scrollWidth > scroller.clientWidth;
+
+                    if (!isScrollable) {
+                        this.showLeftArrow = false;
+                        this.showRightArrow = false;
+                        return;
+                    }
+
+                    const isAtStart = scroller.scrollLeft <= 10;
+                    const isAtEnd = scroller.scrollLeft >= scroller.scrollWidth - scroller.clientWidth - 10;
+
+                    this.showLeftArrow = !isAtStart;
+                    this.showRightArrow = !isAtEnd;
+                },
+
+                scrollLeft() {
+                    const scroller = this.$refs.scroller;
+                    if (scroller) {
+                        scroller.scrollBy({ left: -220, behavior: 'smooth' });
+                        setTimeout(() => this.updateArrows(), 300);
+                    }
+                },
+
+                scrollRight() {
+                    const scroller = this.$refs.scroller;
+                    if (scroller) {
+                        scroller.scrollBy({ left: 220, behavior: 'smooth' });
+                        setTimeout(() => this.updateArrows(), 300);
+                    }
                 }
             }
-
-            scrollLeftBtn.addEventListener('click', () => {
-                scroller.scrollBy({ left: -220, behavior: 'smooth' });
-            });
-
-            scrollRightBtn.addEventListener('click', () => {
-                scroller.scrollBy({ left: 220, behavior: 'smooth' });
-            });
-
-            scroller.addEventListener('scroll', updateArrowVisibility);
-            window.addEventListener('resize', updateArrowVisibility);
-
-            setTimeout(updateArrowVisibility, 100);
-            window.addEventListener('load', updateArrowVisibility);
-
-            document.addEventListener('livewire:load', updateArrowVisibility);
-            Livewire.hook('message.processed', () => {
-                setTimeout(updateArrowVisibility, 100);
-            });
-        });
+        }
     </script>
+@endpush
+
+@push('styles')
+    <style>
+        [x-cloak] { display: none !important; }
+
+        /* Custom scrollbar for category tabs */
+        .category-scrollbar {
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: #9ca3af #e5e7eb; /* Firefox: thumb track */
+        }
+
+        /* Webkit browsers (Chrome, Safari, Edge) */
+        .category-scrollbar::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .category-scrollbar::-webkit-scrollbar-track {
+            background: #e5e7eb;
+            border-radius: 4px;
+        }
+
+        .category-scrollbar::-webkit-scrollbar-thumb {
+            background: #9ca3af;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+
+        .category-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+
+        /* Optional: match your primary color */
+        .category-scrollbar::-webkit-scrollbar-thumb:active {
+            background: var(--color-primary-light, #3b82f6);
+        }
+    </style>
 @endpush

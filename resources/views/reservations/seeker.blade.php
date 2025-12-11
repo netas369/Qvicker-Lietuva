@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <div class="my-4 ">
+        <div class="mt-4">
             {{ $reservations->links() }}
         </div>
 
@@ -100,7 +100,7 @@
                 @endforeach
             </div>
         @endif
-        <div class="my-4 ">
+        <div class="mt-4">
             {{ $reservations->links() }}
         </div>
     </div>

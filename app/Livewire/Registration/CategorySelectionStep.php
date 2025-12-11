@@ -7,7 +7,6 @@ use Livewire\Component;
 use Livewire\Attributes\On;
 use App\Services\CategoryIconService;
 
-
 class CategorySelectionStep extends Component
 {
     public $categories = [];
@@ -69,6 +68,16 @@ class CategorySelectionStep extends Component
         $this->filteredSubcategories = $allSubcategories;
     }
 
+    /**
+     * Normalize selectedSubcategories to integers after any update
+     * This fixes the type mismatch issue between checkbox string values and database integer IDs
+     */
+    public function updatedSelectedSubcategories()
+    {
+        // Convert all values to integers to ensure consistent comparison
+        $this->selectedSubcategories = array_map('intval', array_values($this->selectedSubcategories));
+    }
+
     public function setActiveTab($index)
     {
         $this->activeTab = $index;
@@ -76,10 +85,12 @@ class CategorySelectionStep extends Component
 
     public function removeSubcategory($subcategoryId)
     {
-        $this->selectedSubcategories = array_filter(
+        $subcategoryId = (int) $subcategoryId;
+
+        $this->selectedSubcategories = array_values(array_filter(
             $this->selectedSubcategories,
-            fn($id) => $id != $subcategoryId
-        );
+            fn($id) => (int) $id !== $subcategoryId
+        ));
 
         // Remove associated data
         unset($this->subcategoryPrices[$subcategoryId]);
@@ -95,6 +106,15 @@ class CategorySelectionStep extends Component
         $this->subcategoryExperience = [];
     }
 
+    /**
+     * Helper method to check if a subcategory is selected
+     * Uses strict integer comparison
+     */
+    public function isSelected($subcategoryId): bool
+    {
+        return in_array((int) $subcategoryId, array_map('intval', $this->selectedSubcategories), true);
+    }
+
     protected function rules()
     {
         $rules = [
@@ -103,6 +123,7 @@ class CategorySelectionStep extends Component
 
         // Add validation for each selected subcategory
         foreach ($this->selectedSubcategories as $subcategoryId) {
+            $subcategoryId = (int) $subcategoryId;
             $rules["subcategoryPrices.{$subcategoryId}"] = 'required|numeric|min:0|max:1000';
             $rules["subcategoryPriceTypes.{$subcategoryId}"] = 'required|in:hourly,fixed,meter';
             $rules["subcategoryExperience.{$subcategoryId}"] = 'nullable|integer|min:0|max:50';
@@ -137,6 +158,11 @@ class CategorySelectionStep extends Component
     public function restoreData($categoryData)
     {
         $this->fill($categoryData);
+
+        // Ensure selectedSubcategories are integers after restoration
+        if (!empty($this->selectedSubcategories)) {
+            $this->selectedSubcategories = array_map('intval', array_values($this->selectedSubcategories));
+        }
     }
 
     #[On('trigger-category-submit')]
@@ -150,7 +176,7 @@ class CategorySelectionStep extends Component
         $validatedData = $this->validate();
 
         $this->dispatch('category-data-validated', categoryData: [
-            'selectedSubcategories' => $this->selectedSubcategories,
+            'selectedSubcategories' => array_map('intval', $this->selectedSubcategories),
             'subcategoryPrices' => $this->subcategoryPrices,
             'subcategoryPriceTypes' => $this->subcategoryPriceTypes,
             'subcategoryExperience' => $this->subcategoryExperience,

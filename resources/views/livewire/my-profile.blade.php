@@ -314,20 +314,57 @@
                         </div>
                     @endif
 
-                    <!-- About Me Section with Auto-Save -->
-                    <div class="space-y-4">
+                    <div class="space-y-4"
+                         x-data="{
+        previewMode: false,
+        resize() {
+            $nextTick(() => {
+                const textarea = $refs.aboutMeTextarea;
+                if (textarea) {
+                    // Reset height to auto to correctly calculate shrinkage
+                    textarea.style.height = 'auto';
+                    // Apply the new height based on content
+                    textarea.style.height = textarea.scrollHeight + 'px';
+                }
+            });
+        }
+     }"
+                         x-init="
+        resize();
+        // 1. Watch for changes to the Livewire property (e.g. after save)
+        $watch('$wire.aboutMe', () => resize());
+     "
+                         @about-me-saved.window="resize()"
+                    >
                         <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <div class="bg-primary-light/10 p-2 rounded-lg mr-3">
-                                    <svg class="w-6 h-6 text-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                    </svg>
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center">
+                                    <div class="bg-primary-light/10 p-2 rounded-lg mr-3">
+                                        <svg class="w-6 h-6 text-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                        </svg>
+                                    </div>
+                                    <h2 class="text-xl font-bold text-gray-800">Apie Mane</h2>
                                 </div>
-                                <h2 class="text-xl font-bold text-gray-800">Apie Mane</h2>
+
+                                <button
+                                    type="button"
+                                    @click="previewMode = !previewMode; if(!previewMode) resize();"
+                                    class="flex items-center px-3 py-1.5 text-sm font-medium rounded-lg transition-colors duration-200"
+                                    :class="previewMode ? 'bg-primary-light text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+                                >
+                                    <svg x-show="!previewMode" class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    <svg x-show="previewMode" class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                    <span x-text="previewMode ? 'Redaguoti' : 'Peržiūrėti'"></span>
+                                </button>
                             </div>
 
-                            <!-- Auto-Save Indicator -->
-                            <div class="flex items-center text-sm">
+                            <div x-show="!previewMode" class="flex items-center text-sm">
                                 <div wire:loading wire:target="aboutMe" class="flex items-center text-blue-600">
                                     <svg class="animate-spin h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -351,7 +388,6 @@
                             </div>
                         </div>
 
-                        <!-- Important Information Box -->
                         <div class="bg-primary-dark/20 border-l-4 border-primary-dark rounded-xl p-4 shadow-sm">
                             <div class="flex items-start">
                                 <div class="flex-shrink-0">
@@ -371,15 +407,10 @@
                                         @if($this->user->role === 'provider')
                                             <p class="leading-relaxed">
                                                 <strong>Qvicker</strong> yra tarpusavio paslaugų platforma (P2P), kur klientai renka meistrus pagal jūsų aprašymą ir patirtį.
-                                                Išsamiai apibūdinkite savo darbo istoriją, įgūdžius ir patirtį - tai padidins pasitikėjimą ir padės pritraukti daugiau užsakymų.
-                                            </p>
-                                            <p class="text-xs text-primary mt-2">
-                                                <strong>Pavyzdžiui:</strong> Kiek metų dirbate šioje srityje, kokių projektų esate įgyvendinę, kokie jūsų stipriausi įgūdžiai.
                                             </p>
                                         @else
                                             <p class="leading-relaxed">
-                                                Apibūdinkite save - tai padės meistrams geriau suprasti jūsų poreikius ir užtikrinti kokybišką paslaugą.
-                                                Galite nurodyti savo pomėgius, pageidavimus ar bet kokią kitą informaciją, kuri galėtų būti naudinga.
+                                                Apibūdinkite save - tai padės meistrams geriau suprasti jūsų poreikius.
                                             </p>
                                         @endif
                                     </div>
@@ -387,20 +418,36 @@
                             </div>
                         </div>
 
-                        <textarea
-                            wire:model.live.debounce.1000ms="aboutMe"
-                            rows="4"
-                            class="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 resize-none @error('aboutMe') border-red-500 @enderror"
-                            placeholder="{{ $this->user->role === 'provider' ? 'Apibūdinkite savo darbo įgūdžius...' : 'Apibūdinkite save...' }}"
-                        ></textarea>
+                        <div x-show="!previewMode">
+        <textarea
+            x-ref="aboutMeTextarea"
+            wire:model.live.debounce.1000ms="aboutMe"
+            @input="resize()"
+            rows="4"
+            class="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 overflow-hidden resize-none min-h-[120px] transition-all duration-200 @error('aboutMe') border-red-500 @enderror"
+            placeholder="{{ $this->user->role === 'provider' ? 'Apibūdinkite savo darbo įgūdžius...' : 'Apibūdinkite save...' }}"
+        ></textarea>
 
-                        @error('aboutMe')
-                        <p class="text-red-500 text-xs mt-1 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
-                        @enderror
+                            @error('aboutMe')
+                            <p class="text-red-500 text-xs mt-1 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
+                            @enderror
 
-                        <p class="text-xs text-gray-500">
-                            {{ strlen($aboutMe ?? '') }}/2000 simbolių
-                        </p>
+                            <p class="text-xs text-gray-500 mt-2 text-right">
+                                {{ strlen($aboutMe ?? '') }}/2000 simbolių
+                            </p>
+                        </div>
+
+                        <div x-show="previewMode" style="display: none;">
+                            <div class="w-full rounded-xl bg-gray-50 border border-gray-200 p-6 shadow-inner">
+                                <div class="prose max-w-none text-gray-700 whitespace-pre-wrap leading-relaxed">
+                                    @if($aboutMe)
+                                        {{ $aboutMe }}
+                                    @else
+                                        <span class="text-gray-400 italic">Aprašymas dar nepateiktas.</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Personal Information Section -->
