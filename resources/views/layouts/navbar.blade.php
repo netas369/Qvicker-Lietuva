@@ -23,11 +23,13 @@
         <li><a class="text-md text-primary {{ request()->is('/') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/">Pagrindinis</a></li>
         <li><a class="text-md text-primary {{ request()->is('partneriams') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="{{route('partners')}}">Partneriams</a></li>
         <li><a class="text-md text-primary {{ request()->is('naudotojams') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="{{route('seekers')}}">Naudotojams</a></li>
+
         @if(auth()->check() && auth()->user()->role == 'provider')
-        <li><a class="text-md text-primary {{ request()->is('provider/support') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/provider/support">Pagalba</a></li>
-            @elseif(auth()->check() && auth()->user()->role == 'seeker')
-                <li><a class="text-md text-primary {{ request()->is('seeker/support') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/seeker/support">Pagalba</a></li>
-            @endif
+            <li><a class="text-md text-primary {{ request()->is('provider/support') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/provider/support">Pagalba</a></li>
+        @elseif(auth()->check() && auth()->user()->role == 'seeker')
+            <li><a class="text-md text-primary {{ request()->is('seeker/support') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/seeker/support">Pagalba</a></li>
+        @endif
+
         <li><a class="text-md text-primary {{ request()->is('duk') ? 'font-bold' : 'font-normal' }} hover:text-primary-light" href="/duk">DUK</a></li>
     </ul>
 
@@ -95,7 +97,13 @@
                                 <p class="text-sm text-gray-600">{{ auth()->user()->email ?? 'user@example.com' }}</p>
                                 <div class="mt-1 inline-flex items-center px-2.5 py-1 bg-primary/10 rounded-full">
                                     <div class="w-2 h-2 bg-primary rounded-full mr-2 animate-pulse"></div>
-                                    <span class="text-xs font-medium text-primary capitalize">{{ auth()->user()->role }}</span>
+                                    @if(auth()->user()->role === 'provider')
+                                        <span class="text-xs font-medium text-primary capitalize">Paslaugų Teikėjas</span>
+                                    @elseif(auth()->user()->role === 'seeker')
+                                        <span class="text-xs font-medium text-primary capitalize">Naudotojas</span>
+                                    @elseif(auth()->user()->role === 'seeker')
+                                        <span class="text-xs font-medium text-primary capitalize">Administratorius</span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -135,7 +143,7 @@
                         <div class="border-t border-gray-100 p-2">
                             <div class="px-3 py-1.5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Darbas</div>
                             @if(auth()->user()->role === 'provider')
-                                <a href="/provider/work" class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-all duration-150 group/item">
+                                <a href="{{ route('provider.work') }}" class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-all duration-150 group/item">
                                     <div class="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center mr-3 group-hover/item:bg-green-100 transition-colors">
                                         <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
@@ -146,6 +154,18 @@
                                         <p class="text-xs text-gray-500">Valdyti paslaugas</p>
                                     </div>
                                 </a>
+
+                                <a href="{{ route('provider.calendar') }}" class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-all duration-150 group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center mr-3 group-hover/item:bg-indigo-100 transition-colors">
+                                        <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="font-medium">Kalendorius</span>
+                                        <p class="text-xs text-gray-500">Tvarkaraštis ir laikas</p>
+                                    </div>
+                                </a>
                             @endif
 
                             @if(auth()->user()->role === 'provider')
@@ -153,16 +173,16 @@
                                     @elseif(auth()->user()->role === 'seeker')
                                         <a href="/my-reservations" class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-all duration-150 group/item">
                                             @endif
-                                <div class="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center mr-3 group-hover/item:bg-orange-100 transition-colors">
-                                    <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
-                                    </svg>
-                                </div>
-                                <div class="flex-1">
-                                    <span class="font-medium">Užsakymai</span>
-                                    <p class="text-xs text-gray-500">Istorija ir būsena</p>
-                                </div>
-                            </a>
+                                            <div class="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center mr-3 group-hover/item:bg-orange-100 transition-colors">
+                                                <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1">
+                                                <span class="font-medium">Užsakymai</span>
+                                                <p class="text-xs text-gray-500">Istorija ir būsena</p>
+                                            </div>
+                                        </a>
 
                         </div>
 
@@ -170,20 +190,20 @@
                         <div class="border-t border-gray-100 p-2">
                             <div class="px-3 py-1.5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Nustatymai</div>
                             @if(auth()->check() && auth()->user()->role == 'provider')
-                            <a href="/provider/support" class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-all duration-150 group/item">
-                                @elseif(auth()->check() && auth()->user()->role == 'seeker')
-                                    <a href="/seeker/support" class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-all duration-150 group/item">
-                                    @endif
-                                <div class="w-8 h-8 rounded-lg bg-pink-50 flex items-center justify-center mr-3 group-hover/item:bg-pink-100 transition-colors">
-                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                                    </svg>
-                                </div>
-                                <div class="flex-1">
-                                    <span class="font-medium">Pagalba</span>
-                                    <p class="text-xs text-gray-500">Pagalba ir DUK</p>
-                                </div>
-                            </a>
+                                <a href="/provider/support" class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-all duration-150 group/item">
+                                    @elseif(auth()->check() && auth()->user()->role == 'seeker')
+                                        <a href="/seeker/support" class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-all duration-150 group/item">
+                                            @endif
+                                            <div class="w-8 h-8 rounded-lg bg-pink-50 flex items-center justify-center mr-3 group-hover/item:bg-pink-100 transition-colors">
+                                                <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1">
+                                                <span class="font-medium">Pagalba</span>
+                                                <p class="text-xs text-gray-500">Pagalba ir DUK</p>
+                                            </div>
+                                        </a>
                         </div>
                     </div>
 
@@ -245,8 +265,13 @@
                     </div>
                     <div class="flex-1">
                         <p class="text-sm font-semibold text-gray-900">{{ auth()->user()->name }}</p>
-                        <p class="text-xs text-gray-500 capitalize">{{ auth()->user()->role }}</p>
-                    </div>
+                        @if(auth()->user()->role === 'provider')
+                            <span class="text-xs font-medium text-primary capitalize">Paslaugų Teikėjas</span>
+                        @elseif(auth()->user()->role === 'seeker')
+                            <span class="text-xs font-medium text-primary capitalize">Naudotojas</span>
+                        @elseif(auth()->user()->role === 'seeker')
+                            <span class="text-xs font-medium text-primary capitalize">Administratorius</span>
+                        @endif                    </div>
                 </div>
             </div>
         @endauth
@@ -264,7 +289,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/partneriams" class="flex items-center px-4 py-3 rounded-lg transition-all duration-200 {{ request()->is('partners') ? 'bg-primary text-white shadow-md' : 'text-gray-700 hover:bg-gray-100' }}">
+                    <a href="/partneriams" class="flex items-center px-4 py-3 rounded-lg transition-all duration-200 {{ request()->is('partneriams') ? 'bg-primary text-white shadow-md' : 'text-gray-700 hover:bg-gray-100' }}">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                         </svg>
@@ -272,7 +297,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/naudotojams" class="flex items-center px-4 py-3 rounded-lg transition-all duration-200 {{ request()->is('seekers') ? 'bg-primary text-white shadow-md' : 'text-gray-700 hover:bg-gray-100' }}">
+                    <a href="/naudotojams" class="flex items-center px-4 py-3 rounded-lg transition-all duration-200 {{ request()->is('naudotojams') ? 'bg-primary text-white shadow-md' : 'text-gray-700 hover:bg-gray-100' }}">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                         </svg>
@@ -338,60 +363,74 @@
                 <div class="px-3 mb-4">
                     <div class="px-3 py-1.5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Darbas</div>
                     <ul class="space-y-1">
+                        @if(auth()->user()->role === 'provider')
+                            <li>
+                                <a href="{{ route('provider.work') }}" class="flex items-center px-4 py-3 rounded-lg transition-all duration-200 {{ request()->is('provider/work') ? 'bg-primary text-white shadow-md' : 'text-gray-700 hover:bg-gray-100' }}">
+                                    <div class="w-8 h-8 rounded-lg {{ request()->is('provider/work') ? 'bg-white/20' : 'bg-green-50' }} flex items-center justify-center mr-3">
+                                        <svg class="w-4 h-4 {{ request()->is('provider/work') ? 'text-white' : 'text-green-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="font-medium text-sm">Darbas</span>
+                                        <p class="text-xs {{ request()->is('provider/work') ? 'text-white/70' : 'text-gray-500' }}">Valdyti paslaugas</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('provider.calendar') }}" class="flex items-center px-4 py-3 rounded-lg transition-all duration-200 {{ request()->is('provider/calendar') ? 'bg-primary text-white shadow-md' : 'text-gray-700 hover:bg-gray-100' }}">
+                                    <div class="w-8 h-8 rounded-lg {{ request()->is('provider/calendar') ? 'bg-white/20' : 'bg-indigo-50' }} flex items-center justify-center mr-3">
+                                        <svg class="w-4 h-4 {{ request()->is('provider/calendar') ? 'text-white' : 'text-indigo-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="font-medium text-sm">Kalendorius</span>
+                                        <p class="text-xs {{ request()->is('provider/calendar') ? 'text-white/70' : 'text-gray-500' }}">Tvarkaraštis ir laikas</p>
+                                    </div>
+                                </a>
+                            </li>
+                        @endif
                         <li>
                             @if(auth()->user()->role === 'provider')
-                            <a href="/provider/work" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-all duration-200">
-                                <div class="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center mr-3">
-                                    <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                    </svg>
-                                </div>
-                                <div class="flex-1">
-                                    <span class="font-medium text-sm">Mano paslaugos</span>
-                                    <p class="text-xs text-gray-500">Valdyti paslaugas</p>
-                                </div>
-                            </a>
-                            @endif
-                        </li>
-                        <li>
-                            @if(auth()->user()->role === 'provider')
-                            <a href="/provider-reservations" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-all duration-200">
-                                @elseif(auth()->user()->role === 'seeker')
-                                    <a href="/my-reservations" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-all duration-200">
-                                    @endif
-                                <div class="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center mr-3">
-                                    <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
-                                    </svg>
-                                </div>
-                                <div class="flex-1">
-                                    <span class="font-medium text-sm">Užsakymai</span>
-                                    <p class="text-xs text-gray-500">Istorija ir būsena</p>
-                                </div>
-                            </a>
+                                <a href="/provider-reservations" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-all duration-200">
+                                    @elseif(auth()->user()->role === 'seeker')
+                                        <a href="/my-reservations" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-all duration-200">
+                                            @endif
+                                            <div class="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center mr-3">
+                                                <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1">
+                                                <span class="font-medium text-sm">Užsakymai</span>
+                                                <p class="text-xs text-gray-500">Istorija ir būsena</p>
+                                            </div>
+                                        </a>
                         </li>
                     </ul>
                 </div>
+
                 <!-- Settings Section -->
                 <div class="px-3 mb-4">
                     <div class="px-3 py-1.5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Nustatymai</div>
                     <ul class="space-y-1">
                         <li>
                             @if(auth()->check() && auth()->user()->role == 'provider')
-                            <a href="/provider/support" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-all duration-200">
-                                @elseif(auth()->check() && auth()->user()->role == 'seeker')
-                                    <a href="/seeker/support" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-all duration-200">
-                                        @endif
-                                <div class="w-8 h-8 rounded-lg bg-pink-50 flex items-center justify-center mr-3">
-                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                                    </svg>
-                                </div>
-                                <div class="flex-1">
-                                    <span class="font-medium text-sm">Pagalba</span>
-                                    <p class="text-xs text-gray-500">Pagalba ir DUK</p>
-                                </div>
-                            </a>
+                                <a href="/provider/support" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-all duration-200">
+                                    @elseif(auth()->check() && auth()->user()->role == 'seeker')
+                                        <a href="/seeker/support" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-all duration-200">
+                                            @endif
+                                            <div class="w-8 h-8 rounded-lg bg-pink-50 flex items-center justify-center mr-3">
+                                                <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1">
+                                                <span class="font-medium text-sm">Pagalba</span>
+                                                <p class="text-xs text-gray-500">Pagalba ir DUK</p>
+                                            </div>
+                                        </a>
                         </li>
                     </ul>
                 </div>
