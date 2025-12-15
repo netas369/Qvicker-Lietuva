@@ -2,8 +2,9 @@
 <html lang="lt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
     <title>@yield('title', 'Qvicker - Paslaugų platforma')</title>
+    <link rel="canonical" href="{{ url()->current() }}" />
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
     <meta name="description" content="@yield('description', 'Raskite specialistus bet kokiai užduočiai')">
