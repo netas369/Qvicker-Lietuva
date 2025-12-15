@@ -52,7 +52,7 @@
                     <ol class="flex items-center space-x-2 text-sm">
                         <li><a href="/" class="@if(isset($seoData) && !empty($seoData->image_path)) text-white/90 hover:text-white @else text-gray-600 hover:text-primary-light @endif">Pradžia</a></li>
                         <li><span class="@if(isset($seoData) && !empty($seoData->image_path)) text-white/60 @else text-gray-400 @endif">/</span></li>
-                        <li><a href="/allservices" class="@if(isset($seoData) && !empty($seoData->image_path)) text-white/90 hover:text-white @else text-gray-600 hover:text-primary-light @endif">Visos paslaugos</a></li>
+                        <li><a href="{{route('allservices')}}" class="@if(isset($seoData) && !empty($seoData->image_path)) text-white/90 hover:text-white @else text-gray-600 hover:text-primary-light @endif">Visos paslaugos</a></li>
                         <li><span class="@if(isset($seoData) && !empty($seoData->image_path)) text-white/60 @else text-gray-400 @endif">/</span></li>
                         <li><span class="@if(isset($seoData) && !empty($seoData->image_path)) text-white font-medium @else text-gray-800 font-medium @endif">{{ $serviceData->subcategory }}</span></li>
                     </ol>
