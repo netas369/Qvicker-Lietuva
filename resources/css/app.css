@@ -1,5 +1,6 @@
 @import 'flatpickr/dist/flatpickr.min.css';
 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -62,6 +63,22 @@
     color: rgb(79 70 229 / var(--tw-text-opacity));
 }
 
+/* Ensure the cropper container doesn't exceed the modal height */
+.cropper-container {
+    max-height: 400px !important;
+    width: 100% !important;
+}
+
+/* Fix for squashed images */
+.cropper-view-box, .cropper-face {
+    border-radius: 0; /* Change to 50% if you want a circular preview */
+}
+
+#cropper-modal .bg-white {
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
 
 /*.swiper-container {*/
 /*    width: 50%; !* Full screen width *!*/

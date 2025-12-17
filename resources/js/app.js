@@ -1,8 +1,11 @@
 import './bootstrap';
+import 'cropperjs/dist/cropper.css';
 
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import { Lithuanian } from "flatpickr/dist/l10n/lt.js";
+
+import Cropper from 'cropperjs';
 
 // Make flatpickr available globally
 window.flatpickr = flatpickr;
@@ -75,3 +78,5 @@ if (document.readyState === 'loading') {
 } else {
     mountVueComponents();
 }
+
+window.Cropper = Cropper;

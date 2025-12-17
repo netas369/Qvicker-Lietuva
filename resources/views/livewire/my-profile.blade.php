@@ -84,8 +84,7 @@
                                         </div>
                                     @else
                                         <div class="relative group">
-                                            <div
-                                                class="w-32 h-32 rounded-full mb-4 flex items-center justify-center bg-gradient-to-br from-primary-light to-primary-verylight text-white text-4xl font-bold border-4 border-white shadow-lg">
+                                            <div class="w-32 h-32 rounded-full mb-4 flex items-center justify-center bg-gradient-to-br from-primary-light to-primary-verylight text-white text-4xl font-bold border-4 border-white shadow-lg">
                                                 {{ strtoupper(substr(auth()->user()->name, 0, 1) . substr(auth()->user()->lastname, 0, 1)) }}
                                             </div>
                                         </div>
@@ -97,16 +96,15 @@
                                      class="w-32 h-32 rounded-full mb-4 flex items-center justify-center bg-gray-100 border-4 border-white shadow-lg">
                                     <svg class="animate-spin h-10 w-10 text-primary-light"
                                          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                                stroke-width="4"></circle>
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                         <path class="opacity-75" fill="currentColor"
                                               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
                                 </div>
 
-                                <!-- Upload Input - Enhanced styling -->
-                                <input type="file" wire:model="image" id="image" class="hidden">
-                                <label for="image"
+                                <!-- Upload Input -->
+                                <input type="file" id="image-input" class="hidden" accept="image/*">
+                                <label for="image-input"
                                        class="cursor-pointer inline-flex items-center px-4 py-2 bg-primary-light border border-transparent rounded-xl text-sm text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-light transition-all duration-200 shadow-md hover:shadow-lg">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
@@ -969,6 +967,61 @@
             </div>
         </div>
     </div>
+    <div id="cropper-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-2xl w-full p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Pasirinkite nuotraukos dalį</h3>
+                <button type="button" onclick="closeCropperModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Image Container - FIXED HEIGHT -->
+            <div class="mb-4 bg-gray-900 rounded-lg overflow-hidden flex items-center justify-center" style="height: 400px;">
+                <img id="crop-image" class="block max-w-full max-h-full">
+            </div>
+
+            <!-- Controls -->
+            <div class="flex items-center justify-between">
+                <div class="flex gap-2">
+                    <button type="button" onclick="rotateCropperLeft()"
+                            class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                            title="Pasukti kairėn">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
+                        </svg>
+                    </button>
+                    <button type="button" onclick="rotateCropperRight()"
+                            class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                            title="Pasukti dešinėn">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10H11a8 8 0 00-8 8v2m18-10l-6 6m6-6l-6-6"></path>
+                        </svg>
+                    </button>
+                    <button type="button" onclick="resetCropper()"
+                            class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                            title="Atstatyti">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="flex gap-2">
+                    <button type="button" onclick="closeCropperModal()"
+                            class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors">
+                        Atšaukti
+                    </button>
+                    <button type="button" onclick="uploadCroppedImage()"
+                            class="px-4 py-2 bg-primary-light hover:bg-primary-dark text-white rounded-lg font-medium transition-colors">
+                        Įkelti
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -978,7 +1031,6 @@
         });
     });
 
-    // Password visibility toggle function
     function togglePasswordVisibility(fieldId) {
         const input = document.getElementById(fieldId);
         const eyeShow = document.getElementById(fieldId + '_eye_show');
@@ -993,5 +1045,134 @@
             eyeShow.classList.remove('hidden');
             eyeHide.classList.add('hidden');
         }
+    }
+
+    let cropper = null;
+
+    document.getElementById('image-input').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+
+        if (!file) return;
+
+        if (!file.type.match('image.*')) {
+            alert('Prašome pasirinkti nuotrauką');
+            return;
+        }
+
+        if (file.size > 8 * 1024 * 1024) {
+            alert('Nuotrauka negali viršyti 8MB dydžio');
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+            const modal = document.getElementById('cropper-modal');
+            const image = document.getElementById('crop-image');
+
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+
+            image.src = event.target.result;
+            modal.classList.remove('hidden');
+
+            image.onload = function() {
+                // Destroy previous instance if it exists
+                if (cropper) {
+                    cropper.destroy();
+                }
+
+                // Use the window global we defined in app.js
+                cropper = new window.Cropper(image, {
+                    aspectRatio: 1,
+                    viewMode: 1,
+                    dragMode: 'move',
+                    autoCropArea: 1,
+                    background: false,
+                });
+            };
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+    function closeCropperModal() {
+        const modal = document.getElementById('cropper-modal');
+        modal.classList.add('hidden');
+
+        if (cropper) {
+            cropper.destroy();
+            cropper = null;
+        }
+
+        document.getElementById('image-input').value = '';
+    }
+
+    // Fix the button functions
+    function rotateCropperLeft() {
+        if (cropper) cropper.rotate(-90);
+    }
+
+    function rotateCropperRight() {
+        if (cropper) cropper.rotate(90);
+    }
+
+    function resetCropper() {
+        if (cropper) cropper.reset();
+    }
+
+    function uploadCroppedImage() {
+        if (!cropper) {
+            alert('Cropper nepavyko inicializuoti');
+            return;
+        }
+
+        const canvas = cropper.getCroppedCanvas({
+            width: 800,
+            height: 800,
+            imageSmoothingEnabled: true,
+            imageSmoothingQuality: 'high'
+        });
+
+        canvas.toBlob(function(blob) {
+            if (!blob) return;
+
+            const file = new File([blob], 'profile.jpg', {
+                type: 'image/jpeg',
+                lastModified: Date.now()
+            });
+
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+
+            // TARGETED FIX:
+            // Find the specific Livewire component that handles the profile
+            // by looking for the one that contains our image input.
+            const profileComponentElement = document.getElementById('image-input').closest('[wire\\:id]');
+
+            if (!profileComponentElement) {
+                console.error('Could not find the profile Livewire component.');
+                return;
+            }
+
+            const component = Livewire.find(profileComponentElement.getAttribute('wire:id'));
+
+            component.upload('image', dataTransfer.files[0],
+                (uploadedFilename) => {
+                    closeCropperModal();
+                    // Optional: Manually trigger the save if your updatedImage()
+                    // method doesn't auto-save to the database.
+                },
+                (error) => {
+                    console.error('Upload error:', error);
+                    alert('Įvyko klaida įkeliant nuotrauką');
+                },
+                (event) => {
+                    console.log('Upload progress:', event.detail.progress);
+                }
+            );
+        }, 'image/jpeg', 0.9);
     }
 </script>

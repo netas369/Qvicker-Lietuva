@@ -338,27 +338,14 @@ class MyProfile extends Component
         }
 
         $filename = 'profile-photos/' . uniqid() . '.jpg';
-        $fullPath = storage_path('app/public/' . $filename);
+        $path = $this->image->storeAs('profile-photos', basename($filename), 'public');
 
-        $directory = dirname($fullPath);
-        if (!file_exists($directory)) {
-            mkdir($directory, 0755, true);
-        }
-
-        $manager = new ImageManager(new Driver());
-        $image = $manager->read($this->image->getRealPath());
-
-        if ($image->width() > 800 || $image->height() > 800) {
-            $image->scale(width: 800, height: 800);
-        }
-
-        $image->toJpeg(90)->save($fullPath);
-
-        $this->user->image = $filename;
+        $this->user->image = $path;
         $this->user->save();
 
+        $this->image = null;
+
         session()->flash('message', 'Nuotrauka sėkmingai atnaujinta!');
-        return redirect(request()->header('Referer'));
     }
 
     public function addLanguage()
