@@ -69,141 +69,148 @@
             <!-- Main Content -->
             <div class="p-6 md:p-8">
                 <!-- Main Profile Form (without password) -->
-                <form wire:submit.prevent="updateProfile" autocomplete="off" class="space-y-8">
-                    <div class="w-full grid grid-cols-12 gap-6">
-                        <div class="col-span-12 md:col-span-4">
-                            <!-- Profile Picture Upload - Enhanced styling -->
-                            <div class="mb-6">
-                                <!-- Current Profile Picture -->
-                                <div wire:loading.remove wire:target="image">
-                                    @if(auth()->user()->image)
-                                        <div class="relative group">
-                                            <img src="{{ auth()->user()->profile_photo_url }}"
-                                                 class="w-32 h-32 rounded-full mb-4 object-cover border-4 border-white shadow-lg"
-                                                 alt="Current profile photo">
-                                        </div>
-                                    @else
-                                        <div class="relative group">
-                                            <div class="w-32 h-32 rounded-full mb-4 flex items-center justify-center bg-gradient-to-br from-primary-light to-primary-verylight text-white text-4xl font-bold border-4 border-white shadow-lg">
-                                                {{ strtoupper(substr(auth()->user()->name, 0, 1) . substr(auth()->user()->lastname, 0, 1)) }}
+                <form wire:submit.prevent="updateProfile" autocomplete="off" class="space-y-6 md:space-y-8">
+                    <div class="w-full">
+                        <!-- Mobile: Side by side layout -->
+                        <div class="flex flex-row gap-4 md:grid md:grid-cols-12 md:gap-6">
+                            <!-- Profile Picture Section -->
+                            <div class="flex-shrink-0 md:col-span-4 flex flex-col items-center">
+                                <div class="mb-3 md:mb-4">
+                                    <!-- Current Profile Picture -->
+                                    <div wire:loading.remove wire:target="image">
+                                        @if(auth()->user()->image)
+                                            <div class="relative group">
+                                                <img src="{{ auth()->user()->profile_photo_url }}"
+                                                     class="w-28 h-28 sm:w-48 sm:h-48 md:w-48 md:h-48 rounded-full object-cover border-4 border-white shadow-lg"
+                                                     alt="Current profile photo">
                                             </div>
-                                        </div>
-                                    @endif
+                                        @else
+                                            <div class="relative group">
+                                                <div class="w-24 h-24 sm:w-28 sm:h-28 md:w-40 md:h-40 rounded-full flex items-center justify-center bg-gradient-to-br from-primary-light to-primary-verylight text-white text-2xl sm:text-3xl md:text-4xl font-bold border-4 border-white shadow-lg">
+                                                    {{ strtoupper(substr(auth()->user()->name, 0, 1) . substr(auth()->user()->lastname, 0, 1)) }}
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <!-- Loading State -->
+                                    <div wire:loading wire:target="image"
+                                         class="w-24 h-24 sm:w-28 sm:h-28 md:w-40 md:h-40 rounded-full flex items-center justify-center bg-gray-100 border-4 border-white shadow-lg">
+                                        <svg class="animate-spin h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-primary-light"
+                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor"
+                                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                    </div>
                                 </div>
 
-                                <!-- Loading State -->
-                                <div wire:loading wire:target="image"
-                                     class="w-32 h-32 rounded-full mb-4 flex items-center justify-center bg-gray-100 border-4 border-white shadow-lg">
-                                    <svg class="animate-spin h-10 w-10 text-primary-light"
-                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor"
-                                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                </div>
-
-                                <!-- Upload Input -->
+                                <!-- Upload Button - Hidden on mobile, shown below on mobile -->
                                 <input type="file" id="image-input" class="hidden" accept="image/*">
                                 <label for="image-input"
-                                       class="cursor-pointer inline-flex items-center px-4 py-2 bg-primary-light border border-transparent rounded-xl text-sm text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-light transition-all duration-200 shadow-md hover:shadow-lg">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                       class="hidden md:inline-flex cursor-pointer items-center justify-center px-4 py-2 min-h-[44px] bg-primary-light border border-transparent rounded-xl text-sm font-medium text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-light transition-all duration-200 shadow-md hover:shadow-lg active:scale-95">
+                                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                     </svg>
                                     {{ auth()->user()->image ? 'Pakeisti Nuotrauką' : 'Įkelti Nuotrauką' }}
                                 </label>
 
-                                <!-- Error Message -->
                                 @error('image')
-                                <p class="text-red-500 text-xs mt-2 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
+                                <p class="text-red-500 text-xs mt-2 bg-red-50 p-2 rounded-lg text-center hidden md:block">{{ $message }}</p>
                                 @enderror
+                            </div>
+
+                            <!-- Profile Info Section -->
+                            <div class="flex-1 md:col-span-8">
+                                <div class="md:p-4">
+                                    <!-- Name -->
+                                    <p class="text-primary-light text-base sm:text-lg md:text-2xl lg:text-3xl font-bold mb-2 md:mb-4 break-words">
+                                        {{ ucfirst($this->name) . ' '. ucfirst($this->lastname) }}
+                                    </p>
+
+                                    @if($this->user->role == 'provider')
+                                        <!-- Star Rating Display -->
+                                        <div class="flex flex-wrap items-center gap-1 sm:gap-2 mb-2 md:mb-4">
+                                            <div class="flex text-yellow-400">
+                                                <!-- Full Stars -->
+                                                @for ($i = 1; $i <= floor($this->user->average_rating); $i++)
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                                    </svg>
+                                                @endfor
+
+                                                @php
+                                                    $fraction = $this->user->average_rating - floor($this->user->average_rating);
+                                                    $showHalfStar = $fraction > 0.25 && $fraction < 0.75;
+                                                    $showFullStar = $fraction >= 0.75;
+                                                    $totalStarsShown = floor($this->user->average_rating) + ($showHalfStar ? 1 : 0) + ($showFullStar ? 1 : 0);
+                                                    $emptyStarsToShow = 5 - $totalStarsShown;
+                                                @endphp
+
+                                                @if ($showHalfStar)
+                                                    <div class="relative">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" viewBox="0 0 20 20" fill="currentColor" style="color: #D1D5DB;">
+                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                                        </svg>
+                                                        <div class="absolute inset-0 overflow-hidden" style="width: 50%">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                @elseif ($showFullStar)
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                                    </svg>
+                                                @endif
+
+                                                @for ($i = 0; $i < $emptyStarsToShow; $i++)
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-8 sm:w-8 md:h-8 md:w-8" viewBox="0 0 20 20" fill="currentColor" style="color: #D1D5DB;">
+                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                                    </svg>
+                                                @endfor
+                                            </div>
+
+                                            <span class="text-xs sm:text-sm text-gray-600 font-medium">
+                                {{ number_format($this->user->average_rating, 1) }} ({{ $this->user->reviewsReceived()->count() }} {{ $this->user->reviewsReceived()->count() == 1 ? 'atsiliepimas' : 'atsiliepimai' }})
+                            </span>
+                                        </div>
+                                    @endif
+
+                                    @if($user->role == 'provider')
+                                        <div class="inline-flex items-center text-xs sm:text-sm md:text-base bg-white rounded-lg md:rounded-xl p-2 sm:p-3 md:p-4 shadow-sm border border-gray-100">
+                                            <div class="bg-primary-light p-1.5 sm:p-2 md:p-2.5 rounded-lg mr-2 sm:mr-3 flex-shrink-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                                                    <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </div>
+                                            <p class="text-gray-700 font-medium">
+                                                <span class="hidden sm:inline">Įvykdyti Užsakymai:</span>
+                                                <span class="sm:hidden">Atlikti Užsakymai:</span>
+                                                <span class="text-primary-light font-bold">{{$this->user->getTotalReservationsDone()}}</span>
+                                            </p>
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
                         </div>
 
-                        <div class="col-span-12 md:col-span-8">
-                            <div class="rounded-xl p-6">
-                                <p class="text-primary-light text-xl md:text-3xl font-bold mb-4">{{ ucfirst($this->name) . ' '. ucfirst($this->lastname) }}</p>
+                        <!-- Mobile Upload Button - Full width below the row -->
+                        <div class="mt-4 flex flex-col items-start sm:hidden">
+                            <label for="image-input"
+                                   class="cursor-pointer inline-flex items-center justify-center px-5 py-2.5 min-h-[44px] bg-primary-light border border-transparent rounded-xl text-sm font-medium text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-light transition-all duration-200 shadow-md hover:shadow-lg active:scale-95">
+                                <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                {{ auth()->user()->image ? 'Pakeisti Nuotrauką' : 'Įkelti Nuotrauką' }}
+                            </label>
 
-                                @if($this->user->role == 'provider')
-                                    <!-- Star Rating Display - Enhanced -->
-                                    <div class="flex items-center mb-4">
-                                        <div class="flex text-yellow-400">
-                                            <!-- Full Stars -->
-                                            @for ($i = 1; $i <= floor($this->user->average_rating); $i++)
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                                     fill="currentColor">
-                                                    <path
-                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                                </svg>
-                                            @endfor
-
-                                            <!-- Half Star (if applicable) -->
-                                            @php
-                                                $fraction = $this->user->average_rating - floor($this->user->average_rating);
-                                                $showHalfStar = $fraction > 0.25 && $fraction < 0.75;
-                                                $showFullStar = $fraction >= 0.75;
-                                                $totalStarsShown = floor($this->user->average_rating) + ($showHalfStar ? 1 : 0) + ($showFullStar ? 1 : 0);
-                                                $emptyStarsToShow = 5 - $totalStarsShown;
-                                            @endphp
-
-                                            @if ($showHalfStar)
-                                                <div class="relative">
-                                                    <!-- Empty star background -->
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                                         fill="currentColor" style="color: #D1D5DB;">
-                                                        <path
-                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                                    </svg>
-                                                    <!-- Half star overlay -->
-                                                    <div class="absolute inset-0 overflow-hidden" style="width: 50%">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400"
-                                                             viewBox="0 0 20 20" fill="currentColor">
-                                                            <path
-                                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                            @elseif ($showFullStar)
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400"
-                                                     viewBox="0 0 20 20" fill="currentColor">
-                                                    <path
-                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                                </svg>
-                                            @endif
-
-                                            <!-- Empty Stars -->
-                                            @for ($i = 0; $i < $emptyStarsToShow; $i++)
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                                     fill="currentColor" style="color: #D1D5DB;">
-                                                    <path
-                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                                </svg>
-                                            @endfor
-                                        </div>
-
-                                        <!-- Rating Number -->
-                                        <span class="ml-3 text-sm text-gray-700 md:text-base font-medium px-3 py-1 rounded-full ">
-                                         {{ number_format($this->user->average_rating, 1) }} ({{ $this->user->reviewsReceived()->count() }} {{ $this->user->reviewsReceived()->count() == 1 ? 'atsiliepimas' : 'atsiliepimai' }})
-                                        </span>
-                                    </div>
-                                @endif
-
-                                @if($user->role == 'provider')
-                                    <div class="flex items-center text-sm md:text-lg bg-white rounded-lg p-3 shadow-sm">
-                                        <div class="bg-primary-light p-2 rounded-lg mr-3">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white"
-                                                 viewBox="0 0 20 20" fill="currentColor">
-                                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
-                                                <path fill-rule="evenodd"
-                                                      d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                                                      clip-rule="evenodd"/>
-                                            </svg>
-                                        </div>
-                                        <p class="text-gray-700 font-semibold">Įvykdyti Užsakymai:
-                                            <span class="text-primary-light font-bold">{{$this->user->getTotalReservationsDone()}}</span></p>
-                                    </div>
-                                @endif
-                            </div>
+                            @error('image')
+                            <p class="text-red-500 text-xs mt-2 bg-red-50 p-2 rounded-lg text-center">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
@@ -319,9 +326,7 @@
             $nextTick(() => {
                 const textarea = $refs.aboutMeTextarea;
                 if (textarea) {
-                    // Reset height to auto to correctly calculate shrinkage
                     textarea.style.height = 'auto';
-                    // Apply the new height based on content
                     textarea.style.height = textarea.scrollHeight + 'px';
                 }
             });
@@ -329,7 +334,6 @@
      }"
                          x-init="
         resize();
-        // 1. Watch for changes to the Livewire property (e.g. after save)
         $watch('$wire.aboutMe', () => resize());
      "
                          @about-me-saved.window="resize()"
@@ -342,7 +346,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                         </svg>
                                     </div>
-                                    <h2 class="text-xl font-bold text-gray-800">Apie Mane</h2>
+                                    <h2 class="text-xl font-bold text-gray-800">Profesinis aprašymas</h2>
                                 </div>
 
                                 <button
@@ -362,8 +366,9 @@
                                 </button>
                             </div>
 
+                            <!-- Combined saving indicator for both fields -->
                             <div x-show="!previewMode" class="flex items-center text-sm">
-                                <div wire:loading wire:target="aboutMe" class="flex items-center text-blue-600">
+                                <div wire:loading wire:target="title, aboutMe" class="flex items-center text-blue-600">
                                     <svg class="animate-spin h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -375,6 +380,7 @@
                                     x-show="show"
                                     x-transition
                                     @about-me-saved.window="show = true; setTimeout(() => show = false, 2000)"
+                                    @title-saved.window="show = true; setTimeout(() => show = false, 2000)"
                                     class="flex items-center text-green-600"
                                     style="display: none;"
                                 >
@@ -386,6 +392,7 @@
                             </div>
                         </div>
 
+                        <!-- Info box -->
                         <div class="bg-primary-dark/20 border-l-4 border-primary-dark rounded-xl p-4 shadow-sm">
                             <div class="flex items-start">
                                 <div class="flex-shrink-0">
@@ -416,33 +423,73 @@
                             </div>
                         </div>
 
-                        <div x-show="!previewMode">
-        <textarea
-            x-ref="aboutMeTextarea"
-            wire:model.live.debounce.1000ms="aboutMe"
-            @input="resize()"
-            rows="4"
-            class="w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 overflow-hidden resize-none min-h-[120px] transition-all duration-200 @error('aboutMe') border-red-500 @enderror"
-            placeholder="{{ $this->user->role === 'provider' ? 'Apibūdinkite savo darbo įgūdžius...' : 'Apibūdinkite save...' }}"
-        ></textarea>
+                        <!-- Edit Mode -->
+                        <div x-show="!previewMode" class="space-y-4">
+                            @if(auth()->user()->role === 'provider')
+                                <div>
+                                    <label for="title" class="block text-sm font-semibold text-primary mb-2">Titulinis</label>
+                                    <input type="text"
+                                           id="title"
+                                           name="title"
+                                           wire:model.live.debounce.500ms="title"
+                                           class="w-full rounded-xl border-gray-300 shadow-sm bg-gray-50 text-gray-600 focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 @error('title') border-red-500 @enderror"
+                                           placeholder="Jūsų teikiamų paslaugų pavadinimas..."
+                                           maxlength="100">
+                                    @error('title')
+                                    <p class="text-red-500 text-xs mt-1 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
+                                    @enderror
+                                    <p class="text-xs text-gray-500 mt-1 text-right">
+                                        {{ strlen($title ?? '') }}/60 simbolių
+                                    </p>
+                                </div>
+                            @endif
 
-                            @error('aboutMe')
-                            <p class="text-red-500 text-xs mt-1 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
-                            @enderror
+                            <div>
+                                <label for="aboutMe" class="block text-sm font-semibold text-primary mb-2">Aprašymas</label>
+                                <textarea
+                                    x-ref="aboutMeTextarea"
+                                    wire:model.live.debounce.1000ms="aboutMe"
+                                    @input="resize()"
+                                    rows="4"
+                                    class="w-full rounded-xl border-gray-300 shadow-sm bg-gray-50 focus:border-primary-light focus:ring-primary-light focus:ring-opacity-50 overflow-hidden resize-none min-h-[120px] transition-all duration-200 @error('aboutMe') border-red-500 @enderror"
+                                    placeholder="{{ $this->user->role === 'provider' ? 'Papasakokite apie savo patirtį, naudojamus įrankius ir kodėl klientai turėtų pasirinkti būtent Jus. Pvz.: „Turiu 5 metų patirtį, dirbu tik su kokybiškomis medžiagomis ir suteikiu garantiją...' : 'Apibūdinkite save...' }}"
+                                ></textarea>
 
-                            <p class="text-xs text-gray-500 mt-2 text-right">
-                                {{ strlen($aboutMe ?? '') }}/2000 simbolių
-                            </p>
+                                @error('aboutMe')
+                                <p class="text-red-500 text-xs mt-1 bg-red-50 p-2 rounded-lg">{{ $message }}</p>
+                                @enderror
+
+                                <p class="text-xs text-gray-500 mt-2 text-right">
+                                    {{ strlen($aboutMe ?? '') }}/2000 simbolių
+                                </p>
+                            </div>
                         </div>
 
+                        <!-- Preview Mode -->
                         <div x-show="previewMode" style="display: none;">
-                            <div class="w-full rounded-xl bg-gray-50 border border-gray-200 p-6 shadow-inner">
-                                <div class="prose max-w-none text-gray-700 whitespace-pre-wrap leading-relaxed">
-                                    @if($aboutMe)
-                                        {{ $aboutMe }}
-                                    @else
-                                        <span class="text-gray-400 italic">Aprašymas dar nepateiktas.</span>
-                                    @endif
+                            <div class="w-full rounded-xl bg-gray-50 border border-gray-200 p-6 shadow-inner space-y-4">
+                                @if(auth()->user()->role === 'provider')
+                                    <div>
+                                        <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Titulinis</p>
+                                        <p class="text-lg font-semibold text-gray-800">
+                                            @if($title)
+                                                {{ $title }}
+                                            @else
+                                                <span class="text-gray-400 italic font-normal">Titulinis dar nepateiktas.</span>
+                                            @endif
+                                        </p>
+                                    </div>
+                                    <hr class="border-gray-200">
+                                @endif
+                                <div>
+                                    <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Aprašymas</p>
+                                    <div class="prose max-w-none text-gray-700 whitespace-pre-wrap leading-relaxed">
+                                        @if($aboutMe)
+                                            {{ $aboutMe }}
+                                        @else
+                                            <span class="text-gray-400 italic">Aprašymas dar nepateiktas.</span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>

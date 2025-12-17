@@ -46,6 +46,8 @@ class MyProfile extends Component
     // Auto-save state
     public $aboutMeSaved = false;
 
+    public $title;
+
     protected $listeners = ['refreshComponent' => '$refresh'];
 
     public function render()
@@ -66,6 +68,7 @@ class MyProfile extends Component
         $this->aboutMe = $this->user->aboutme;
         $this->post_code = $this->user->postal_code;
         $this->phone = $this->user->phone ? substr($this->user->phone, 4) : '';
+        $this->title = $this->user->title;
 
         // Retrieve the associated categories for the user
         $this->userCategories = $this->user->categories;
@@ -118,6 +121,18 @@ class MyProfile extends Component
 
         // Reset the saved indicator after 2 seconds
         $this->dispatch('aboutMeSaved');
+    }
+
+    public function updatedTitle()
+    {
+        $this->validate([
+            'title' => 'nullable|string|max:60'
+        ]);
+
+        $this->user->title = $this->title;
+        $this->user->save();
+
+        $this->dispatch('titleSaved');
     }
 
     public function getValidationRules()
@@ -188,7 +203,8 @@ class MyProfile extends Component
             'newPortfolioPhoto.mimes' => 'Nuotraukos failas privalo būti: jpeg, png, jpg, gif., webp.',
             'newPortfolioPhoto.max' => 'Nuotrauka negali viršyti 8mb dydžio.',
             'cities.required' => 'Pasirinkite bent vieną miestą.',
-            'aboutMe.max' => 'Aprašymas negali viršyti 2000 simbolių.'
+            'aboutMe.max' => 'Aprašymas negali viršyti 2000 simbolių.',
+            'title.max' => 'Aprašymas negali viršyti 60 simbolių.'
         ];
     }
 

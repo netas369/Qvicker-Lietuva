@@ -18,5 +18,6 @@ return [
         'email' => 'el. paštas',
         'password' => 'slaptažodis',
     ],
+    'title' => 'titulinis'
 
 ];
