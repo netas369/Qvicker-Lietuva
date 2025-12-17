@@ -24,6 +24,7 @@
     "dependencies": {
         "@splidejs/splide": "^4.1.4",
         "@tailwindcss/typography": "^0.5.19",
+        "cropperjs": "^1.6.2",
         "flatpickr": "^4.6.13",
         "pinia": "^3.0.4",
         "swiper": "^11.1.15",

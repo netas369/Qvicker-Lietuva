@@ -46,6 +46,8 @@ class MyProfile extends Component
     // Auto-save state
     public $aboutMeSaved = false;
 
+    public $title;
+
     protected $listeners = ['refreshComponent' => '$refresh'];
 
     public function render()
@@ -66,6 +68,7 @@ class MyProfile extends Component
         $this->aboutMe = $this->user->aboutme;
         $this->post_code = $this->user->postal_code;
         $this->phone = $this->user->phone ? substr($this->user->phone, 4) : '';
+        $this->title = $this->user->title;
 
         // Retrieve the associated categories for the user
         $this->userCategories = $this->user->categories;
@@ -118,6 +121,18 @@ class MyProfile extends Component
 
         // Reset the saved indicator after 2 seconds
         $this->dispatch('aboutMeSaved');
+    }
+
+    public function updatedTitle()
+    {
+        $this->validate([
+            'title' => 'nullable|string|max:60'
+        ]);
+
+        $this->user->title = $this->title;
+        $this->user->save();
+
+        $this->dispatch('titleSaved');
     }
 
     public function getValidationRules()
@@ -188,7 +203,8 @@ class MyProfile extends Component
             'newPortfolioPhoto.mimes' => 'Nuotraukos failas privalo būti: jpeg, png, jpg, gif., webp.',
             'newPortfolioPhoto.max' => 'Nuotrauka negali viršyti 8mb dydžio.',
             'cities.required' => 'Pasirinkite bent vieną miestą.',
-            'aboutMe.max' => 'Aprašymas negali viršyti 2000 simbolių.'
+            'aboutMe.max' => 'Aprašymas negali viršyti 2000 simbolių.',
+            'title.max' => 'Aprašymas negali viršyti 60 simbolių.'
         ];
     }
 
@@ -338,27 +354,14 @@ class MyProfile extends Component
         }
 
         $filename = 'profile-photos/' . uniqid() . '.jpg';
-        $fullPath = storage_path('app/public/' . $filename);
+        $path = $this->image->storeAs('profile-photos', basename($filename), 'public');
 
-        $directory = dirname($fullPath);
-        if (!file_exists($directory)) {
-            mkdir($directory, 0755, true);
-        }
-
-        $manager = new ImageManager(new Driver());
-        $image = $manager->read($this->image->getRealPath());
-
-        if ($image->width() > 800 || $image->height() > 800) {
-            $image->scale(width: 800, height: 800);
-        }
-
-        $image->toJpeg(90)->save($fullPath);
-
-        $this->user->image = $filename;
+        $this->user->image = $path;
         $this->user->save();
 
+        $this->image = null;
+
         session()->flash('message', 'Nuotrauka sėkmingai atnaujinta!');
-        return redirect(request()->header('Referer'));
     }
 
     public function addLanguage()
