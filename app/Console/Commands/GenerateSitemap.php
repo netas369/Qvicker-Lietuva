@@ -47,9 +47,9 @@ class GenerateSitemap extends Command
             ['url' => '/naudotojams', 'priority' => 0.7, 'frequency' => 'weekly'],
 
             // Low Priority (Legal)
-            ['url' => '/cookies/policy', 'priority' => 0.3, 'frequency' => 'yearly'],
-            ['url' => '/termsofuse', 'priority' => 0.3, 'frequency' => 'yearly'],
-            ['url' => '/privacy/policy', 'priority' => 0.3, 'frequency' => 'yearly'],
+            ['url' => '/legal/cookies-policy', 'priority' => 0.3, 'frequency' => 'yearly'],
+            ['url' => '/legal/terms-of-use', 'priority' => 0.3, 'frequency' => 'yearly'],
+            ['url' => '/legal/privacy-policy', 'priority' => 0.3, 'frequency' => 'yearly'],
         ];
 
         /* REMOVED: /prisijungti, /registruotis, /seeker/support
