@@ -21,3 +21,5 @@ yarn-error.log
 /.zed
 app/Providers/AppServiceProvider.php
 config/vite.php
+robots.txt
+sitemap.xml
